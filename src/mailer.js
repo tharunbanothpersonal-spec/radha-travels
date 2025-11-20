@@ -69,79 +69,9 @@ async function sendEmail({ to, subject, html, text }) {
   }
 }
 
-// --- BOOKING CONFIRMATION ---
-export async function sendBookingConfirmation(booking) {
-  try {
-    if (!booking || !booking.bookingId) {
-      return { ok: false, error: "invalid booking" };
-    }
 
-    const html = await renderTemplate("booking-confirm.ejs", {
-      booking,
-      brandName: BRAND_NAME,
-      siteUrl: SITE_URL,
-      logoSrc: fileToDataUri(logoPath),
-      bookedOn: new Date(),
-    });
 
-    const text = `Your booking ${booking.bookingId} is confirmed.`;
 
-    const results = {};
-
-    // send to customer
-    if (booking.email) {
-      results.customer = await sendEmail({
-        to: booking.email,
-        subject: `Your Booking — ${booking.bookingId}`,
-        html,
-        text,
-      });
-    }
-
-    // admin copy
-    if (ADMIN_EMAIL) {
-      results.admin = await sendEmail({
-        to: ADMIN_EMAIL,
-        subject: `New Booking Received — ${booking.bookingId}`,
-        html,
-        text,
-      });
-    }
-
-    return { ok: true, results };
-  } catch (err) {
-    console.error("sendBookingConfirmation error:", err);
-    return { ok: false, error: err.message || String(err) };
-  }
-}
-
-// --- DRIVER ALLOTMENT ---
-export async function sendDriverAllotmentEmail(booking, driver, vehicle) {
-  try {
-    if (!booking || !booking.bookingId) return { ok: false, error: "invalid booking" };
-
-    const html = await renderTemplate("driver-allotted.ejs", {
-      booking,
-      driver,
-      vehicle,
-      brandName: BRAND_NAME,
-      siteUrl: SITE_URL,
-      logoSrc: fileToDataUri(logoPath),
-    });
-
-    const subject = `Driver Assigned — Booking ${booking.bookingId}`;
-
-    return await sendEmail({
-      to: booking.email,
-      subject,
-      html,
-      text: `Your driver has been assigned for booking ${booking.bookingId}.`,
-    });
-  } catch (err) {
-    console.error("sendDriverAllotmentEmail error:", err);
-    return { ok: false, error: err.message || String(err) };
-  }
-}
 
 // --- ADMIN RESET EMAIL (SendGrid version) ---
 export async function sendAdminResetEmail(admin, token) {
@@ -170,5 +100,123 @@ export async function sendAdminResetEmail(admin, token) {
   }
 }
 
+// ----- helper: build data-URIs for logo + icons -----
+function buildImageData() {
+  const images = {};
+  const logoJpg = path.join(__dirname, "..", "public", "images", "email", "logo.jpg");
+  const logoPng = path.join(__dirname, "..", "public", "images", "email", "logo.png");
+  const iconsDir = path.join(__dirname, "..", "public", "images", "icons");
+
+  images.logoSrc = fileToDataUri(fs.existsSync(logoJpg) ? logoJpg : (fs.existsSync(logoPng) ? logoPng : null));
+
+  images.facebookSrc  = fileToDataUri(path.join(iconsDir, "facebook.png"));
+  images.instagramSrc = fileToDataUri(path.join(iconsDir, "instagram.png"));
+  images.whatsappSrc  = fileToDataUri(path.join(iconsDir, "whatsapp.png"));
+  images.phoneSrc     = fileToDataUri(path.join(iconsDir, "phone.png"));
+  images.xSrc         = fileToDataUri(path.join(iconsDir, "x.png"));
+
+  return images;
+}
+
+// ----- sendBookingConfirmation (SendGrid) -----
+export async function sendBookingConfirmation(booking) {
+  try {
+    if (!booking || !booking.bookingId) {
+      return { ok: false, error: "invalid booking" };
+    }
+
+    const images = buildImageData();
+    const bookedOn = new Date();
+
+    const html = await renderTemplate("booking-confirm.ejs", {
+      booking,
+      brandName: BRAND_NAME || "Radha Travels",
+      siteUrl: SITE_URL,
+      logoSrc: images.logoSrc,
+      facebookSrc: images.facebookSrc,
+      instagramSrc: images.instagramSrc,
+      whatsappSrc: images.whatsappSrc,
+      phoneSrc: images.phoneSrc,
+      xSrc: images.xSrc,
+      bookedOn
+    });
+
+    const text = `${booking.fullName || ''}, we received your booking ${booking.bookingId}.`;
+
+    const results = {};
+
+    // customer
+    if (booking.email) {
+      const r = await sendEmail({
+        to: booking.email,
+        subject: `Your Booking — ${booking.bookingId}`,
+        html,
+        text,
+      });
+      results.customer = r;
+    } else {
+      results.customer = { ok: false, reason: "no-customer-email" };
+    }
+
+    // admin copy (skip if same as customer)
+    if (ADMIN_EMAIL) {
+      if (booking.email && booking.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        results.admin = { skipped: true, reason: "admin same as customer" };
+      } else {
+        const r2 = await sendEmail({
+          to: ADMIN_EMAIL,
+          subject: `New Booking Received — ${booking.bookingId}`,
+          html,
+          text,
+        });
+        results.admin = r2;
+      }
+    } else {
+      results.admin = { ok: false, reason: "no-admin-email" };
+    }
+
+    return { ok: true, results };
+  } catch (err) {
+    console.error("sendBookingConfirmation error:", err);
+    return { ok: false, error: err.message || String(err) };
+  }
+}
+
+// ----- sendDriverAllotmentEmail (SendGrid) -----
+export async function sendDriverAllotmentEmail(booking, driver, vehicle) {
+  try {
+    if (!booking || !booking.bookingId) return { ok: false, error: "invalid booking" };
+
+    const images = buildImageData();
+
+    const html = await renderTemplate("driver-allotted.ejs", {
+      booking,
+      driver,
+      vehicle,
+      brandName: BRAND_NAME || "Radha Travels",
+      siteUrl: SITE_URL,
+      logoSrc: images.logoSrc,
+      facebookSrc: images.facebookSrc,
+      instagramSrc: images.instagramSrc,
+      whatsappSrc: images.whatsappSrc,
+      phoneSrc: images.phoneSrc,
+      xSrc: images.xSrc
+    });
+
+    const subject = `Driver Assigned — Booking ${booking.bookingId}`;
+
+    const result = await sendEmail({
+      to: booking.email,
+      subject,
+      html,
+      text: `Your driver has been assigned for booking ${booking.bookingId}.`,
+    });
+
+    return result;
+  } catch (err) {
+    console.error("sendDriverAllotmentEmail error:", err);
+    return { ok: false, error: err.message || String(err) };
+  }
+}
 
 export default { sendBookingConfirmation, sendDriverAllotmentEmail };
