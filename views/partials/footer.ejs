@@ -1,0 +1,36 @@
+<head>
+  <link rel="stylesheet" href="/css/booking.css">
+</head>
+<footer class="site-footer">
+  <div class="container foot">
+    <small class="muted">© <span id="yr"></span> Radha Travels</small>
+    
+  </div>
+  <%- include('booking-modal') %>  
+
+  <!-- ADMIN LOGIN MODAL: paste before </body> in views/index.ejs or a footer partial -->
+<div id="adminLoginModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="card" role="document">
+    <h3 style="margin:0 0 10px 0;">Admin Login</h3>
+
+    <label for="adminEmail">Email</label>
+    <input id="adminEmail" type="email" placeholder="admin@domain.com" autocomplete="username" />
+
+    <label for="adminPassword">Password</label>
+    <input id="adminPassword" type="password" placeholder="password" autocomplete="current-password" />
+    <div style="margin-top:6px;">
+  <a id="forgotPwdLink" href="javascript:void(0)" style="font-size:13px;">Forgot password?</a>
+</div>
+
+
+    <div style="display:flex; justify-content:flex-end; margin-top:10px;">
+      <button id="adminCancel" class="btn ghost">Cancel</button>
+      <button id="adminSubmit" class="btn primary">Login</button>
+    </div>
+
+    <div id="adminLoginMsg" aria-live="polite"></div>
+  </div>
+</div>
+
+</footer>
+<script>document.getElementById('yr')?.append(new Date().getFullYear())</script>

@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Radha Travels — Booking Confirmation</title>
+  <style>
+    /* Minimal safe styles */
+    body{margin:0;padding:0;background:#f3faf6;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+    img{border:0;outline:none;display:block}
+    a{color:inherit;text-decoration:none}
+  </style>
+</head>
+<body style="margin:0;padding:22px;background:#f3faf6;font-family:Arial,Helvetica,sans-serif;color:#07361f; border:red">
+
+  <!-- Outer wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#f3faf6;">
+    <tr>
+      <td align="center">
+
+        <!-- Card (600px) -->
+        <table width="600" cellpadding="0" cellspacing="0" role="presentation"
+               style="max-width:600px;width:100%;background:#ffffff;border-radius:14px;border:1px solid #e9f4ec;box-shadow:0 18px 48px rgba(8,60,24,0.06);overflow:hidden;font-size:15px;">
+
+          <!-- colourful top gradient -->
+          <tr>
+            <td style="height:8px;background:linear-gradient(90deg,#00c48c 0%, #0b7a46 50%, #f5b630 100%);line-height:0;">&nbsp;</td>
+          </tr>
+
+          <!-- Header row -->
+          <!-- Colorful Header -->
+<tr>
+  <td style="padding:16px 18px;
+             border-bottom:1px solid #dff5e8;
+             background:linear-gradient(90deg,#0db46c 0%, #0a7a46 50%, #f5b630 100%);
+             color:#ffffff;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td valign="middle" style="width:1%;padding-right:12px;">
+          <div style="width:56px;height:50px;border-radius:14px;background:rgba(255,255,255,0.16);
+                      backdrop-filter:blur(6px);
+                      padding:2px;border:2px solid rgba(255,255,255,0.25);
+                      display:inline-block;box-shadow:0 6px 18px rgba(0,0,0,0.12);">
+            <img src="<%= logoSrc ? 'cid:logo@rtd' : ((siteUrl || '') + '/images/email/logo.png') %>"
+                 alt="Radha Travels" width="56" height="56"
+                 style="display:block;border-radius:8px;object-fit:contain;"/>
+          </div>
+        </td>
+
+        <td valign="middle" style="padding-left:10px;">
+          <div style="font-weight:900;font-size:25px;color:#ffffff;line-height:1;">Radha Travels</div>
+          <div style="font-size:12px;color:#f1fff7;margin-top:4px;">Executive transfers • Premium rides</div>
+        </td>
+
+        <td valign="middle" align="right"
+            style="font-family:monospace;font-weight:700;color:#ffffff;font-size:10px;">
+          <span style="display:inline-block;padding:6px 10px;border-radius:8px;
+                       background:rgba(255,255,255,0.16);
+                       border:1px solid rgba(255,255,255,0.25);">
+            ID: <%= booking.bookingId %>
+          </span>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+
+
+          <!-- Booked on + status -->
+          <tr>
+            <td style="padding:12px 18px;border-bottom:1px solid #eef7f0;background:#fafdfb;">
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+                  <td style="font-size:14px;color:#2d6f4a; border-radius:8px;
+                       background:rgba(255,255,255,0.16);
+                       border:1px solid rgba(255,255,255,0.25);">
+                    <strong style="font-size:14px;color:#0b7a46">Booking status: </strong>
+                    <span style="margin-left:6px;color:#486b5d;font-weight:700;">Confirmed</span>
+                  </td>
+
+                  <td align="right" style="font-size:12px;color:#6d917e;">
+                    <div style="display:inline-block;text-align:right;">
+                      <div style="color:#6d917e;font-size:12px;margin-bottom:6px;">Booked on</div>
+                      <div style="font-family:monospace;font-weight:800;color:#0b7a46;font-size:13px;">
+                        <%= (bookedOn || new Date()).toLocaleDateString('en-IN') %> • <%= (bookedOn || new Date()).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'}) %>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Hero with colorful badge -->
+          <tr>
+            <td style="padding:20px 24px 12px 24px;background:linear-gradient(180deg,#ffffff,#fbfff8);">
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+                  <td style="vertical-align:top;">
+                    <div style="font-size:22px;font-weight:900;color:#072a1c;line-height:1.02;margin-bottom:8px;">Your transfer is booked — sit back & relax</div>
+                    <div style="font-size:14px;color:#4b6b5a;max-width:520px;">We’ve reserved your vehicle. Driver details and final pickup instructions will be sent before departure.</div>
+                  </td>
+                  <td align="right" style="vertical-align:top;">
+                    <div style="display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,#f5b630,#f59a2b);color:#fff;font-weight:800;font-size:12px;box-shadow:0 6px 18px rgba(245,154,43,0.18);">
+                      Premium
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Main content -->
+          <tr>
+            <td style="padding:18px 24px;">
+              <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                <tr>
+
+                  <!-- Left column -->
+                  <td valign="top" style="padding-right:14px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:linear-gradient(180deg,#ffffff,#fbfff9);border-radius:12px;border:1px solid #eef8f2;">
+                      <tr>
+                        <td style="padding:14px;">
+                          <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+                            <tr>
+                              <td valign="top">
+                                <div style="font-size:12px;color:#6b8f7f;margin-bottom:6px;">Passenger Name</div>
+                                <div style="font-size:16px;color:#072a1c;font-weight:900;letter-spacing:0.3px;"><%= booking.fullName ? booking.fullName.toUpperCase() : '-' %></div>
+                                <div style="font-size:13px;color:#4f7363;margin-top:6px;"><strong>Phone:</strong> <a href="tel:<%= booking.phone %>" style="color:#0b7a46;text-decoration:none;"><%= booking.phone || '-' %></a></div>
+                              </td>
+                            </tr>
+                          </table>
+
+                          <!-- Info badges -->
+                          <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="margin-top:12px;">
+                            <tr>
+                              <td style="padding:6px;">
+                                <div style="background:linear-gradient(180deg,#f7fff7,#ffffff);border-radius:10px;padding:12px;border:1px solid #eaf8ef;text-align:center;">
+                                  <div style="font-size:11px;color:#6f8f7f;">Service</div>
+                                  <div style="font-weight:900;color:#0b331f;margin-top:8px;"><%= booking.service || booking.bookingType || '-' %></div>
+                                </div>
+                              </td>
+                              <td style="padding:6px;">
+                                <div style="background:linear-gradient(180deg,#fff8ec,#ffffff);border-radius:10px;padding:12px;border:1px solid #fff0d9;text-align:center;">
+                                  <div style="font-size:11px;color:#8a6a2a;">Pickup</div>
+                                  <div style="font-weight:900;color:#7a4a15;margin-top:8px;"><%= booking.pickup || '-' %></div>
+                                </div>
+                              </td>
+                              <td style="padding:6px;">
+                                <div style="background:linear-gradient(180deg,#f7fff7,#ffffff);border-radius:10px;padding:12px;border:1px solid #eaf8ef;text-align:center;">
+                                  <div style="font-size:11px;color:#6f8f7f;">Vehicle</div>
+                                  <div style="font-weight:900;color:#0b331f;margin-top:8px;"><%= booking.carType || '-' %></div>
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+
+                          <% if (booking.notes) { %>
+                            <div style="margin-top:12px;padding-top:12px;border-top:1px solid #eef7f0;color:#234b38;font-size:13px;">
+                              <div style="font-size:12px;color:#6f8f7f;margin-bottom:6px;">Notes</div>
+                              <div style="font-weight:700;"><%= booking.notes %></div>
+                            </div>
+                          <% } %>
+
+                          <!-- CTA group (stylish) -->
+                          <div style="margin-top:14px;">
+                            <table cellpadding="0" cellspacing="0" role="presentation">
+                              <tr>
+                                <td style="padding-right:10px;">
+                                  <a href="<%= siteUrl %>/bookings/<%= booking.bookingId %>" target="_blank" rel="noopener"
+                                     style="display:inline-block;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg,#00c48c,#0b7a46);color:#ffffff;font-weight:900;text-decoration:none;box-shadow:0 12px 34px rgba(11,122,70,0.16);font-size:14px;">
+                                    View booking
+                                  </a>
+                                </td>
+                                <!-- <td>
+                                  <a href="<%= siteUrl %>/contact?ref=<%= booking.bookingId %>" target="_blank" rel="noopener"
+                                     style="display:inline-block;padding:12px 14px;border-radius:12px;background:#ffffff;border:1px solid #e9f4ec;color:#0b5f3f;font-weight:800;text-decoration:none;font-size:14px;">
+                                    Contact support
+                                  </a>
+                                </td> -->
+                              </tr>
+                            </table>
+                          </div>
+
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+
+                  <!-- Right column -->
+                  <td valign="top" style="width:240px;">
+                    <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;border-radius:12px;border:1px solid #eef7f0;">
+                      <tr>
+                        <td style="padding:14px;">
+                          <div style="font-size:13px;color:#0b5b3f;font-weight:900;margin-bottom:10px;">Booking summary</div>
+
+                          <div style="font-size:12px;color:#6f8f7f;">Travel date & time</div>
+                          <div style="font-weight:900;font-size:13px;color:#072a1c;margin-bottom:12px;"><%= booking.date || '-' %><%= booking.time ? (' • ' + booking.time) : '' %></div>
+
+                          <div style="font-size:12px;color:#6f8f7f;">Reference</div>
+                          <div style="font-family:monospace;color:#0b7a46;font-weight:900;margin-top:6px;margin-bottom:10px;"><%= booking.bookingId %></div>
+
+                          <!-- <div style="font-size:12px;color:#556e64;">Need to change the booking? Contact support with the booking reference above.</div> -->
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+
+                </tr>
+              </table>
+
+              <!-- Support link under columns for mobile padding -->
+              <div style="font-size:13px;color:#556e64;margin-top:14px;">Need to change the booking?
+                <a href="<%= siteUrl %>/contact?ref=<%= booking.bookingId %>" target="_blank" rel="noopener" style="color:#0b7a46;text-decoration:none;font-weight:800;"> Contact support</a>
+              </div>
+
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding:0 24px;">
+              <div style="height:1px;background:#eef7f0;"></div>
+            </td>
+          </tr>
+
+          <!-- Footer with colourful social tiles -->
+          <!-- Colorful Footer -->
+<tr>
+  <td style="padding:20px 20px;
+             background:linear-gradient(90deg,#0a7a46 0%, #00c48c 50%, #0a7a46 100%);
+             color:#ffffff;
+             border-top:1px solid #d8f4e5;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+
+        <td valign="top" style="font-size:14px;color:#ffffff;">
+          <strong style="display:block;color:#ffffff;font-size:16px;">Radha Travels</strong>
+          <div style="margin-top:6px;opacity:0.9;">
+            Phone: <a href="tel:+911234567890" style="color:#ffffff;text-decoration:none;">+91 12345 67890</a><br/>
+            Email: <a href="mailto:info@radhatravels.com" style="color:#ffffff;text-decoration:none;">info@radhatravels.com</a>
+          </div>
+        </td>
+
+        <!-- Social Icons -->
+        <td valign="top" align="right" style="width:220px;">
+          <table cellpadding="0" cellspacing="0" role="presentation" style="margin-left:auto;">
+            <tr>
+
+              <!-- Facebook -->
+              <td style="padding-left:8px;">
+                <a href="https://facebook.com" target="_blank"
+                   style="display:inline-block;width:35px;height:35px;border-radius:10%;
+                          background:rgba(255,255,255,0.18);
+                          border:2px solid rgba(255,255,255,0.25);
+                          box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                          text-align:center;line-height:35px;">
+                  <img src="<%= facebookSrc ? 'cid:facebook@rtd' : ((siteUrl || '') + '/images/icons/facebook.png') %>"
+                       alt="Facebook" width="25" height="25"
+                       style="display:inline-block;vertical-align:middle;filter:invert(1);"/>
+                </a>
+              </td>
+
+              <!-- Instagram -->
+              <td style="padding-left:8px;">
+                <a href="https://instagram.com" target="_blank"
+                   style="display:inline-block;width:35px;height:35px;border-radius:10%;
+                          background:rgba(255,255,255,0.18);
+                          border:2px solid rgba(255,255,255,0.25);
+                          box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                          text-align:center;line-height:35px;">
+                  <img src="<%= instagramSrc ? 'cid:instagram@rtd' : ((siteUrl || '') + '/images/icons/instagram.png') %>"
+                       alt="Instagram" width="25" height="25"
+                       style="display:inline-block;vertical-align:middle;filter:invert(1);"/>
+                </a>
+              </td>
+
+              <!-- WhatsApp -->
+              <td style="padding-left:8px;">
+                <a href="https://wa.me/911234567890"
+                   style="display:inline-block;width:35px;height:35px;border-radius:10%;
+                          background:rgba(255,255,255,0.18);
+                          border:2px solid rgba(255,255,255,0.25);
+                          box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                          text-align:center;line-height:35px;">
+                  <img src="<%= whatsappSrc ? 'cid:whatsapp@rtd' : ((siteUrl || '') + '/images/icons/whatsapp.png') %>"
+                       alt="WhatsApp" width="25" height="25"
+                       style="display:inline-block;vertical-align:middle;filter:invert(1);"/>
+                </a>
+              </td>
+
+              <!-- Phone -->
+              <td style="padding-left:8px;">
+                <a href="tel:+911234567890"
+                   style="display:inline-block;width:35px;height:35px;border-radius:10%;
+                          background:rgba(255,255,255,0.18);
+                          border:2px solid rgba(255,255,255,0.25);
+                          box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                          text-align:center;line-height:35px;">
+                  <img src="<%= phoneSrc ? 'cid:phone@rtd' : ((siteUrl || '') + '/images/icons/phone.png') %>"
+                       alt="Phone" width="25" height="25"
+                       style="display:inline-block;vertical-align:middle;filter:invert(1);"/>
+                </a>
+              </td>
+
+              <!-- twitter -->
+              <td style="padding-left:8px;">
+                <a href="tel:+911234567890"
+                   style="display:inline-block;width:35px;height:35px;border-radius:10%;
+                          background:rgba(255,255,255,0.18);
+                          border:2px solid rgba(255,255,255,0.25);
+                          box-shadow:0 8px 20px rgba(0,0,0,0.15);
+                          text-align:center;line-height:35px;">
+                  <img src="<%= xSrc ? 'cid:x@rtd' : ((siteUrl || '') + '/images/icons/x.png') %>"
+                       alt="Phone" width="25" height="25"
+                       style="display:inline-block;vertical-align:middle;filter:invert(1);"/>
+                </a>
+              </td>
+
+            </tr>
+          </table>
+
+          <div style="font-size:12px;color:#e8fff1;margin-top:10px;">© <%= new Date().getFullYear() %> Radha Travels</div>
+        </td>
+
+      </tr>
+    </table>
+  </td>
+</tr>
+
+
+        </table> <!-- end card -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

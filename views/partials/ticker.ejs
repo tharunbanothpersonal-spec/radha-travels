@@ -1,0 +1,11 @@
+<!-- News & Offers Ticker -->
+<div class="ticker" role="region" aria-label="Latest news and offers">
+  <div class="ticker-rail" data-ticker>
+    <% (ticker || []).forEach(function(item){ %>
+      <span class="tick-item"><%= item %></span>
+    <% }) %>
+    <% (ticker || []).forEach(function(item){ %>
+      <span class="tick-item clone" aria-hidden="true"><%= item %></span>
+    <% }) %>
+  </div>
+</div>

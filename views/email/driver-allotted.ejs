@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Driver Assigned – Radha Travels</title>
+  <style>
+    body { margin:0; padding:0; background:#f6faf7; font-family:Arial, Helvetica, sans-serif; }
+    .card { max-width:600px; margin:20px auto; background:#ffffff; border-radius:12px;
+            border:1px solid #e3f1e7; box-shadow:0 6px 22px rgba(11,122,70,0.05); overflow:hidden; }
+    .header { padding:16px 20px; background:linear-gradient(90deg,#0db46c,#0a7a46);
+              color:#ffffff; font-size:18px; font-weight:700; }
+    .section { padding:20px; }
+    .label { font-size:12px; color:#6a8d7a; margin-bottom:4px; }
+    .value { font-size:15px; font-weight:700; color:#07361f; }
+    .row { margin-bottom:16px; }
+    .footer { padding:16px 20px; background:#fbfff9; font-size:13px; color:#6d927f; border-top:1px solid #eef5ef; }
+    .cta { display:inline-block; margin-top:12px; padding:12px 16px; background:#0b7a46;
+           color:#ffffff; font-weight:700; border-radius:8px; text-decoration:none;
+           box-shadow:0 6px 18px rgba(11,122,70,0.12); }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  
+  <div class="header">Your Driver & Vehicle Are Ready</div>
+
+  <div class="section">
+
+    <!-- Booking ID -->
+    <div class="row">
+      <div class="label">Booking ID</div>
+      <div class="value"><%= booking.bookingId %></div>
+    </div>
+
+    <!-- Driver Info -->
+    <div class="row">
+      <div class="label">Driver Assigned</div>
+      <div class="value"><%= driver.name %></div>
+      <div class="value" style="font-size:14px; font-weight:600; margin-top:4px;">
+        Contact: <%= driver.phone %>
+      </div>
+    </div>
+
+    <!-- Vehicle Info -->
+    <div class="row">
+      <div class="label">Vehicle Details</div>
+      <div class="value"><%= vehicle.type %> (<%= vehicle.color || '' %>)</div>
+      <div class="value" style="font-size:14px; font-weight:600; margin-top:4px;">
+        Vehicle Number: <%= vehicle.number %>
+      </div>
+    </div>
+
+    <!-- Pickup -->
+    <div class="row">
+      <div class="label">Pickup Location</div>
+      <div class="value"><%= booking.pickup %></div>
+    </div>
+
+    <div class="row">
+      <div class="label">Pickup Date & Time</div>
+      <div class="value"><%= booking.date %> • <%= booking.time %></div>
+    </div>
+
+    <a href="<%= siteUrl %>/bookings/<%= booking.bookingId %>" class="cta">View Booking</a>
+
+  </div>
+
+  <div class="footer">
+    Thank you for choosing Radha Travels.<br>
+    For support contact +91 12345 67890
+  </div>
+
+</div>
+
+</body>
+</html>

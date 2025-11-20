@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Assign Driver | Radha Travels</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Corporate admin stylesheet -->
+  <link rel="stylesheet" href="/css/admin-corporate.css">
+
+  <meta name="robots" content="noindex">
+</head>
+<body class="rt-admin">
+
+  <!-- NAV / HEADER -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <div class="brand">
+        <!-- Logo file from your uploads; change path if needed -->
+        <img src="/images/logo.jpg" alt="Radha Travels" class="brand-logo" />
+        <div class="brand-text">
+          <div class="brand-title">Radha Travels</div>
+          <div class="brand-sub">Admin Dashboard</div>
+        </div>
+      </div>
+
+      <nav class="top-nav">
+        <a href="/admin/assign-driver" class="nav-link active">Assign Driver</a>
+        <a href="/admin/allotted-bookings" class="nav-link">Allotted Bookings</a>
+        <button id="openChangePwdBtn" class="nav-ghost">Change Password</button>
+        <button id="logoutBtn" class="nav-ghost">Logout</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page heading -->
+  <section class="page-head container">
+    <div>
+      <h1 class="page-title">Driver Assignment</h1>
+      <p class="page-sub">Professional interface to assign drivers & vehicles. Designed for quick decisions and clarity.</p>
+    </div>
+    <div class="page-actions">
+      <button id="refreshBtnHeader" class="btn ghost">⟳ Refresh</button>
+      <button class="btn ghost" onclick="window.location.href='/admin/allotted-bookings'">📘 Allotted</button>
+    </div>
+  </section>
+
+  <!-- MAIN: 2-column layout -->
+  <main class="container main-two-col">
+
+    <!-- LEFT: Search + list -->
+    <section class="card list-panel">
+      <div class="search-bar">
+        <input id="q" placeholder="Search booking id, name, phone, vehicle" class="form-input" />
+        <button id="searchBtn" class="btn primary">🔍 Search</button>
+      </div>
+
+      <div class="filter-row">
+        <button class="filter-btn active tab" data-filter="unassigned">Unassigned</button>
+        <button class="filter-btn tab" data-filter="today">Today</button>
+        <button class="filter-btn tab" data-filter="all">All</button>
+        <button class="filter-btn tab" data-filter="allotted">Allotted</button>
+      </div>
+
+      <div id="bookingsList" class="bookings-list">
+        <div class="empty">Loading bookings…</div>
+      </div>
+
+      <div class="list-footer">
+        <div class="muted">Total: <strong id="totalCount">—</strong></div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Assignment panel -->
+    <aside class="card assign-panel">
+      <div class="assign-header">
+        <div>
+          <div class="muted small">Selected booking</div>
+          <div id="selBookingId" class="sel-id">— none —</div>
+          <div id="selBookingName" class="small muted"></div>
+        </div>
+        <div><span id="statusPill" class="status-pill">—</span></div>
+      </div>
+
+      <div class="meta-block">
+        <div><span class="kv">Pickup:</span> <span id="pickup" class="muted">—</span></div>
+        <div><span class="kv">Drop:</span> <span id="drop" class="muted">—</span></div>
+        <div><span class="kv">Date/Time:</span> <span id="datetime" class="muted">—</span></div>
+        <div style="margin-top:10px"><strong>Notes</strong><div id="notes" class="muted small">—</div></div>
+      </div>
+
+      <form id="assignForm" onsubmit="return false;" class="assign-form">
+        <label class="label">Driver</label>
+        <div style="position:relative">
+          <input id="driverName" class="form-input" placeholder="Name or select from suggestions" autocomplete="off" />
+          <div id="driverSuggestions" class="suggestions" aria-hidden="true"></div>
+        </div>
+
+        <label class="label">Driver phone</label>
+        <input id="driverPhone" class="form-input" placeholder="e.g. 9876543210" inputmode="numeric" />
+
+        <label class="label">Vehicle model</label>
+        <input id="vehicleModel" class="form-input" placeholder="e.g. Innova Crysta" />
+
+        <label class="label">Vehicle reg no</label>
+        <input id="vehicleReg" class="form-input" placeholder="e.g. TS09AB1234" />
+
+        <div class="form-actions">
+          <button id="allotBtn" class="btn primary">Assign & Notify</button>
+          <button id="clearBtn" class="btn ghost">Clear</button>
+        </div>
+
+        <div id="msg" class="msg" role="status"></div>
+      </form>
+
+      <div class="assign-footer" style="margin-top:14px;display:flex;gap:8px;">
+        <button id="openResetPage" class="btn ghost">Reset driver/vehicle</button>
+        <button id="goAllottedBtn" class="btn ghost" onclick="window.location.href='/admin/allotted-bookings'">Open Allotted</button>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- Confirm modal -->
+  <div id="confirmModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <h3>Confirm assignment</h3>
+      <p id="confirmText">Are you sure?</p>
+      <div class="modal-actions">
+        <button id="confirmCancel" class="btn ghost">Cancel</button>
+        <button id="confirmOk" class="btn primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Undo toast -->
+  <div id="undoToast" class="toast" aria-hidden="true">
+    Assigned — <button id="undoBtn" class="btn small ghost">Undo</button>
+    <button id="undoClose" class="close">✕</button>
+  </div>
+
+  <script src="/js/admin-assign.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,666 @@
+/* ===== rtd: single-card compact modal styles ===== */
+
+:root{
+  --rtd-accent:#0ea75d;
+  --rtd-accent-d:#0a6f48;
+  --rtd-muted:#6b7a71;
+  --rtd-right-max:560px;
+  --rtd-radius:14px;
+}
+
+/* overlay */
+.rtd-modal { position: fixed; inset:0; display:grid; place-items:center; z-index:13000; background: rgba(2,6,4,0.55); visibility:hidden; opacity:0; transition: opacity .26s ease, visibility .26s; }
+.rtd-modal[aria-hidden="false"] { visibility:visible; opacity:1; }
+.rtd-backdrop{ position:absolute; inset:0; backdrop-filter: blur(6px) saturate(1.02); }
+
+/* centered card wrapper */
+.rtd-card-wrap { width: calc(100% - 40px); max-width: 720px; box-sizing:border-box; padding:8px; }
+
+/* card */
+.rtd-card { width:100%; max-width: var(--rtd-right-max); margin:0 auto; border-radius:12px; background:linear-gradient(180deg,#fff,#fbfffb); padding:12px; box-shadow:0 26px 80px rgba(8,12,8,0.08); border:1px solid rgba(0,0,0,0.04); position:relative; overflow:visible; }
+
+/* close button */
+.rtd-close { position:absolute; top:8px; right:8px; background:transparent; border:none; font-size:22px; color:var(--rtd-muted); cursor:pointer; padding:6px 8px; border-radius:8px; z-index:22; }
+.rtd-close:hover { background: rgba(0,0,0,0.02); }
+
+/* success overlay (hidden until shown) */
+.rtd-success { position:absolute; inset:10px; margin:10px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,1)); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; text-align:center; box-shadow: 0 28px 70px rgba(8,12,8,0.08); opacity:0; pointer-events:none; transform: translateY(8px); transition: all .28s cubic-bezier(.2,.9,.2,1); z-index:20; }
+.rtd-success.show { opacity:1; pointer-events:auto; transform: translateY(0); }
+.rtd-success lottie-player { display:block; }
+
+/* card body scroll area */
+.rtd-card-body { max-height: calc(100vh - 160px); overflow:auto; -webkit-overflow-scrolling:touch; padding-right:6px; padding-left:2px; }
+
+/* form and fields */
+.rtd-form { display:grid; grid-template-columns: 1fr 1fr; gap:10px; padding-bottom:6px; }
+.rtd-label { font-weight:800; color:var(--rtd-accent-d); font-size:13px; margin-bottom:6px; }
+.rtd-field { display:flex; align-items:center; gap:10px; padding:10px; border-radius:10px; background:#fff; border:1px solid rgba(0,0,0,0.04); box-shadow: inset 0 -2px 8px rgba(0,0,0,0.02); }
+.rtd-field .icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#f7fff8,#fff); color:var(--rtd-accent); font-size:15px; flex:0 0 36px; box-shadow: 0 6px 18px rgba(10,100,70,0.03); }
+.rtd-field input, .rtd-field select, .rtd-field textarea { border:0; background:transparent; outline:none; font-size:14px; width:100%; color:#0f2b24; padding:2px 0; }
+.rtd-field textarea { min-height:56px; resize:vertical; padding-top:4px; }
+.rtd-full { grid-column: 1 / -1; }
+/* CTA & footer */
+.rtd-note { color:#6b7a71; font-weight:700; font-size:13px; }
+.rtd-cta { background: linear-gradient(180deg,var(--rtd-accent),var(--rtd-accent-d)); color:#fff; padding:10px 14px; border-radius:999px; font-weight:900; border:none; box-shadow: 0 10px 30px rgba(14,167,93,0.12); cursor:pointer; }
+
+/* small desktop adjustments */
+@media (min-width: 980px) {
+  .rtd-card { padding:18px; }
+  .rtd-card-body { max-height: calc(100vh - 140px); }
+}
+
+/* responsive */
+@media (max-width:880px) {
+  .rtd-card { border-radius:10px; padding:10px; width: calc(100% - 20px); }
+  .rtd-card-body { max-height: calc(100vh - 120px); }
+  .rtd-form { grid-template-columns: 1fr; gap:10px; }
+  .rtd-close { top:6px; right:6px; }
+}
+
+/* initial hidden state for animation safety */
+.rtd-modal[aria-hidden="true"] .rtd-card { opacity:0; transform: translateY(10px); }
+/* ===== rtd: Success screen premium styling ===== */
+
+/* soft confetti glow + subtle vignette behind success */
+.rtd-success {
+  position: absolute;
+  inset: 10px;
+  margin: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+
+  /* slightly translucent glass */
+  background: linear-gradient(180deg, rgba(255,255,255,0.985), rgba(255,255,255,1));
+  box-shadow: 0 36px 120px rgba(6,12,8,0.12);
+  transform-origin: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px) scale(.98);
+  transition: all .36s cubic-bezier(.2,.9,.2,1);
+}
+
+/* decorative confetti / glow using pseudo element */
+.rtd-success::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(14,167,93,0.06), transparent 6%),
+    radial-gradient(circle at 85% 75%, rgba(9,109,60,0.04), transparent 8%);
+  filter: blur(12px);
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* visible state: fade+scale up */
+.rtd-success.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* Lottie size (responsive) */
+.rtd-success lottie-player { width: 160px; height: 160px; display:block; margin-bottom:6px; }
+
+/* heading & copy */
+.rtd-success h3 { margin: 6px 0 0; font-size:20px; font-weight:900; color: #0a6f48; letter-spacing: -0.2px; }
+.rtd-success p { margin: 4px 0 8px; color: #51645a; font-size:14px; max-width: 360px; }
+
+/* Done button style */
+.rtd-cta.rtd-close-success {
+  background: #fff;
+  color: var(--rtd-accent-d);
+  border: 1px solid rgba(10,111,72,0.08);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 800;
+  box-shadow: 0 18px 46px rgba(10,100,70,0.06);
+  cursor: pointer;
+}
+
+/* Done button hover */
+.rtd-cta.rtd-close-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 60px rgba(10,100,70,0.08);
+}
+
+/* Add a small subtle checkmark behind the player (low-opacity) */
+.rtd-success .tick-ghost {
+  position: absolute;
+  top: 18px; right: 18px;
+  font-size: 42px;
+  color: rgba(10,111,72,0.06);
+  pointer-events: none;
+}
+
+/* accessibility focus ring for Done button */
+.rtd-cta.rtd-close-success:focus {
+  outline: 3px solid rgba(14,167,93,0.12);
+  outline-offset: 4px;
+}
+
+/* ensure success occupies enough visual weight on very small screens */
+@media (max-width:420px) {
+  .rtd-success lottie-player { width: 120px; height:120px; }
+  .rtd-success p { font-size:13px; padding: 0 10px; }
+  .rtd-cta { border-radius:20px;}
+}
+/* rtd: centered success overlay (replace previous .rtd-success rules) */
+.rtd-success {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(.98);
+  width: min(520px, calc(100% - 48px));
+  max-width: 520px;
+  padding: 20px 22px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.99), rgba(255,255,255,1));
+  box-shadow: 0 36px 120px rgba(6,12,8,0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  z-index: 120;               /* above card content */
+  opacity: 0;
+  pointer-events: none;
+  transition: all .36s cubic-bezier(.2,.9,.2,1);
+}
+
+/* visible state */
+.rtd-success.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* make lottie larger and centered inside this panel */
+.rtd-success lottie-player { width: 160px; height: 160px; display:block; margin: 4px 0; }
+
+/* lighter copy & heading inside panel */
+.rtd-success h3 { margin: 6px 0 0; font-size:20px; font-weight:900; color:#0a6f48; }
+.rtd-success p  { margin: 4px 0 8px; color:#51645a; font-size:14px; max-width:420px; }
+
+/* dim/blur class applied to card while success visible */
+.rtd-card.rtd-dim {
+  filter: blur(6px) saturate(.98) brightness(.98);
+  pointer-events: none;
+  user-select: none;
+  transition: filter .28s ease;
+}
+
+/* ensure small screens still display nicely */
+@media (max-width:420px) {
+  .rtd-success { width: calc(100% - 36px); padding: 14px; border-radius:10px; }
+  .rtd-success lottie-player { width: 120px; height:120px; }
+}
+/* ===== rtd: Enhanced success panel + booking ID styling ===== */
+
+.rtd-success {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(.98);
+  width: min(560px, calc(100% - 48px));
+  max-width: 560px;
+  padding: 22px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.995), rgba(250,255,250,1));
+  box-shadow: 0 44px 130px rgba(6,12,8,0.15), inset 0 1px 0 rgba(255,255,255,0.6);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  text-align:center;
+  z-index:120;
+  opacity:0;
+  pointer-events:none;
+  transform-origin:center;
+  transition: all .36s cubic-bezier(.2,.9,.2,1);
+}
+
+/* visible */
+.rtd-success.show {
+  opacity:1;
+  pointer-events:auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* decorative faint check behind the panel */
+.rtd-success .tick-ghost {
+  position:absolute; top:16px; right:18px;
+  font-size:48px; color: rgba(10,111,72,0.06); pointer-events:none;
+}
+
+/* lottie sizing */
+.rtd-success lottie-player { width: 160px; height:160px; display:block; margin-top:2px; }
+
+/* headings */
+.rtd-success-title { margin: 6px 0 0; font-size:20px; font-weight:900; color:#0a6f48; letter-spacing:-0.2px; }
+.rtd-success-sub   { margin:4px 0 0; color:#51645a; font-size:14px; max-width:480px; }
+
+/* booking id wrap (pill + copy) */
+.rtd-booking-id-wrap {
+  display:flex; gap:10px; align-items:center; margin-top:4px;
+}
+.rtd-booking-id {
+  background: linear-gradient(180deg,#f3fff4,#ffffff);
+  border: 1px solid rgba(10,111,72,0.06);
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:900;
+  color:var(--rtd-accent-d, #0a6f48);
+  letter-spacing:0.6px;
+  box-shadow: 0 8px 28px rgba(10,100,70,0.04);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  font-size:14px;
+}
+
+/* copy button */
+.rtd-copy-btn {
+  display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px;
+  background:transparent; border:1px solid rgba(10,111,72,0.06); color:var(--rtd-accent-d, #0a6f48);
+  cursor:pointer; font-weight:700; font-size:13px;
+  box-shadow: 0 8px 22px rgba(10,100,70,0.03);
+}
+.rtd-copy-btn .rtd-copy-text { margin-left:2px; }
+.rtd-copy-btn:hover { background: rgba(10,111,72,0.03); transform: translateY(-2px); }
+
+/* helpful hint */
+.rtd-success-hint { margin:0; color:#6b7a71; font-size:13px; }
+
+/* subtle confetti dots using pseudo-element (keeps lightweight) */
+.rtd-success::after {
+  content:"";
+  position:absolute; inset:auto 6% 6% 6%;
+  height:72px;
+  background-image:
+    radial-gradient(circle at 5% 20%, rgba(14,167,93,0.06) 0 6px, transparent 7px),
+    radial-gradient(circle at 85% 80%, rgba(10,111,72,0.04) 0 6px, transparent 7px),
+    radial-gradient(circle at 40% 10%, rgba(14,167,93,0.04) 0 6px, transparent 7px);
+  filter: blur(10px);
+  z-index: -1;
+  pointer-events:none;
+  opacity:0.95;
+}
+
+/* small entrance animation for booking id */
+.rtd-booking-id.enter {
+  animation: rtdIdIn .44s cubic-bezier(.2,.9,.2,1) both;
+}
+@keyframes rtdIdIn {
+  from { opacity:0; transform: translateY(8px) scale(.98); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* Done button refined */
+.rtd-cta.rtd-close-success {
+  border-radius:999px; padding:10px 18px; font-weight:800;
+  background: linear-gradient(180deg,#fff,#f6fff4); color:var(--rtd-accent-d,#0a6f48);
+  border: 1px solid rgba(10,111,72,0.08);
+  box-shadow: 0 18px 46px rgba(10,100,70,0.06);
+}
+.rtd-cta.rtd-close-success:hover { transform: translateY(-2px); box-shadow: 0 24px 60px rgba(10,100,70,0.08); }
+
+/* responsive tweak */
+@media (max-width:420px) {
+  .rtd-success { width: calc(100% - 32px); padding:14px; }
+  .rtd-booking-id { font-size:13px; padding:7px 10px; }
+  .rtd-success lottie-player { width:120px; height:120px; }
+}
+/* ===== rtd: Premium success screen upgrades ===== */
+
+/* stronger vignette behind panel for depth */
+.rtd-success {
+  background: linear-gradient(180deg, rgba(255,255,255,0.995), rgba(248,255,250,1));
+  box-shadow: 0 60px 160px rgba(6,12,8,0.18), inset 0 2px 10px rgba(255,255,255,0.45);
+  border-radius: 16px;
+  padding: 26px;
+}
+
+/* Lottie: slightly larger and elegant bounce on entrance */
+.rtd-success lottie-player {
+  width: 180px;
+  height: 180px;
+  display:block;
+  margin-top: 2px;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+.rtd-success.show lottie-player {
+  animation: rtdLottieBounce .86s cubic-bezier(.2,.9,.2,1) both;
+}
+@keyframes rtdLottieBounce {
+  0%   { transform: scale(.86) translateY(6px); opacity: 0; }
+  45%  { transform: scale(1.06) translateY(-6px); opacity: 1; }
+  80%  { transform: scale(.98) translateY(2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+/* Heading polish */
+.rtd-success-title {
+  font-size:22px;
+  letter-spacing:-0.3px;
+  margin-top: 4px;
+  color:#065c3d;
+}
+
+/* Sub copy */
+.rtd-success-sub { color:#4f6b5e; font-size:15px; max-width:520px; }
+
+/* ID pill: gradient + glass sheen + shimmer */
+.rtd-booking-id {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg,#f7fffa,#ffffff);
+  border: 1px solid rgba(10,111,72,0.08);
+  padding:10px 16px;
+  border-radius: 999px;
+  font-weight:900;
+  letter-spacing:0.6px;
+  color:#0a6f48;
+  box-shadow: 0 14px 40px rgba(10,100,70,0.05);
+}
+
+/* shiny shimmer overlay */
+.rtd-booking-id::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -55%;
+  width: 180%;
+  height: 200%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.75) 48%, rgba(255,255,255,0.0) 52%);
+  transform: rotate(-22deg);
+  opacity: 0;
+  transition: opacity .45s ease, transform .75s cubic-bezier(.2,.9,.2,1);
+  pointer-events: none;
+}
+/* trigger shimmer once on enter */
+.rtd-booking-id.enter::after {
+  opacity: 1;
+  transform: translateX(12%) rotate(-22deg);
+  transition: opacity .45s ease .08s, transform .75s cubic-bezier(.2,.9,.2,1);
+}
+
+/* subtle glow pulse behind ID after shimmer */
+.rtd-booking-id.enter {
+  box-shadow: 0 18px 44px rgba(10,140,80,0.06), 0 6px 22px rgba(10,140,80,0.03);
+}
+
+/* Copy button -> check animation */
+.rtd-copy-btn {
+  transition: transform .18s ease, background .18s ease, box-shadow .18s;
+  position: relative;
+}
+.rtd-copy-btn.rtd-copied {
+  background: linear-gradient(180deg,#0ea75d,#0a6f48);
+  color: #fff;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 16px 46px rgba(10,111,72,0.14);
+  border-color: rgba(10,111,72,0.12);
+}
+.rtd-copy-btn.rtd-copied .rtd-copy-text { opacity:0; transform: translateY(-4px); transition: all .18s; }
+.rtd-copy-btn.rtd-copied::after {
+  content: "✓";
+  position: absolute;
+  right: 12px;
+  font-weight:900; font-size:14px;
+  top: 8px;
+}
+
+/* Done button: make primary green pill */
+.rtd-cta.rtd-close-success {
+  background: linear-gradient(180deg,#06b05b,#0a6f48);
+  color:#fff;
+  border: none;
+  box-shadow: 0 18px 56px rgba(10,111,72,0.16);
+}
+
+/* subtle confetti burst elements (positioned under the success panel) */
+.rtd-confetti {
+  position:absolute; left:50%; top:10%;
+  width:360px; height:120px; pointer-events:none; transform:translateX(-50%);
+  z-index:5;
+}
+.rtd-confetti .dot {
+  position:absolute; width:10px; height:10px; border-radius:50%;
+  opacity:0; transform: translateY(0) scale(.6);
+  will-change: transform, opacity;
+}
+@keyframes rtdConfettiFly {
+  0% { opacity:1; transform: translateY(0) scale(0.6) rotate(0deg); }
+  40% { opacity:1; transform: translateY(-60px) scale(1.0) rotate(12deg); }
+  100% { opacity:0; transform: translateY(-140px) scale(1.0) rotate(48deg); }
+}
+
+/* small responsive adjustments */
+@media (max-width:420px) {
+  .rtd-success { width: calc(100% - 28px); padding:16px; }
+  .rtd-success lottie-player { width:140px; height:140px; }
+  .rtd-booking-id { font-size:13px; padding:8px 12px; }
+}
+/* ===== rtd-brand premium redesign ===== */
+.rtd-brand-premium {
+  display:flex;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  box-sizing:border-box;
+  padding:6px 0 12px 0;
+}
+
+/* badge outer to allow ring + shadow */
+.rtd-badge-outer {
+  position:relative;
+  width:64px;
+  height:64px;
+  flex:0 0 64px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* subtle ring */
+.rtd-badge-ring {
+  position:absolute;
+  inset:0;
+  border-radius:14px;
+  box-shadow: 0 12px 36px rgba(6,110,65,0.06);
+  background: linear-gradient(180deg, rgba(14,167,93,0.06), rgba(10,111,72,0.03));
+  transform: translateY(2px);
+}
+
+/* main badge */
+.rtd-badge {
+  position:relative;
+  width:56px;
+  height:56px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 18px 48px rgba(6,110,65,0.08);
+  background: linear-gradient(180deg,#0fbf73 0%, #0a6f48 100%);
+  transform-origin:center;
+  transition: transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+}
+
+/* glossy highlight */
+.rtd-badge-gloss {
+  position:absolute;
+  left:-10%;
+  top:-20%;
+  width:120%;
+  height:60%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.02));
+  transform: rotate(-22deg);
+  pointer-events:none;
+  mix-blend-mode: overlay;
+}
+
+/* svg sizing */
+.rtd-badge-svg { width:42px; height:42px; display:block; }
+
+/* text block */
+.rtd-brand-text { display:flex; flex-direction:column; min-width:0; }
+.rtd-brand-title {
+  font-weight:900;
+  color:#053d2d;
+  font-size:18px;
+  line-height:1;
+  letter-spacing:-0.3px;
+}
+.rtd-brand-mini {
+  margin-top:4px;
+  font-size:12px;
+  color:#557567;
+  font-weight:700;
+  text-transform: none;
+  letter-spacing:0.6px;
+}
+
+/* right chip */
+.rtd-brand-chip {
+  margin-left:auto;
+  background: linear-gradient(180deg,#06b05b,#0a6f48);
+  color:#fff;
+  border:none;
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:800;
+  font-size:13px;
+  box-shadow: 0 12px 36px rgba(6,110,65,0.14);
+  cursor:pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.rtd-brand-chip:active { transform: translateY(1px) scale(.996); }
+.rtd-brand-chip:focus { outline: 3px solid rgba(10,111,72,0.12); outline-offset:4px; }
+
+/* hover lift */
+.rtd-brand-premium:hover .rtd-badge,
+.rtd-brand-premium:focus-within .rtd-badge {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 30px 72px rgba(6,110,65,0.14);
+}
+
+/* subtle micro-anim on chip hover */
+.rtd-brand-chip:hover { transform: translateY(-3px); box-shadow: 0 20px 54px rgba(6,110,65,0.16); }
+
+/* entrance animation class */
+.rtd-brand-premium.rtd-in { animation: rtdBrandIn .48s cubic-bezier(.2,.9,.2,1) both; }
+@keyframes rtdBrandIn {
+  from { opacity:0; transform: translateY(10px); filter: blur(6px); }
+  to   { opacity:1; transform: translateY(0); filter:none; }
+}
+
+/* responsive */
+@media (max-width:480px) {
+  .rtd-badge-outer { width:52px; height:52px; }
+  .rtd-badge { width:48px; height:48px; border-radius:10px; }
+  .rtd-badge-svg { width:36px; height:36px; }
+  .rtd-brand-title { font-size:16px; }
+  .rtd-brand-mini { font-size:11px; }
+  .rtd-brand-chip { display:none; }
+}
+/* ===== Email inline fix: force icon + input to be inline and match other fields ===== */
+
+.rtd-field {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  min-width: 0; /* prevents overflow inside grid */
+}
+/* =========================================
+   EMAIL FIELD — MATCH OTHER INPUT STYLES
+   ========================================= */
+
+/* Field wrapper */
+.rtd-field-email {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* The inline input wrapper MUST look like all other fields */
+.rtd-field-email .rtd-input-inline {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+
+  width: 100%;
+  min-width: 0;
+
+  padding: 12px 16px;
+  border-radius: 12px;
+
+  background: linear-gradient(180deg, #ffffff, #f7fff8);
+  border: 1px solid rgba(9, 124, 72, 0.10);
+  box-shadow: 0 12px 28px rgba(9, 124, 72, 0.06);
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover + focus to match other fields */
+.rtd-field-email .rtd-input-inline:hover,
+.rtd-field-email .rtd-input-inline:focus-within {
+  border-color: rgba(9, 124, 72, 0.25);
+  box-shadow: 0 0 0 3px rgba(9, 124, 72, 0.12);
+}
+
+/* ICON styling to match the rest */
+.rtd-field-email .rtd-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(9, 124, 72, 0.08);
+  color: #0a7a4b;
+  flex-shrink: 0;
+}
+
+/* Input styling identical to other fields */
+.rtd-field-email input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-size: 16px;
+  color: #083a2a;
+  padding: 0;
+  height: 40px;
+  line-height: 1.3;
+}
+
+/* Placeholder match */
+.rtd-field-email input::placeholder {
+  color: #7b8c80;
+  opacity: 0.8;
+}
+
+/* Helper text */
+.rtd-field-email .rtd-field-hint {
+  font-size: 13px;
+  color: #6b7a71;
+  margin-top: -2px;
+}

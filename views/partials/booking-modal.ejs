@@ -1,0 +1,205 @@
+<!-- ===== rtd: Single-card booking modal (no hero) ===== -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
+
+<div id="rtd-bookingModal" class="rtd-modal" aria-hidden="true" role="dialog" aria-labelledby="rtdBookingTitle">
+  <div class="rtd-backdrop" aria-hidden="true"></div>
+
+  <!-- centered card -->
+  <div class="rtd-card-wrap" role="document" tabindex="-1">
+    <div class="rtd-card rtd-animate-card" role="form" aria-labelledby="rtdBookingTitle">
+      <!-- close -->
+      <button class="rtd-close" aria-label="Close booking" title="Close">&times;</button>
+
+      <!-- rtd-brand: premium redesigned -->
+<div class="rtd-brand rtd-brand-premium" role="group" aria-label="Radha Travels brand">
+  <div class="rtd-badge-outer" aria-hidden="true">
+    <div class="rtd-badge-ring"></div>
+    <div class="rtd-badge">
+      <!-- multi-color car svg mark -->
+      <svg viewBox="0 0 64 64" class="rtd-badge-svg" width="44" height="44" role="img" aria-hidden="true">
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#0fbf73"/><stop offset="1" stop-color="#0a6f48"/></linearGradient>
+          <linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#ffd26b"/><stop offset="1" stop-color="#ff8a5b"/></linearGradient>
+        </defs>
+        <rect rx="12" width="64" height="64" fill="url(#g1)"></rect>
+        <g transform="translate(6,16)">
+          <path d="M6 8 L52 8 L58 22 L2 22 Z" fill="#ffffff88"></path>
+          <rect x="4" y="6" width="40" height="10" rx="3" fill="url(#g2)"></rect>
+          <circle cx="14" cy="28" r="5" fill="#fff"></circle>
+          <circle cx="40" cy="28" r="5" fill="#fff"></circle>
+        </g>
+      </svg>
+
+      <!-- glossy highlight -->
+      <div class="rtd-badge-gloss" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="rtd-brand-text">
+    <div class="rtd-brand-title">Radha Travels</div>
+    <div class="rtd-brand-mini">Luxury · Comfort · On-time</div>
+  </div>
+
+  <!-- <button class="rtd-brand-chip" type="button" aria-label="Book now (quick)">Book</button> -->
+</div>
+
+
+      <!-- success overlay (hidden until success) -->
+      <!-- SUCCESS PANEL — replace existing #rtdSuccess block with this -->
+<div id="rtdSuccess" class="rtd-success" aria-hidden="true" role="status" aria-live="polite">
+  <!-- decorative faint check (back) -->
+  <div class="tick-ghost">✔</div>
+
+  <!-- Lottie animation -->
+  <lottie-player id="rtdLottie"
+    src="https://lottie.host/ba381501-0b4b-4570-8dc1-85cbcf2eac20/G2y0t8nq3z.json"
+    background="transparent" speed="1" style="width:160px;height:160px;" autoplay="false"></lottie-player>
+
+  <!-- heading + message -->
+  <h3 class="rtd-success-title">Request received</h3>
+  <p class="rtd-success-sub">Thank you — your booking request is received. We’ll confirm shortly via call or WhatsApp.</p>
+
+  <!-- booking id area -->
+  <div class="rtd-booking-id-wrap" aria-hidden="false">
+    <div class="rtd-booking-id" id="rtdBookingId">RT-0000-0000</div>
+    <button class="rtd-copy-btn" id="rtdCopyId" type="button" title="Copy booking ID" aria-label="Copy booking ID">
+      <i class="fa-regular fa-copy"></i>
+      <span class="rtd-copy-text">Copy</span>
+    </button>
+  </div>
+
+  <!-- optional small helpful text -->
+  <p class="rtd-success-hint">Save this booking ID — use it when speaking to us.</p>
+
+  <!-- Done button -->
+  <button id="rtdDone" class="rtd-cta rtd-close-success">Done</button>
+</div>
+
+
+      <!-- scrollable form body -->
+      <div class="rtd-card-body">
+        <form id="rtdForm" class="rtd-form" novalidate>
+          <div style="grid-column: 1 / -1;">
+            <!-- <div class="rtd-label">Contact</div> -->
+          </div>
+
+          <div>
+            <div class="rtd-label">Full name</div>
+            <div class="rtd-field">
+              <div class="icon"><i class="fa-solid fa-user"></i></div>
+              <input id="rtdName" name="name" type="text" required placeholder="Full name">
+            </div>
+          </div>
+
+          <div>
+            <div class="rtd-label">Mobile (with country code)</div>
+            <div class="rtd-field">
+              <div class="icon"><i class="fa-solid fa-phone"></i></div>
+              <input id="rtdPhone" name="phone" type="tel" required placeholder="+91XXXXXXXXXX">
+            </div>
+          </div>
+<!-- === EMAIL field — REPLACE existing email block with this exact code === -->
+<div >
+  <div class="rtd-label" for="rtdEmail">Email <span class="rtd-optional">(optional)</span></div>
+
+  <!-- Inline wrapper: icon + input (must be one wrapper like other fields) -->
+  <div class="rtd-field rtd-field-email rtd-input-inline rtd-email-inline">
+    <span class="rtd-icon" aria-hidden="true">
+      <!-- envelope icon -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M3 6.5l9 6 9-6V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6.5zM21 5H3l9 6 9-6z"/>
+      </svg>
+    </span>
+
+    <input id="rtdEmail"
+           name="email"
+           type="email"
+           placeholder="you@example.com"
+           autocomplete="email"
+           inputmode="email" />
+  </div>
+
+  <!-- helper text ALWAYS below the input -->
+  <!-- <div class="rtd-field-hint">We'll send booking confirmation here (optional).</div> -->
+</div>
+<!-- === /EMAIL field === -->
+
+          <div>
+            <div class="rtd-label">Type of booking</div>
+            <div class="rtd-field">
+              <div class="icon"><i class="fa-solid fa-location-crosshairs"></i></div>
+              <select id="rtdType" name="type" required>
+                <option value="">Select type</option>
+                <option value="local">Local</option>
+                <option value="outstation">Outstation</option>
+                <option value="airport">Airport</option>
+                <option value="corporate">Corporate</option>
+                <option value="custom">Custom</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div class="rtd-label">Type of car</div>
+            <div class="rtd-field">
+              <div class="icon"><i class="fa-solid fa-car-side"></i></div>
+              <select id="rtdCar" name="car" required>
+                <option value="">Select car</option>
+                <option>Hatchback</option><option>Sedan</option><option>Prime Sedan</option><option>SUV</option><option>Premium SUV</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="rtdNumDaysWrap" class="rtd-full" style="display:none;">
+            <div class="rtd-label">Number of days</div>
+            <div class="rtd-field">
+              <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>
+              <input id="rtdNumDays" name="numDays" type="number" min="1" placeholder="e.g. 3">
+            </div>
+          </div>
+
+          <div>
+            <div class="rtd-label">Date</div>
+            <div class="rtd-field rtd-small">
+              <div class="icon"><i class="fa-regular fa-calendar-days"></i></div>
+              <input id="rtdDate" name="date" type="date">
+            </div>
+          </div>
+
+          <div>
+            <div class="rtd-label">Time</div>
+            <div class="rtd-field rtd-small">
+              <div class="icon"><i class="fa-regular fa-clock"></i></div>
+              <input id="rtdTime" name="time" type="time">
+            </div>
+          </div>
+
+          <div class="rtd-full">
+            <div class="rtd-label">Pickup (address or pin)</div>
+            <div class="rtd-field">
+              <div class="icon"><i class="fa-solid fa-map-pin"></i></div>
+              <input id="rtdPickup" name="pickup" type="text" placeholder="Eg: MG Road, Bangalore">
+            </div>
+          </div>
+
+          <div class="rtd-full">
+            <div class="rtd-label">Additional notes (optional)</div>
+            <div class="rtd-field">
+              <div class="icon"><i class="fa-regular fa-note-sticky"></i></div>
+              <textarea id="rtdNotes" name="notes" placeholder="Any instructions (optional)"></textarea>
+            </div>
+          </div>
+
+          <div class="rtd-full" style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+            <div class="rtd-note">No charge until confirmation • Secure</div>
+            <button type="submit" class="rtd-cta">Request booking</button>
+          </div>
+        </form>
+      </div><!-- /.rtd-card-body -->
+    </div><!-- /.rtd-card -->
+  </div><!-- /.rtd-card-wrap -->
+</div><!-- /.rtd-modal -->
+
+<script src="/js/booking.js" defer></script>
+<!-- ===== end modal ===== -->
