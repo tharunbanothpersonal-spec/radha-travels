@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { title }) %>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+
+  <!-- Scoped inline CSS for service detail hero layout -->
+  <style>
+    
+  </style>
+</head>
+<body>
+
+  <%- include('../partials/header') %>
+
+  <% 
+    // safe details proxy (uses service.details if details not passed)
+    const D = (typeof details !== 'undefined' && details) || (service && service.details) || { intro: '', routes: [] };
+
+    // ---- Service flags (control which pricing blocks appear) ----
+    const _slug     = String(service.slug || service.id || '').toLowerCase();
+    const isLocal   = _slug === 'local-tour';
+    const isOut     = _slug === 'outstation';
+    const isAirport = _slug === 'airport-transfer';
+    const isCorp    = _slug === 'corporate';
+    const isCustom  = _slug === 'custom';
+
+    // Resolve hero image
+    let heroImg = "/images/services/default.jpg";
+    if (service) {
+      if (service.image && typeof service.image === "string") heroImg = "/images/services/" + service.image;
+      else if (service.image && service.image.src) heroImg = service.image.src;
+      else if (service.slug) heroImg = "/images/services/" + service.slug + ".jpg";
+    }
+
+    // hero blurb fallback
+    const heroBlurb = (service && service.blurb) ? service.blurb : (D && D.intro ? D.intro : '');
+  %>
+
+  <main id="page-main" class="section">
+
+    <!-- ======= HERO: background image + centered title + brief (keeps routes below unchanged) ======= -->
+<section class="svc-hero-full" aria-label="Service hero">
+  <div class="svc-hero-bg" id="svcHeroBg" style="background-image: url('<%= heroImg %>')">
+
+    <!-- redesigned back pill (All services) -->
+    <a href="/services" class="svc-hero-back" id="svcHeroBack" aria-label="Back to all services">
+      <i class="ri-arrow-left-line" aria-hidden="true"></i>
+      <span>All services</span>
+    </a>
+
+    <!-- center stack: title + brief (green overlay) -->
+    <div class="svc-hero-center" role="banner" aria-label="Service title and brief">
+      <div class="svc-hero-overlay" id="svcHeroOverlay" aria-hidden="false">
+        <h1 class="svc-hero-title" id="svcHeroTitle"><%= service && service.title ? service.title : 'Service' %></h1>
+
+        <% if (D.intro) { %>
+          <p class="svc-brief-intro"><%= D.intro %></p>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- soft fade at bottom so overlapping brief below blends nicely -->
+    <div class="svc-hero-bottom-fade" aria-hidden="true"></div>
+  </div>
+</section>
+
+
+    <!-- BRIEF CARD: overlapping hero bottom -->
+    <section class="svc-brief-overlap container" aria-label="Brief and famous routes">
+      <div class="svc-brief-card" id="svcBriefCard">
+        <div class="svc-brief-card-title"><h3>Famous routes</h3></div>
+        <% if (Array.isArray(D.routes) && D.routes.length) { %>
+          <div class="routes-grid overlap-routes">
+            <% D.routes.forEach(function(r){ %>
+              <article class="route-mini">
+                <p class="route-mini-title"><i class="ri-route-line"></i> <%= r.from %> → <%= r.to %></p>
+                <div class="route-mini-meta">
+                  <% if (r.km) { %><span class="badge"><i class="ri-road-map-line"></i> <%= r.km %> km</span><% } %>
+                  <% if (r.time) { %><span class="badge"><i class="ri-time-line"></i> <%= r.time %></span><% } %>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+        <% } %>
+      </div>
+    </section>
+
+    <div class="container">
+      <p class="muted" style="margin:.25rem 0 1rem;">
+        <% if (isOut)     { %>Outstation per-km pricing shown below.<% } %>
+        <% if (isLocal)   { %>Local 8hr/80km package pricing shown below.<% } %>
+        <% if (isAirport) { %>Airport pickup/drop pricing shown below.<% } %>
+      </p>
+
+      <!-- Sticky segment filter -->
+      <nav class="seg-tabs" id="segTabs">
+        <button class="active" data-target="all">All</button>
+        <% segments.forEach(seg => { %>
+          <button data-target="seg-<%= seg.id %>"><%= seg.label %></button>
+        <% }) %>
+      </nav>
+
+      <!-- Segments -->
+      <% segments.forEach((seg, si) => { %>
+        <article class="card seg-card" id="seg-<%= seg.id %>" data-seg="<%= seg.id %>" style="margin-bottom:18px;padding:18px;border-radius:18px">
+          <header class="seg-head">
+            <h2 style="margin:0;font-size:1.35rem;font-weight:800"><%= seg.label %></h2>
+            <span class="seg-badge"><%= seg.cars.length %> Cars</span>
+          </header>
+
+          <!-- Cars -->
+          <div class="seg-car-grid">
+  <% seg.cars.forEach((car, ci) => { 
+       // Build correct image path
+       let imgName = car.img || '';
+       const imgSrc = imgName.startsWith('/') 
+         ? imgName 
+         : '/images/cars/' + imgName; 
+  %>
+    <div class="car-tile">
+      <img class="car-img"
+           src="<%= imgSrc %>"
+           alt="<%= car.name %>"
+           loading="lazy"
+           data-si="<%= si %>" 
+           data-ci="<%= ci %>">
+      <div class="car-meta">
+        <p class="car-name"><%= car.name %></p>
+        <p class="car-sub"><%= car.features || 'Comfortable AC • 4 seater' %></p>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+
+
+      <!-- Pricing + Segment Brief (Final Enhanced) -->
+<section class="pricing-brief-wrap">
+  <div class="pricing-two-col">
+
+    <!-- LEFT: Pricing Card -->
+    <div class="pricing-card">
+      <div class="pricing-card-head">
+        <h4><%= seg.label || service.title %></h4>
+        <% if (isLocal && seg.pricing.local.pack) { %>
+          <div class="pricing-sub"><%= seg.pricing.local.pack %></div>
+        <% } else if (isOut && seg.pricing.outstation) { %>
+          <div class="pricing-sub">Per km</div>
+        <% } else if (isAirport && seg.pricing.airport) { %>
+          <div class="pricing-sub">Pickup / Drop</div>
+        <% } %>
+      </div>
+
+      <dl class="kv-list">
+        <% if (isLocal && seg.pricing.local) { %>
+          <div class="kv-row"><dt>Base fare</dt><dd>₹<%= seg.pricing.local.base.toLocaleString('en-IN') %></dd></div>
+          <div class="kv-row"><dt>Extra / km</dt><dd>₹<%= seg.pricing.local.extra_km %></dd></div>
+          <div class="kv-row"><dt>Extra / hr</dt><dd>₹<%= seg.pricing.local.extra_hr %></dd></div>
+        <% } %>
+
+        <% if (isOut && seg.pricing.outstation) { %>
+          <div class="kv-row"><dt>Per km</dt><dd>₹<%= seg.pricing.outstation.per_km %></dd></div>
+          <div class="kv-row"><dt>Min / day</dt><dd><%= seg.pricing.outstation.min_km_day %> km</dd></div>
+          <div class="kv-row"><dt>Driver</dt><dd>₹<%= seg.pricing.outstation.driver %></dd></div>
+          <div class="kv-row"><dt>Night</dt><dd>₹<%= seg.pricing.outstation.night %></dd></div>
+        <% } %>
+
+        <% if (isAirport && seg.pricing.airport) { %>
+          <div class="kv-row"><dt>Pickup</dt><dd>₹<%= seg.pricing.airport.pickup %></dd></div>
+          <div class="kv-row"><dt>Drop</dt><dd>₹<%= seg.pricing.airport.drop %></dd></div>
+          <div class="kv-row"><dt>Waiting / hr</dt><dd>₹<%= seg.pricing.airport.waiting_per_hr %></dd></div>
+        <% } %>
+      </dl>
+    </div>
+
+    <!-- RIGHT: Segment Brief -->
+    <div class="segment-brief">
+      <% if (seg.description || seg.cars?.length) { %>
+        <div class="segment-brief-header">
+          <i class="ri-information-line"></i>
+          <h5>About this segment</h5>
+        </div>
+        <p><%= seg.description || 'Comfortable rides with courteous chauffeurs and clean cars.' %></p>
+
+        <% if (seg.cars && seg.cars.length > 0) { %>
+          <div class="segment-car-info">
+            <% seg.cars.slice(0,3).forEach(car => { %>
+              <div class="segment-car-line">
+                <span><i class="ri-car-line"></i> <%= car.name %></span>
+                <span class="seater"><i class="ri-user-3-line"></i> <%= car.seating || '4 seater' %></span>
+              </div>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <p class="note-text">
+          <strong>Includes:</strong> Driver, fuel, AC, standard waiting time.<br/>
+          <strong>Excludes:</strong> Tolls, parking, interstate taxes.
+        </p>
+      <% } else { %>
+        <p>Includes fuel, driver & AC. Excludes tolls, parking, and state taxes.</p>
+      <% } %>
+    </div>
+
+  </div>
+</section>
+
+          <!-- Actions -->
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+            <a href="#" role="button" class="btn primary open-booking"><i class="ri-24-hours-line"></i> Book now</a>
+            <button class="btn outline btn-wa"
+                    data-phone="+919876543210"
+                    data-service="<%= service.title %>"
+                    data-segment="<%= seg.label %>"
+                    data-examples="<%= seg.cars.map(c=>c.name).join(', ') %>">
+              <i class="ri-whatsapp-line"></i> Get Quote on WhatsApp
+            </button>
+          </div>
+
+        </article>
+      <% }) %>
+
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <%- include('../partials/social-dock') %>
+
+  <script>
+    /* measure header and trigger hero animations */
+    (function(){
+      function initHero(){
+        const header = document.querySelector('header') || document.querySelector('.site-header');
+        const hero = document.getElementById('svcHeroBg');
+        const brief = document.getElementById('svcBriefCard');
+        const title = document.querySelector('.svc-title-standalone');
+        const sub = document.querySelector('.svc-sub-standalone');
+
+        let headerH = 0;
+        if (header) headerH = Math.round(header.getBoundingClientRect().height || 0);
+        document.documentElement.style.setProperty('--site-header-h', headerH + 'px');
+
+        if (hero) {
+          hero.style.marginTop = '-' + (headerH + 0) + 'px';
+          hero.classList.add('svc-hero-enter');
+        }
+        setTimeout(()=> { if (title) title.classList.add('enter'); if (sub) sub.classList.add('enter'); }, 220);
+        setTimeout(()=> { if (brief) brief.classList.add('enter'); }, 320);
+      }
+
+      window.addEventListener('load', initHero);
+      window.addEventListener('resize', function(){ clearTimeout(window.__svcH); window.__svcH = setTimeout(initHero, 120); });
+    })();
+
+    /* Sticky tabs: filter & smooth scroll */
+    (function(){
+      const tabs  = document.querySelectorAll('#segTabs button');
+      const cards = document.querySelectorAll('.seg-card');
+
+      function showAll(){ cards.forEach(c => c.style.display = ''); }
+      function showOnly(id){ cards.forEach(c => { c.style.display = (c.dataset.seg === id) ? '' : 'none'; }); }
+      function clearActive(){ tabs.forEach(b => b.classList.remove('active')); }
+
+      tabs.forEach(btn => {
+        btn.addEventListener('click', () => {
+          clearActive(); btn.classList.add('active');
+          const target = btn.dataset.target;
+          if (target === 'all') {
+            showAll();
+            window.scrollTo({ top: document.querySelector('.seg-tabs').offsetTop - 90, behavior: 'smooth' });
+          } else {
+            const id = target.replace('seg-','');
+            showOnly(id);
+            const el = document.getElementById(target);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    })();
+
+    /* WhatsApp Quote */
+    document.querySelectorAll('.btn-wa').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const phone   = (btn.dataset.phone || '').replace(/[^\d]/g,'');
+        const service = btn.dataset.service || '';
+        const segment = btn.dataset.segment || '';
+        const ex      = btn.dataset.examples || '';
+        const msg = [
+          'Hello Radha Travels 👋',
+          "I'd like a quote.",
+          '',
+          `Service: ${service}`,
+          `Segment: ${segment}`,
+          ex ? `Cars: ${ex}` : ''
+        ].filter(Boolean).join('\\n');
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+      });
+    });
+    // for entry of serivce hero 
+(function(){
+  function initHero(){
+    const header = document.querySelector('header') || document.querySelector('.site-header') || null;
+    const hero  = document.getElementById('svcHeroBg');
+    const back  = document.getElementById('svcHeroBack');
+    const overlay = document.getElementById('svcHeroOverlay');
+    const title = document.getElementById('svcHeroTitle');
+    const blurb = document.getElementById('svcHeroBlurb');
+
+    // measure header height and set CSS var
+    let headerH = 0;
+    if (header) headerH = Math.round(header.getBoundingClientRect().height || 0);
+    document.documentElement.style.setProperty('--site-header-h', headerH + 'px');
+
+    // remove any previous enter states
+    [hero, back, overlay, title, blurb].forEach(el => { if (el) el.classList.remove('svc-hero-enter','enter'); });
+
+    // pull hero up under header (no gap)
+    if (hero) hero.style.marginTop = '-' + (headerH + 0) + 'px';
+
+    // start hero bg enter
+    if (hero) {
+      // minor delay to allow paint
+      setTimeout(()=> hero.classList.add('svc-hero-enter'), 40);
+    }
+
+    // staggered reveals
+    setTimeout(()=> { if (back) back.classList.add('enter'); }, 140);
+    setTimeout(()=> { if (overlay) overlay.classList.add('enter'); }, 260);
+    setTimeout(()=> { if (title) title.classList.add('enter'); }, 360);
+    setTimeout(()=> { if (blurb) blurb.classList.add('enter'); }, 460);
+
+    // fallback: ensure overlay/title visible after 900ms if JS glitches
+    if (overlay && !overlay.classList.contains('enter')) {
+      clearTimeout(window.__svcHeroFallback);
+      window.__svcHeroFallback = setTimeout(()=> { overlay.classList.add('enter'); if (title) title.classList.add('enter'); if (blurb) blurb.classList.add('enter'); }, 900);
+    }
+  }
+
+  window.addEventListener('load', initHero);
+  window.addEventListener('resize', function(){ clearTimeout(window.__svcHeroTimer); window.__svcHeroTimer = setTimeout(initHero, 120); });
+})();
+</script>
+
+</body>
+</html>

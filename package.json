@@ -1,0 +1,31 @@
+{
+  "name": "radha-clean",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/app.js",
+    "start": "node src/app.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^12.4.1",
+    "body-parser": "^2.2.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "nanoid": "^5.1.6",
+    "nodemailer": "^7.0.10",
+    "open": "^10.2.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "twilio": "^5.10.5",
+    "validator": "^13.15.23"
+  },
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

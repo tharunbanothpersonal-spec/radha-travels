@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<!-- Font Awesome (for icons) -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  integrity="sha512-Zl4Ccc4IMfM99m6A0rxpWJCBGz0HQUu9CzmsDijcQZo9kgQFURZy6N4ZIFUkoWSlQqW0BvEwGh+RjQ2BpD8c+A=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/booking.css"/>
+</head>
+<body>
+  <%- include('partials/header') %>
+<%- include('partials/ticker') %>
+<main>
+<!-- HERO (with first-screen splash) -->
+<!-- HERO (first slide has built-in splash layer) -->
+<section class="hero-bleed post-splash" id="heroRoot"><!-- JS will remove post-splash for first 6s -->
+
+  <!-- Slides -->
+  <div class="hero-bg" id="heroBg" data-hero>
+    <% if (heroSlides && heroSlides.length) { %>
+      <% heroSlides.forEach(function(slide, idx){ %>
+        <figure class="<%= idx === 0 ? 'active' : '' %>">
+          <img src="<%= slide.src %>" alt="<%= slide.caption %>">
+
+          <% if (idx === 0) { %>
+            <!-- Splash layer lives INSIDE slide #1 so it scrolls like an image -->
+            <div class="splash-layer">
+              <div class="splash-gradient"></div>
+              <div class="splash-content hero-text">
+                <h2>Radha Travels — Where Journeys Begin</h2>
+                <h1>Your Trusted Travel Companion<br/>Radha Travels!</h1>
+                <p>
+                  Explore the city with reliable cab services or embark on unforgettable
+                  outstation journeys with customizable trip packages.
+                </p>
+                <div class="splash-ctas">
+                  <a class="rail-btn primary open-booking" href="#" role="button"><i class="fa-solid fa-car-side"></i> Book Now</a>
+                  <a class="rail-btn outline" href="#" data-open-estimate><i class="fa-solid fa-calculator"></i> Quick Estimate</a>
+                </div>
+              </div>
+            </div>
+          <% } %>
+
+          <!-- normal per-slide caption (optional) -->
+          <figcaption><%= slide.caption %></figcaption>
+        </figure>
+      <% }); %>
+    <% } %>
+  </div>
+
+  <!-- Left CTA rail (visible after splash) -->
+  <div class="hero-rail left" id="heroRail">
+    <a class="rail-btn primary open-booking"
+   href="#"
+   role="button"
+   data-service="Test Service"
+   data-source="homepage"
+   aria-haspopup="dialog">
+  <i class="fa-solid fa-car-side" aria-hidden="true"></i> Book Now
+</a>
+
+    <a class="rail-btn outline" href="#" data-open-estimate><i class="fa-solid fa-calculator"></i> Quick Estimate</a>
+  </div>
+  <!-- Dots -->
+  <div class="hero-dots" id="heroDots" data-dots>
+    <% if (heroSlides && heroSlides.length) { %>
+      <% heroSlides.forEach(function(_, idx){ %>
+        <button class="<%= idx === 0 ? 'active' : '' %>" aria-label="Slide <%= idx+1 %>"></button>
+      <% }); %>
+    <% } %>
+  </div>
+</section>
+
+
+<!-- QUICK ESTIMATE MODAL -->
+<div class="qe-backdrop" data-qe-backdrop hidden>
+  <div class="qe-modal" role="dialog" aria-modal="true" aria-labelledby="qe-title">
+    <header class="qe-head">
+      <h3 id="qe-title">Quick Estimate</h3>
+      <button class="qe-x" type="button" data-qe-close aria-label="Close">×</button>
+    </header>
+
+    <form class="qe-form" id="qeForm">
+      <!-- Service -->
+      <label class="qe-label">Service</label>
+      <div class="qe-field">
+        <select id="qeService" required>
+          <option>Outstation</option>
+          <option>Local</option>
+          <option>Airport</option>
+        </select>
+      </div>
+
+      <!-- Car Segment -->
+      <label class="qe-label">Car Segment</label>
+      <div class="qe-field">
+        <select id="qeSegment" required>
+          <option>Hatchback</option>
+          <option>Sedan</option>
+          <option>Premium Sedan</option>
+          <option>SUV</option>
+          <option>Premium SUV</option>
+        </select>
+      </div>
+
+      <!-- Distance (km) -->
+      <label class="qe-label" id="qeDistLbl">Estimated Total Distance (km)</label>
+      <div class="qe-field">
+        <input id="qeDistance" type="number" min="0" inputmode="numeric" placeholder="120">
+      </div>
+
+      <!-- Days (Outstation only) -->
+<label class="qe-label" id="qeDaysLbl" style="display:none">Number of Days</label>
+<div class="qe-field" id="qeDaysWrap" style="display:none">
+  <input id="qeDays" type="number" min="1" value="1" inputmode="numeric">
+</div>
+
+<!-- Hours (Local only) -->
+<label class="qe-label" id="qeHoursLbl" style="display:none">Number of Hours</label>
+<div class="qe-field" id="qeHoursWrap" style="display:none">
+  <input id="qeHours" type="number" min="1" value="8" inputmode="numeric">
+</div>
+
+      <button type="submit" class="btn primary qe-btn">Calculate</button>
+
+      <p class="qe-result" id="qeResult" hidden></p>
+      <p class="qe-note" id="qeNote" hidden></p>
+    </form>
+  </div>
+</div>
+</main>
+
+
+<%- include('partials/footer') %>
+<script src="/js/main.js" defer></script>
+<script src="/js/admin-login.js" defer></script>
+
+
+
+</body>
+</html>

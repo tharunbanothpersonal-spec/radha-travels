@@ -1,0 +1,80 @@
+<header class="site-header">
+  <div class="container header-wrap">
+    <a href="/" class="brand">
+      <img src="/images/logo.jpg" alt="Radha Travels" class="brand-logo" />
+      <span class="brand-name">Radha Travels</span>
+    </a>
+
+    <nav class="nav" id="siteNav" aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/services">Services</a>
+      <a href="/fleet">Fleet</a>
+      <a href="/gallery">Gallery</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </nav>
+    <a href="#" role="button" class="btn-header open-booking">Book Now</a>
+    <!-- ADMIN LOGIN BUTTON: paste into views/partials/header.ejs (or your header area) -->
+<button id="adminLoginBtn" class="admin-login-btn" aria-haspopup="dialog" type="button">
+  <i class="fa-solid fa-user-shield"></i> Admin
+</button>
+
+
+
+    <!-- Hamburger -->
+    <button
+      class="burger"
+      id="navToggle"
+      aria-label="Open menu"
+      aria-controls="siteNav"
+      aria-expanded="false"
+      type="button">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<%- include('social-dock') %> <!-- global social dock -->
+
+<script>
+  (function () {
+    function initNav() {
+      const burger = document.getElementById('navToggle');
+      const nav    = document.getElementById('siteNav');
+      if (!burger || !nav) return;
+
+      const openNav  = () => {
+        nav.classList.add('open');
+        burger.classList.add('is-open');
+        burger.setAttribute('aria-expanded', 'true');
+        burger.setAttribute('aria-label', 'Close menu');
+        document.body.classList.add('nav-open');
+      };
+
+      const closeNav = () => {
+        nav.classList.remove('open');
+        burger.classList.remove('is-open');
+        burger.setAttribute('aria-expanded', 'false');
+        burger.setAttribute('aria-label', 'Open menu');
+        document.body.classList.remove('nav-open');
+      };
+
+      const toggle = () => (nav.classList.contains('open') ? closeNav() : openNav());
+
+      // reset previous listeners
+      burger.onclick = null;
+      burger.addEventListener('click', toggle);
+
+      // close when a nav link is clicked (mobile)
+      nav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+
+      // close on ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && nav.classList.contains('open')) closeNav();
+      });
+    }
+
+    if (document.readyState !== 'loading') initNav();
+    else document.addEventListener('DOMContentLoaded', initNav);
+  })();
+</script>

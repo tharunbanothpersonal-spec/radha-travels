@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= title %></title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        crossorigin="anonymous" />
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <%- include('../partials/header') %>
+  <%- include('../partials/ticker') %>
+
+  <main class="container section">
+    <header class="section-head mb-4">
+      <h1 class="svc-heading">Our Services</h1>
+      <p class="svc-subheading">Choose comfort, class, and reliability — wherever your journey takes you.</p>
+    </header>
+
+    <div class="svc-grid-premium" role="list">
+      <% services.forEach(function(s, idx){ 
+          let img = "/images/services/default.jpg";
+          if (s.image && typeof s.image === "string") img = "/images/services/" + s.image;
+          else if (s.image && s.image.src) img = s.image.src;
+      %>
+
+      <article class="svc-card-premium" data-idx="<%= idx %>" tabindex="0">
+        <div class="svc-img-wrap">
+          <img src="<%= img %>" alt="<%= s.title %> image" class="svc-img" loading="lazy">
+          <% if (s.from) { %>
+            <span class="svc-badge">From ₹<%= s.from %></span>
+          <% } %>
+        </div>
+
+        <div class="svc-body">
+          <div class="svc-head-inline">
+  <div class="svc-icon">
+    <% if (s.icon && s.icon.startsWith('ri-')) { %>
+      <i class="<%= s.icon %>"></i>
+    <% } else { %>
+      <i class="fa-solid fa-car"></i>
+    <% } %>
+  </div>
+  <h3 class="svc-title"><%= s.title %></h3>
+</div>
+<p class="svc-desc"><%= s.blurb %></p>
+
+
+          <div class="svc-btn-group">
+            <a href="/services/<%= s.slug %>" class="svc-btn svc-btn-main">
+              View Details <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+            <a href="#" role="button" class="svc-btn svc-btn-alt open-booking">
+              Book Now
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <% }); %>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <script src="/js/main.js"></script>
+</body>
+</html>
