@@ -20,6 +20,48 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
+// FOR EMAIL CHECKING
+import net from "net";
+
+app.get("/internal/smtp-check", (req, res) => {
+  const host = process.env.MAIL_HOST || process.env.SMTP_HOST || "smtp.gmail.com";
+  const port = Number(process.env.MAIL_PORT || process.env.SMTP_PORT || 587);
+
+  const timeout = 8000; // 8 seconds max
+  const socket = new net.Socket();
+  let finished = false;
+
+  socket.setTimeout(timeout);
+
+  socket.on("connect", () => {
+    if (!finished) {
+      finished = true;
+      socket.destroy();
+      return res.json({ ok: true, host, port, msg: "connect" });
+    }
+  });
+
+  socket.on("timeout", () => {
+    if (!finished) {
+      finished = true;
+      socket.destroy();
+      return res.json({ ok: false, error: "timeout" });
+    }
+  });
+
+  socket.on("error", (err) => {
+    if (!finished) {
+      finished = true;
+      socket.destroy();
+      return res.json({ ok: false, error: String(err) });
+    }
+  });
+
+  socket.connect(port, host);
+});
+// EMAIL CHECKING END
+
 /* --------------------------
    EXPRESS + EJS SETUP
 -------------------------- */
@@ -291,6 +333,6 @@ app.use((req, res) => {
 });
 
 /* -------------------------- */
-app.listen(PORT, () =>
-  console.log(`✅ Radha Travels running at http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
