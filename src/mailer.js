@@ -143,4 +143,32 @@ export async function sendDriverAllotmentEmail(booking, driver, vehicle) {
   }
 }
 
+// --- ADMIN RESET EMAIL (SendGrid version) ---
+export async function sendAdminResetEmail(admin, token) {
+  try {
+    const origin = process.env.SITE_ORIGIN || "http://localhost:3000";
+    const resetUrl = `${origin.replace(/\/$/, "")}/admin/reset.html?token=${encodeURIComponent(token)}`;
+
+    const html = `
+      <p>Hello ${admin.name || admin.email},</p>
+      <p>You requested to reset your admin password.</p>
+      <p>Click this link to reset your password:</p>
+      <p><a href="${resetUrl}">${resetUrl}</a></p>
+      <p>This link is valid for 1 hour.</p>
+    `;
+
+    return await sendEmail({
+      to: admin.email,
+      subject: "Admin password reset",
+      html,
+      text: `Reset your password here: ${resetUrl}`,
+    });
+
+  } catch (err) {
+    console.error("sendAdminResetEmail error:", err);
+    return { ok: false, error: err.message || String(err) };
+  }
+}
+
+
 export default { sendBookingConfirmation, sendDriverAllotmentEmail };
