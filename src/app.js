@@ -22,44 +22,59 @@ const PORT = process.env.PORT || 3000;
 
 
 // FOR EMAIL CHECKING
+// place after app = express() and before app.listen(...)
 import net from "net";
 
-app.get("/internal/smtp-check", (req, res) => {
+app.get("/internal/smtp-check", async (req, res) => {
   const host = process.env.MAIL_HOST || process.env.SMTP_HOST || "smtp.gmail.com";
   const port = Number(process.env.MAIL_PORT || process.env.SMTP_PORT || 587);
+  const timeout = 10000; // 10s
 
-  const timeout = 8000; // 8 seconds max
   const socket = new net.Socket();
   let finished = false;
-
   socket.setTimeout(timeout);
 
+  function finish(result) {
+    if (finished) return;
+    finished = true;
+    try { socket.destroy(); } catch(e) {}
+    // log to server console (Render runtime logs)
+    console.log("SMTP-CHECK RESULT:", JSON.stringify(result, null, 2));
+    res.setHeader("Content-Type", "application/json");
+    return res.status(result.ok ? 200 : 502).send(result);
+  }
+
   socket.on("connect", () => {
-    if (!finished) {
-      finished = true;
-      socket.destroy();
-      return res.json({ ok: true, host, port, msg: "connect" });
-    }
+    finish({ ok: true, host, port, msg: "connect" });
   });
 
   socket.on("timeout", () => {
-    if (!finished) {
-      finished = true;
-      socket.destroy();
-      return res.json({ ok: false, error: "timeout" });
-    }
+    finish({ ok: false, host, port, error: "timeout" });
   });
 
   socket.on("error", (err) => {
-    if (!finished) {
-      finished = true;
-      socket.destroy();
-      return res.json({ ok: false, error: String(err) });
+    // handle AggregateError specially
+    const out = { ok: false, host, port, error: err && err.message ? err.message : String(err) };
+    // If AggregateError, include inner errors array
+    if (err && err.name === "AggregateError" && Array.isArray(err.errors)) {
+      out.aggregate = err.errors.map(e => ({ message: e && e.message, code: e && e.code, stack: e && e.stack }));
+    } else if (err && err.stack) {
+      out.stack = err.stack;
     }
+    finish(out);
   });
 
-  socket.connect(port, host);
+  // start connect attempt
+  try {
+    socket.connect(port, host);
+  } catch (err) {
+    // synchronous connect call error fallback
+    const fallback = { ok: false, host, port, error: String(err) };
+    if (err && err.stack) fallback.stack = err.stack;
+    finish(fallback);
+  }
 });
+
 // EMAIL CHECKING END
 
 /* --------------------------
