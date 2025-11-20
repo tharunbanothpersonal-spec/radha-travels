@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/app.js",
+    "dev": "node src/app.js",
     "start": "node src/app.js",
     "postinstall": "npm rebuild better-sqlite3 --build-from-source"
   },
   "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.4.1",
