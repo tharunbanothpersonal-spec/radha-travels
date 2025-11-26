@@ -264,7 +264,7 @@ a{color:inherit;text-decoration:none}
   #heroRoot{position:relative}
   #heroRoot .hero-rail.left{
     position:absolute !important; left:50% !important; transform:translateX(-50%) !important;
-    bottom:30% !important; width:100%; max-width:500px; padding:0 6px; gap:8px;
+    bottom:20% !important; width:100%; max-width:500px; padding:0 6px; gap:8px;
     flex-direction:row !important; justify-content:center !important; align-items:end !important; z-index:4;
     font-size: 1rem;
   }
@@ -624,10 +624,9 @@ a{color:inherit;text-decoration:none}
   margin-bottom: 18px;
 }
 @media (max-width:560px){
-  .seg-car-grid {
-  grid-template-columns: 1fr 1fr;
-  
-}}
+  .seg-car-grid {grid-template-columns: 1fr 1fr;}
+.seg-tabs button {font-size: 10px;}
+}
 .car-tile {
   background: linear-gradient(180deg, #fdfdfd, #f7fbf9);
   border-radius: 14px;
@@ -656,7 +655,25 @@ a{color:inherit;text-decoration:none}
   color: #64748b;
   font-size: 14px;
 }
-
+@media (max-width:560px){
+ .car-img {
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+.car-name {
+  font-weight: 700;
+  margin: 2px 0;
+  font-size: 14px;
+  color: var(--emer-2);
+}
+.car-sub {
+  color: var(--emerald-400);
+  font-size: 10px;
+} 
+}
 
 
 
@@ -1038,6 +1055,32 @@ a{color:inherit;text-decoration:none}
 @media (max-width: 768px) {
   .pricing-two-col { grid-template-columns: 1fr; gap: 16px; }
   .segment-brief { font-size: 0.9rem; padding: 14px; }
+.segment-brief-header i {font-size: 0.8rem;}
+.segment-brief-header h5 {font-size: 0.75rem;}
+.segment-brief p {font-size: 0.6rem;}
+.segment-car-info {
+  font-size: 0.6rem;
+}
+.segment-car-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
+  color: #0f766e;
+  background: rgba(15,118,110,0.05);
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+.segment-car-line {font-size: 0.6rem; }
+.segment-car-line .seater { color: #05322b; font-weight: 600; }
+
+.note-text {
+  font-size: 0.55rem;
+  margin-top: 8px;
+  color: #3a4a48;
+}
+
+  .kv-list dt {  font-size: 0.7rem;  }
+.kv-list dd {   font-size: 0.8rem; }
 }
 
 
@@ -1102,10 +1145,10 @@ a{color:inherit;text-decoration:none}
   background: linear-gradient(90deg, #10b981, #0f766e);
   color: #fff;
   font-weight: 700;
-  font-size: 13px;
-  padding: 6px 12px;
   border-radius: 999px;
   box-shadow: 0 4px 12px rgba(16,185,129,0.25);
+  padding: 5px 10px;
+    font-size: 12px;
 }
 
 /* body */
@@ -1198,6 +1241,12 @@ a{color:inherit;text-decoration:none}
   .svc-grid-premium {grid-template-columns: repeat(2, 1fr);}
   .svc-img-wrap {height: 140px;}
   .svc-title {font-size: 15px;}
+  .svc-badge {
+  position: absolute;
+  top: 75%;
+  left: 30%;
+  transform: translateX(-50%);
+}
 }
 @media (max-width:360px){
   .svc-grid-premium {grid-template-columns: 1fr;}
@@ -1266,12 +1315,6 @@ a{color:inherit;text-decoration:none}
 
   /* slightly reduce image height on small phones */
   .svc-img-wrap { height: 140px; }
-
-  /* make badge smaller */
-  .svc-badge {
-    padding: 5px 10px;
-    font-size: 12px;
-  }
 
   /* touch-friendly lift when tapping (use :active) already defined above */
   /* prevent hover transform from making layout jittery on mobile */
@@ -1343,6 +1386,11 @@ a{color:inherit;text-decoration:none}
   }
   .svc-body .svc-title { font-size: 15px; }
   .svc-card-premium { min-height: 210px; }
+  .svc-heading{
+    font-size: 1.5rem;
+  }
+  .svc-subheading{font-size: 0.8rem;}
+  .svc-body .svc-desc {  font-size: 10px;}
 }
 /* ===================================================
    Glowing gradient border for premium service cards
