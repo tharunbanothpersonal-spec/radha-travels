@@ -1,0 +1,4 @@
+[35msrc/mailer.js[m[36m:[m[32m15[m[36m:[mconst [1;31mSENDGRID_API_KEY[m = process.env.[1;31mSENDGRID_API_KEY[m;
+[35msrc/mailer.js[m[36m:[m[32m22[m[36m:[mif (![1;31mSENDGRID_API_KEY[m) {
+[35msrc/mailer.js[m[36m:[m[32m23[m[36m:[m  console.error("❌ [1;31mSENDGRID_API_KEY[m missing");
+[35msrc/mailer.js[m[36m:[m[32m25[m[36m:[m  sgMail.setApiKey([1;31mSENDGRID_API_KEY[m);
