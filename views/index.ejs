@@ -17,6 +17,7 @@
 />
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/booking.css"/>
+  <link rel="stylesheet" href="/css/gallery-upload.css">
 </head>
 <body>
   <%- include('partials/header') %>
@@ -140,6 +141,37 @@
   </div>
 </div>
 </main>
+
+<section class="home-gallery">
+  <div class="container">
+
+    <div class="hg-header">
+      <div>
+        <span class="hg-eyebrow">Gallery</span>
+        <h2>Moments from Our Journeys</h2>
+        <p>Real travel experiences with Radha Travels</p>
+      </div>
+
+      <a href="/gallery" class="btn outline">View Gallery</a>
+    </div>
+
+    <% if (featuredGallery && featuredGallery.length) { %>
+      <div class="hg-grid">
+        <% featuredGallery.slice(0,5).forEach((item, index) => { %>
+          <a href="/gallery" class="hg-card <%= index === 0 ? 'hg-large' : '' %>">
+            <img src="<%= item.filepath %>" alt="">
+            <div class="hg-overlay">
+              <span><%= item.title || "Radha Travels" %></span>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    <% } %>
+
+  </div>
+</section>
+
+
 
 
 <%- include('partials/footer') %>

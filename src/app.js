@@ -11,7 +11,8 @@ import adminAuth from "./routes/adminAuth.js";
 import db from "./db.js";
 import cookieParser from "cookie-parser";
 import authAdmin from "./middleware/authAdmin.js"; // new middleware import
-
+import galleryRoutes from "./routes/galleryRoutes.js";
+import adminView from "./middleware/adminView.js";
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,6 +21,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(express.static("public"));
 
 // FOR EMAIL CHECKING
 // place after app = express() and before app.listen(...)
@@ -103,6 +105,13 @@ app.use("/admin/auth", adminAuth);
 // admin routes protected by server-side middleware
 // This ensures any route under /admin (except /admin/auth) requires a valid cookie
 app.use("/admin", authAdmin, adminBookings);
+
+//admin for gallery also
+app.use(adminView);
+
+
+
+
 
 
 app.set("views", path.join(__dirname, "..", "views"));
@@ -206,11 +215,27 @@ function serviceFromPrice(serviceSlug, segments) {
 
 // Home
 app.get("/", (req, res) => {
+  let featuredGallery = [];
+
+  try {
+    featuredGallery = db
+      .prepare(`
+        SELECT * FROM gallery
+        ORDER BY created_at DESC
+        LIMIT 6
+      `)
+      .all();
+  } catch (err) {
+    console.error("❌ Featured gallery error:", err.message);
+  }
+
   res.render("index", {
     title: "Radha Travels",
-    heroSlides: loadHeroSlides(),
+    heroSlides: loadHeroSlides(),   // unchanged
+    featuredGallery                // ✅ ALWAYS defined
   });
 });
+
 
 // Services list (inject "from" price only — no duplication)
 app.get("/services", (req, res) => {
@@ -339,6 +364,12 @@ app.get("/admin/assign-driver", authAdmin, (req, res) => {
 app.get("/admin/allotted-bookings", authAdmin, (req, res) => {
   res.render("admin/allotted-bookings");
 });
+
+//Gallery page
+
+
+
+app.use("/gallery", galleryRoutes);
 
 
 

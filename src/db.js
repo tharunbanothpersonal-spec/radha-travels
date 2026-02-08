@@ -39,4 +39,19 @@ CREATE TABLE IF NOT EXISTS bookings (
 );
 `);
 
+// create gallery table if not exists
+db.exec(`
+CREATE TABLE IF NOT EXISTS gallery (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  filename TEXT,
+  filepath TEXT,
+  title TEXT,
+  description TEXT,
+  type TEXT,
+  uploaded_by TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+`);
+
+
 export default db;

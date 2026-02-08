@@ -1,77 +1,72 @@
 <!doctype html>
 <html>
 <head>
-  <meta charset="utf-8" />
-  <title>Driver Assigned – Radha Travels</title>
-  <style>
-    body { margin:0; padding:0; background:#f6faf7; font-family:Arial, Helvetica, sans-serif; }
-    .card { max-width:600px; margin:20px auto; background:#ffffff; border-radius:12px;
-            border:1px solid #e3f1e7; box-shadow:0 6px 22px rgba(11,122,70,0.05); overflow:hidden; }
-    .header { padding:16px 20px; background:linear-gradient(90deg,#0db46c,#0a7a46);
-              color:#ffffff; font-size:18px; font-weight:700; }
-    .section { padding:20px; }
-    .label { font-size:12px; color:#6a8d7a; margin-bottom:4px; }
-    .value { font-size:15px; font-weight:700; color:#07361f; }
-    .row { margin-bottom:16px; }
-    .footer { padding:16px 20px; background:#fbfff9; font-size:13px; color:#6d927f; border-top:1px solid #eef5ef; }
-    .cta { display:inline-block; margin-top:12px; padding:12px 16px; background:#0b7a46;
-           color:#ffffff; font-weight:700; border-radius:8px; text-decoration:none;
-           box-shadow:0 6px 18px rgba(11,122,70,0.12); }
-  </style>
+<meta charset="utf-8"/>
+<title>Driver Assigned – Radha Travels</title>
+<style>
+  body{margin:0;padding:0;background:#f4fbf7;font-family:Arial,Helvetica,sans-serif}
+  .card{max-width:620px;margin:24px auto;background:#fff;border-radius:16px;
+        box-shadow:0 20px 50px rgba(11,122,70,.12);overflow:hidden}
+  .header{padding:22px;background:linear-gradient(90deg,#00c48c,#0a7a46,#f5b630);color:#fff}
+  .brand{font-size:26px;font-weight:900}
+  .section{padding:24px;color:#07361f}
+  .row{margin-bottom:16px}
+  .label{font-size:12px;color:#6b8f7f}
+  .value{font-size:16px;font-weight:800}
+  .highlight{background:#fff8e1;border-left:4px solid #f5b630;padding:14px;border-radius:8px}
+  .cta{display:inline-block;margin:12px 10px 0 0;padding:14px 20px;border-radius:999px;
+       background:#0b7a46;color:#fff;font-weight:900;text-decoration:none}
+  .footer{padding:22px;background:linear-gradient(90deg,#0a7a46,#00c48c,#0a7a46);color:#fff}
+</style>
 </head>
-<body>
 
+<body>
 <div class="card">
-  
-  <div class="header">Your Driver & Vehicle Are Ready</div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">🚘 Driver Assigned</div>
+    <div>Radha Travels</div>
+  </div>
 
   <div class="section">
+    <p>Dear <strong><%= booking.fullName %></strong>,</p>
 
-    <!-- Booking ID -->
-    <div class="row">
-      <div class="label">Booking ID</div>
-      <div class="value"><%= booking.bookingId %></div>
-    </div>
+    <p>Your driver has been assigned. Please find the details below.</p>
 
-    <!-- Driver Info -->
     <div class="row">
-      <div class="label">Driver Assigned</div>
+      <div class="label">Driver Name</div>
       <div class="value"><%= driver.name %></div>
-      <div class="value" style="font-size:14px; font-weight:600; margin-top:4px;">
-        Contact: <%= driver.phone %>
+    </div>
+
+    <div class="row">
+      <div class="label">Driver Phone</div>
+      <div class="value">
+        <a href="tel:<%= driver.phone %>" style="color:#0b7a46;text-decoration:none">
+          <%= driver.phone %>
+        </a>
       </div>
     </div>
 
-    <!-- Vehicle Info -->
     <div class="row">
-      <div class="label">Vehicle Details</div>
-      <div class="value"><%= vehicle.type %> (<%= vehicle.color || '' %>)</div>
-      <div class="value" style="font-size:14px; font-weight:600; margin-top:4px;">
-        Vehicle Number: <%= vehicle.number %>
-      </div>
+      <div class="label">Vehicle</div>
+      <div class="value"><%= vehicle.type %> • <%= vehicle.number %></div>
     </div>
 
-    <!-- Pickup -->
-    <div class="row">
-      <div class="label">Pickup Location</div>
-      <div class="value"><%= booking.pickup %></div>
+    <div class="highlight">
+      📞 Driver will contact you about <strong>30 minutes before pickup</strong>.
     </div>
 
-    <div class="row">
-      <div class="label">Pickup Date & Time</div>
-      <div class="value"><%= booking.date %> • <%= booking.time %></div>
-    </div>
-
-    <a href="<%= siteUrl %>/bookings/<%= booking.bookingId %>" class="cta">View Booking</a>
-
+    <a href="https://wa.me/91<%= driver.phone.replace(/\D/g,'') %>" class="cta">WhatsApp Driver</a>
+    <a href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(booking.pickup) %>"
+       class="cta">View Pickup</a>
   </div>
 
   <div class="footer">
-    Thank you for choosing Radha Travels.<br>
-    For support contact +91 12345 67890
+    Thank you for choosing <strong>Radha Travels</strong><br/>
+    Safe journey 🚗
   </div>
 
 </div>
-
 </body>
 </html>
