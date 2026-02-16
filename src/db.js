@@ -8,14 +8,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // DB path (project-root/data/bookings.db)
-const DB_PATH = process.env.BOOKING_DB_PATH || path.join(__dirname, "..", "data", "bookings.db");
+const DB_PATH = process.env.GALLERY_DB_PATH
+  || path.join(__dirname, "..", "data", "gallery.db");
+  console.log("🟢 USING GALLERY DB:", DB_PATH);
+
 
 // ensure data dir exists
 const dataDir = path.dirname(DB_PATH);
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 // open DB (synchronous)
-const db = new Database(DB_PATH);
+const db = new Database(DB_PATH, { timeout: 5000 });
+
+try {
+  db.pragma("journal_mode = WAL");
+} catch (e) {
+  console.warn("⚠ WAL mode not set:", e.message);
+}
+
+db.pragma("busy_timeout = 5000");
+
+
 
 // create bookings table if not exists
 db.exec(`
@@ -38,6 +51,14 @@ CREATE TABLE IF NOT EXISTS bookings (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 `);
+// 🔹 Ensure driver columns exist (safe migration)
+
+try { db.exec("ALTER TABLE bookings ADD COLUMN driver_name TEXT"); } catch {}
+try { db.exec("ALTER TABLE bookings ADD COLUMN driver_phone TEXT"); } catch {}
+try { db.exec("ALTER TABLE bookings ADD COLUMN vehicle_type TEXT"); } catch {}
+try { db.exec("ALTER TABLE bookings ADD COLUMN vehicle_number TEXT"); } catch {}
+try { db.exec("ALTER TABLE bookings ADD COLUMN vehicle_color TEXT"); } catch {}
+
 
 // create gallery table if not exists
 db.exec(`
@@ -49,9 +70,9 @@ CREATE TABLE IF NOT EXISTS gallery (
   description TEXT,
   type TEXT,
   uploaded_by TEXT,
+  category TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 `);
-
 
 export default db;

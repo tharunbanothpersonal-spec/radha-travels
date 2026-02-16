@@ -1,124 +1,61 @@
-// ✅ Radha Travels — app.js (no data duplication; uses SERVICES/SEGMENTS only)
+// =======================================================
+//  Radha Travels — Clean app.js (Admin reset version)
+// =======================================================
+
 import express from "express";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
-import { SERVICES, SEGMENTS } from "../data/services.js"; // <-- your single source of truth
-import bookingsRouter from "./routes/bookings.js";
-import adminBookings from "./routes/adminBookings.js";
-import adminAuth from "./routes/adminAuth.js";
-// src/app.js (near other imports)
-import db from "./db.js";
+import net from "net";
 import cookieParser from "cookie-parser";
-import authAdmin from "./middleware/authAdmin.js"; // new middleware import
+import session from "express-session";
+import { fileURLToPath } from "url";
+
+// DB
+import db from "./db.js";
+
+// Routers
+import bookingsRouter from "./routes/bookings.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
-import adminView from "./middleware/adminView.js";
 
+// Admin (NEW SYSTEM)
+import adminAuth from "./admin/admin.auth.js";
+import adminRoutes from "./admin/admin.routes.js";
+import { requireAdmin } from "./admin/admin.middleware.js";
 
+// Data
+import { SERVICES, SEGMENTS } from "../data/services.js";
+
+// -------------------------------------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static("public"));
+// =======================================================
+//  MIDDLEWARE
+// =======================================================
 
-// FOR EMAIL CHECKING
-// place after app = express() and before app.listen(...)
-import net from "net";
-
-app.get("/internal/smtp-check", async (req, res) => {
-  const host = process.env.MAIL_HOST || process.env.SMTP_HOST || "smtp.gmail.com";
-  const port = Number(process.env.MAIL_PORT || process.env.SMTP_PORT || 587);
-  const timeout = 10000; // 10s
-
-  const socket = new net.Socket();
-  let finished = false;
-  socket.setTimeout(timeout);
-
-  function finish(result) {
-    if (finished) return;
-    finished = true;
-    try { socket.destroy(); } catch(e) {}
-    // log to server console (Render runtime logs)
-    console.log("SMTP-CHECK RESULT:", JSON.stringify(result, null, 2));
-    res.setHeader("Content-Type", "application/json");
-    return res.status(result.ok ? 200 : 502).send(result);
-  }
-
-  socket.on("connect", () => {
-    finish({ ok: true, host, port, msg: "connect" });
-  });
-
-  socket.on("timeout", () => {
-    finish({ ok: false, host, port, error: "timeout" });
-  });
-
-  socket.on("error", (err) => {
-    // handle AggregateError specially
-    const out = { ok: false, host, port, error: err && err.message ? err.message : String(err) };
-    // If AggregateError, include inner errors array
-    if (err && err.name === "AggregateError" && Array.isArray(err.errors)) {
-      out.aggregate = err.errors.map(e => ({ message: e && e.message, code: e && e.code, stack: e && e.stack }));
-    } else if (err && err.stack) {
-      out.stack = err.stack;
-    }
-    finish(out);
-  });
-
-  // start connect attempt
-  try {
-    socket.connect(port, host);
-  } catch (err) {
-    // synchronous connect call error fallback
-    const fallback = { ok: false, host, port, error: String(err) };
-    if (err && err.stack) fallback.stack = err.stack;
-    finish(fallback);
-  }
-});
-
-// EMAIL CHECKING END
-
-/* --------------------------
-   EXPRESS + EJS SETUP
--------------------------- */
-app.use(
-  express.static(path.join(__dirname, "..", "public"), {
-    etag: false,
-    lastModified: false,
-    cacheControl: false,
-    maxAge: 0,
-  })
-);
+app.use(express.static(path.join(__dirname, "..", "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// temporary request logger - add, restart server, then test POST
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "radha_travels_secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// request logger (temporary but useful)
 app.use((req, res, next) => {
-  console.log("REQ->", req.method, req.url);
+  console.log("REQ ->", req.method, req.url);
   next();
 });
 
-// auth routes (public): login, forgot-password, reset-password, create (seed)
-app.use("/admin/auth", adminAuth);
-
-// admin routes protected by server-side middleware
-// This ensures any route under /admin (except /admin/auth) requires a valid cookie
-app.use("/admin", authAdmin, adminBookings);
-
-//admin for gallery also
-app.use(adminView);
-
-
-
-
-
-
-app.set("views", path.join(__dirname, "..", "views"));
-app.set("view engine", "ejs");
-
-// Global no-cache
-app.set("etag", false);
+// no-cache globally
 app.use((_, res, next) => {
   res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
   res.set("Pragma", "no-cache");
@@ -126,8 +63,17 @@ app.use((_, res, next) => {
   next();
 });
 
+// =======================================================
+//  VIEW ENGINE
+// =======================================================
 
-/* ---------- TICKER ---------- */
+app.set("views", path.join(__dirname, "..", "views"));
+app.set("view engine", "ejs");
+
+// =======================================================
+//  TICKER
+// =======================================================
+
 const TICKER = [
   "✈️ Airport Transfers from ₹1100 — 24/7 Service",
   "🚕 Flat 10% Off on Outstation (Weekdays)",
@@ -135,83 +81,22 @@ const TICKER = [
   "🚗 Premium SUVs Available on Demand",
   "🧼 Sanitized Cars • Polite Chauffeurs • On-time Guarantee",
 ];
-app.use((_, res, next) => { res.locals.ticker = TICKER; next(); });
 
-// mount bookings API
-app.use("/api/bookings", bookingsRouter);
+app.use((_, res, next) => {
+  res.locals.ticker = TICKER;
+  next();
+});
 
+// =======================================================
+//  ADMIN (NEW CLEAN SETUP)
+// =======================================================
 
-/* --------------------------
-   HERO LOADER (fresh each time)
--------------------------- */
-function loadHeroSlides() {
-  const heroDir = path.join(__dirname, "..", "public", "images", "hero");
-  const jsonPath = path.join(heroDir, "hero.json");
+app.use("/admin", adminAuth);   // /admin/login, /admin/logout
+app.use("/admin", adminRoutes); // /admin, /admin/bookings, /admin/gallery
 
-  try {
-    let files = fs
-      .readdirSync(heroDir, { withFileTypes: true })
-      .filter(f => f.isFile() && /\.(jpe?g|png|webp)$/i.test(f.name))
-      .map(f => f.name)
-      .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" }));
-
-    // Move splash.* to the front if present
-    const idx = files.findIndex(f => /^splash\.(jpe?g|png|webp)$/i.test(f));
-    if (idx > 0) files.unshift(files.splice(idx, 1)[0]);
-
-    let captions = {};
-    if (fs.existsSync(jsonPath)) {
-      try {
-        const meta = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-        if (Array.isArray(meta)) meta.forEach(m => { if (m?.file) captions[m.file] = m.caption; });
-        else if (meta && typeof meta === "object") captions = meta;
-      } catch {}
-    }
-
-    const now = Date.now();
-    return files.map(f => ({
-      src: `/images/hero/${f}?t=${now}`,
-      caption: captions[f] ||
-        f.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").replace(/\b\w/g, m => m.toUpperCase())
-    }));
-  } catch (e) {
-    console.error("Hero load error:", e.message);
-    return [];
-  }
-}
-
-/* --------------------------
-   HELPERS
--------------------------- */
-function serviceFromPrice(serviceSlug, segments) {
-  const vals = [];
-
-  for (const seg of segments) {
-    const p = seg.pricing || {};
-    switch (serviceSlug) {
-      case "local-tour":
-        if (p.local?.base) vals.push(p.local.base);
-        break;
-      case "outstation":
-        if (p.outstation?.per_km && p.outstation?.min_km_day) {
-          vals.push(Math.round(p.outstation.per_km * p.outstation.min_km_day));
-        }
-        break;
-      case "airport-transfer":
-        if (p.airport?.pickup) vals.push(p.airport.pickup);
-        if (p.airport?.drop)   vals.push(p.airport.drop);
-        break;
-      default:
-        // custom/corporate: no "from"
-        break;
-    }
-  }
-  return vals.length ? Math.min(...vals) : null;
-}
-
-/* --------------------------
-   ROUTES
--------------------------- */
+// =======================================================
+//  PUBLIC ROUTES
+// =======================================================
 
 // Home
 app.get("/", (req, res) => {
@@ -226,23 +111,190 @@ app.get("/", (req, res) => {
       `)
       .all();
   } catch (err) {
-    console.error("❌ Featured gallery error:", err.message);
+    console.error("Featured gallery error:", err.message);
   }
 
   res.render("index", {
     title: "Radha Travels",
-    heroSlides: loadHeroSlides(),   // unchanged
-    featuredGallery                // ✅ ALWAYS defined
+    heroSlides: loadHeroSlides(),
+    featuredGallery,
   });
 });
 
+// =========================
+// Home special tour package
+//==========================
 
-// Services list (inject "from" price only — no duplication)
+// Dynamic Route for Special Tour Packages
+// Dynamic Route for Special Tour Packages
+app.get('/tours/:destination', (req, res) => {
+  // Grab the destination from the URL (e.g., "srisailam")
+  const destId = req.params.destination.toLowerCase();
+
+  // Tour Data Configuration
+  const tourData = {
+    srisailam: {
+      name: "Srisailam",
+      heroImage: "/images/srisailam.jpg",
+      intro: "Seeking divine blessings from Lord Mallikarjuna Swamy at the sacred hills of Srisailam? Let Radha Travels take you on a comfortable and spiritual journey.",
+      
+      // --- ADDED FROM SCREENSHOTS ---
+      introTitle: "Hyderabad to Srisailam Route & Travel Time",
+      distanceInfo: "The distance from Hyderabad to Srisailam is approximately 210 to 230 km, depending on the starting point, and the journey typically takes 5 to 6 hours via the beautiful and scenic Nallamala forest route.",
+      routesTitle: "Recommended Route:",
+      routes: [
+        "Hyderabad – Kalwakurthy – Dornala – Srisailam (via NH 765)"
+      ],
+      routeExtra: "Enjoy picturesque views, serene forests, and smooth roads throughout the trip. Our drivers are familiar with key halts and can accommodate requests for Sakshi Ganapathi Temple, Pathala Ganga, Srisailam Dam View Point, and more.",
+      idealFor: [
+        "Family Pilgrimage to Mallikarjuna Jyotirlinga",
+        "Temple Trust & Devotee Mandali Trips",
+        "Senior Citizen Religious Yatras",
+        "Meditation & Spiritual Retreat Groups",
+        "School/College Temple Visits",
+        "Weekend Devotional Getaways from Hyderabad"
+      ],
+      idealExtra: "We also offer custom Srisailam packages, including temple darshan, accommodation support, nearby attractions like Akkamahadevi Caves, Paladhara Panchadhara, and optional return same day or next-day trips.",
+      whyChoose: [
+        "10+ Years of Trusted Religious Tour Service",
+        "Devotional & Knowledgeable Drivers",
+        "On-Time Pickup & Drop Service",
+        "Sanitized Vehicles with Safety Protocols",
+        "Transparent Pricing – No Hidden Costs",
+        "Round-the-Clock Travel Assistance",
+        "One-Way / Round Trip / Multi-Day Options"
+      ],
+      whyExtra: "We understand the spiritual value of the Srisailam Yatra, and we go the extra mile to ensure a journey that’s sacred, safe, and serene for every traveler."
+    },
+    
+    arunachalam: {
+      name: "Arunachalam",
+      heroImage: "/images/arunachalam.jpg",
+      intro: "Embark on a spiritual journey to the holy Arunachalesvara Temple. Radha Travels ensures a peaceful and timely pilgrimage for your entire group.",
+      
+      // --- ADDED FROM SCREENSHOTS ---
+      introTitle: "Hyderabad to Arunachalam Distance & Route Info",
+      distanceInfo: "The distance between Hyderabad and Arunachalam (Tiruvannamalai) is approximately 620–650 km, and the journey takes around 12 to 14 hours by road, depending on route, stops, and traffic.",
+      routesTitle: "Popular Route Options:",
+      routes: [
+        "1. Hyderabad – Kurnool – Kadapa – Chittoor – Arunachalam (via NH 40)",
+        "2. Hyderabad – Nandyal – Tirupati – Tiruvannamalai (via NH 716)",
+        "3. Hyderabad – Anantapur – Vellore – Arunachalam (via NH 44 & NH 38)"
+      ],
+      routeExtra: "Our experienced drivers ensure timely arrival for early morning Girivalam, temple darshan, or special poojas, making the journey as spiritual as the destination.",
+      idealFor: [
+        "Devotee Mandalis Visiting Arunachaleswarar Temple",
+        "Family Pilgrimages & Pooja Trips",
+        "Spiritual Retreats & Ashram Visits",
+        "Senior Citizen Pilgrim Groups",
+        "College or Community Devotional Tours",
+        "Festival Trips – Karthika Deepam, Pournami Girivalam, Maha Shivaratri"
+      ],
+      idealExtra: "We also provide custom packages that include nearby spiritual locations such as Ramana Maharshi Ashram, Skandashram, Virupaksha Cave, and Yogi Ram Surat Kumar Ashram, making your trip even more meaningful.",
+      whyChoose: [
+        "Over a Decade of Travel Experience",
+        "Devoted Drivers Familiar with Temple Routes",
+        "Transparent Billing – No Hidden Charges",
+        "One-Way, Round Trip & Multi-Day Options",
+        "Clean, Comfortable & Reliable Vehicles",
+        "Round-the-Clock Travel Support",
+        "Special Care for Senior Devotees"
+      ],
+      whyExtra: "At Radha Travels, we understand the spiritual importance of your Arunachalam yatra. Our goal is to provide not just a mode of transport—but a soulful travel experience that is safe, smooth, and full of devotion."
+    },
+    
+    tirupati: {
+      name: "Tirupati",
+      heroImage: "/images/tirupati.jpg",
+      intro: "Experience the divine presence of Lord Venkateswara. We provide premium fleet services for a seamless Tirupati Darshan experience.",
+      
+      // --- ADDED FROM SCREENSHOTS ---
+      introTitle: "Hyderabad to Tirupati Route & Distance",
+      distanceInfo: "The road distance between Hyderabad and Tirupati is approximately 550 to 600 km, taking around 10 to 12 hours depending on the route and traffic.",
+      routesTitle: "Preferred Routes Include:",
+      routes: [
+        "1. Hyderabad – Kurnool – Kadapa – Tirupati (via NH 40): Scenic and popular",
+        "2. Hyderabad – Nalgonda – Nellore – Tirupati (via NH 565 & NH 16): Less crowded and smoother",
+        "3. Hyderabad – Anantapur – Chittoor – Tirupati: For temple trail plans via Rayalaseema"
+      ],
+      routeExtra: "Our drivers are well-versed with all routes and can also help plan early morning Darshan slots, Sheegra Darshan, or VIP passes as per your preferences.",
+      idealFor: [
+        "Family Pilgrimages to Tirumala",
+        "Devotee Mandali & Temple Groups",
+        "Senior Citizen Religious Trips",
+        "School & College Temple Excursions",
+        "Corporate Devotional Retreats",
+        "Pancharama or South Temple Circuit Tours"
+      ],
+      idealExtra: "We can also arrange custom packages including other nearby temples like Sri Kalahasti, Kanipakam, Golden Temple Vellore, and Kapila Theertham, making your journey a truly spiritual circuit.",
+      whyChoose: [
+        "10+ Years of Trusted Travel Experience",
+        "Affordable Pricing with No Hidden Charges",
+        "Trained & Devotional Drivers",
+        "Clean & Sanitized Vehicles",
+        "Punctual Pickup & Drop",
+        "Customizable Pilgrimage Plans",
+        "One-Way / Round Trip / Multi-Day Options"
+      ],
+      whyExtra: "We value the sanctity and significance of your Tirupati trip, and our services are designed to ensure your journey is stress-free, relaxed, and spiritually fulfilling."
+    },
+    
+    shirdi: {
+      name: "Shirdi",
+      heroImage: "/images/shirdi.jpg",
+      intro: "Visit the holy shrine of Sai Baba in Shirdi with absolute comfort. Our dedicated vehicles ensure a safe and peaceful journey for your family.",
+      
+      // --- ADDED FROM SCREENSHOTS ---
+      introTitle: "Hyderabad to Shirdi Route & Distance",
+      distanceInfo: "The road distance from Hyderabad to Shirdi is around 600 km and takes approximately 11 to 13 hours, depending on the route and stops.",
+      routesTitle: "Popular Routes:",
+      routes: [
+        "1. Hyderabad – Nizamabad – Nanded – Shirdi",
+        "2. Hyderabad – Zaheerabad – Bidar – Shirdi (via NH 65)",
+        "3. Hyderabad – Sangareddy – Ahmednagar – Shirdi"
+      ],
+      routeExtra: "Radha Travels' drivers are well-acquainted with all routes and rest stops. They ensure a smooth, fatigue-free, and timely arrival, allowing you to attend Kakad Aarti, Darshan, or any scheduled pooja at the temple.",
+      idealFor: [
+        "Family Pilgrimages",
+        "Sai Baba Devotee Groups",
+        "Mandali/Trust Tours",
+        "Senior Citizen Temple Trips",
+        "Spiritual & Wellness Retreats",
+        "College & Institutional Temple Visits"
+      ],
+      idealExtra: "We also arrange round trips, multi-day stays, and customized Shirdi Darshan Packages, including nearby spiritual destinations like Shani Shingnapur, Nasik, and Trimbakeshwar on request.",
+      whyChoose: [
+        "Trusted by Thousands of Devotees",
+        "10+ Years of Reliable Travel Service",
+        "Clean & Sanitized Vehicles",
+        "Affordable Rates – No Hidden Charges",
+        "Round-the-Clock Booking Assistance",
+        "Custom Routes & Stopovers Available",
+        "One-Way, Round-Trip & Multi-Day Rentals"
+      ],
+      whyExtra: "With Radha Travels, your journey becomes more than just a ride—it becomes a part of your spiritual experience. We understand the importance of punctuality, discipline, and peace of mind, especially during religious tours."
+    }
+  };
+
+  // Check if the clicked tour exists in our data
+  const tour = tourData[destId];
+
+  if (tour) {
+    // If it exists, render the details page and pass the data
+    res.render('tour-detail', { tour: tour });
+  } else {
+    // If someone types a random URL like /tours/fakeplace
+    res.status(404).send("Tour not found. Please return to the homepage.");
+  }
+});
+
+// Services
 app.get("/services", (req, res) => {
   const servicesWithFrom = SERVICES.map(s => ({
     ...s,
     from: serviceFromPrice(s.slug, SEGMENTS),
   }));
+
   res.render("services/index", {
     title: "Services | Radha Travels",
     services: servicesWithFrom,
@@ -251,134 +303,119 @@ app.get("/services", (req, res) => {
 
 // Service detail
 app.get("/services/:slug", (req, res) => {
-  const { slug } = req.params;
-
-  // Find by slug (your services.js should include `slug` for each service)
-  const service = SERVICES.find(s => s.slug === slug);
+  const service = SERVICES.find(s => s.slug === req.params.slug);
   if (!service) {
     return res.status(404).render("pages/404", { title: "Not Found" });
   }
 
-  // Booleans used by show.ejs to conditionally display pricing sections
-  const isOut     = slug === "outstation";
-  const isLocal   = slug === "local-tour";
-  const isAirport = slug === "airport-transfer";
-
-  // If you already have details in SERVICES, we just pass them through.
-  // Expected shape in `services.js` (example):
-  // details: { intro: "text...", routes: [{from, to, km, time}, ...] }
-  const details = service.details || { intro: "", routes: [] };
-
   res.render("services/show", {
     title: `${service.title} | Radha Travels`,
     service,
-    details: service.details || { intro: '', routes: [] },      // <- comes from SERVICES (no duplication)
+    details: service.details || { intro: "", routes: [] },
     segments: SEGMENTS,
-    isOut, isLocal, isAirport,
+    isOut: req.params.slug === "outstation",
+    isLocal: req.params.slug === "local-tour",
+    isAirport: req.params.slug === "airport-transfer",
   });
 });
 
-//Driver-allotment
+// =======================================================
+//  BOOKINGS API
+// =======================================================
 
-app.get("/admin/assign-driver", (req, res) => {
-  res.render("admin/assign-driver");    // renders assign-driver.ejs
-});
+app.use("/api/bookings", bookingsRouter);
 
-// --- bookings API (better-sqlite3 friendly) ---
-/**
- * GET /api/bookings/:bookingId
- * Return a single booking by booking_id
- */
-app.get('/api/bookings/:bookingId', (req, res) => {
-  const bookingId = req.params.bookingId;
-  try {
-    const stmt = db.prepare('SELECT * FROM bookings WHERE booking_id = ? LIMIT 1');
-    const row = stmt.get(bookingId);
-    if (!row) {
-      return res.status(404).json({ ok: false, error: 'not found' });
-    }
-    return res.json({ ok: true, booking: row });
-  } catch (err) {
-    console.error('GET /api/bookings/:bookingId error', err);
-    return res.status(500).json({ ok: false, error: 'internal' });
-  }
-});
+// =======================================================
+//  ADMIN PAGES (EXTRA)
+// =======================================================
 
-// ==============================================
-//  NEW IMPROVED BOOKINGS API (supports filters)
-// ==============================================
-app.get('/api/bookings', (req, res) => {
-  const q = (req.query.q || '').trim();
-  const filter = (req.query.filter || 'unassigned').toLowerCase();
-
-  const page = parseInt(req.query.page || '1', 10);
-  const perPage = parseInt(req.query.perPage || req.query.limit || '100', 10);
-  const offset = (Math.max(page, 1) - 1) * perPage;
-
-  try {
-    let where = [];
-    let params = [];
-
-    if (q) {
-      where.push('(booking_id LIKE ? OR full_name LIKE ? OR phone LIKE ? OR driver_name LIKE ? OR vehicle_regno LIKE ? OR vehicle_model LIKE ?)');
-      const like = `%${q}%`;
-      params.push(like, like, like, like, like, like);
-    }
-
-    if (filter === 'unassigned') {
-      where.push('(status IS NULL OR status = ?)');
-      params.push('pending');
-    } else if (filter === 'today') {
-      const today = new Date().toISOString().slice(0, 10);
-      where.push('date = ?');
-      params.push(today);
-    } else if (filter === 'allotted') {
-      where.push('status = ?');
-      params.push('allotted');
-    }
-    // filter === "all" → no extra condition
-
-    const whereSql = where.length ? (' WHERE ' + where.join(' AND ')) : '';
-
-    // total count
-    const countStmt = db.prepare('SELECT COUNT(*) as cnt FROM bookings' + whereSql);
-    const total = countStmt.get(...params).cnt;
-
-    // paginated rows
-    const sql = 'SELECT * FROM bookings' + whereSql + ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
-    const stmt = db.prepare(sql);
-    const rows = stmt.all(...params, perPage, offset);
-
-    return res.json({ ok: true, bookings: rows, total });
-  } catch (err) {
-    console.error('GET /api/bookings error', err);
-    return res.status(500).json({ ok: false, error: 'internal' });
-  }
-});
-
-// render the Allotted Bookings page
-app.get("/admin/assign-driver", authAdmin, (req, res) => {
+// Assign driver page (admin-only)
+app.get("/admin/assign-driver", requireAdmin, (req, res) => {
   res.render("admin/assign-driver");
 });
 
-app.get("/admin/allotted-bookings", authAdmin, (req, res) => {
+// Allotted bookings page (admin-only)
+app.get("/admin/allotted-bookings", requireAdmin, (req, res) => {
   res.render("admin/allotted-bookings");
 });
 
-//Gallery page
-
-
+// =======================================================
+//  GALLERY (PUBLIC)
+// =======================================================
 
 app.use("/gallery", galleryRoutes);
 
+// =======================================================
+//  SMTP CHECK (UTILITY)
+// =======================================================
 
+app.get("/internal/smtp-check", async (req, res) => {
+  const host = process.env.MAIL_HOST || "smtp.gmail.com";
+  const port = Number(process.env.MAIL_PORT || 587);
 
-// Fallback 404
+  const socket = new net.Socket();
+  socket.setTimeout(10000);
+
+  socket.on("connect", () => {
+    socket.destroy();
+    res.json({ ok: true, host, port });
+  });
+
+  socket.on("error", err => {
+    res.status(500).json({ ok: false, error: err.message });
+  });
+
+  socket.connect(port, host);
+});
+
+// =======================================================
+//  404
+// =======================================================
+
 app.use((req, res) => {
   res.status(404).render("pages/404", { title: "Not Found" });
 });
 
-/* -------------------------- */
+// =======================================================
+//  START SERVER
+// =======================================================
+
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
+
+// =======================================================
+//  HELPERS
+// =======================================================
+
+function loadHeroSlides() {
+  const heroDir = path.join(__dirname, "..", "public", "images", "hero");
+  try {
+    const files = fs
+      .readdirSync(heroDir)
+      .filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f));
+
+    return files.map(f => ({
+      src: `/images/hero/${f}`,
+      caption: f.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "),
+    }));
+  } catch {
+    return [];
+  }
+}
+
+function serviceFromPrice(serviceSlug, segments) {
+  const prices = [];
+
+  for (const seg of segments) {
+    const p = seg.pricing || {};
+    if (serviceSlug === "airport-transfer" && p.airport?.pickup)
+      prices.push(p.airport.pickup);
+    if (serviceSlug === "local-tour" && p.local?.base)
+      prices.push(p.local.base);
+    if (serviceSlug === "outstation" && p.outstation?.per_km && p.outstation?.min_km_day)
+      prices.push(p.outstation.per_km * p.outstation.min_km_day);
+  }
+
+  return prices.length ? Math.min(...prices) : null;
+}

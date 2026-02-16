@@ -2,158 +2,173 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Radha Travels Gallery</title>
+  <title>Radha Travels | Emerald Gallery</title>
   <%- include('./partials/head', { title }) %>
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="/css/gallery-upload.css">
 </head>
-<body>
+<body class="rt-emerald-theme">
 
 <%- include('./partials/header') %>
 <%- include('./partials/ticker') %>
 
-<!-- HERO -->
-<section class="gallery-hero">
-  <div class="gallery-hero-bg"></div>
-  <div class="gallery-hero-overlay"></div>
+<section class="rt-hero">
+  <div class="rt-hero-dynamic-bg">
+    <% if (gallery && gallery.length) { %>
+      <div class="rt-hero-col rt-scroll-up">
+        <% gallery.concat(gallery).forEach(item => { %>
+          <img src="<%= item.filepath %>" alt="" loading="lazy">
+        <% }) %>
+      </div>
+      <div class="rt-hero-col rt-scroll-down">
+        <% [...gallery].reverse().concat([...gallery].reverse()).forEach(item => { %>
+          <img src="<%= item.filepath %>" alt="" loading="lazy">
+        <% }) %>
+      </div>
+      <div class="rt-hero-col rt-scroll-up" style="animation-delay: -15s;">
+        <% gallery.concat(gallery).forEach(item => { %>
+          <img src="<%= item.filepath %>" alt="" loading="lazy">
+        <% }) %>
+      </div>
+      <div class="rt-hero-col rt-scroll-down" style="animation-delay: -15s;">
+        <% [...gallery].reverse().concat([...gallery].reverse()).forEach(item => { %>
+          <img src="<%= item.filepath %>" alt="" loading="lazy">
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
 
-  <div class="gallery-hero-content">
-    <span class="gallery-eyebrow">Radha Travels</span>
-    <h1>Journeys We’ve Captured</h1>
-    <p>
-      Real moments from our travels — roads, destinations,
-      and memories created with our customers.
-    </p>
+  <div class="rt-hero-overlay"></div>
+  <div class="rt-hero-glow"></div>
+
+  <div class="rt-hero-content">
+    <div class="rt-hero-glass-box">
+      <div class="rt-eyebrow-container">
+        <span class="rt-eyebrow-animated">A Cinematic Visual Experience</span>
+      </div>
+      
+      <h1 class="rt-brand-title">
+        <span class="rt-text-shimmer">RADHA TRAVELS</span>
+      </h1>
+      
+      <h2 class="rt-gallery-subtitle">The Emerald Gallery</h2>
+      
+      <div class="rt-divider-animated"></div>
+      
+      <p class="rt-hero-desc">
+        Step into our vault of curated luxury. Explore breathtaking destinations, 
+        unforgettable moments, and bespoke journeys crafted exclusively for our travelers.
+      </p>
+
+      <div class="rt-scroll-indicator">
+        <div class="rt-mouse"></div>
+        <span>Scroll to Explore</span>
+      </div>
+    </div>
   </div>
 </section>
+</section>
 
-<!-- CONTENT -->
-<section class="gallery-wrap">
-  <div class="gallery-panel container">
+<section class="rt-gallery-section">
+  
+  <div class="rt-gallery-ambient-glow"></div>
 
-    <div class="gallery-actions">
-      <h3>Explore Our Journeys</h3>
-      <a href="/gallery/upload" class="btn primary">Upload</a>
+  <div class="rt-gallery-container">
+    <div class="rt-gallery-header-glass">
+      <div class="rt-header-text">
+        <span class="rt-cyber-subtitle">Visual Database</span>
+        <h2>The Emerald Archive</h2>
+      </div>
+      
+      <a href="/gallery/upload" class="rt-cyber-btn">
+        <span class="rt-btn-glow"></span>
+        <span class="rt-btn-text">[ INIT UPLOAD ]</span>
+      </a>
     </div>
 
-    <div class="gallery-filters">
-      <div class="gallery-chip active" data-cat="all">All</div>
-      <div class="gallery-chip" data-cat="cars">Cars</div>
-      <div class="gallery-chip" data-cat="tours">Tours</div>
-      <div class="gallery-chip" data-cat="events">Events</div>
-    </div>
-<!-- STORY SLIDESHOW -->
-<% if (gallery && gallery.length) { %>
-  <div class="story-strip">
-    <div class="story-track">
-      <% gallery.slice(0, 8).forEach(item => { %>
-        <div class="story-slide" data-src="<%= item.filepath %>">
-          <img src="<%= item.filepath %>" alt="">
-          <span><%= item.title || "Radha Travels" %></span>
+    <% if (gallery && gallery.length) { %>
+      <div class="rt-cyber-masonry">
+        <% gallery.forEach((item, index) => { 
+             const isNew = (Date.now() - new Date(item.created_at)) < 86400000;
+        %>
+        
+        <div class="rt-holo-card reveal" data-src="<%= item.filepath %>" style="transition-delay: <%= (index % 6) * 0.05 %>s">
+          
+          <% if (isNew) { %>
+            <div class="rt-cyber-tag">New</div>
+          <% } %>
+
+          <div class="rt-card-img-wrapper">
+            <img src="<%= item.filepath %>" alt="<%= item.title %>" class="rt-image" loading="lazy">
+            <div class="rt-scanline"></div> </div>
+
+          <div class="rt-holo-info">
+            <div class="rt-info-backdrop"></div>
+            <h3><%= item.title || "SYS.LOC // UNKNOWN" %></h3>
+            <span class="rt-author">CAPTURED_BY: <%= item.uploaded_by %></span>
+          </div>
+          
+          <div class="rt-card-border"></div>
         </div>
-      <% }) %>
-    </div>
-  </div>
-<% } %>
-
-    <div class="masonry">
-      <% gallery.forEach(item => { 
-           const isNew = (Date.now() - new Date(item.created_at)) < 86400000;
-      %>
-        <div class="masonry-item reveal" data-src="<%= item.filepath %>">
-  <% if (isNew) { %>
-    <div class="badge-new">NEW</div>
-  <% } %>
-
-  <img src="<%= item.filepath %>" alt="">
-
-  <div class="masonry-overlay">
-    <strong><%= item.title || "Radha Travels" %></strong>
-    <span><%= item.uploaded_by %></span>
-  </div>
-</div>
-
-      <% }) %>
-    </div>
-
+        <% }) %>
+      </div>
+    <% } %>
   </div>
 </section>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox">
-  <img src="" alt="">
+<div class="rt-lightbox" id="lightbox">
+  <button class="rt-lightbox-close">&times;</button>
+  <img src="" alt="Enlarged view">
 </div>
-<% if (isAdmin) { %>
-  <form 
-    action="/gallery/delete/<%= item.id %>" 
-    method="POST"
-    class="delete-form"
-    onsubmit="return confirm('Delete this image permanently?');"
-  >
-    <button type="submit" class="delete-btn">✕</button>
-  </form>
-<% } %>
-
-
 
 <%- include('./partials/footer') %>
 <%- include('./partials/social-dock') %>
 
-<!-- SCROLL REVEAL -->
+<div class="rt-lightbox" id="lightbox">
+  <button class="rt-lightbox-close">&times;</button>
+  <img src="" alt="Enlarged view">
+</div>
+
 <script>
-  const revealItems = document.querySelectorAll(".reveal");
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("active");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  revealItems.forEach(el => observer.observe(el));
-
-/* Lightbox */
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = lightbox.querySelector("img");
-
-document.querySelectorAll(".masonry-item").forEach(item => {
-  item.addEventListener("click", () => {
-    lightboxImg.src = item.dataset.src;
-    lightbox.classList.add("active");
-  });
-});
-
-lightbox.addEventListener("click", () => {
-  lightbox.classList.remove("active");
-});
-
-/* Parallax */
-window.addEventListener("scroll", () => {
-  const bg = document.querySelector(".gallery-hero-bg");
-  if (bg) bg.style.transform = `scale(1.1) translateY(${window.scrollY * 0.15}px)`;
-});
-
-/* Filters (frontend demo) */
-document.querySelectorAll(".gallery-chip").forEach(chip => {
-  chip.addEventListener("click", () => {
-    document.querySelectorAll(".gallery-chip").forEach(c => c.classList.remove("active"));
-    chip.classList.add("active");
-  });
-});
-
-/* Story click → lightbox */
-document.querySelectorAll(".story-slide").forEach(slide => {
-  slide.addEventListener("click", () => {
-    const src = slide.dataset.src;
+  document.addEventListener('DOMContentLoaded', () => {
+    /* Lightbox Functionality */
     const lightbox = document.getElementById("lightbox");
-    const img = lightbox.querySelector("img");
+    const lightboxImg = lightbox.querySelector("img");
+    const closeBtn = document.querySelector(".rt-lightbox-close");
 
-    img.src = src;
-    lightbox.classList.add("active");
+    // Open lightbox when a holographic card is clicked
+    document.querySelectorAll(".rt-holo-card").forEach(item => {
+      item.addEventListener("click", () => {
+        lightboxImg.src = item.dataset.src;
+        lightbox.classList.add("active");
+      });
+    });
+
+    // Close lightbox function
+    const closeLightbox = () => {
+      lightbox.classList.remove("active");
+      setTimeout(() => lightboxImg.src = "", 300); // Clear image after animation
+    };
+
+    // Close if clicking outside the image or on the X button
+    lightbox.addEventListener("click", (e) => {
+      if (e.target !== lightboxImg) closeLightbox();
+    });
+    closeBtn.addEventListener("click", closeLightbox);
+
+    /* Smooth Scroll Reveal Observer */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
   });
-});
 </script>
+
 </body>
 </html>

@@ -2,43 +2,154 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Upload Gallery</title>
+  <title>Upload Gallery | Secure Uplink</title>
+  <%- include('./partials/head', { title: 'Upload Memory' }) %>
   <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/gallery-upload.css">
-</head>
-<body>
-<%- include('./partials/header') %>
-<section class="upload-shell">
-  <div class="upload-card">
-    <h2>Share Your Travel Moment</h2>
-<p class="upload-sub">
-  Upload images or videos from your journey with Radha Travels
-</p>
-<% if (query && query.success) { %>
-  <div class="upload-success">
-    🎉 Upload successful! Thank you for sharing your moment.
-  </div>
-<% } %>
+  <link rel="stylesheet" href="/css/gallery-upload.css"> <link rel="stylesheet" href="/css/upload.css"> </head>
+<body class="rt-emerald-theme">
 
-    <form action="/gallery/upload" method="POST" enctype="multipart/form-data">
-      <label>Upload As</label>
-      <select name="uploaded_by" required>
-        <option value="admin">Admin</option>
-        <option value="customer">Customer</option>
-      </select>
-      <label>Select File</label>
-      <input type="file" name="file" required>
-      <label>Title</label>
-      <input type="text" name="title" placeholder="Optional title">
-      <label>Description</label>
-      <textarea name="description" placeholder="Optional description"></textarea>
-      <div class="upload-actions">
-        <button type="submit" class="btn primary">Upload</button>
-        <a href="/gallery" class="btn outline">Back</a>
+<%- include('./partials/header') %>
+<%- include('./partials/ticker') %>
+
+<section class="rt-uplink-section">
+  <div class="rt-gallery-ambient-glow"></div>
+
+  <div class="rt-uplink-container">
+    
+    <div class="rt-cyber-panel">
+      <div class="rt-panel-header">
+        <span class="rt-cyber-subtitle">/// DATA UPLINK PORTAL</span>
+        <h2>Share Your Journey</h2>
+        <p>Transmit new images or videos to the Emerald Archive.</p>
       </div>
-    </form>
+
+      <% if (typeof query !== 'undefined' && query.success) { %>
+        <div class="rt-sys-notify">
+          <span class="rt-notify-icon">✓</span> 
+          SYS.MSG // Upload successful. Data appended to archive.
+        </div>
+      <% } %>
+
+      <form action="/gallery/upload" method="POST" enctype="multipart/form-data" class="rt-cyber-form">
+        
+        <div class="rt-input-group">
+          <label class="rt-cyber-label">AUTH_LEVEL // Upload As</label>
+          <select name="uploaded_by" class="rt-cyber-input rt-select" required>
+            <option value="admin">Admin</option>
+            <option value="customer">Customer</option>
+          </select>
+        </div>
+
+        <div class="rt-input-group">
+          <label class="rt-cyber-label">MEDIA_DATA // Select File</label>
+          <div class="rt-drop-zone" id="drop-zone">
+            <div class="rt-drop-content">
+              <div class="rt-drop-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+              </div>
+              <span class="rt-drop-text">TAP OR DRAG FILE HERE</span>
+            </div>
+            <input type="file" name="file" id="file-input" required class="rt-hidden-input">
+            
+            <div class="rt-preview-container" id="preview-container" style="display: none;">
+              <img id="image-preview" src="" alt="Preview">
+              <button type="button" id="clear-preview" class="rt-clear-btn">&times;</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rt-input-group">
+          <label class="rt-cyber-label">FILE_TITLE // Title (Optional)</label>
+          <input type="text" name="title" class="rt-cyber-input" placeholder="e.g., Sunset in Maldives">
+        </div>
+
+        <div class="rt-input-group">
+          <label class="rt-cyber-label">META_DESC // Description (Optional)</label>
+          <textarea name="description" class="rt-cyber-input rt-textarea" rows="3" placeholder="Enter journey details..."></textarea>
+        </div>
+
+        <div class="rt-input-group">
+          <label class="rt-cyber-label">DATA_TAG // Category</label>
+          <select name="category" class="rt-cyber-input rt-select" required>
+            <option value="Cars">Cars</option>
+            <option value="Tours">Tours</option>
+            <option value="Events">Events</option>
+          </select>
+        </div>
+
+        <div class="rt-action-group">
+          <button type="submit" class="rt-cyber-btn rt-submit-btn">
+            <span class="rt-btn-glow"></span>
+            <span class="rt-btn-text">[ INIT UPLOAD ]</span>
+          </button>
+          
+          <a href="/gallery" class="rt-cyber-btn-outline">
+            ABORT // BACK
+          </a>
+        </div>
+
+      </form>
+    </div>
   </div>
 </section>
+
 <%- include('./partials/footer') %>
+
+<script>
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const previewContainer = document.getElementById('preview-container');
+  const imagePreview = document.getElementById('image-preview');
+  const clearBtn = document.getElementById('clear-preview');
+  const dropContent = document.querySelector('.rt-drop-content');
+
+  dropZone.addEventListener('click', (e) => {
+    if (e.target !== clearBtn) fileInput.click();
+  });
+
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+  });
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => dropZone.style.borderColor = '#10b981', false);
+  });
+
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => dropZone.style.borderColor = 'rgba(16, 185, 129, 0.4)', false);
+  });
+
+  dropZone.addEventListener('drop', (e) => {
+    fileInput.files = e.dataTransfer.files;
+    handleFiles(e.dataTransfer.files);
+  });
+
+  fileInput.addEventListener('change', function() { handleFiles(this.files); });
+
+  function handleFiles(files) {
+    if (files.length > 0 && files[0].type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imagePreview.src = e.target.result;
+        previewContainer.style.display = 'block';
+        dropContent.style.opacity = '0';
+      };
+      reader.readAsDataURL(files[0]);
+    }
+  }
+
+  clearBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    fileInput.value = '';
+    imagePreview.src = '';
+    previewContainer.style.display = 'none';
+    dropContent.style.opacity = '1';
+  });
+</script>
+
 </body>
 </html>

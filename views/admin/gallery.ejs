@@ -1,0 +1,126 @@
+<%- include("../admin/partials/header") %>
+
+<section class="section-header">
+  <h2>Gallery Control Center</h2>
+  <span class="subtext">Media moderation & visual asset management</span>
+</section>
+
+<%
+  const galleryItems = Array.isArray(locals.items) ? locals.items : [];
+  const approvedCount = galleryItems.filter(i => i.status === "approved").length;
+  const pendingCount = galleryItems.filter(i => i.status === "pending").length;
+  const rejectedCount = galleryItems.filter(i => i.status === "rejected").length;
+%>
+
+<!-- HORIZONTAL COUNTERS -->
+
+<div class="gallery-stats">
+
+  <div class="stat-box">
+    <div class="stat-value"><%= galleryItems.length %></div>
+    <div class="stat-label">Total</div>
+  </div>
+
+  <div class="stat-box approved">
+    <div class="stat-value"><%= approvedCount %></div>
+    <div class="stat-label">Approved</div>
+  </div>
+
+  <div class="stat-box pending">
+    <div class="stat-value"><%= pendingCount %></div>
+    <div class="stat-label">Pending</div>
+  </div>
+
+  <div class="stat-box rejected">
+    <div class="stat-value"><%= rejectedCount %></div>
+    <div class="stat-label">Rejected</div>
+  </div>
+
+</div>
+
+<!-- FILTER BAR -->
+
+<div class="filter-panel">
+  <input type="text" id="searchInput" placeholder="Search media..." onkeyup="filterItems()">
+
+  <select id="statusFilter" onchange="filterItems()">
+    <option value="">All Status</option>
+    <option value="approved">Approved</option>
+    <option value="pending">Pending</option>
+    <option value="rejected">Rejected</option>
+  </select>
+</div>
+
+<!-- GALLERY GRID -->
+
+<div class="gallery-grid" id="galleryGrid">
+
+  <% galleryItems.forEach(item => { %>
+
+    <div class="media-card futuristic-card"
+      data-status="<%= item.status %>"
+      data-title="<%= (item.title || '').toLowerCase() %>">
+
+      <div class="media-thumb">
+        <img src="<%= item.filepath %>">
+        <div class="media-overlay"></div>
+      </div>
+
+      <div class="media-content">
+        <h3><%= item.title || "Untitled" %></h3>
+
+        <div class="media-meta">
+          <span><%= item.uploaded_by %></span>
+          <span class="status-badge <%= item.status %>">
+            <%= item.status %>
+          </span>
+        </div>
+
+        <div class="media-actions">
+
+  <% if (item.status === "pending") { %>
+
+    <form method="POST" action="/admin/gallery/approve/<%= item.id %>" class="action-form">
+      <button type="submit" class="btn btn-approve btn-sm">Approve</button>
+    </form>
+
+    <form method="POST" action="/admin/gallery/reject/<%= item.id %>" class="action-form">
+      <button type="submit" class="btn btn-reject btn-sm">Reject</button>
+    </form>
+
+  <% } %>
+
+  <form method="POST" action="/admin/gallery/delete/<%= item.id %>" class="action-form">
+    <button type="submit" class="btn btn-delete btn-sm">Delete</button>
+  </form>
+
+</div>
+
+
+      </div>
+
+    </div>
+
+  <% }) %>
+
+</div>
+
+<script>
+function filterItems() {
+  const search = document.getElementById("searchInput").value.toLowerCase();
+  const status = document.getElementById("statusFilter").value;
+  const cards = document.querySelectorAll(".media-card");
+
+  cards.forEach(card => {
+    const title = card.getAttribute("data-title");
+    const cardStatus = card.getAttribute("data-status");
+
+    const matchSearch = title.includes(search);
+    const matchStatus = status === "" || status === cardStatus;
+
+    card.style.display = (matchSearch && matchStatus) ? "" : "none";
+  });
+}
+</script>
+
+<%- include("../admin/partials/footer") %>

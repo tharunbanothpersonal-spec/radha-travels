@@ -1,0 +1,67 @@
+<%- include("../admin/partials/header") %>
+
+<section class="section-header">
+  <h2>Executive Overview</h2>
+  <span class="subtext">Live system analytics & operational metrics</span>
+</section>
+
+<%
+  const bookingList = Array.isArray(locals.bookings) ? locals.bookings : [];
+  const galleryList = Array.isArray(locals.gallery) ? locals.gallery : [];
+
+  const totalBookings = bookingList.length;
+  const totalGallery = galleryList.length;
+  const pendingBookings = bookingList.filter(b => b.status === "pending").length;
+%>
+
+<!-- STAT GRID -->
+
+<div class="dashboard-grid">
+
+  <div class="card stat-card">
+    <div class="stat-icon">📅</div>
+    <h3 class="stat-number" data-count="<%= totalBookings %>">0</h3>
+    <p>Total Bookings</p>
+  </div>
+
+  <div class="card stat-card">
+    <div class="stat-icon">🖼️</div>
+    <h3 class="stat-number" data-count="<%= totalGallery %>">0</h3>
+    <p>Gallery Items</p>
+  </div>
+
+  <div class="card stat-card">
+    <div class="stat-icon">⚠️</div>
+    <h3 class="stat-number" data-count="<%= pendingBookings %>">0</h3>
+    <p>Pending Approvals</p>
+  </div>
+
+</div>
+
+<!-- QUICK ACTIONS -->
+
+<div class="actions-panel">
+  <a href="/admin/bookings" class="btn btn-primary">Manage Bookings</a>
+  <a href="/admin/gallery" class="btn btn-primary">Review Gallery</a>
+</div>
+
+<script>
+/* Animated counter */
+document.querySelectorAll(".stat-number").forEach(el => {
+  const target = +el.getAttribute("data-count");
+  let count = 0;
+  const speed = 20;
+  const update = () => {
+    if (count < target) {
+      count++;
+      el.innerText = count;
+      setTimeout(update, speed);
+    } else {
+      el.innerText = target;
+    }
+  };
+  update();
+});
+</script>
+
+<%- include("../admin/partials/footer") %>

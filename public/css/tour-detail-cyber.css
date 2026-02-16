@@ -1,0 +1,134 @@
+/* ========================
+   BASE STYLES & HERO
+======================== */
+.rt-light-theme {
+  background-color: #f3f4f6; /* Very soft gray background */
+  color: #1f2937;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.rt-modern-hero {
+  position: relative;
+  height: 45vh;
+  min-height: 300px;
+  width: 100%;
+}
+
+.rt-hero-img {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+}
+
+.rt-hero-gradient {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.6) 100%);
+}
+
+/* ========================
+   FLOATING CONTENT CARD
+======================== */
+.rt-dossier-wrapper {
+  position: relative;
+  z-index: 10;
+  margin-top: -80px; /* Pulls the card up over the image */
+  padding: 0 15px 60px;
+}
+
+.rt-floating-card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08); /* Soft premium shadow */
+}
+
+/* Typography & Spacing */
+.rt-card-header { padding: 40px 30px 20px; text-align: center; }
+
+.rt-category-pill {
+  display: inline-block;
+  background: #ecfdf5; color: #10b981;
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  padding: 6px 14px; border-radius: 20px; margin-bottom: 15px;
+}
+
+.rt-card-header h1 {
+  font-size: 28px; font-weight: 800; color: #111827;
+  margin: 0 0 15px 0; line-height: 1.2;
+}
+
+.rt-intro-text { font-size: 16px; color: #4b5563; line-height: 1.6; margin: 0; }
+
+.rt-divider { height: 1px; background: #e5e7eb; margin: 0 30px; }
+
+.rt-content-section { padding: 35px 30px; }
+.rt-light-bg-section { background: #f9fafb; border-top: 1px solid #f3f4f6; border-bottom: 1px solid #f3f4f6; }
+
+.rt-content-section h2 { font-size: 22px; font-weight: 700; color: #111827; margin: 0 0 15px 0; }
+.rt-small-heading { font-size: 16px; font-weight: 700; color: #374151; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.rt-text-body { font-size: 16px; color: #4b5563; line-height: 1.7; margin-bottom: 20px; }
+.rt-text-muted { font-size: 14px; color: #6b7280; line-height: 1.6; margin: 0; }
+
+/* ========================
+   ROUTE & FEATURES STYLING
+======================== */
+.rt-route-box {
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 8px;
+  padding: 15px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 12px;
+}
+
+.rt-route-item { display: flex; align-items: flex-start; gap: 12px; }
+.rt-route-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; margin-top: 7px; flex-shrink: 0; }
+.rt-route-item span { font-size: 15px; color: #374151; line-height: 1.5; }
+
+/* Pill Grid (Ideal For) */
+.rt-pill-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.rt-feature-pill {
+  background: #ffffff; border: 1px solid #e5e7eb; color: #374151;
+  font-size: 14px; font-weight: 500; padding: 10px 18px; border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+/* Fleet Grid */
+.rt-fleet-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 25px; }
+.rt-fleet-item {
+  background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 8px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.rt-fleet-item strong { color: #10b981; font-size: 15px; }
+.rt-fleet-item span { color: #64748b; font-size: 13px; text-align: right; }
+
+/* Lists */
+.rt-amenities-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 12px; }
+.rt-amenities-list li { display: flex; align-items: center; gap: 10px; font-size: 15px; color: #4b5563; }
+.rt-icon-check { color: #10b981; font-weight: bold; background: #ecfdf5; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+
+.rt-why-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+.rt-why-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 15px; color: #374151; line-height: 1.5; }
+.rt-icon-star { color: #f59e0b; font-size: 16px; margin-top: 1px; }
+
+/* ========================
+   ACTION BUTTON
+======================== */
+.rt-booking-action { margin-top: 35px; text-align: center; }
+.rt-btn-primary {
+  display: inline-block; width: 100%;
+  background: #10b981; color: #ffffff;
+  font-size: 16px; font-weight: 600; text-decoration: none;
+  padding: 16px 24px; border-radius: 8px;
+  transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+.rt-btn-primary:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+
+/* ========================
+   DESKTOP SCALING
+======================== */
+@media (min-width: 768px) {
+  .rt-card-header { padding: 50px 50px 30px; }
+  .rt-card-header h1 { font-size: 38px; }
+  .rt-content-section { padding: 45px 50px; }
+  .rt-amenities-list { grid-template-columns: repeat(2, 1fr); }
+  .rt-fleet-grid { grid-template-columns: repeat(2, 1fr); }
+  .rt-btn-primary { width: auto; padding: 16px 40px; }
+}

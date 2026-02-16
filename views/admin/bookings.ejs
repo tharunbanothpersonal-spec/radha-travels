@@ -1,0 +1,288 @@
+<%- include("../admin/partials/header") %>
+
+<% if (success === "driver_assigned") { %>
+  <div class="success-alert">
+    ✅ Driver assigned successfully.
+  </div>
+<% } %>
+
+<% if (success === "driver_failed") { %>
+  <div class="error-alert">
+    ❌ Driver assignment failed.
+  </div>
+<% } %>
+
+
+<section class="section-header">
+  <h2>Bookings Control Center</h2>
+  <span class="subtext">Manage live travel operations</span>
+</section>
+
+<%
+  const bookingList = Array.isArray(locals.bookings) ? locals.bookings : [];
+%>
+
+<!-- DESKTOP TABLE -->
+
+<div class="table-wrapper">
+
+  <table class="booking-table-modern">
+    <thead>
+      <tr>
+        <th>Customer</th>
+        <th>Trip</th>
+        <th>Contact</th>
+        <th>Status</th>
+        <th class="text-right">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% bookingList.forEach(booking => { %>
+        <tr>
+
+          <!-- CUSTOMER -->
+          <td>
+            <div class="customer-info">
+              <div class="customer-name"><%= booking.full_name %></div>
+              <div class="customer-id">#<%= booking.booking_id %></div>
+            </div>
+          </td>
+
+          <!-- TRIP INFO -->
+          <td>
+            <div class="trip-info">
+              <div><strong><%= booking.date || "-" %></strong></div>
+              <div class="muted"><%= booking.pickup || "-" %></div>
+              <div class="muted small"><%= booking.booking_type || "-" %></div>
+              <div class="muted small"><%= booking.car_type || "-" %></div>
+            </div>
+          </td>
+
+          <!-- CONTACT -->
+          <td>
+            <div class="contact-info">
+              <div><%= booking.phone %></div>
+              <div class="muted small"><%= booking.email || "-" %></div>
+            </div>
+          </td>
+
+          <!-- STATUS -->
+          <td>
+            <span class="status-pill <%= booking.status %>">
+              <%= booking.status %>
+            </span>
+          </td>
+
+          <!-- ACTIONS -->
+          <td class="text-right">
+            <div class="action-buttons">
+
+              <% if (booking.status === 'pending') { %>
+                <form method="POST" action="/admin/bookings/confirm/<%= booking.id %>">
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    Accept
+                  </button>
+                </form>
+              <% } %>
+
+              <% if (booking.status === 'confirmed' || booking.status === 'driver_assigned') { %>
+                <button 
+                  onclick="openDriverDrawer('<%= booking.id %>', '<%= booking.full_name %>', '<%= booking.date %>', '<%= booking.pickup %>')"
+                  class="btn btn-primary btn-sm">
+                  Assign
+                </button>
+              <% } %>
+
+              <form method="POST"
+                action="/admin/bookings/delete/<%= booking.id %>"
+                onsubmit="return confirm('Delete booking?');">
+                <button type="submit" class="btn btn-danger btn-sm">
+                  Delete
+                </button>
+              </form>
+
+            </div>
+          </td>
+
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+</div>
+
+
+<!-- MOBILE CARDS -->
+
+<div class="mobile-bookings">
+  <% bookingList.forEach(booking => { %>
+
+    <div class="mobile-card">
+      <div class="mobile-top">
+        <h3><%= booking.full_name %></h3>
+        <span class="status-pill <%= booking.status %>">
+          <%= booking.status %>
+        </span>
+      </div>
+
+      <div class="mobile-info">
+ <div class="info-row">
+    <span class="info-label">Booking ID</span>
+    <span class="info-line"></span>
+    <span class="info-value"><%= booking.booking_id %></span>
+  </div>
+  <div class="info-row">
+    <span class="info-label">Date</span>
+    <span class="info-line"></span>
+    <span class="info-value"><%= booking.date || "-" %></span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Pickup</span>
+    <span class="info-line"></span>
+    <span class="info-value"><%= booking.pickup || "-" %></span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Type</span>
+    <span class="info-line"></span>
+    <span class="info-value"><%= booking.booking_type || "-" %></span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Car</span>
+    <span class="info-line"></span>
+    <span class="info-value"><%= booking.car_type || "-" %></span>
+  </div>
+
+</div>
+      <div class="mobile-actions">
+        <% if (booking.status === 'pending') { %>
+          <form method="POST" action="/admin/bookings/confirm/<%= booking.id %>">
+            <button class="btn btn-primary">Accept</button>
+          </form>
+        <% } %>
+
+        <% if (booking.status === 'confirmed' || booking.status === 'driver_assigned') { %>
+          <button onclick="openDriverDrawer('<%= booking.id %>', '<%= booking.full_name %>', '<%= booking.date %>', '<%= booking.pickup %>')" 
+            class="btn btn-primary">
+            Assign
+          </button>
+        <% } %>
+
+        <form method="POST"
+          action="/admin/bookings/delete/<%= booking.id %>"
+          onsubmit="return confirm('Delete booking?');">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+
+  <% }) %>
+</div>
+
+<!-- DRIVER DRAWER -->
+
+<div id="driverDrawer" class="driver-drawer">
+
+  <div class="driver-header">
+    <div class="driver-header-left">
+      <h3>Driver Assignment</h3>
+      <span>Operational Control</span>
+    </div>
+    <button class="driver-close" onclick="closeDriverDrawer()">✕</button>
+  </div>
+
+  <div class="driver-body">
+
+    <!-- Booking Summary -->
+    <div class="driver-summary" id="bookingSummary"></div>
+
+    <!-- Assignment Form -->
+    <form method="POST" id="driverForm" class="driver-form">
+
+      <div class="form-section">
+        <h4>Driver Details</h4>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Driver Name</label>
+            <input type="text" name="driverName" required>
+          </div>
+
+          <div class="form-group">
+            <label>Driver Phone</label>
+            <input type="text" name="driverPhone" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4>Vehicle Details</h4>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Vehicle Type</label>
+            <input type="text" name="vehicleType">
+          </div>
+
+          <div class="form-group">
+            <label>Vehicle Number</label>
+            <input type="text" name="vehicleNumber">
+          </div>
+
+          <div class="form-group full">
+            <label>Vehicle Color</label>
+            <input type="text" name="vehicleColor">
+          </div>
+        </div>
+      </div>
+
+      <div class="driver-actions">
+        <button type="submit" class="btn btn-primary">
+          Confirm Assignment
+        </button>
+
+        <button type="button" class="btn btn-danger"
+          onclick="closeDriverDrawer()">
+          Cancel
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+<script>
+function openDriverDrawer(id, name, date, pickup) {
+  const drawer = document.getElementById("driverDrawer");
+  const form = document.getElementById("driverForm");
+
+  form.action = "/admin/bookings/assign-driver/" + id;
+
+  document.getElementById("bookingSummary").innerHTML = `
+    <strong>${name}</strong>
+    <div>${pickup || '-'} • ${date || '-'}</div>
+  `;
+
+  drawer.classList.add("active");
+}
+
+function closeDriverDrawer() {
+  document.getElementById("driverDrawer").classList.remove("active");
+}
+
+setTimeout(() => {
+  const alertBox = document.querySelector(".success-alert");
+  if(alertBox){
+    alertBox.style.opacity = "0";
+    alertBox.style.transition = "0.5s";
+  }
+}, 3000);
+</script>
+
+<%- include("../admin/partials/footer") %>
