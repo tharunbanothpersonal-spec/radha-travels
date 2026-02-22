@@ -299,9 +299,14 @@ a{color:inherit;text-decoration:none}
 .rail-btn:focus-visible{outline:0;box-shadow:0 0 0 4px var(--ring),0 12px 28px rgba(16,185,129,.26)}
 #heroRoot.is-ready .hero-rail.left .rail-btn:nth-child(1){opacity:0;animation:ctaPop .6s cubic-bezier(.2,.9,.2,1) .55s forwards}
 #heroRoot.is-ready .hero-rail.left .rail-btn:nth-child(2){opacity:0;animation:ctaPop .6s cubic-bezier(.2,.9,.2,1) .72s forwards}
+#heroRoot.is-ready .hero-rail.left .rail-btn:nth-child(3){opacity:0;animation:ctaPop .6s cubic-bezier(.2,.9,.2,1) .80s forwards}
 @keyframes ctaPop{0%{opacity:0;transform:translateY(20px) scale(.92)}60%{opacity:1;transform:translateY(-2px) scale(1.02)}100%{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-
+@media (max-width: 500px){
+.rail-btn{
+  font-size: 10px;
+}
+}
 /* ===========================
    Dots
    =========================== */
@@ -1776,62 +1781,196 @@ a{color:inherit;text-decoration:none}
   .svc-hero-overlay { width: calc(100% - 36px) !important; padding: 12px 14px !important; }
 }
 
-/* admin button */
-/* ADMIN LOGIN: add to /public/css/styles.css */
-.admin-login-btn {
-  background: #2b7a3a; /* adjust to your green theme */
-  color: #fff;
-  border: 0;
-  padding: 8px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  display: inline-flex;
-  gap: 8px;
-  align-items: center;
+/* ==========================================
+   NAVBAR ADMIN BUTTON (High Contrast)
+========================================== */
+.rt-admin-nav-btn {
+  /* Forcibly override default navbar link styles */
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  margin-left: 10px !important;
+  text-decoration: none !important;
+  
+  /* Dark Glass background to pop against the green navbar */
+  background: rgba(0, 0, 0, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 20px !important; /* Smooth pill shape */
+  
+  /* Typography */
+  color: #ffffff !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  
+  /* Smooth transitions */
+  backdrop-filter: blur(5px) !important;
+  -webkit-backdrop-filter: blur(5px) !important;
+  transition: all 0.3s ease !important;
 }
 
-/* Modal overlay */
-#adminLoginModal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 3000;
-  background: rgba(0,0,0,0.5);
-  align-items: center;
-  justify-content: center;
+/* 🛑 KILL THE DEFAULT NAVBAR HOVER BAR 🛑 */
+/* This stops the green line/underline from appearing under this specific button */
+.rt-admin-nav-btn::after,
+.rt-admin-nav-btn::before {
+  display: none !important;
+  content: none !important;
 }
 
-/* Modal card */
-#adminLoginModal .card {
-  background: #fff;
-  width: 400px;
-  max-width: 94%;
-  padding: 18px;
-  border-radius: 10px;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.25);
-  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+/* The Lock Icon */
+.rt-lock-svg {
+  stroke: #ffffff !important;
+  transition: all 0.3s ease !important;
 }
 
-/* Inputs & buttons inside modal */
-#adminLoginModal input[type="email"],
-#adminLoginModal input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  box-sizing: border-box;
+/* ==========================================
+   BUTTON HOVER EFFECT (Gold/Amber Accent)
+========================================== */
+.rt-admin-nav-btn:hover {
+  /* Darkens the glass and adds a premium gold border */
+  background: rgba(0, 0, 0, 0.7) !important;
+  border-color: #f59e0b !important; /* Premium Gold/Amber */
+  color: #f59e0b !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
 
-#adminLoginModal .btn {
-  padding: 9px 12px;
-  border-radius: 6px;
-  border: 0;
-  cursor: pointer;
+.rt-admin-nav-btn:hover .rt-lock-svg {
+  stroke: #f59e0b !important; /* Icon turns gold */
+  transform: scale(1.1) !important;
 }
 
-#adminLoginModal .btn.primary { background: #2b7a3a; color: #fff; }
-#adminLoginModal .btn.ghost { background: #f3f3f3; color: #222; margin-right: 8px; }
-#adminLoginMsg { margin-top: 8px; font-size: 13px; min-height: 18px; }
+.rt-admin-nav-btn:active {
+  transform: translateY(0) !important;
+}
+
+/* =====================================
+   HOME FLEET SECTION
+===================================== */
+
+.home-fleet{
+  padding:80px 20px;
+  background:linear-gradient(180deg,#ffffff,#f0fdf4);
+  padding-bottom: 20px;
+}
+
+.home-fleet-container{
+  /* max-width:1200px; */
+  margin-top: -80px;
+}
+
+.hf-header{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.hf-header h2{
+  font-size:clamp(28px,5vw,42px);
+  font-weight:800;
+  background:linear-gradient(90deg,#059669,#10b981);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.hf-header p{
+  color:#64748b;
+  margin-top:10px;
+}
+
+.hf-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+@media(min-width:768px){
+  .hf-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+
+.hf-card{
+  background:#fff;
+  border-radius:22px;
+  overflow:hidden;
+  text-decoration:none;
+  box-shadow:0 15px 40px rgba(16,185,129,.12);
+  transition:.4s ease;
+}
+
+.hf-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 25px 60px rgba(16,185,129,.25);
+}
+
+.hf-img{
+  position:relative;
+  height:170px;
+  overflow:hidden;
+}
+
+.hf-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.6s ease;
+}
+
+.hf-card:hover .hf-img img{
+  transform:scale(1.08);
+}
+
+.hf-price{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:linear-gradient(90deg,#10b981,#059669);
+  color:#fff;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.hf-content{
+  padding:18px;
+}
+
+.hf-content h3{
+  margin:0 0 10px;
+  font-size:16px;
+  font-weight:700;
+  color:#065f46;
+}
+
+.hf-specs{
+  display:flex;
+  gap:12px;
+  font-size:13px;
+  color:#64748b;
+}
+
+.hf-footer{
+  text-align:center;
+  margin-top:40px;
+}
+
+.hf-btn{
+  display:inline-block;
+  padding:14px 28px;
+  border-radius:30px;
+  background:linear-gradient(90deg,#10b981,#059669);
+  color:#fff;
+  font-weight:700;
+  text-decoration:none;
+  transition:.3s ease;
+}
+
+.hf-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(16,185,129,.35);
+}

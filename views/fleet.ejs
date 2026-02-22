@@ -1,0 +1,586 @@
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/booking.css"/>
+  <link rel="stylesheet" href="/css/gallery-upload.css">
+  <%- include('./partials/head', { title }) %>
+</head>
+
+<%- include("partials/header") %>
+<%- include('partials/ticker') %>
+
+<style>
+/* ==========================================
+   BOUTIQUE MINIMALIST LUXURY
+========================================== */
+:root {
+  --lux-teal: #0f766e;
+  --lux-emerald: #10b981;
+  --lux-dark: #18181b;
+  --lux-gray: #71717a;
+  --lux-light: #f4f4f5;
+  --lux-white: #ffffff;
+  --lux-border: #e4e4e7;
+}
+
+body { 
+  font-family: 'Poppins', sans-serif; 
+  background-color: var(--lux-white); /* Pure clean white background */
+  margin: 0;
+  /* margin-top: 100px; */
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes smoothPan { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+@keyframes fadeUpElegance { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+
+/* ==========================================
+   1. BREATHTAKING CINEMATIC HERO
+========================================== */
+.lux-hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.lux-hero-bg {
+  position: absolute;
+  inset: -5%;
+  background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+  animation: smoothPan 30s infinite alternate ease-in-out;
+}
+
+.lux-hero-overlay {
+  position: absolute;
+  inset: 0;
+  /* Deep, elegant fade so the white text looks crisp */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(15, 118, 110, 0.8) 100%);
+}
+
+.lux-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 20px;
+  max-width: 800px;
+  opacity: 0;
+  animation: fadeUpElegance 1s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.2s;
+}
+
+.lux-hero-subtitle {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--lux-emerald);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-bottom: 16px;
+}
+
+.lux-hero h1 {
+  font-size: clamp(36px, 6vw, 64px);
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 16px 0;
+  letter-spacing: -1px;
+}
+
+.lux-hero p {
+  font-size: clamp(15px, 3vw, 18px);
+  color: rgba(255,255,255,0.85);
+  font-weight: 300;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ==========================================
+   2. REFINED FLEET GRID
+========================================== */
+.lux-fleet-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: -150px;
+  padding: 80px 15px;
+}
+
+.lux-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns strictly on mobile */
+  gap: 16px; 
+}
+
+/* Pure, Minimalist Card */
+.lux-card {
+  background: var(--lux-white);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--lux-border);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: pointer;
+  opacity: 0;
+  animation: fadeUpElegance 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.lux-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+  border-color: rgba(15, 118, 110, 0.3);
+}
+
+.lux-img-box {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--lux-light);
+  overflow: hidden;
+  position: relative;
+}
+
+.lux-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s ease;
+  color: transparent;
+}
+
+.lux-card:hover .lux-img-box img {
+  transform: scale(1.05);
+}
+
+.lux-details {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.lux-cat {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--lux-gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.lux-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--lux-dark);
+  margin: 0 0 16px 0;
+  line-height: 1.3;
+}
+
+.lux-specs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.lux-spec {
+  font-size: 12px;
+  color: var(--lux-gray);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lux-spec i { color: var(--lux-teal); opacity: 0.7; }
+
+/* Elegant Bottom Row */
+.lux-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--lux-border);
+  padding-top: 16px;
+}
+
+.lux-price {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--lux-dark);
+}
+
+.lux-price span {
+  font-size: 11px;
+  color: var(--lux-gray);
+  font-weight: 400;
+}
+
+.lux-action {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--lux-teal);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.3s ease;
+}
+
+.lux-card:hover .lux-action {
+  gap: 8px; /* Arrow slides to the right smoothly */
+}
+
+/* Desktop Scaling */
+@media (min-width: 640px) {
+  .lux-grid { gap: 24px; }
+  .lux-details { padding: 24px; }
+  .lux-title { font-size: 18px; }
+}
+@media (min-width: 900px) {
+  .lux-grid { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .lux-fleet-section { padding: 100px 15px; }
+}
+@media (min-width: 1200px) {
+  .lux-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ==========================================
+   3. HIGH-END EDITORIAL MODAL
+========================================== */
+.lux-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: flex-end; 
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+@media (min-width: 768px) {
+  .lux-modal { padding: 40px; align-items: center; }
+}
+
+.lux-modal[aria-hidden="false"] { opacity: 1; pointer-events: auto; }
+
+.lux-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(24, 24, 27, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.lux-modal-box {
+  position: relative;
+  background: var(--lux-white);
+  width: 100%;
+  max-width: 1000px;
+  max-height: 90vh;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  z-index: 2;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+}
+
+@media (min-width: 768px) {
+  .lux-modal-box {
+    border-radius: 16px;
+    flex-direction: row; /* STUNNING DESKTOP SPLIT LAYOUT */
+    transform: translateY(30px) scale(0.98);
+  }
+}
+
+.lux-modal[aria-hidden="false"] .lux-modal-box { transform: translateY(0) scale(1); }
+
+.lux-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.9);
+  color: var(--lux-dark);
+  border: none;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s;
+}
+
+.lux-close:hover { background: var(--lux-teal); color: #fff; }
+
+.lux-modal-img {
+  width: 100%;
+  height: 250px;
+  background: var(--lux-light);
+}
+
+@media (min-width: 768px) {
+  /* On desktop, image takes up full left half beautifully */
+  .lux-modal-img { width: 50%; height: auto; min-height: 500px; }
+}
+
+.lux-modal-img img { width: 100%; height: 100%; object-fit: cover; color: transparent; }
+
+.lux-modal-body {
+  padding: 32px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .lux-modal-body { width: 50%; padding: 50px; justify-content: center; }
+}
+
+.lux-modal-cat {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--lux-teal);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.lux-modal-title { 
+  font-size: 32px; 
+  font-weight: 700; 
+  color: var(--lux-dark); 
+  margin: 0 0 24px 0; 
+  line-height: 1.2;
+}
+
+/* Minimalist Spec Lines */
+.lux-data-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 30px;
+  border-top: 1px solid var(--lux-border);
+  border-bottom: 1px solid var(--lux-border);
+  padding: 24px 0;
+}
+
+.lux-data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.lux-data-label {
+  font-size: 13px;
+  color: var(--lux-gray);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lux-data-label i { color: var(--lux-teal); opacity: 0.8; width: 16px; text-align: center;}
+
+.lux-data-val {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--lux-dark);
+}
+
+.lux-data-val.highlight {
+  font-size: 20px;
+  color: var(--lux-teal);
+}
+
+.lux-modal-desc {
+  font-size: 15px;
+  color: var(--lux-gray);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.lux-reserve-btn {
+  background: var(--lux-teal);
+  color: #fff;
+  padding: 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s;
+  width: 100%;
+  margin-top: auto;
+}
+
+.lux-reserve-btn:hover {
+  background: var(--lux-dark);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+</style>
+
+<section class="lux-hero">
+  <div class="lux-hero-bg"></div>
+  <div class="lux-hero-overlay"></div>
+  <div class="lux-hero-content">
+    <span class="lux-hero-subtitle">The Radha Collection</span>
+    <h1>Premium Fleet</h1>
+    <p>Discover our meticulously maintained vehicles designed for absolute comfort, safety, and elegance across your journey.</p>
+  </div>
+</section>
+
+<section class="lux-fleet-section">
+  <div class="lux-grid">
+    <% vehicles.forEach((vehicle, index) => { %>
+      <div class="lux-card" style="animation-delay: <%= index * 0.1 %>s"
+           data-id="<%= vehicle.id %>"
+           data-name="<%= vehicle.name %>"
+           data-category="<%= vehicle.category %>"
+           data-seating="<%= vehicle.seating_capacity %>"
+           data-luggage="<%= vehicle.luggage_capacity %>"
+           data-price="<%= vehicle.price_per_km %>"
+           data-description="<%= vehicle.description %>"
+           data-image="<%= vehicle.image %>">
+
+        <div class="lux-img-box">
+          <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
+        </div>
+
+        <div class="lux-details">
+          <span class="lux-cat"><%= vehicle.category %></span>
+          <h3 class="lux-title" title="<%= vehicle.name %>"><%= vehicle.name %></h3>
+
+          <div class="lux-specs">
+            <span class="lux-spec" title="Seats"><i class="fa-solid fa-users"></i> <%= vehicle.seating_capacity %></span>
+            <span class="lux-spec" title="Luggage"><i class="fa-solid fa-suitcase"></i> <%= vehicle.luggage_capacity %></span>
+          </div>
+
+          <div class="lux-footer">
+            <div class="lux-price">₹<%= vehicle.price_per_km ? vehicle.price_per_km : '0' %> <span>/ KM</span></div>
+            <div class="lux-action">Details <i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</section>
+
+<div id="fleetModal" class="lux-modal" aria-hidden="true">
+  <div class="lux-overlay"></div>
+
+  <div class="lux-modal-box">
+    <button class="lux-close" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+
+    <div class="lux-modal-img">
+      <img id="modalImage" src="" alt="Vehicle Image">
+    </div>
+
+    <div class="lux-modal-body">
+      <span class="lux-modal-cat" id="modalCategory"></span>
+      <h2 class="lux-modal-title" id="modalName"></h2>
+
+      <div class="lux-data-list">
+        <div class="lux-data-row">
+          <span class="lux-data-label"><i class="fa-solid fa-users"></i> Seating Capacity</span>
+          <span class="lux-data-val"><span id="modalSeating"></span> Passengers</span>
+        </div>
+        <div class="lux-data-row">
+          <span class="lux-data-label"><i class="fa-solid fa-suitcase"></i> Luggage Space</span>
+          <span class="lux-data-val"><span id="modalLuggage"></span> Bags</span>
+        </div>
+        <div class="lux-data-row" style="margin-top: 8px;">
+          <span class="lux-data-label"><i class="fa-solid fa-wallet"></i> Tariff Rate</span>
+          <span class="lux-data-val highlight">₹<span id="modalPrice"></span> / KM</span>
+        </div>
+      </div>
+
+      <p id="modalDescription" class="lux-modal-desc"></p>
+
+      <button class="lux-reserve-btn open-booking" id="modalBookBtn">
+        Reserve This Vehicle
+      </button>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") %>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".lux-card");
+  const modal = document.getElementById("fleetModal");
+
+  const modalImage = document.getElementById("modalImage");
+  const modalName = document.getElementById("modalName");
+  const modalCategory = document.getElementById("modalCategory");
+  const modalSeating = document.getElementById("modalSeating");
+  const modalLuggage = document.getElementById("modalLuggage");
+  const modalPrice = document.getElementById("modalPrice");
+  const modalDescription = document.getElementById("modalDescription");
+  const modalBookBtn = document.getElementById("modalBookBtn");
+
+  const closeBtn = document.querySelector(".lux-close");
+  const overlay = document.querySelector(".lux-overlay");
+
+  // Open Modal
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const data = card.dataset;
+
+      modalImage.src = data.image && data.image !== "undefined" ? data.image : "/images/placeholder.jpg";
+      modalName.textContent = data.name;
+      modalCategory.textContent = data.category;
+      modalSeating.textContent = data.seating;
+      modalLuggage.textContent = data.luggage;
+      modalPrice.textContent = data.price || '0';
+      
+      modalDescription.textContent = data.description && data.description !== "undefined" 
+        ? data.description 
+        : "Experience uncompromising comfort and safety. This vehicle is meticulously maintained and ideal for both smooth city transfers and extended spiritual journeys.";
+      
+      modalBookBtn.setAttribute("data-service", data.name);
+      modal.setAttribute("aria-hidden", "false");
+      
+      document.body.style.overflow = "hidden";
+    });
+  });
+
+  const closeModal = () => {
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "auto";
+  };
+
+  closeBtn.addEventListener("click", closeModal);
+  overlay.addEventListener("click", closeModal);
+
+  modalBookBtn.addEventListener("click", () => {
+    closeModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.getAttribute("aria-hidden") === "false") {
+      closeModal();
+    }
+  });
+});
+</script>

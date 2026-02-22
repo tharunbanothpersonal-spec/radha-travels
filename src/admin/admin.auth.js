@@ -3,7 +3,10 @@ const router = express.Router();
 
 /* LOGIN PAGE */
 router.get("/login", (req, res) => {
-  res.render("admin/login", { error: null });
+  res.render("admin/login", {
+    title: "Admin Login",
+    error: null
+  });
 });
 
 /* LOGIN SUBMIT */
@@ -19,6 +22,7 @@ router.post("/login", (req, res) => {
   }
 
   res.render("admin/login", {
+    title: "Admin Login",
     error: "Invalid credentials"
   });
 });

@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 // DB path (project-root/data/bookings.db)
 const DB_PATH = process.env.GALLERY_DB_PATH
-  || path.join(__dirname, "..", "data", "gallery.db");
+  || path.join(__dirname, "..", "data", "radha.db");
   console.log("🟢 USING GALLERY DB:", DB_PATH);
 
 
@@ -74,5 +74,97 @@ CREATE TABLE IF NOT EXISTS gallery (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 `);
+// Ensure gallery status column exists (safe migration)
+try {
+  db.exec("ALTER TABLE gallery ADD COLUMN status TEXT DEFAULT 'pending'");
+} catch {}
 
+
+// =============================
+// FLEET TABLE (CLEAN VERSION)
+// =============================
+
+// Create fleet table (new structure)
+db.exec(`
+CREATE TABLE IF NOT EXISTS fleet (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  category TEXT NOT NULL,
+  seating_capacity INTEGER,
+  luggage_capacity INTEGER,
+  price_per_km REAL,
+  price_per_day REAL,
+  description TEXT,
+  is_active INTEGER DEFAULT 1,
+  sort_order INTEGER DEFAULT 0,
+  image TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+`);
+
+// =============================
+// FIX OLD STRUCTURE IF EXISTS
+// =============================
+
+const fleetColumnsCheck = db.prepare("PRAGMA table_info(fleet)").all();
+const hasOldSeating = fleetColumnsCheck.some(col => col.name === "seating");
+
+if (hasOldSeating) {
+  console.log("🔄 Fixing old fleet table structure...");
+
+  db.exec(`
+    CREATE TABLE fleet_new (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      category TEXT NOT NULL,
+      seating_capacity INTEGER,
+      luggage_capacity INTEGER,
+      price_per_km REAL,
+      price_per_day REAL,
+      description TEXT,
+      is_active INTEGER DEFAULT 1,
+      sort_order INTEGER DEFAULT 0,
+      image TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+  `);
+
+  db.exec(`
+    INSERT INTO fleet_new (id, name, category, seating_capacity)
+    SELECT id, name, category, seating FROM fleet;
+  `);
+
+  db.exec("DROP TABLE fleet;");
+  db.exec("ALTER TABLE fleet_new RENAME TO fleet;");
+
+  console.log("✅ Fleet table migrated successfully.");
+}
+
+// =============================
+// INSERT SAMPLE DATA (ONLY IF EMPTY)
+// =============================
+
+const fleetCount = db.prepare("SELECT COUNT(*) as total FROM fleet").get();
+
+if (fleetCount.total === 0) {
+
+  const insert = db.prepare(`
+    INSERT INTO fleet 
+    (name, category, seating_capacity, luggage_capacity, price_per_km, description, image)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `);
+
+  insert.run("Maruti Swift", "Hatchback", 4, 2, 12, "Perfect for city rides.", "/images/fleet/swift.jpg");
+  insert.run("Toyota Etios", "Sedan", 4, 3, 14, "Comfortable sedan.", "/images/fleet/etios.jpg");
+  insert.run("Honda City", "Prime Sedan", 4, 3, 18, "Luxury sedan.", "/images/fleet/city.jpg");
+  insert.run("Toyota Innova", "SUV", 7, 4, 20, "Family outstation SUV.", "/images/fleet/innova.jpg");
+  insert.run("Innova Crysta", "Prime SUV", 7, 4, 22, "Premium SUV travel.", "/images/fleet/crysta.jpg");
+  insert.run("Tempo Traveller 12 Seater", "Tempo Traveller", 12, 6, 28, "Group travel vehicle.", "/images/fleet/tempo12.jpg");
+  insert.run("Mini Bus 25 Seater", "Buses", 25, 10, 35, "Large group bus.", "/images/fleet/minibus.jpg");
+
+  console.log("🚘 Sample Fleet Data Inserted");
+}
+try {
+  db.exec("ALTER TABLE fleet ADD COLUMN status TEXT DEFAULT 'active'");
+} catch {}
 export default db;

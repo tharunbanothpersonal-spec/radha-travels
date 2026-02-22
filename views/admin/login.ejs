@@ -2,58 +2,289 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Login</title>
+  <title>Admin Login | Radha Travels</title>
+  <%- include('../partials/head', { title }) %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
   <style>
+    /* ==========================================
+       FROSTED GLASS AURORA THEME
+    ========================================== */
     body {
+      margin: 0;
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: system-ui, sans-serif;
-      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      overflow: hidden;
+      
+      /* Animated Mesh Gradient Background */
+      background: linear-gradient(-45deg, #0f766e, #064e3b, #047857, #0284c7);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
     }
-    form {
-      background: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      width: 320px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.1);
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-    h2 {
-      margin-bottom: 20px;
+
+    /* Decorative background blur orbs */
+    .rt-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      animation: floatOrb 10s infinite ease-in-out alternate;
+    }
+    .rt-orb-1 {
+      width: 300px; height: 300px;
+      background: rgba(52, 211, 153, 0.4);
+      top: -50px; left: -50px;
+    }
+    .rt-orb-2 {
+      width: 400px; height: 400px;
+      background: rgba(14, 165, 233, 0.3);
+      bottom: -100px; right: -50px;
+      animation-delay: -5s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, 50px) scale(1.1); }
+    }
+
+    /* --- Frosted Glass Login Card --- */
+    .rt-glass-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 380px;
+      padding: 40px 30px;
+      margin: 20px;
+      
+      /* The Glass Effect */
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+      
+      /* Entrance Animation */
+      animation: cardEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+    }
+
+    @keyframes cardEntrance {
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .rt-glass-card h2 {
+      margin: 0 0 5px 0;
+      font-size: 26px;
+      font-weight: 700;
+      color: #0f172a;
       text-align: center;
     }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 12px;
+
+    .rt-subtitle {
+      text-align: center;
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 30px;
     }
-    button {
-      background: #064e3b;
+
+    /* --- Error Message (Glassy Red) --- */
+    .rt-error-msg {
+      background: rgba(254, 226, 226, 0.8);
+      border: 1px solid rgba(248, 113, 113, 0.3);
+      color: #b91c1c;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin-bottom: 25px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+
+    /* --- Floating Label Inputs --- */
+    .rt-input-group {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .rt-input {
+      width: 100%;
+      padding: 16px 16px 10px 16px;
+      font-size: 15px;
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.5);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      outline: none;
+      box-sizing: border-box;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .rt-input:hover {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .rt-input:focus {
+      background: #ffffff;
+      border-color: #10b981;
+      box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+    }
+
+    /* The label that floats */
+    .rt-label {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      color: #94a3b8;
+      pointer-events: none;
+      transition: all 0.2s ease-out;
+    }
+
+    /* When input is focused, OR when input has text (not showing placeholder) */
+    .rt-input:focus ~ .rt-label,
+    .rt-input:not(:placeholder-shown) ~ .rt-label {
+      top: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #10b981;
+      letter-spacing: 0.5px;
+    }
+
+    /* Push text down so it doesn't overlap the floating label */
+    .rt-input:focus,
+    .rt-input:not(:placeholder-shown) {
+      padding-top: 22px;
+      padding-bottom: 4px;
+    }
+
+    /* --- Gradient Action Button --- */
+    .rt-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: #fff;
       border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      position: relative;
+      overflow: hidden;
     }
-    .error {
-      color: red;
-      text-align: center;
-      margin-bottom: 10px;
+
+    /* Button hover lift and shadow expansion */
+    .rt-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    .rt-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Subtle shimmer sweep on the button */
+    .rt-btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: skewX(-20deg);
+      transition: all 0.5s ease;
+    }
+
+    .rt-btn:hover::after {
+      left: 200%;
+      transition: all 0.7s ease;
+    }
+/* --- Modern Close/Cancel Button --- */
+    .rt-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.05); /* Very subtle gray circle */
+      color: #94a3b8;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      z-index: 20;
+    }
+
+    /* Hover effect: Turns soft red and spins 90 degrees */
+    .rt-close-btn:hover {
+      background: rgba(239, 68, 68, 0.15); 
+      color: #ef4444; 
+      transform: rotate(90deg); 
     }
   </style>
 </head>
 <body>
 
-  <form method="POST" action="/admin/login">
-    <h2>Admin Login</h2>
+  <div class="rt-orb rt-orb-1"></div>
+  <div class="rt-orb rt-orb-2"></div>
 
-    <% if (error) { %>
-      <div class="error"><%= error %></div>
-    <% } %>
+  <div class="rt-glass-card">
+    <a href="/" class="rt-close-btn" aria-label="Return to Home">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </a>
+    <h2>Admin Portal</h2>
+    <div class="rt-subtitle">Radha Travels Secure Login</div>
 
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
+    <form method="POST" action="/admin/login">
+      
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="rt-error-msg">
+          <%= error %>
+        </div>
+      <% } %>
 
-    <button type="submit">Login</button>
-  </form>
+      <div class="rt-input-group">
+        <input type="text" name="username" class="rt-input" placeholder=" " required autocomplete="off" id="admin_user">
+        <label for="admin_user" class="rt-label">Username</label>
+      </div>
 
+      <div class="rt-input-group">
+        <input type="password" name="password" class="rt-input" placeholder=" " required id="admin_pass">
+        <label for="admin_pass" class="rt-label">Password</label>
+      </div>
+
+      <button type="submit" class="rt-btn">Authenticate</button>
+
+    </form>
+  </div>
+<%- include('../partials/social-dock') %>
 </body>
 </html>

@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= typeof title !== "undefined" ? title : "Radha Travels Admin" %></title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/admin.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+  <meta charset="UTF-8">
+  <title>
+    <%= typeof title !== "undefined"
+        ? title + " | Admin | Radha Travels"
+        : "Admin | Radha Travels" %>
+  </title>
 
+  <!-- FAVICON -->
+  <link rel="icon" href="/favicon/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+
+  <meta name="theme-color" content="#064e3b">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
 <body>
 
 <div class="layout">
@@ -18,17 +32,20 @@
     </div>
 
     <nav class="nav">
-      <a href="/admin/dashboard">Dashboard</a>
-      <a href="/admin/bookings">Bookings</a>
-      <a href="/admin/gallery">Gallery</a>
-      <a href="/">Website</a>
+      <a href="/admin/dashboard" class="<%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+      <a href="/admin/bookings" class="<%= active === 'bookings' ? 'active' : '' %>">Bookings</a>
+      <a href="/admin/gallery" class="<%= active === 'gallery' ? 'active' : '' %>">Gallery</a>
+      <a href="/admin/fleet" class="<%= active === 'fleet' ? 'active' : '' %>">Fleet</a>
     </nav>
+    <div class="sidebar-footer">
+  <a href="/admin/logout" class="sidebar-logout">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    Logout
+  </a>
+</div>
   </aside>
 
   <div class="main">
 
-    <header class="topbar">
-      <h1><%= typeof title !== "undefined" ? title : "Dashboard" %></h1>
-    </header>
 
     <main class="content">

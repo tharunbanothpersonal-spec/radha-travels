@@ -4,76 +4,109 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title><%= title %></title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-<!-- Font Awesome (for icons) -->
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-  integrity="sha512-Zl4Ccc4IMfM99m6A0rxpWJCBGz0HQUu9CzmsDijcQZo9kgQFURZy6N4ZIFUkoWSlQqW0BvEwGh+RjQ2BpD8c+A=="
-  crossorigin="anonymous"
-  referrerpolicy="no-referrer"
-/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Zl4Ccc4IMfM99m6A0rxpWJCBGz0HQUu9CzmsDijcQZo9kgQFURZy6N4ZIFUkoWSlQqW0BvEwGh+RjQ2BpD8c+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/booking.css"/>
   <link rel="stylesheet" href="/css/gallery-upload.css">
+  <%- include('./partials/head', { title }) %>
+  
+  <style>
+    /* ==========================================================================
+       HARDWARE-ACCELERATED SCROLL REVEAL SYSTEM
+       ========================================================================== */
+
+    /* --- 1. BASE REVEAL STATE --- */
+    .reveal-item {
+      opacity: 0;
+      /* Alerts the browser GPU to prepare for these specific changes */
+      will-change: opacity, transform, clip-path;
+      /* Snappy, optimized base transition targeting specific properties */
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), 
+                  transform 1s cubic-bezier(0.16, 1, 0.3, 1); 
+    }
+
+    /* --- 2. STANDARD ANIMATIONS (For Packages & Fleet) --- */
+    .reveal-drop { transform: translateY(-50px); }
+    .reveal-slide-up { transform: translateY(60px); }
+    .reveal-slide-left { transform: translateX(-50px); }
+
+    /* --- 3. THE LUXURY UNVEIL (For the Gallery Section) --- */
+    .reveal-luxury-mask {
+      /* Masks the container starting from the bottom */
+      clip-path: inset(100% 0 0 0); 
+      transform: translateY(20px);
+      transition: clip-path 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 1.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.6s ease-out;
+    }
+
+    /* Target the image inside the mask for the cinematic scale-down effect */
+    .reveal-luxury-mask img {
+      transform: scale(1.6);
+      transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1); 
+    }
+
+    /* --- 4. ACTIVE STATES (Triggered by IntersectionObserver JS) --- */
+    .reveal-item.is-visible {
+      opacity: 1;
+      transform: translate(0);
+    }
+
+    /* Active state for Luxury Unveil */
+    .reveal-item.is-visible.reveal-luxury-mask {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .reveal-item.is-visible.reveal-luxury-mask img {
+      transform: scale(1); /* Image snaps into its frame perfectly */
+    }
+  </style>
 </head>
 <body>
   <%- include('partials/header') %>
-<%- include('partials/ticker') %>
+  <%- include('partials/ticker') %>
 <main>
-<!-- HERO (with first-screen splash) -->
-<!-- HERO (first slide has built-in splash layer) -->
-<section class="hero-bleed post-splash" id="heroRoot"><!-- JS will remove post-splash for first 6s -->
-
-  <!-- Slides -->
+<section class="hero-bleed post-splash" id="heroRoot">
   <div class="hero-bg" id="heroBg" data-hero>
     <% if (heroSlides && heroSlides.length) { %>
       <% heroSlides.forEach(function(slide, idx){ %>
         <figure class="<%= idx === 0 ? 'active' : '' %>">
           <img src="<%= slide.src %>" alt="<%= slide.caption %>">
-
           <% if (idx === 0) { %>
-            <!-- Splash layer lives INSIDE slide #1 so it scrolls like an image -->
             <div class="splash-layer">
               <div class="splash-gradient"></div>
               <div class="splash-content hero-text">
                 <h2>Radha Travels — Where Journeys Begin</h2>
                 <h1>Your Trusted Travel Companion<br/>Radha Travels!</h1>
-                <p>
-                  Explore the city with reliable cab services or embark on unforgettable
-                  outstation journeys with customizable trip packages.
-                </p>
+                <p>Explore the city with reliable cab services or embark on unforgettable outstation journeys with customizable trip packages.</p>
                 <div class="splash-ctas">
                   <a class="rail-btn primary open-booking" href="#" role="button"><i class="fa-solid fa-car-side"></i> Book Now</a>
                   <a class="rail-btn outline" href="#" data-open-estimate><i class="fa-solid fa-calculator"></i> Quick Estimate</a>
+                  <a class="rail-btn outline" href="/track-booking"><i class="fa-solid fa-magnifying-glass"></i> Track Booking</a>
                 </div>
               </div>
             </div>
           <% } %>
-
-          <!-- normal per-slide caption (optional) -->
           <figcaption><%= slide.caption %></figcaption>
         </figure>
       <% }); %>
     <% } %>
   </div>
 
-  <!-- Left CTA rail (visible after splash) -->
   <div class="hero-rail left" id="heroRail">
-    <a class="rail-btn primary open-booking"
-   href="#"
-   role="button"
-   data-service="Test Service"
-   data-source="homepage"
-   aria-haspopup="dialog">
-  <i class="fa-solid fa-car-side" aria-hidden="true"></i> Book Now
-</a>
-
+    <a class="rail-btn primary open-booking" href="#" role="button" data-service="Test Service" data-source="homepage" aria-haspopup="dialog">
+      <i class="fa-solid fa-car-side" aria-hidden="true"></i> Book Now
+    </a>
     <a class="rail-btn outline" href="#" data-open-estimate><i class="fa-solid fa-calculator"></i> Quick Estimate</a>
+    <a href="/track-booking" class="rail-btn outline"><i class="fa-solid fa-magnifying-glass"></i> Track Booking</a>
   </div>
-  <!-- Dots -->
+  
   <div class="hero-dots" id="heroDots" data-dots>
     <% if (heroSlides && heroSlides.length) { %>
       <% heroSlides.forEach(function(_, idx){ %>
@@ -83,17 +116,13 @@
   </div>
 </section>
 
-
-<!-- QUICK ESTIMATE MODAL -->
 <div class="qe-backdrop" data-qe-backdrop hidden>
   <div class="qe-modal" role="dialog" aria-modal="true" aria-labelledby="qe-title">
     <header class="qe-head">
       <h3 id="qe-title">Quick Estimate</h3>
       <button class="qe-x" type="button" data-qe-close aria-label="Close">×</button>
     </header>
-
     <form class="qe-form" id="qeForm">
-      <!-- Service -->
       <label class="qe-label">Service</label>
       <div class="qe-field">
         <select id="qeService" required>
@@ -102,8 +131,6 @@
           <option>Airport</option>
         </select>
       </div>
-
-      <!-- Car Segment -->
       <label class="qe-label">Car Segment</label>
       <div class="qe-field">
         <select id="qeSegment" required>
@@ -114,146 +141,169 @@
           <option>Premium SUV</option>
         </select>
       </div>
-
-      <!-- Distance (km) -->
       <label class="qe-label" id="qeDistLbl">Estimated Total Distance (km)</label>
       <div class="qe-field">
         <input id="qeDistance" type="number" min="0" inputmode="numeric" placeholder="120">
       </div>
-
-      <!-- Days (Outstation only) -->
-<label class="qe-label" id="qeDaysLbl" style="display:none">Number of Days</label>
-<div class="qe-field" id="qeDaysWrap" style="display:none">
-  <input id="qeDays" type="number" min="1" value="1" inputmode="numeric">
-</div>
-
-<!-- Hours (Local only) -->
-<label class="qe-label" id="qeHoursLbl" style="display:none">Number of Hours</label>
-<div class="qe-field" id="qeHoursWrap" style="display:none">
-  <input id="qeHours" type="number" min="1" value="8" inputmode="numeric">
-</div>
-
+      <label class="qe-label" id="qeDaysLbl" style="display:none">Number of Days</label>
+      <div class="qe-field" id="qeDaysWrap" style="display:none">
+        <input id="qeDays" type="number" min="1" value="1" inputmode="numeric">
+      </div>
+      <label class="qe-label" id="qeHoursLbl" style="display:none">Number of Hours</label>
+      <div class="qe-field" id="qeHoursWrap" style="display:none">
+        <input id="qeHours" type="number" min="1" value="8" inputmode="numeric">
+      </div>
       <button type="submit" class="btn primary qe-btn">Calculate</button>
-
       <p class="qe-result" id="qeResult" hidden></p>
       <p class="qe-note" id="qeNote" hidden></p>
     </form>
   </div>
 </div>
 </main>
-
-<!-- SPECIAL TOUR SERVICES -->
-<section class="rt-special-packages">
+<!-- Home Special tour package -->
+<section class="rt-special-packages reveal-group">
   <div class="rt-container">
-    
-    <h2 class="rt-sp-title">Special tour packages</h2>
-    
+    <h2 class="rt-sp-title reveal-item reveal-slide-left">Special tour packages</h2>
     <div class="rt-sp-grid">
-      
-      <a href="/tours/srisailam" class="rt-sp-card">
-        <div class="rt-sp-img">
-          <img src="/images/srisailam.jpg" alt="Srisailam Temple" loading="lazy">
-        </div>
+      <a href="/tours/srisailam" class="rt-sp-card reveal-item reveal-slide-up">
+        <div class="rt-sp-img"><img src="/images/srisailam.jpg" alt="Srisailam Temple" loading="lazy"></div>
         <div class="rt-sp-content">
           <span class="rt-sp-tag">SRISAILAM</span>
           <h3>Hyderabad to Srisailam</h3>
           <span class="rt-sp-arrow">↗</span>
         </div>
       </a>
-
-      <a href="/tours/arunachalam" class="rt-sp-card">
-        <div class="rt-sp-img">
-          <img src="/images/arunachalam.jpg" alt="Arunachalam Temple" loading="lazy">
-        </div>
+      <a href="/tours/arunachalam" class="rt-sp-card reveal-item reveal-slide-up">
+        <div class="rt-sp-img"><img src="/images/arunachalam.jpg" alt="Arunachalam Temple" loading="lazy"></div>
         <div class="rt-sp-content">
           <span class="rt-sp-tag">ARUNACHALAM</span>
           <h3>Hyderabad to Arunachalam</h3>
           <span class="rt-sp-arrow">↗</span>
         </div>
       </a>
-
-      <a href="/tours/tirupati" class="rt-sp-card">
-        <div class="rt-sp-img">
-          <img src="/images/tirupati.jpg" alt="Tirupati Temple" loading="lazy">
-        </div>
+      <a href="/tours/tirupati" class="rt-sp-card reveal-item reveal-slide-up">
+        <div class="rt-sp-img"><img src="/images/tirupati.jpg" alt="Tirupati Temple" loading="lazy"></div>
         <div class="rt-sp-content">
           <span class="rt-sp-tag">TIRUPATI</span>
           <h3>Hyderabad to Tirupati</h3>
           <span class="rt-sp-arrow">↗</span>
         </div>
       </a>
-
-      <a href="/tours/shirdi" class="rt-sp-card">
-        <div class="rt-sp-img">
-          <img src="/images/shirdi.jpg" alt="Shirdi Temple" loading="lazy">
-        </div>
+      <a href="/tours/shirdi" class="rt-sp-card reveal-item reveal-slide-up">
+        <div class="rt-sp-img"><img src="/images/shirdi.jpg" alt="Shirdi Temple" loading="lazy"></div>
         <div class="rt-sp-content">
           <span class="rt-sp-tag">SHIRDI</span>
           <h3>Hyderabad to Shiridi</h3>
           <span class="rt-sp-arrow">↗</span>
         </div>
       </a>
-
     </div>
-
-    <div class="rt-sp-footer">
+    <div class="rt-sp-footer reveal-item reveal-slide-up">
       <a href="/services" class="rt-sp-btn">Click here for more services</a>
     </div>
-
   </div>
 </section>
-
-<!-- HOME GALLERY -->
-<section class="home-gallery cyber-emerald-mode">
-  
+<!-- Home Fleet section -->
+<section class="home-fleet reveal-group">
+  <div class="home-fleet-container">
+    <div class="hf-header reveal-item reveal-slide-left">
+      <h2>Our Premium Fleet</h2>
+      <p>Experience comfort, luxury and reliability with our modern vehicles.</p>
+    </div>
+    <div class="hf-grid">
+      <% if (featuredFleet && featuredFleet.length) { %>
+        <% featuredFleet.forEach(vehicle => { %>
+          <a href="/fleet" class="hf-card reveal-item reveal-drop">
+            <div class="hf-img">
+              <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
+              <span class="hf-price">₹<%= vehicle.price_per_km || 0 %>/KM</span>
+            </div>
+            <div class="hf-content">
+              <h3><%= vehicle.name %></h3>
+              <div class="hf-specs">
+                <span><i class="fa-solid fa-users"></i> <%= vehicle.seating_capacity %></span>
+                <span><i class="fa-solid fa-suitcase"></i> <%= vehicle.luggage_capacity %></span>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      <% } %>
+    </div>
+    <div class="hf-footer reveal-item reveal-slide-up">
+      <a href="/fleet" class="hf-btn">View All Fleet</a>
+    </div>
+  </div>
+</section>
+<!-- Home Gallery -->
+<section class="home-gallery cyber-emerald-mode reveal-group">
   <div class="cyber-ambient-glow"></div>
-
-  <div class="container" style="position: relative; z-index: 2;">
-
-    <div class="hg-header">
+  <div class="container home-gallery-container" style="position: relative; z-index: 2;">
+    <div class="hg-header reveal-item reveal-slide-left">
       <div class="hg-text-block">
-        <span class="hg-eyebrow">/// FEATURED ARCHIVE</span>
+        <!-- <span class="hg-eyebrow">/// FEATURED ARCHIVE</span> -->
         <h2>Moments from Our Journeys</h2>
         <p>Real travel experiences with Radha Travels</p>
       </div>
-
       <a href="/gallery" class="btn outline cyber-btn">
         <span class="cyber-btn-glow"></span>
         [ VIEW GALLERY ]
       </a>
     </div>
-
     <% if (featuredGallery && featuredGallery.length) { %>
       <div class="hg-grid">
         <% featuredGallery.slice(0,5).forEach((item, index) => { %>
-          
-          <a href="/gallery" class="hg-card <%= index === 0 ? 'hg-large' : '' %>">
-            
+          <a href="/gallery" class="hg-card <%= index === 0 ? 'hg-large' : '' %> reveal-item reveal-luxury-mask">
             <div class="hg-img-wrap">
               <img src="<%= item.filepath %>" alt="<%= item.title || 'Radha Travels' %>" loading="lazy">
               <div class="cyber-scanline"></div>
             </div>
-
             <div class="hg-overlay">
               <div class="hg-overlay-bg"></div>
               <span><%= item.title || "SYS.LOC // UNKNOWN" %></span>
             </div>
-            
             <div class="cyber-card-border"></div>
-            
           </a>
-          
         <% }) %>
       </div>
     <% } %>
-
   </div>
 </section>
 <%- include('partials/footer') %>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const observerOptions = {
+      root: null,
+      threshold: 0.25, // Triggers earlier to ensure animations are ready
+      rootMargin: "0px 0px -50px 0px" 
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const items = entry.target.querySelectorAll('.reveal-item');
+          
+          items.forEach((item, index) => {
+            // Fast 0.1s stagger creates a fluid wave instead of choppy delays
+            const delay = index * 0.2; 
+            item.style.transitionDelay = `${delay}s`;
+            
+            // requestAnimationFrame forces the browser into a high-performance render cycle
+            requestAnimationFrame(() => {
+              item.classList.add('is-visible');
+            });
+          });
+
+          // Unobserve so elements do not re-animate on scroll up, saving memory
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const revealGroups = document.querySelectorAll('.reveal-group');
+    revealGroups.forEach(group => revealObserver.observe(group));
+  });
+</script>
 <script src="/js/main.js" defer></script>
 <script src="/js/admin-login.js" defer></script>
-
-
-
 </body>
 </html>

@@ -4,8 +4,19 @@ import express from "express";
 import { requireAdmin } from "./admin.middleware.js";
 import fs from "fs";
 import path from "path";
+import multer from "multer";
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads/fleet");
+  },
+  filename: function (req, file, cb) {
+    const uniqueName = Date.now() + "-" + file.originalname;
+    cb(null, uniqueName);
+  }
+});
 
+const upload = multer({ storage });
 
 const router = express.Router();
 
@@ -18,11 +29,14 @@ router.get("/dashboard", requireAdmin, (req, res) => {
 
   const bookings = db.prepare("SELECT * FROM bookings ORDER BY id DESC").all();
   const gallery = db.prepare("SELECT * FROM gallery ORDER BY id DESC").all();
+  const fleet = db.prepare("SELECT * FROM fleet ORDER BY id DESC").all(); // 👈 ADD THIS
 
   res.render("admin/dashboard", {
     bookings,
     gallery,
-    title: "Dashboard | Admin"
+    fleet,   // 👈 ADD THIS
+    title: "Dashboard | Admin",
+    active: "dashboard"
   });
 
 });
@@ -50,7 +64,8 @@ router.get("/gallery", requireAdmin, (req, res) => {
   }
   res.render("admin/gallery", {
   title: "Gallery Management | Admin",
-  items
+  items,
+  active: "gallery"
 });
 });
 
@@ -61,7 +76,8 @@ router.get("/bookings", requireAdmin, (req, res) => {
   res.render("admin/bookings", {
     bookings,
     title: "Bookings | Admin",
-    success: req.query.success
+    success: req.query.success,
+    active: "bookings"
   });
 
 });
@@ -285,5 +301,143 @@ router.post("/gallery/reject/:id", requireAdmin, (req, res) => {
   res.redirect("/admin/gallery");
 });
 
+// ===============================
+// FLEET MANAGEMENT
+// ===============================
+router.get("/fleet", requireAdmin, (req, res) => {
+  const vehicles = db.prepare("SELECT * FROM fleet ORDER BY category ASC, sort_order ASC, id DESC").all();
 
+  res.render("admin/fleet", {
+    title: "Fleet Management | Admin",
+    vehicles,
+    active: "fleet"
+  });
+});
+
+router.post("/fleet/delete/:id", requireAdmin, (req, res) => {
+  const { id } = req.params;
+
+  db.prepare("DELETE FROM fleet WHERE id = ?").run(id);
+
+  res.redirect("/admin/fleet");
+});
+
+// add vehicle in fleet
+
+router.post("/fleet/add", requireAdmin, upload.single("image"), (req, res) => {
+
+  const {
+    name,
+    category,
+    seating_capacity,
+    luggage_capacity,
+    price_per_km,
+    price_per_day,
+    description,
+    sort_order
+  } = req.body;
+
+  const imagePath = req.file
+    ? "/uploads/fleet/" + req.file.filename
+    : null;
+
+  db.prepare(`
+    INSERT INTO fleet (
+      name,
+      category,
+      seating_capacity,
+      luggage_capacity,
+      price_per_km,
+      price_per_day,
+      description,
+      sort_order,
+      is_active,
+      image
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
+  `).run(
+    name,
+    category,
+    seating_capacity || null,
+    luggage_capacity || null,
+    price_per_km || null,
+    price_per_day || null,
+    description || null,
+    sort_order || 0,
+    imagePath
+  );
+
+  res.redirect("/admin/fleet");
+});
+
+//toggle in fleet
+
+router.post("/fleet/toggle/:id", requireAdmin, (req, res) => {
+  const vehicle = db.prepare(
+    "SELECT is_active FROM fleet WHERE id = ?"
+  ).get(req.params.id);
+
+  if (!vehicle) return res.redirect("/admin/fleet");
+
+  db.prepare(`
+    UPDATE fleet
+    SET is_active = ?
+    WHERE id = ?
+  `).run(vehicle.is_active ? 0 : 1, req.params.id);
+
+  res.redirect("/admin/fleet");
+});
+
+// vehicle edit
+
+router.post("/fleet/edit/:id", requireAdmin, upload.single("image"), (req, res) => {
+
+  const {
+    name,
+    category,
+    seating_capacity,
+    luggage_capacity,
+    price_per_km,
+    price_per_day,
+    description,
+    sort_order
+  } = req.body;
+
+  let imagePath;
+
+  if (req.file) {
+    imagePath = "/uploads/fleet/" + req.file.filename;
+  } else {
+    const existing = db.prepare("SELECT image FROM fleet WHERE id = ?")
+      .get(req.params.id);
+    imagePath = existing?.image || null;
+  }
+
+  db.prepare(`
+    UPDATE fleet SET
+      name = ?,
+      category = ?,
+      seating_capacity = ?,
+      luggage_capacity = ?,
+      price_per_km = ?,
+      price_per_day = ?,
+      description = ?,
+      sort_order = ?,
+      image = ?
+    WHERE id = ?
+  `).run(
+    name,
+    category,
+    seating_capacity || null,
+    luggage_capacity || null,
+    price_per_km || null,
+    price_per_day || null,
+    description || null,
+    sort_order || 0,
+    imagePath,
+    req.params.id
+  );
+
+  res.redirect("/admin/fleet");
+});
 export default router;

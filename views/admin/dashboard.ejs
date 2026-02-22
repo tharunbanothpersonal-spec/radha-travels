@@ -8,6 +8,8 @@
 <%
   const bookingList = Array.isArray(locals.bookings) ? locals.bookings : [];
   const galleryList = Array.isArray(locals.gallery) ? locals.gallery : [];
+  const fleetList = Array.isArray(locals.fleet) ? locals.fleet : [];
+  const totalFleet = fleetList.length;
 
   const totalBookings = bookingList.length;
   const totalGallery = galleryList.length;
@@ -36,6 +38,12 @@
     <p>Pending Approvals</p>
   </div>
 
+  <div class="card stat-card">
+  <div class="stat-icon">🚘</div>
+  <h3 class="stat-number" data-count="<%= totalFleet %>">0</h3>
+  <p>Fleet Vehicles</p>
+</div>
+
 </div>
 
 <!-- QUICK ACTIONS -->
@@ -43,6 +51,7 @@
 <div class="actions-panel">
   <a href="/admin/bookings" class="btn btn-primary">Manage Bookings</a>
   <a href="/admin/gallery" class="btn btn-primary">Review Gallery</a>
+  <a href="/admin/fleet" class="btn btn-primary">Manage Fleet</a>
 </div>
 
 <script>

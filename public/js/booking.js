@@ -1,6 +1,7 @@
 // public/js/booking.js
 // Single-card modal + Lottie success + backend POST integration
 // Replaces current public/js/booking.js — paste entire file.
+console.log("BOOKING JS LOADED");
 
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("rtd-bookingModal");

@@ -1,36 +1,280 @@
-<head>
-  <link rel="stylesheet" href="/css/booking.css">
-</head>
-<footer class="site-footer">
-  <div class="container foot">
-    <small class="muted">© <span id="yr"></span> Radha Travels</small>
+<style>
+  :root {
+    --emerald-900: #064e3b;
+    --emerald-800: #065f46;
+    --emerald-600: #059669;
+    --emerald-500: #10b981;
+    --emerald-400: #34d399;
+    --text-muted: #a7f3d0;
+  }
+
+  .rt-robust-footer {
+    /* Rich gradient for a substantial, non-"lite" feel */
+    background: linear-gradient(180deg, var(--emerald-900) 0%, #022c22 100%);
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 50px 15px 20px 15px;
+    margin-top: 0; /* Removes any white patches above it */
+    border-top: 4px solid var(--emerald-500);
+    box-shadow: inset 0 10px 30px rgba(0,0,0,0.2); /* Adds inner depth */
+  }
+
+  .rt-footer-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* --- MAIN MOBILE GRID --- */
+  .rt-footer-main-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 35px; /* Tight gap for compactness */
+    margin-bottom: 30px;
+  }
+
+  /* --- BRAND SECTION --- */
+  .rt-brand-block h3 {
+    font-size: 24px;
+    font-weight: 800;
+    margin: 0 0 12px 0;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  .rt-brand-block p {
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 18px 0;
+    max-width: 320px;
+  }
+
+  .rt-social-icons {
+    display: flex;
+    gap: 12px;
+  }
+
+  .rt-social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+  }
+
+  .rt-social-icons a:hover {
+    background: var(--emerald-500);
+    border-color: var(--emerald-500);
+    transform: translateY(-3px);
+  }
+
+  /* --- THE MOBILE 2-COLUMN LINKS GRID --- */
+  .rt-links-mobile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Side-by-side columns on mobile! */
+    gap: 15px;
+  }
+
+  .rt-link-col h4 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 15px 0;
+    color: var(--emerald-400);
+  }
+
+  .rt-link-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rt-link-col a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s ease;
+  }
+
+  .rt-link-col a:hover {
+    color: #ffffff;
+  }
+
+  /* --- CONTACT SECTION --- */
+  .rt-contact-block {
+    background: rgba(0, 0, 0, 0.15); /* Gives contact block its own dark card feel */
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .rt-contact-block h4 {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 15px 0;
+    color: var(--emerald-400);
+  }
+
+  .rt-contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+  }
+
+  .rt-contact-row:last-child { margin-bottom: 0; }
+
+  .rt-contact-row svg {
+    width: 18px;
+    height: 18px;
+    color: var(--emerald-500);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* --- BOTTOM BAR --- */
+  .rt-footer-bottom-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+
+  .rt-footer-bottom-bar p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+  }
+
+  .rt-admin-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    text-decoration: none;
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .rt-admin-pill:hover {
+    color: #ffffff;
+    background: var(--emerald-600);
+  }
+
+  /* --- DESKTOP SCALING --- */
+  @media (min-width: 768px) {
+    .rt-robust-footer {
+      padding: 70px 30px 25px 30px;
+    }
+    .rt-footer-main-grid {
+      /* 1.5x width for brand, 2x for links grid, 1.5x for contact */
+      grid-template-columns: 1.5fr 2fr 1.5fr; 
+      gap: 50px;
+      margin-bottom: 50px;
+    }
+    .rt-contact-block {
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+    .rt-footer-bottom-bar {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+</style>
+
+<footer class="rt-robust-footer">
+  <div class="rt-footer-wrapper">
     
-  </div>
-  <%- include('booking-modal') %>  
+    <div class="rt-footer-main-grid">
+      
+      <div class="rt-brand-block">
+        <h3>Radha Travels</h3>
+        <p>Premium fleet services ensuring safe, comfortable, and timely pilgrimages across South India's most sacred destinations.</p>
+        <!-- <div class="rt-social-icons">
+          <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
+          <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+        </div> -->
+      </div>
 
-  <!-- ADMIN LOGIN MODAL: paste before </body> in views/index.ejs or a footer partial -->
-<div id="adminLoginModal" role="dialog" aria-modal="true" aria-hidden="true">
-  <div class="card" role="document">
-    <h3 style="margin:0 0 10px 0;">Admin Login</h3>
+      <div class="rt-links-mobile-grid">
+        
+        <div class="rt-link-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/services">Vehicle Fleet</a></li>
+            <li><a href="/gallery">Gallery</a></li>
+          </ul>
+        </div>
 
-    <label for="adminEmail">Email</label>
-    <input id="adminEmail" type="email" placeholder="admin@domain.com" autocomplete="username" />
+        <div class="rt-link-col">
+          <h4>Special tour packages</h4>
+          <ul>
+            <li><a href="/tours/srisailam">Srisailam</a></li>
+            <li><a href="/tours/arunachalam">Arunachalam</a></li>
+            <li><a href="/tours/tirupati">Tirupati</a></li>
+            <li><a href="/tours/shirdi">Shirdi</a></li>
+          </ul>
+        </div>
 
-    <label for="adminPassword">Password</label>
-    <input id="adminPassword" type="password" placeholder="password" autocomplete="current-password" />
-    <div style="margin-top:6px;">
-  <a id="forgotPwdLink" href="javascript:void(0)" style="font-size:13px;">Forgot password?</a>
-</div>
+      </div>
 
+      <div class="rt-contact-block">
+        <h4>Contact Desk</h4>
+        <div class="rt-contact-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          <span>+91 83329 58915</span>
+        </div>
+        <div class="rt-contact-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <span>bookings@radhatravels.com</span>
+        </div>
+        <div class="rt-contact-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+          <span>Hyderabad, Telangana, India</span>
+        </div>
+      </div>
 
-    <div style="display:flex; justify-content:flex-end; margin-top:10px;">
-      <button id="adminCancel" class="btn ghost">Cancel</button>
-      <button id="adminSubmit" class="btn primary">Login</button>
     </div>
 
-    <div id="adminLoginMsg" aria-live="polite"></div>
-  </div>
-</div>
+    <div class="rt-footer-bottom-bar">
+      <p>© <span id="yr"></span> Radha Travels. All rights reserved.</p>
+      
+      <a href="/admin/login" class="rt-admin-pill">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        Admin Portal
+      </a>
+    </div>
 
+  </div>
+  <%- include('booking-modal') %>  
 </footer>
-<script>document.getElementById('yr')?.append(new Date().getFullYear())</script>
+
+<script>
+  document.getElementById('yr')?.append(new Date().getFullYear());
+</script>

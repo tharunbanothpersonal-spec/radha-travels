@@ -16,6 +16,7 @@ import db from "./db.js";
 // Routers
 import bookingsRouter from "./routes/bookings.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
+import fleetRoutes from "./routes/fleet.routes.js";
 
 // Admin (NEW SYSTEM)
 import adminAuth from "./admin/admin.auth.js";
@@ -48,6 +49,11 @@ app.use(
     saveUninitialized: false,
   })
 );
+// Make admin session available in all views
+app.use((req, res, next) => {
+  res.locals.adminUser = req.session?.admin || null;
+  next();
+});
 
 // request logger (temporary but useful)
 app.use((req, res, next) => {
@@ -87,10 +93,16 @@ app.use((_, res, next) => {
   next();
 });
 
+
+
 // =======================================================
 //  ADMIN (NEW CLEAN SETUP)
 // =======================================================
-
+app.use("/admin", (req, res, next) => {
+  const path = req.path.split("/")[1] || "dashboard";
+  res.locals.active = path;
+  next();
+});
 app.use("/admin", adminAuth);   // /admin/login, /admin/logout
 app.use("/admin", adminRoutes); // /admin, /admin/bookings, /admin/gallery
 
@@ -113,11 +125,15 @@ app.get("/", (req, res) => {
   } catch (err) {
     console.error("Featured gallery error:", err.message);
   }
+  const featuredFleet = db
+    .prepare("SELECT * FROM fleet WHERE status = 'active' ORDER BY id DESC LIMIT 4")
+    .all();
 
   res.render("index", {
     title: "Radha Travels",
     heroSlides: loadHeroSlides(),
     featuredGallery,
+    featuredFleet
   });
 });
 
@@ -339,11 +355,67 @@ app.get("/admin/allotted-bookings", requireAdmin, (req, res) => {
   res.render("admin/allotted-bookings");
 });
 
+//FLEET SECTION ROUTE
+app.get("/fleet", (req, res) => {
+  const vehicles = db.prepare(`
+    SELECT * FROM fleet
+    WHERE is_active = 1
+    ORDER BY category ASC, sort_order ASC
+  `).all();
+
+  res.render("fleet", {
+    title: "Our Fleet | Radha Travels",
+    vehicles
+  });
+});
+
+/* =========================
+   BOOKING TRACKING ROUTES
+========================= */
+
+// Show tracking page
+app.get("/track-booking", (req, res) => {
+  res.render("track-booking", {
+    title: "Track Booking | Radha Travels",
+    booking: null,
+    error: null
+  });
+});
+
+// Handle tracking form submission
+app.post("/track-booking", (req, res) => {
+  const { bookingId } = req.body;
+
+  const booking = db
+    .prepare("SELECT * FROM bookings WHERE booking_id = ?")
+    .get(bookingId);
+
+  if (!booking) {
+    return res.render("track-booking", {
+      title: "Track Booking | Radha Travels",
+      booking: null,
+      error: "Booking not found. Please check your ID."
+    });
+  }
+
+  res.render("track-booking", {
+    title: "Track Booking | Radha Travels",
+    booking,
+    error: null
+  });
+});
+
 // =======================================================
 //  GALLERY (PUBLIC)
 // =======================================================
 
 app.use("/gallery", galleryRoutes);
+
+// =======================================================
+//  FLEET PUBLIC
+// =======================================================
+
+app.use("/fleet", fleetRoutes);
 
 // =======================================================
 //  SMTP CHECK (UTILITY)
