@@ -499,7 +499,63 @@ document.querySelectorAll(".faq-question").forEach(button => {
   });
 });
 </script>
-
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://radhatravels.co.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tours",
+      "item": "https://radhatravels.co.in/#special-tours"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": `Hyderabad to ${tour.name}`,
+      "item": `https://radhatravels.co.in/tours/${tour.name.toLowerCase()}`
+    }
+  ]
+}, null, 2) %>
+</script>
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": `Hyderabad to ${tour.name} Cab Service`,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Radha Travels",
+    "url": "https://radhatravels.co.in/",
+    "telephone": "+918332958915",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Hyderabad",
+      "addressRegion": "Telangana",
+      "addressCountry": "IN"
+    }
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": tour.name
+  },
+  "availableChannel": {
+    "@type": "ServiceChannel",
+    "serviceLocation": {
+      "@type": "Place",
+      "name": "Hyderabad"
+    }
+  },
+  "description": `Premium cab and travel service from Hyderabad to ${tour.name}. Comfortable vehicles, experienced drivers, and customizable temple tour packages available.`
+}, null, 2) %>
+</script>
 </body>
 
 </html>
