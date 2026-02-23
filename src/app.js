@@ -60,6 +60,12 @@ app.use((req, res, next) => {
   console.log("REQ ->", req.method, req.url);
   next();
 });
+// for metaDescription
+app.use((req, res, next) => {
+  res.locals.metaDescription =
+    "Book reliable Hyderabad cab service with Radha Travels. Airport transfers, outstation trips and temple tours available 24/7.";
+  next();
+});
 
 // no-cache globally
 app.use((_, res, next) => {
@@ -126,11 +132,11 @@ app.get("/", (req, res) => {
     console.error("Featured gallery error:", err.message);
   }
   const featuredFleet = db
-    .prepare("SELECT * FROM fleet WHERE status = 'active' ORDER BY id DESC LIMIT 4")
+    .prepare("SELECT * FROM fleet WHERE is_active = 1 ORDER BY id DESC LIMIT 4")
     .all();
 
   res.render("index", {
-    title: "Radha Travels",
+  title: "Hyderabad Cab Service | Outstation, Airport & Tempo Traveller | Radha Travels",
     heroSlides: loadHeroSlides(),
     featuredGallery,
     featuredFleet
@@ -297,7 +303,10 @@ app.get('/tours/:destination', (req, res) => {
 
   if (tour) {
     // If it exists, render the details page and pass the data
-    res.render('tour-detail', { tour: tour });
+    res.render("tour-detail", {
+  title: `Hyderabad to ${tour.name} Cab Service | Temple Trip Package | Radha Travels`,
+  tour: tour
+});
   } else {
     // If someone types a random URL like /tours/fakeplace
     res.status(404).send("Tour not found. Please return to the homepage.");
@@ -312,7 +321,7 @@ app.get("/services", (req, res) => {
   }));
 
   res.render("services/index", {
-    title: "Services | Radha Travels",
+    title: "Cab Services in Hyderabad | Airport, Outstation & Local Rentals | Radha Travels",
     services: servicesWithFrom,
   });
 });
@@ -325,7 +334,7 @@ app.get("/services/:slug", (req, res) => {
   }
 
   res.render("services/show", {
-    title: `${service.title} | Radha Travels`,
+    title: `${service.title} in Hyderabad | Affordable Cab Service | Radha Travels`,
     service,
     details: service.details || { intro: "", routes: [] },
     segments: SEGMENTS,
@@ -364,7 +373,7 @@ app.get("/fleet", (req, res) => {
   `).all();
 
   res.render("fleet", {
-    title: "Our Fleet | Radha Travels",
+    title: "Tempo Traveller & Cab Rental in Hyderabad | SUV, Sedan & Bus | Radha Travels",
     vehicles
   });
 });
@@ -376,7 +385,7 @@ app.get("/fleet", (req, res) => {
 // Show tracking page
 app.get("/track-booking", (req, res) => {
   res.render("track-booking", {
-    title: "Track Booking | Radha Travels",
+    title: "Track Your Cab Booking Online | Radha Travels Hyderabad",
     booking: null,
     error: null
   });
@@ -392,7 +401,7 @@ app.post("/track-booking", (req, res) => {
 
   if (!booking) {
     return res.render("track-booking", {
-      title: "Track Booking | Radha Travels",
+      title: "Track Your Cab Booking Online | Radha Travels Hyderabad",
       booking: null,
       error: "Booking not found. Please check your ID."
     });

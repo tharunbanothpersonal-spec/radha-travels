@@ -1,11 +1,48 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>
+<!-- <title>
   <%= typeof title !== "undefined"
       ? title + " | Radha Travels"
       : "Radha Travels" %>
-</title>
+</title> -->
+<title><%= title %></title>
+<meta name="description" content="<%= metaDescription || 'Book reliable Hyderabad cab service with Radha Travels. Airport transfers, outstation trips and temple tours available 24/7.' %>">
 <meta name="description" content="Premium cab rentals and outstation rides by Radha Travels." />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TaxiService",
+  "name": "Radha Travels",
+  "image": "https://radhatravels.co.in/images/logo.png",
+  "url": "https://radhatravels.co.in/",
+  "telephone": "+91-XXXXXXXXXX",
+  "priceRange": "₹₹",
+  "areaServed": {
+    "@type": "City",
+    "name": "Hyderabad"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Your Full Address Here",
+    "addressLocality": "Hyderabad",
+    "addressRegion": "Telangana",
+    "postalCode": "5000XX",
+    "addressCountry": "IN"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"
+    ],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "sameAs": [
+    "https://www.facebook.com/yourpage",
+    "https://www.instagram.com/yourpage"
+  ]
+}
+</script>
 
 
 <!-- Google Fonts -->
