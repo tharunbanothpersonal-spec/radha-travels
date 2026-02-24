@@ -2,10 +2,272 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+
   <%- include('../partials/head', { 
     title: post.title,
     metaDescription: post.excerpt
   }) %>
+
+  <style>
+    :root{
+      --primary:#10b981;
+      --primary-dark:#064e3b;
+      --bg:#f3f4f6;
+      --text:#111827;
+      --muted:#6b7280;
+    }
+
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    /* ================= HERO ================= */
+
+    .blog-hero{
+      background:linear-gradient(135deg,var(--primary-dark),var(--primary));
+      padding:60px 20px 50px;
+      color:white;
+    }
+
+    .blog-hero h1{
+      margin:0 0 12px;
+      font-size:24px;
+      line-height:1.4;
+      font-weight:600;
+    }
+
+    .blog-meta{
+      font-size:13px;
+      opacity:.9;
+    }
+
+    /* ================= CONTENT WRAPPER ================= */
+
+    .blog-wrapper{
+      padding:30px 16px 70px;
+      max-width:480px;
+      margin:auto;
+    }
+
+    .blog-container{
+      background:white;
+      padding:28px 22px;
+      border-radius:22px;
+      box-shadow:0 25px 60px rgba(0,0,0,0.06);
+    }
+
+    /* ================= TYPOGRAPHY ================= */
+
+    .blog-container h2{
+      font-size:18px;
+      margin-top:32px;
+      margin-bottom:12px;
+      padding-left:12px;
+      border-left:4px solid var(--primary);
+      font-weight:600;
+    }
+
+    .blog-container p{
+      font-size:15px;
+      line-height:1.8;
+      color:#374151;
+      margin-bottom:18px;
+    }
+
+    .blog-container ul{
+      padding-left:20px;
+      margin-bottom:20px;
+    }
+
+    .blog-container li{
+      margin-bottom:10px;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    /* ================= INTERNAL LINKS ================= */
+
+    .blog-container a{
+      color:var(--primary);
+      font-weight:600;
+      text-decoration:none;
+      border-bottom:2px solid var(--primary);
+      transition:all .3s ease;
+    }
+
+    .blog-container a:hover{
+      background:var(--primary);
+      color:white;
+      padding:2px 6px;
+      border-radius:4px;
+    }
+
+    /* ================= FEATURED IMAGE ================= */
+
+    .featured-image{
+      margin-bottom:20px;
+      border-radius:18px;
+      overflow:hidden;
+    }
+
+    .featured-image img{
+      width:100%;
+      height:200px;
+      object-fit:cover;
+    }
+
+    /* ================= RELATED POSTS ================= */
+
+    .related-section{
+      margin-top:55px;
+    }
+
+    .related-section h2{
+      font-size:18px;
+      margin-bottom:20px;
+      border:none;
+      padding:0;
+    }
+
+    .related-grid{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .related-card{
+      background:white;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 12px 30px rgba(0,0,0,0.05);
+      transition:.3s ease;
+    }
+
+    .related-card:hover{
+      transform:translateY(-4px);
+    }
+
+    .related-card img{
+      width:100%;
+      height:140px;
+      object-fit:cover;
+    }
+
+    .related-card-content{
+      padding:14px;
+    }
+
+    .related-card h3{
+      font-size:15px;
+      margin:0 0 6px;
+      color:var(--text);
+    }
+
+    .related-card p{
+      font-size:13px;
+      color:var(--muted);
+      margin:0;
+    }
+
+    /* ================= DESKTOP SCALING ================= */
+
+    @media(min-width:768px){
+      .blog-wrapper{
+        max-width:900px;
+      }
+
+      .blog-hero h1{
+        font-size:32px;
+      }
+
+      .featured-image img{
+        height:350px;
+      }
+
+      .related-grid{
+        flex-direction:row;
+      }
+
+      .related-card{
+        flex:1;
+      }
+    }
+/* ================= PREMIUM FLOATING CTA ================= */
+
+.floating-cta{
+  position:fixed;
+  bottom:25px;
+  left:25px;
+  background:linear-gradient(135deg,#4e0618,#b91b10);
+  color:white;
+  padding:14px 22px;
+  border-radius:50px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  box-shadow:0 10px 30px rgba(233, 218, 7, 0.4);
+  transition:all .1s ease;
+  z-index:999;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  animation: floatUpDown 3s ease-in-out infinite;
+  overflow:hidden;
+}
+
+/* Hover */
+.floating-cta:hover{
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:0 15px 40px rgba(16,185,129,0.6);
+}
+
+/* Glow Ring Animation */
+.floating-cta::after{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:50px;
+  border:2px solid rgba(16,185,129,0.6);
+  animation: pulseRing 1s infinite;
+  opacity:0;
+}
+
+/* Floating motion */
+@keyframes floatUpDown{
+  0%{ transform: translateY(0); }
+  50%{ transform: translateY(-10px); }
+  100%{ transform: translateY(0); }
+}
+
+/* Pulse ring */
+@keyframes pulseRing{
+  0%{
+    transform:scale(1);
+    opacity:.6;
+  }
+  70%{
+    transform:scale(1.4);
+    opacity:0;
+  }
+  100%{
+    opacity:0;
+  }
+}
+
+/* Mobile Optimization */
+@media(max-width:440px){
+  .floating-cta{
+    bottom:50px;
+    left:18px;
+    font-size:13px;
+    padding:12px 18px;
+  }
+}
+  </style>
 </head>
 
 <body>
@@ -13,55 +275,53 @@
 <%- include('../partials/header') %>
 <%- include('../partials/ticker') %>
 
-<article class="blog-article container">
-
+<!-- HERO -->
+<section class="blog-hero">
   <h1><%= post.title %></h1>
+  <div class="blog-meta">
+    Published on <%= post.date %>
+  </div>
+</section>
 
-  <div class="blog-content">
+<!-- CONTENT -->
+<div class="blog-wrapper">
+  <div class="blog-container">
+
+    <% if(post.image){ %>
+      <div class="featured-image">
+        <img src="<%= post.image %>" alt="<%= post.title %>">
+      </div>
+    <% } %>
+
     <%- post.content %>
-  </div>
 
-  <div class="blog-cta">
-    <a href="/contact" class="cta-btn">Book Your Trip Now</a>
-  </div>
+    <% if (relatedPosts && relatedPosts.length) { %>
+      <div class="related-section">
+        <h2>Related Travel Guides</h2>
 
-</article>
+        <div class="related-grid">
+          <% relatedPosts.forEach(item => { %>
+            <div class="related-card">
+              <a href="/blog/<%= item.slug %>">
+                <img src="<%= item.image %>" alt="<%= item.title %>">
+                <div class="related-card-content">
+                  <h3><%= item.title %></h3>
+                  <p><%= item.excerpt %></p>
+                </div>
+              </a>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+
+  </div>
+</div>
+<!-- Sticky Bottom CTA (Mobile Only) -->
+  <a href="#" role="button" class="floating-cta open-booking"><i class="ri-24-hours-line"></i> Book this Trip</a>
+
 
 <%- include('../partials/footer') %>
-
-<style>
-.blog-article {
-  max-width: 900px;
-  margin: 60px auto;
-  padding: 20px;
-}
-
-.blog-article h1 {
-  font-size: 32px;
-  margin-bottom: 20px;
-}
-
-.blog-content p {
-  font-size: 16px;
-  line-height: 1.8;
-  margin-bottom: 20px;
-}
-
-.blog-cta {
-  margin-top: 40px;
-  text-align: center;
-}
-
-.cta-btn {
-  display: inline-block;
-  padding: 14px 30px;
-  background: #10b981;
-  color: white;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-}
-</style>
 
 <!-- BlogPosting Schema -->
 <script type="application/ld+json">
@@ -70,6 +330,7 @@
   "@type": "BlogPosting",
   "headline": post.title,
   "description": post.excerpt,
+  "image": post.image ? "https://radhatravels.co.in" + post.image : undefined,
   "author": {
     "@type": "Organization",
     "name": "Radha Travels"
@@ -82,12 +343,38 @@
       "url": "https://radhatravels.co.in/images/logo.png"
     }
   },
+  "datePublished": post.date,
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": `https://radhatravels.co.in/blog/${post.slug}`
+    "@id": "https://radhatravels.co.in/blog/" + post.slug
   }
 }, null, 2) %>
 </script>
-
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://radhatravels.co.in/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://radhatravels.co.in/blog"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": post.title,
+      "item": "https://radhatravels.co.in/blog/" + post.slug
+    }
+  ]
+}, null, 2) %>
+</script>
 </body>
 </html>

@@ -354,6 +354,8 @@ const blogPosts = [
     slug: "hyderabad-to-srisailam-cab-cost",
     title: "Hyderabad to Srisailam Cab Cost (2026 Complete Guide)",
     excerpt: "Check latest Hyderabad to Srisailam cab cost, distance, travel time, vehicle options and booking tips for a smooth temple trip.",
+    image: "/images/blog/tirupati.jpg",
+  date: "2026-02-25",
     content: `
       <p>Srisailam is one of the most popular spiritual destinations from Hyderabad. Whether you are planning a same-day return trip or a 2-day temple visit, understanding the Hyderabad to Srisailam cab cost helps you plan your journey better.</p>
 
@@ -400,9 +402,423 @@ const blogPosts = [
 
       <p>For booking assistance, contact Radha Travels and get an instant customized quote.or explore our <a href="/services/outstation">outstation cab services</a>.</p>
     `
-  }
-];
+  },
+  {
+  slug: "hyderabad-to-tirupati-cab-cost",
+  title: "Hyderabad to Tirupati Cab Cost (2026 Updated Price Guide)",
+  excerpt: "Check Hyderabad to Tirupati cab cost, distance, travel time, vehicle options and pricing details. Affordable one-way and round trip packages.",
+  image: "/images/blog/tirupati.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Hyderabad to Tirupati Cab Cost</h1>
 
+    <p>If you are planning a spiritual trip to Tirumala, knowing the <strong>Hyderabad to Tirupati cab cost</strong> helps you plan better. Radha Travels offers affordable and comfortable cab services for families, senior citizens and temple groups.</p>
+
+    <h2>Hyderabad to Tirupati Distance & Travel Time</h2>
+    <p>The distance from Hyderabad to Tirupati is approximately <strong>550–600 km</strong>. Travel time usually takes around <strong>10 to 12 hours</strong> depending on traffic and route.</p>
+
+    <h2>Hyderabad to Tirupati Cab Price</h2>
+    <ul>
+      <li>Sedan: Starting from ₹11 per km</li>
+      <li>SUV: Starting from ₹14 per km</li>
+      <li>Tempo Traveller: Custom pricing</li>
+      <li>Mini Bus: Group packages available</li>
+    </ul>
+
+    <p>Exact pricing depends on trip duration, vehicle type and seasonal demand. Contact Radha Travels for an updated quote.</p>
+
+    <h2>One Way vs Round Trip</h2>
+    <p>For temple visits, most customers prefer round trip packages. However, we also provide one-way drop services.</p>
+
+    <h2>Why Choose Radha Travels?</h2>
+    <ul>
+      <li>Experienced drivers familiar with Tirumala routes</li>
+      <li>Clean and sanitized vehicles</li>
+      <li>On-time pickup and drop</li>
+      <li>Transparent pricing</li>
+    </ul>
+
+    <h2>Related Temple Routes</h2>
+    <p>Planning other temple trips? Check our guides:</p>
+    <ul>
+      <li><a href="/blog/hyderabad-to-srisailam-cab-cost" class="internal-link">Hyderabad to Srisailam Cab Cost</a></li>
+      <li><a href="/tours/tirupati" class="internal-link">Tirupati Tour Package Details</a></li>
+    </ul>
+  `,
+},
+{
+  slug: "best-outstation-cab-service-in-hyderabad",
+  title: "Best Outstation Cab Service in Hyderabad (2026 Price & Travel Guide)",
+  excerpt: "Looking for the best outstation cab service in Hyderabad? Compare prices, vehicle options and route details before booking your next trip.",
+  image: "/images/blog/outstation.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Best Outstation Cab Service in Hyderabad</h1>
+
+    <p>If you are planning a long road trip from Hyderabad, choosing the right outstation cab service is crucial. Whether you're traveling for pilgrimage, family vacation, or business, Radha Travels offers reliable and affordable outstation taxi services.</p>
+
+    <h2>Why Choose an Outstation Cab Instead of Self-Drive?</h2>
+    <ul>
+      <li>No driving fatigue</li>
+      <li>Experienced highway drivers</li>
+      <li>Transparent per km pricing</li>
+      <li>Doorstep pickup and drop</li>
+    </ul>
+
+    <h2>Popular Outstation Routes from Hyderabad</h2>
+    <ul>
+      <li><a href="/blog/hyderabad-to-tirupati-cab-cost">Hyderabad to Tirupati Cab Cost Guide</a></li>
+      <li><a href="/blog/hyderabad-to-srisailam-cab-cost">Hyderabad to Srisailam Cab Cost Guide</a></li>
+      <li><a href="/blog/hyderabad-to-shirdi-cab-cost">Hyderabad to Shirdi Cab Cost Guide</a></li>
+      <li><a href="/tours/arunachalam">Hyderabad to Arunachalam Travel Guide</a></li>
+    </ul>
+
+    <h2>Outstation Cab Pricing in Hyderabad</h2>
+    <p>Outstation cab prices typically depend on:</p>
+    <ul>
+      <li>Vehicle type (Sedan, SUV, Traveller)</li>
+      <li>Total kilometers</li>
+      <li>Number of days</li>
+      <li>Toll & parking charges</li>
+    </ul>
+
+    <p>Average pricing starts from ₹12–₹18 per km for Sedans and ₹18–₹25 per km for SUVs.</p>
+
+    <h2>Vehicles Available for Outstation Trips</h2>
+    <ul>
+      <li>Sedan – Ideal for 4 passengers</li>
+      <li>SUV – Comfortable for 6–7 passengers</li>
+      <li>Tempo Traveller – Best for group trips</li>
+      <li>Mini Bus – Temple or corporate groups</li>
+    </ul>
+
+    <h2>Why Radha Travels is Trusted for Outstation Trips</h2>
+    <ul>
+      <li>10+ years experience</li>
+      <li>Clean & sanitized vehicles</li>
+      <li>Professional chauffeurs</li>
+      <li>24/7 booking support</li>
+      <li>No hidden charges</li>
+    </ul>
+
+    <p>If you're planning your next trip, check our <a href="/fleet">fleet options here</a> or <a href="/contact">contact us directly</a> for a quick quote.</p>
+  `
+},
+{
+  slug: "hyderabad-airport-cab-service-guide",
+  title: "Hyderabad Airport Cab Service (2026 Fare Guide & Booking Tips)",
+  excerpt: "Looking for reliable Hyderabad airport cab service? Compare fares, vehicle options and booking tips for Rajiv Gandhi International Airport transfers.",
+  image: "/images/blog/airport.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Hyderabad Airport Cab Service – Complete 2026 Guide</h1>
+
+    <p>Booking a reliable airport cab in Hyderabad ensures stress-free travel to or from Rajiv Gandhi International Airport (RGIA). Whether you need a pickup or drop service, choosing the right taxi provider matters.</p>
+
+    <h2>Hyderabad Airport Cab Fare</h2>
+    <p>Airport cab fares usually depend on distance and vehicle type.</p>
+
+    <ul>
+      <li>Sedan: ₹1100 – ₹1600 (within city limits)</li>
+      <li>SUV: ₹1600 – ₹2500</li>
+      <li>Tempo Traveller: Based on group size</li>
+    </ul>
+
+    <h2>Why Pre-Book Airport Taxi?</h2>
+    <ul>
+      <li>No surge pricing</li>
+      <li>On-time pickup</li>
+      <li>Professional drivers</li>
+      <li>Flight tracking support</li>
+    </ul>
+
+    <h2>Airport Pickup Process</h2>
+    <p>Our drivers track your flight in real-time and arrive before landing. You receive driver details and vehicle number via WhatsApp for easy coordination.</p>
+
+    <h2>Airport Drop Tips</h2>
+    <ul>
+      <li>Start at least 3 hours before domestic flights</li>
+      <li>4 hours before international flights</li>
+      <li>Keep ID proof ready</li>
+    </ul>
+
+    <h2>Why Choose Radha Travels for Airport Transfers?</h2>
+    <ul>
+      <li>24/7 availability</li>
+      <li>Transparent pricing</li>
+      <li>Sanitized vehicles</li>
+      <li>Corporate billing support</li>
+    </ul>
+
+    <p>Check our <a href="/fleet">fleet options</a> or book directly through our <a href="/services/airport-transfer">Airport Transfer Service page</a>.</p>
+  `
+},
+{
+  slug: "hyderabad-local-cab-service-cost",
+  title: "Hyderabad Local Cab Service Cost (Hourly & Full-Day Packages 2026)",
+  excerpt: "Looking for Hyderabad local cab service? Check hourly rates, full-day packages, vehicle options and booking tips for city travel.",
+  image: "/images/blog/local.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Hyderabad Local Cab Service Cost (2026 Guide)</h1>
+
+    <p>If you need a taxi for city travel, shopping, business meetings or sightseeing, understanding Hyderabad local cab service pricing helps you choose the right package.</p>
+
+    <h2>Hyderabad Local Cab Packages</h2>
+    <ul>
+      <li>4 Hours / 40 KM Package</li>
+      <li>8 Hours / 80 KM Package</li>
+      <li>Full-Day Custom Package</li>
+    </ul>
+
+    <h2>Local Cab Pricing in Hyderabad</h2>
+    <ul>
+      <li>Sedan: Starting from ₹1800 (8 hours)</li>
+      <li>SUV: Starting from ₹2500</li>
+      <li>Tempo Traveller: Custom pricing</li>
+    </ul>
+
+    <p>Additional charges may apply if kilometer limit exceeds the package.</p>
+
+    <h2>Best Use Cases for Local Cab</h2>
+    <ul>
+      <li>Shopping trips</li>
+      <li>Corporate meetings</li>
+      <li>Wedding events</li>
+      <li>City sightseeing</li>
+      <li>Family functions</li>
+    </ul>
+
+    <h2>Why Choose Radha Travels for Local Taxi?</h2>
+    <ul>
+      <li>Professional city drivers</li>
+      <li>Transparent pricing</li>
+      <li>Sanitized vehicles</li>
+      <li>24/7 availability</li>
+    </ul>
+
+    <p>Explore our <a href="/fleet">available vehicles</a> or visit our <a href="/services/local-tour">Local Tour Service page</a> for booking details.</p>
+
+    <h2>Related Travel Guides</h2>
+    <ul>
+      <li><a href="/blog/best-outstation-cab-service-in-hyderabad">Best Outstation Cab Service</a></li>
+      <li><a href="/blog/hyderabad-airport-cab-service-guide">Hyderabad Airport Cab Service</a></li>
+    </ul>
+  `
+},
+{
+  slug: "hyderabad-to-shirdi-cab-cost",
+  title: "Hyderabad to Shirdi Cab Cost (2026 Complete Price & Travel Guide)",
+  excerpt: "Check Hyderabad to Shirdi cab cost, distance, travel time, vehicle options and round trip pricing before booking your temple trip.",
+  image: "/images/blog/shirdi.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Hyderabad to Shirdi Cab Cost (2026 Guide)</h1>
+
+    <p>Planning a spiritual journey to Sai Baba Temple? Understanding the Hyderabad to Shirdi cab cost helps you choose the right vehicle and package for your family or group.</p>
+
+    <h2>Hyderabad to Shirdi Distance & Travel Time</h2>
+    <p>The distance between Hyderabad and Shirdi is approximately <strong>600 km</strong>. The journey usually takes <strong>11 to 13 hours</strong> depending on traffic and rest stops.</p>
+
+    <h2>Hyderabad to Shirdi Cab Fare</h2>
+    <ul>
+      <li>Sedan: ₹13–₹16 per km</li>
+      <li>SUV: ₹18–₹24 per km</li>
+      <li>Tempo Traveller: Based on group size</li>
+      <li>Mini Bus: Custom devotional packages</li>
+    </ul>
+
+    <p>Round trip packages are most preferred for Shirdi temple visits.</p>
+
+    <h2>Best Route from Hyderabad to Shirdi</h2>
+    <ul>
+      <li>Hyderabad – Zaheerabad – Bidar – Ahmednagar – Shirdi</li>
+      <li>Hyderabad – Nizamabad – Nanded – Shirdi</li>
+    </ul>
+
+    <h2>One-Way vs Round Trip</h2>
+    <p>Most devotees choose round trip packages with 1-night stay in Shirdi. One-way drop services are also available on request.</p>
+
+    <h2>Why Book Shirdi Trip with Radha Travels?</h2>
+    <ul>
+      <li>Experienced drivers for long-distance routes</li>
+      <li>Clean & sanitized vehicles</li>
+      <li>Transparent pricing</li>
+      <li>Temple-friendly travel scheduling</li>
+      <li>24/7 booking assistance</li>
+    </ul>
+
+    <h2>Related Temple Travel Guides</h2>
+    <ul>
+      <li><a href="/blog/hyderabad-to-tirupati-cab-cost">Hyderabad to Tirupati Cab Cost</a></li>
+      <li><a href="/blog/hyderabad-to-srisailam-cab-cost">Hyderabad to Srisailam Cab Cost</a></li>
+      <li><a href="/blog/best-outstation-cab-service-in-hyderabad">Best Outstation Cab Service</a></li>
+    </ul>
+
+    <p>Explore our <a href="/fleet">fleet options</a> or contact us for an exact Shirdi trip quotation.</p>
+  `
+},
+{
+  slug: "hyderabad-to-arunachalam-cab-cost",
+  title: "Hyderabad to Arunachalam Cab Cost (2026 Complete Travel & Price Guide)",
+  excerpt: "Check Hyderabad to Arunachalam cab cost, distance, travel time and vehicle options for Tiruvannamalai temple trips.",
+  image: "/images/blog/arunachalam.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Hyderabad to Arunachalam Cab Cost (2026 Guide)</h1>
+
+    <p>Arunachalam (Tiruvannamalai) is one of the most sacred Shiva temples in India. If you're planning a spiritual journey, understanding the Hyderabad to Arunachalam cab cost helps you choose the right travel package.</p>
+
+    <h2>Hyderabad to Arunachalam Distance & Travel Time</h2>
+    <p>The distance between Hyderabad and Arunachalam is approximately <strong>620–650 km</strong>. Travel time usually takes around <strong>12 to 14 hours</strong> depending on traffic and route.</p>
+
+    <h2>Hyderabad to Arunachalam Cab Fare</h2>
+    <ul>
+      <li>Sedan: ₹14–₹18 per km</li>
+      <li>SUV: ₹20–₹26 per km</li>
+      <li>Tempo Traveller: Based on group size</li>
+      <li>Mini Bus: Devotional group packages available</li>
+    </ul>
+
+    <p>Most devotees prefer a 2-day round trip package for temple darshan and Girivalam.</p>
+
+    <h2>Best Routes from Hyderabad to Arunachalam</h2>
+    <ul>
+      <li>Hyderabad – Kurnool – Kadapa – Chittoor – Tiruvannamalai</li>
+      <li>Hyderabad – Nandyal – Tirupati – Tiruvannamalai</li>
+    </ul>
+
+    <h2>Ideal Time for Girivalam</h2>
+    <p>Full moon (Pournami) days attract thousands of devotees for Girivalam. Booking your cab in advance is highly recommended.</p>
+
+    <h2>Why Choose Radha Travels for Arunachalam Trip?</h2>
+    <ul>
+      <li>Experienced long-distance drivers</li>
+      <li>Temple-friendly travel scheduling</li>
+      <li>Clean & sanitized vehicles</li>
+      <li>Transparent pricing</li>
+      <li>24/7 support for devotees</li>
+    </ul>
+
+    <h2>Related Temple Travel Guides</h2>
+    <ul>
+      <li><a href="/blog/hyderabad-to-tirupati-cab-cost">Hyderabad to Tirupati Cab Cost</a></li>
+      <li><a href="/blog/hyderabad-to-srisailam-cab-cost">Hyderabad to Srisailam Cab Cost</a></li>
+      <li><a href="/blog/hyderabad-to-shirdi-cab-cost">Hyderabad to Shirdi Cab Cost</a></li>
+      <li><a href="/blog/best-outstation-cab-service-in-hyderabad">Best Outstation Cab Service</a></li>
+    </ul>
+
+    <p>Check our <a href="/fleet">fleet options</a> or contact us directly for an exact Arunachalam travel quote.</p>
+  `
+},
+{
+  slug: "best-time-to-visit-tirupati",
+  title: "Best Time to Visit Tirupati (Complete 2026 Seasonal Guide)",
+  excerpt: "Planning Tirupati Darshan? Discover the best time to visit Tirupati based on weather, crowd levels and festival seasons.",
+  image: "/images/blog/tirupati-season.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Best Time to Visit Tirupati (2026 Guide)</h1>
+
+    <p>Tirupati is one of the most visited pilgrimage destinations in India. Choosing the best time to visit Tirupati helps ensure a peaceful darshan experience.</p>
+
+    <h2>Best Season to Visit Tirupati</h2>
+    <p><strong>September to February</strong> is considered the ideal time due to pleasant weather and manageable crowds.</p>
+
+    <h2>Summer (March–June)</h2>
+    <p>Temperatures can rise above 40°C. Darshan queues may be exhausting during peak heat.</p>
+
+    <h2>Monsoon (July–September)</h2>
+    <p>Moderate rains and fewer tourists. Roads are safe but travel time may increase.</p>
+
+    <h2>Winter (October–February)</h2>
+    <p>Best season for Tirupati darshan. Comfortable weather and ideal for senior citizens.</p>
+
+    <h2>Festival Rush</h2>
+    <ul>
+      <li>Brahmotsavam</li>
+      <li>Vaikunta Ekadasi</li>
+      <li>New Year & Weekends</li>
+    </ul>
+
+    <p>Planning your trip? Check our <a href="/blog/hyderabad-to-tirupati-cab-cost">Hyderabad to Tirupati cab cost guide</a> for travel pricing details.</p>
+  `
+},
+{
+  slug: "srisailam-distance-travel-time",
+  title: "Hyderabad to Srisailam Distance & Travel Time (Route Guide 2026)",
+  excerpt: "Know exact Hyderabad to Srisailam distance, route options, travel duration and road conditions before planning your temple trip.",
+  image: "/images/blog/srisailam-route.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Hyderabad to Srisailam Distance & Travel Time</h1>
+
+    <p>The distance from Hyderabad to Srisailam is approximately <strong>210–230 km</strong> depending on starting location.</p>
+
+    <h2>Travel Time</h2>
+    <p>Average travel time is <strong>5 to 6 hours</strong> via NH 765.</p>
+
+    <h2>Route Details</h2>
+    <ul>
+      <li>Hyderabad – Kalwakurthy – Dornala – Srisailam</li>
+    </ul>
+
+    <h2>Nallamala Forest Route</h2>
+    <p>The drive passes through scenic forest roads with beautiful viewpoints.</p>
+
+    <p>Check our detailed <a href="/blog/hyderabad-to-srisailam-cab-cost">Srisailam cab cost guide</a> for pricing.</p>
+  `
+},
+{
+  slug: "shirdi-darshan-timings-guide",
+  title: "Shirdi Darshan Timings Guide (Aarti Schedule & Travel Tips 2026)",
+  excerpt: "Complete guide to Shirdi Sai Baba temple darshan timings, aarti schedule and best travel planning tips.",
+  image: "/images/blog/shirdi-darshan.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Shirdi Darshan Timings Guide</h1>
+
+    <p>Planning a visit to Shirdi? Knowing darshan timings helps avoid long queues.</p>
+
+    <h2>Daily Temple Schedule</h2>
+    <ul>
+      <li>Kakad Aarti – 4:00 AM</li>
+      <li>Madhyan Aarti – 12:00 PM</li>
+      <li>Dhoop Aarti – Sunset</li>
+      <li>Shej Aarti – 10:30 PM</li>
+    </ul>
+
+    <h2>Best Time for Darshan</h2>
+    <p>Weekdays are less crowded compared to weekends and festivals.</p>
+
+    <p>See travel options in our <a href="/blog/hyderabad-to-shirdi-cab-cost">Hyderabad to Shirdi cab cost guide</a>.</p>
+  `
+},
+{
+  slug: "girivalam-guide-arunachalam",
+  title: "Girivalam Guide for Arunachalam (Route, Distance & Travel Tips 2026)",
+  excerpt: "Complete guide to Arunachalam Girivalam including distance, best time, temple route and travel planning tips.",
+  image: "/images/blog/girivalam.jpg",
+  date: "2026-02-25",
+  content: `
+    <h1>Girivalam Guide for Arunachalam</h1>
+
+    <p>Girivalam is the sacred 14 km walk around Arunachala Hill performed on full moon days.</p>
+
+    <h2>Girivalam Distance</h2>
+    <p>The total distance is approximately <strong>14 km</strong>.</p>
+
+    <h2>Best Time for Girivalam</h2>
+    <p>Pournami (Full Moon) nights attract thousands of devotees.</p>
+
+    <h2>Travel from Hyderabad</h2>
+    <p>Distance is around 620–650 km and takes 12–14 hours by road.</p>
+
+    <p>Check our <a href="/blog/hyderabad-to-arunachalam-cab-cost">Arunachalam cab cost guide</a> for pricing.</p>
+  `
+}
+];
+console.log("Total blogs:", blogPosts.length);
 app.get("/blog", (req, res) => {
   res.render("blog/blog-index", {
     title: "Travel Blog | Radha Travels",
@@ -411,15 +827,24 @@ app.get("/blog", (req, res) => {
 });
 
 app.get("/blog/:slug", (req, res) => {
+
   const post = blogPosts.find(p => p.slug === req.params.slug);
+
   if (!post) {
     return res.status(404).render("pages/404", { title: "Not Found" });
   }
 
+  // Auto related posts (exclude current)
+  const relatedPosts = blogPosts
+    .filter(p => p.slug !== post.slug)
+    .slice(0, 3);
+
   res.render("blog/blog-show", {
     title: post.title,
-    post
+    post,
+    relatedPosts
   });
+
 });
 
 // =======================================================
