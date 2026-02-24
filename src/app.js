@@ -404,7 +404,7 @@ const blogPosts = [
 ];
 
 app.get("/blog", (req, res) => {
-  res.render("blog/index", {
+  res.render("blog/blog-index", {
     title: "Travel Blog | Radha Travels",
     posts: blogPosts
   });
@@ -416,7 +416,7 @@ app.get("/blog/:slug", (req, res) => {
     return res.status(404).render("pages/404", { title: "Not Found" });
   }
 
-  res.render("blog/show", {
+  res.render("blog/blog-show", {
     title: post.title,
     post
   });
