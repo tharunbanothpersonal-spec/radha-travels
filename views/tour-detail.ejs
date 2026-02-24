@@ -556,6 +556,21 @@ document.querySelectorAll(".faq-question").forEach(button => {
   "description": `Premium cab and travel service from Hyderabad to ${tour.name}. Comfortable vehicles, experienced drivers, and customizable temple tour packages available.`
 }, null, 2) %>
 </script>
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": `Hyderabad to ${tour.name} Cab Service`,
+  "description": `Premium Hyderabad to ${tour.name} cab service by Radha Travels. Comfortable vehicles, professional drivers and temple travel packages available.`,
+  "url": `https://radhatravels.co.in/tours/${tour.name.toLowerCase()}`,
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Radha Travels",
+    "url": "https://radhatravels.co.in/"
+  }
+}, null, 2) %>
+</script>
 </body>
 
 </html>

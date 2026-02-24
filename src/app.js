@@ -344,6 +344,84 @@ app.get("/services/:slug", (req, res) => {
   });
 });
 
+
+// =========================
+// BLOG ROUTES
+// =========================
+
+const blogPosts = [
+  {
+    slug: "hyderabad-to-srisailam-cab-cost",
+    title: "Hyderabad to Srisailam Cab Cost (2026 Complete Guide)",
+    excerpt: "Check latest Hyderabad to Srisailam cab cost, distance, travel time, vehicle options and booking tips for a smooth temple trip.",
+    content: `
+      <p>Srisailam is one of the most popular spiritual destinations from Hyderabad. Whether you are planning a same-day return trip or a 2-day temple visit, understanding the Hyderabad to Srisailam cab cost helps you plan your journey better.</p>
+
+      <h2>Hyderabad to Srisailam Distance & Travel Time</h2>
+      <p>The distance from Hyderabad to Srisailam is approximately 210–230 km via NH 765. The journey takes around 5 to 6 hours depending on traffic and road conditions through the scenic Nallamala forest.</p>
+
+      <h2>Hyderabad to Srisailam Cab Cost (Approximate Pricing)</h2>
+      <p>The cost depends on vehicle type and duration. Below is a general price estimate:</p>
+
+      <ul>
+        <li><strong>Sedan:</strong> ₹11–13 per km</li>
+        <li><strong>SUV:</strong> ₹15–18 per km</li>
+        <li><strong>Tempo Traveller:</strong> ₹22–26 per km</li>
+      </ul>
+
+      <p>For a round trip, total cost may range between ₹4500 – ₹9000 depending on vehicle selection and trip duration.</p>
+
+      <h2>Best Vehicle for Srisailam Trip</h2>
+      <p>For small families, a Sedan is comfortable and budget-friendly. For larger groups or temple mandalis, SUVs or Tempo Travellers are recommended for space and comfort.</p>
+
+      <h2>Is Same-Day Return Possible?</h2>
+      <p>Yes, many travelers opt for same-day return trips. However, starting early morning is highly recommended to avoid forest traffic delays.</p>
+
+      <h2>Why Book with Radha Travels?</h2>
+      <ul>
+        <li>Experienced drivers familiar with Srisailam forest route</li>
+        <li>Well-maintained AC vehicles</li>
+        <li>Transparent pricing</li>
+        <li>Customizable temple tour packages</li>
+      </ul>
+
+      <p>If you are planning your trip, check our detailed <a href="/tours/srisailam">Hyderabad to Srisailam travel package page</a> for route details and booking options.</p>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <h3>What is the cheapest way to travel from Hyderabad to Srisailam?</h3>
+      <p>Booking a Sedan for a round trip is usually the most economical and comfortable option for families.</p>
+
+      <h3>Is night travel safe to Srisailam?</h3>
+      <p>While the road is generally safe, forest sections may have restricted timings. Day travel is recommended.</p>
+
+      <h3>How much fuel cost is required for Hyderabad to Srisailam?</h3>
+      <p>For a private car, fuel cost may range between ₹2000–₹3000 depending on vehicle mileage.</p>
+
+      <p>For booking assistance, contact Radha Travels and get an instant customized quote.or explore our <a href="/services/outstation">outstation cab services</a>.</p>
+    `
+  }
+];
+
+app.get("/blog", (req, res) => {
+  res.render("blog/index", {
+    title: "Travel Blog | Radha Travels",
+    posts: blogPosts
+  });
+});
+
+app.get("/blog/:slug", (req, res) => {
+  const post = blogPosts.find(p => p.slug === req.params.slug);
+  if (!post) {
+    return res.status(404).render("pages/404", { title: "Not Found" });
+  }
+
+  res.render("blog/show", {
+    title: post.title,
+    post
+  });
+});
+
 // =======================================================
 //  BOOKINGS API
 // =======================================================

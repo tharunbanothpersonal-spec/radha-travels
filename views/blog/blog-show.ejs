@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <%- include('../partials/head', { 
+    title: post.title,
+    metaDescription: post.excerpt
+  }) %>
+</head>
+
+<body>
+
+<%- include('../partials/header') %>
+<%- include('../partials/ticker') %>
+
+<article class="blog-article container">
+
+  <h1><%= post.title %></h1>
+
+  <div class="blog-content">
+    <%- post.content %>
+  </div>
+
+  <div class="blog-cta">
+    <a href="/contact" class="cta-btn">Book Your Trip Now</a>
+  </div>
+
+</article>
+
+<%- include('../partials/footer') %>
+
+<style>
+.blog-article {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+.blog-article h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.blog-content p {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.blog-cta {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 14px 30px;
+  background: #10b981;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+</style>
+
+<!-- BlogPosting Schema -->
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.title,
+  "description": post.excerpt,
+  "author": {
+    "@type": "Organization",
+    "name": "Radha Travels"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Radha Travels",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://radhatravels.co.in/images/logo.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://radhatravels.co.in/blog/${post.slug}`
+  }
+}, null, 2) %>
+</script>
+
+</body>
+</html>
