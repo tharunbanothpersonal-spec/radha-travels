@@ -67,11 +67,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// no-cache globally
-app.use((_, res, next) => {
-  res.set("Cache-Control", "no-store, no-cache, must-revalidate, public");
-  res.set("Pragma", "no-cache");
-  res.set("Expires", "0");
+// no-cache for admin
+app.use("/admin", (req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
   next();
 });
 
@@ -998,6 +996,11 @@ app.get("/sitemap.xml", (req, res) => {
   res.status(200).send(sitemap);
 });
 
+app.head("/sitemap.xml", (req, res) => {
+  res.setHeader("Content-Type", "application/xml");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).end();
+});
 
 // =======================================================
 //  404
