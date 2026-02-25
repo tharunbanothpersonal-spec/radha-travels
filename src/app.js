@@ -39,6 +39,16 @@ const PORT = process.env.PORT || 3000;
 // =======================================================
 
 app.use(express.static(path.join(__dirname, "..", "public")));
+app.get("/robots.txt", (req, res) => {
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(
+`User-agent: *
+Allow: /
+
+Sitemap: https://radhatravels.co.in/sitemap.xml`
+  );
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
