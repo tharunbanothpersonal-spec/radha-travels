@@ -951,57 +951,7 @@ app.get("/internal/smtp-check", async (req, res) => {
   socket.connect(port, host);
 });
 
-// =========================
-// Dynamic Sitemap Generator
-// =========================
-app.get("/sitemap.xml", (req, res) => {
 
-  const baseUrl = "https://radhatravels.co.in";
-
-  const staticPages = [
-    "",
-    "/services",
-    "/fleet",
-    "/gallery",
-    "/track-booking",
-    "/blog"
-  ];
-
-  const blogUrls = blogPosts.map(post => `/blog/${post.slug}`);
-
-  const tourPages = [
-    "/tours/srisailam",
-    "/tours/tirupati",
-    "/tours/shirdi",
-    "/tours/arunachalam"
-  ];
-
-  const allUrls = [...staticPages, ...blogUrls, ...tourPages];
-
-  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    ${allUrls
-      .map(url => `
-        <url>
-          <loc>${baseUrl}${url}</loc>
-          <changefreq>weekly</changefreq>
-          <priority>${url === "" ? "1.0" : "0.8"}</priority>
-        </url>
-      `)
-      .join("")}
-  </urlset>`;
-
-  // 🔥 OVERRIDE HEADERS FOR GOOGLE
-  res.setHeader("Content-Type", "application/xml");
-  res.setHeader("Cache-Control", "public, max-age=3600");
-  res.status(200).send(sitemap);
-});
-
-app.head("/sitemap.xml", (req, res) => {
-  res.setHeader("Content-Type", "application/xml");
-  res.setHeader("Cache-Control", "public, max-age=3600");
-  res.status(200).end();
-});
 // =======================================================
 //  404
 // =======================================================
