@@ -69,7 +69,7 @@ app.use((req, res, next) => {
 
 // no-cache globally
 app.use((_, res, next) => {
-  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, public");
   res.set("Pragma", "no-cache");
   res.set("Expires", "0");
   next();
@@ -992,8 +992,10 @@ app.get("/sitemap.xml", (req, res) => {
       .join("")}
   </urlset>`;
 
-  res.header("Content-Type", "application/xml");
-  res.send(sitemap);
+  // 🔥 OVERRIDE HEADERS FOR GOOGLE
+  res.setHeader("Content-Type", "application/xml");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(sitemap);
 });
 
 
