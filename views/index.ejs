@@ -65,7 +65,7 @@
     .reveal-item.is-visible.reveal-luxury-mask img {
       transform: scale(1); /* Image snaps into its frame perfectly */
     }
-  </style>
+</style>
 </head>
 <body>
   <%- include('partials/header') %>
@@ -198,8 +198,42 @@
       </a>
     </div>
     <div class="rt-sp-footer reveal-item reveal-slide-up">
-      <a href="/services" class="rt-sp-btn">Click here for more services</a>
+      <a href="/services" class="rt-sp-btn">Click here for more services →</a>
     </div>
+  </div>
+</section>
+<!--home blog-preview -->
+<section class="home-blog-premium reveal-group">
+  <div class="container">
+
+    <div class="section-head reveal-item">
+      <h2>Travel Insights & Temple Guides</h2>
+      <p>Expert travel tips, cab pricing & pilgrimage planning</p>
+    </div>
+
+    <div class="premium-blog-grid">
+      <% latestPosts.forEach(post => { %>
+        <div class="premium-blog-card reveal-item">
+          <a href="/blog/<%= post.slug %>">
+
+            <div class="premium-blog-img">
+              <img src="<%= post.image %>" alt="<%= post.title %>" loading="lazy">
+            </div>
+
+            <div class="premium-blog-body">
+              <span class="blog-chip">Guide</span>
+              <h3><%= post.title %></h3>
+            </div>
+
+          </a>
+        </div>
+      <% }) %>
+    </div>
+    <div class="blog-view-more reveal-item">
+  <a href="/blog" class="blog-view-btn">
+    View All Travel Guides →
+  </a>
+</div>
   </div>
 </section>
 <!-- Home Fleet section -->
@@ -229,7 +263,7 @@
       <% } %>
     </div>
     <div class="hf-footer reveal-item reveal-slide-up">
-      <a href="/fleet" class="hf-btn">View All Fleet</a>
+      <a href="/fleet" class="hf-btn">View All Fleet →</a>
     </div>
   </div>
 </section>

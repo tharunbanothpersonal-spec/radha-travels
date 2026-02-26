@@ -8,101 +8,151 @@
   }) %>
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #f9fafb;
+    :root{
+      --primary:#10b981;
+      --dark:#111827;
+      --muted:#6b7280;
     }
 
-    /* HERO */
-    .blog-hero {
-      padding: 60px 20px 40px;
-      background: linear-gradient(135deg,#064e3b,#10b981);
-      color: white;
-      text-align: center;
+    body{
+      margin:0;
+      font-family:'Poppins',sans-serif;
+      background:#f8fafc;
     }
 
-    .blog-hero h1 {
-      margin: 0 0 10px;
-      font-size: 28px;
+    /* ================= HERO ================= */
+
+    .blog-hero{
+      padding:70px 20px 50px;
+      background:linear-gradient(135deg,#065f46,#10b981);
+      color:white;
+      text-align:center;
     }
 
-    .blog-hero p {
-      margin: 0;
-      font-size: 14px;
-      opacity: 0.9;
+    .blog-hero h1{
+      margin:0 0 10px;
+      font-size:24px;
+      font-weight:600;
     }
 
-    /* GRID */
-    .blog-grid {
-      padding: 30px 16px 60px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      max-width: 480px;
-      margin: auto;
+    .blog-hero p{
+      font-size:13px;
+      opacity:.9;
     }
 
-    .blog-card {
-      background: #ffffff;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.05);
-      transition: 0.3s ease;
+    @media(min-width:768px){
+      .blog-hero h1{ font-size:36px; }
+      .blog-hero p{ font-size:15px; }
     }
 
-    .blog-card:hover {
-      transform: translateY(-4px);
+    /* ================= GRID ================= */
+
+    .blog-wrapper{
+      max-width:1100px;
+      margin:auto;
+      padding:50px 16px 80px;
     }
 
-    .blog-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+    .blog-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:22px;
     }
 
-    .blog-content {
-      padding: 20px;
-    }
-
-    .blog-content h2 {
-      font-size: 18px;
-      margin: 0 0 10px;
-      line-height: 1.4;
-      color: #111827;
-    }
-
-    .blog-content p {
-      font-size: 14px;
-      color: #6b7280;
-      margin-bottom: 15px;
-      line-height: 1.6;
-    }
-
-    .read-more {
-      font-size: 13px;
-      font-weight: 600;
-      color: #10b981;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .read-more:hover {
-      text-decoration: underline;
-    }
-
-    @media (min-width: 768px) {
-      .blog-grid {
-        flex-direction: row;
-        flex-wrap: wrap;
-        max-width: 1100px;
+    /* 2 COLUMN MOBILE */
+    @media(max-width:440px){
+      .blog-grid{
+        grid-template-columns:1fr 1fr;
+        gap:14px;
       }
+    }
 
-      .blog-card {
-        width: calc(50% - 10px);
+    /* TABLET */
+    @media(min-width:768px){
+      .blog-grid{
+        grid-template-columns:repeat(3,1fr);
+        gap:30px;
       }
+    }
+
+    /* ================= CARD ================= */
+
+    .blog-card{
+      background:white;
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 20px 60px rgba(0,0,0,0.06);
+      transition:all .35s ease;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .blog-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 30px 70px rgba(16,185,129,0.15);
+    }
+
+    .blog-card img{
+      width:100%;
+      height:190px;
+      object-fit:cover;
+      display:block;
+      transition:transform .5s ease;
+    }
+
+    @media(max-width:440px){
+      .blog-card img{
+        height:130px;
+      }
+    }
+
+    .blog-card:hover img{
+      transform:scale(1.05);
+    }
+
+    .blog-content{
+      padding:16px;
+      flex-grow:1;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .blog-date{
+      font-size:11px;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    .blog-content h2{
+      font-size:15px;
+      margin:0 0 8px;
+      line-height:1.4;
+      color:var(--dark);
+      flex-grow:1;
+    }
+
+    @media(max-width:440px){
+      .blog-content h2{
+        font-size:13px;
+      }
+    }
+
+    .blog-content p{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:14px;
+      line-height:1.6;
+    }
+
+    .read-more{
+      font-size:13px;
+      font-weight:600;
+      color:var(--primary);
+      text-decoration:none;
+    }
+
+    .read-more:hover{
+      text-decoration:underline;
     }
 
   </style>
@@ -118,30 +168,43 @@
   <p>Temple travel guides • Cab cost breakdowns • Route insights</p>
 </section>
 
-<section class="blog-grid">
+<div class="blog-wrapper">
 
-  <% posts.forEach(post => { %>
-    <article class="blog-card">
-      <a href="/blog/<%= post.slug %>">
-        <img src="<%= post.image %>" alt="<%= post.title %>">
-      </a>
+  <div class="blog-grid">
 
-      <div class="blog-content">
-        <h2>
-          <a href="/blog/<%= post.slug %>" style="text-decoration:none;color:inherit;">
-            <%= post.title %>
-          </a>
-        </h2>
-        <p><%= post.excerpt %></p>
+    <% posts.forEach(post => { %>
+      <article class="blog-card">
 
-        <a class="read-more" href="/blog/<%= post.slug %>">
-          Read Full Guide →
+        <a href="/blog/<%= post.slug %>">
+          <img src="<%= post.image %>" alt="<%= post.title %>" loading="lazy">
         </a>
-      </div>
-    </article>
-  <% }) %>
 
-</section>
+        <div class="blog-content">
+
+          <div class="blog-date">
+            Published on <%= post.date %>
+          </div>
+
+          <h2>
+            <a href="/blog/<%= post.slug %>" style="text-decoration:none;color:inherit;">
+              <%= post.title %>
+            </a>
+          </h2>
+
+          <p><%= post.excerpt %></p>
+
+          <a class="read-more" href="/blog/<%= post.slug %>">
+            Read Full Guide →
+          </a>
+
+        </div>
+
+      </article>
+    <% }) %>
+
+  </div>
+
+</div>
 
 <%- include('../partials/footer') %>
 
