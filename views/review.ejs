@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <%- include('./partials/head', { title: "Share Your Experience | Radha Travels" }) %>
+  <link rel="stylesheet" href="/css/review.css">
+
+</head>
+
+<body>
+
+<%- include('./partials/header') %>
+<%- include('./partials/ticker') %>
+
+<section class="review-section">
+  <div class="review-particles">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+<div class="review-card">
+
+<h1 class="review-title">Share Your Experience</h1>
+
+<div class="review-divider"></div>
+
+<p class="review-sub">
+Your feedback helps us improve and serve travellers better.
+</p>
+
+<form id="reviewForm" action="/review" method="POST" enctype="multipart/form-data" class="review-form">
+
+<div class="rf-group">
+<label>Your Name</label>
+<input type="text" name="name" placeholder="Enter your name" required>
+</div>
+
+<div class="rf-group">
+<label>Service Used</label>
+<select name="service" required>
+<option value="">Select Service</option>
+<option>Airport Transfer</option>
+<option>Outstation Trip</option>
+<option>Local City Travel</option>
+<option>Temple Tour</option>
+</select>
+</div>
+
+<div class="rf-group">
+<label>Your Rating</label>
+
+<div class="rf-stars">
+
+<input type="radio" id="star5" name="rating" value="5">
+<label for="star5">★</label>
+
+<input type="radio" id="star4" name="rating" value="4">
+<label for="star4">★</label>
+
+<input type="radio" id="star3" name="rating" value="3">
+<label for="star3">★</label>
+
+<input type="radio" id="star2" name="rating" value="2">
+<label for="star2">★</label>
+
+<input type="radio" id="star1" name="rating" value="1">
+<label for="star1">★</label>
+
+</div>
+
+</div>
+
+<div class="rf-group">
+<label>Your Review</label>
+<textarea name="review" rows="4" placeholder="Tell us about your travel experience..." required></textarea>
+</div>
+
+<div class="rf-group">
+<label>Upload Photo (optional)</label>
+<input id="reviewImage" type="file" name="image" accept="image/*">
+
+<div id="imagePreview" class="review-image-preview"></div>
+</div>
+
+<button type="submit" class="review-submit">
+Submit Review
+</button>
+
+</form>
+
+</div>
+</section>
+<div id="reviewSuccessModal" class="review-success-modal">
+
+  <div class="review-success-box">
+
+    <div class="success-icon">✓</div>
+
+    <h2>Thank You!</h2>
+
+    <p>Your review has been submitted successfully.</p>
+    <p class="success-sub">It will appear after admin approval.</p>
+
+  </div>
+
+</div>
+
+<%- include('./partials/footer') %>
+<script>
+//image upload preview
+const input = document.getElementById("reviewImage");
+const preview = document.getElementById("imagePreview");
+
+if(input){
+
+input.addEventListener("change", function(){
+
+preview.innerHTML="";
+
+const file = this.files[0];
+
+if(file){
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+const img = document.createElement("img");
+img.src = e.target.result;
+
+preview.appendChild(img);
+
+}
+
+reader.readAsDataURL(file);
+
+}
+
+});
+
+}
+//review success modal
+const form = document.getElementById("reviewForm");
+const modal = document.getElementById("reviewSuccessModal");
+
+if(form){
+
+form.addEventListener("submit", async function(e){
+
+e.preventDefault();
+
+const formData = new FormData(form);
+
+const res = await fetch("/review",{
+method:"POST",
+body:formData
+});
+
+if(res.ok){
+
+modal.classList.add("active");
+
+setTimeout(()=>{
+
+window.location="/happy-customers";
+
+},2500);
+
+}
+
+});
+
+}
+
+</script>
+</body>
+</html>

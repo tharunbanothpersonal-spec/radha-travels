@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head', { title: "Happy Customers | Radha Travels" }) %>
+  <link rel="stylesheet" href="/css/testimonials.css">
+</head>
+
+<body>
+<%- include('./partials/header') %>
+<%- include('./partials/ticker') %>
+
+<section class="hc-page">
+
+<div class="container">
+
+ <%
+const rating = Number(avgRating || 0);
+const fullStars = Math.floor(rating);
+const decimal = rating - fullStars;
+const percent = Math.round(decimal * 100);
+%>
+
+  <!-- HEADING -->
+  <div class="hc-heading reveal-group">
+    <h1 class="reveal-item">Happy Customers & Reviews</h1>
+  </div>
+
+  <!-- RATING BOX -->
+   <div class="hc-rating-section reveal-group">
+  <div class="hc-rating-box reveal-item">
+
+    <div class="hc-rating-left">
+      <div class="hc-big-rating">
+  <span class="hc-rating-number">
+    <%= rating.toFixed(1) %>
+  </span>
+</div>
+   <div class="hc-rating-stars">
+
+<% for(let i=1;i<=5;i++){ %>
+
+  <% if(i <= fullStars){ %>
+    <span class="hc-star full"></span>
+
+  <% } else if(i === fullStars + 1 && percent > 0){ %>
+    <span class="hc-star partial" style="--fill:<%= percent %>%"></span>
+
+  <% } else { %>
+    <span class="hc-star"></span>
+  <% } %>
+
+<% } %>
+
+</div>
+
+      
+    </div>
+
+    <div class="hc-divider"></div>
+
+    <div class="hc-rating-right">
+      <% [5,4,3,2,1].forEach(function(star){ 
+  const count = ratingCounts[star] || 0;
+  const percent = totalReviews ? (count/totalReviews)*100 : 0;
+%>
+      <div class="hc-bar-row">
+        <span><%= star %></span>
+        <div class="hc-bar">
+          <div class="hc-bar-fill" data-width="<%= percent %>"></div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+
+  </div>
+  <div class="hc-review-count">
+    <strong class="review-counter"><%= totalReviews || 0 %></strong> Verified Reviews
+  </div>
+</div>
+
+</div>
+
+<!-- CARDS FULL WIDTH -->
+<div class="hc-grid-wrapper">
+  <div class="hc-grid reveal-group">
+
+  <% testimonials.forEach(function(t, index){ %>
+
+    <div class="hc-card review-trigger reveal-item"
+         data-index="<%= index %>"
+         data-name="<%= t.name %>"
+         data-rating="<%= t.rating %>"
+         data-review="<%= t.review %>"
+         data-image="<%= t.image || '/images/default-user.jpg' %>">
+
+      <div class="hc-card-image">
+        <img src="<%= t.image || '/images/default-user.jpg' %>">
+      </div>
+      <div class="hc-card-bottom">
+        <div class="hc-card-name"><%= t.name %></div>
+        <div class="hc-card-stars">
+          <% for(let i=0;i<Number(t.rating);i++){ %>
+            <span class="star full">★</span>
+          <% } %>
+          <% for(let i=Number(t.rating);i<5;i++){ %>
+            <span class="star empty">★</span>
+          <% } %>
+        </div>
+        <div class="hc-service-tag"><%= t.service || "Travel Service" %></div>
+        <div class="hc-card-review clamp-2"><%= t.review %></div>
+        <div class="hc-review-date"><%= new Date(t.created_at).toLocaleDateString() %></div>
+      </div>
+    </div>
+
+  <% }); %>
+
+</div>
+</div>
+<!-- pages pagination -->
+<% if(totalPages > 1){ %>
+
+<div class="hc-pagination reveal-group">
+  <div class="hc-pagination-inner reveal-item">
+
+    <% if(currentPage > 1){ %>
+      <a href="/happy-customers?page=<%= currentPage - 1 %>" class="hc-page-btn">
+        ← Prev
+      </a>
+    <% } %>
+
+    <% for(let i=1;i<=totalPages;i++){ %>
+      <a href="/happy-customers?page=<%= i %>"
+         class="hc-page-number <%= i === currentPage ? 'active' : '' %>">
+         <%= i %>
+      </a>
+    <% } %>
+
+    <% if(currentPage < totalPages){ %>
+      <a href="/happy-customers?page=<%= currentPage + 1 %>" class="hc-page-btn">
+        Next →
+      </a>
+    <% } %>
+
+  </div>
+</div>
+
+<% } %>
+
+<div class="hc-cta-section reveal-group">
+
+  <div class="hc-cta-box reveal-item">
+    <h3>Your Journey Matters</h3>
+    <p>Share your experience with Radha Travels and help others travel confidently.</p>
+
+    <div class="hc-cta-actions">
+
+  <a href="/review" class="hc-cta-btn primary">
+    Share Your Experience
+  </a>
+
+  <a href="YOUR_GOOGLE_REVIEW_LINK_HERE" 
+     target="_blank" 
+     class="hc-cta-btn secondary">
+    ★ Review on Google
+  </a>
+
+</div>
+  </div>
+
+</div>
+</section>
+
+<div class="hc-modal" id="hcModal">
+  <div class="hc-modal-box">
+
+    <button class="hc-close">&times;</button>
+
+    <div class="hc-modal-layout">
+
+      <div class="hc-modal-image">
+        <img id="modalImg" src="" alt="">
+      </div>
+
+      <div class="hc-modal-info">
+        <h3 id="modalName"></h3>
+        <div id="modalStars" class="hc-stars large"></div>
+        <p id="modalReview"></p>
+      </div>
+
+    </div>
+
+    <button class="hc-prev">&#10094;</button>
+    <button class="hc-next">&#10095;</button>
+
+  </div>
+</div>
+<%- include('./partials/footer') %>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+  const cards = document.querySelectorAll(".review-trigger");
+  const modal = document.getElementById("hcModal");
+
+  if(!modal || cards.length === 0){
+    console.log("Modal or cards not found");
+    return;
+  }
+
+  const modalImg = document.getElementById("modalImg");
+  const modalName = document.getElementById("modalName");
+  const modalReview = document.getElementById("modalReview");
+  const modalStars = document.getElementById("modalStars");
+
+  const prevBtn = document.querySelector(".hc-prev");
+  const nextBtn = document.querySelector(".hc-next");
+  const closeBtn = document.querySelector(".hc-close");
+
+  let currentIndex = 0;
+
+  const testimonials = [...cards].map(card => ({
+    name: card.dataset.name,
+    rating: Number(card.dataset.rating),
+    review: card.dataset.review,
+    image: card.dataset.image
+  }));
+
+  function openModal(index){
+    currentIndex = index;
+    const item = testimonials[index];
+
+    modalImg.src = item.image;
+    modalName.textContent = item.name;
+    modalReview.textContent = item.review;
+
+    modalStars.innerHTML = "";
+    for(let i=0;i<item.rating;i++){
+      modalStars.innerHTML += '<span class="star full">★</span>';
+    }
+    for(let i=item.rating;i<5;i++){
+      modalStars.innerHTML += '<span class="star empty">★</span>';
+    }
+
+    modal.classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal(){
+    modal.classList.remove("active");
+    document.body.style.overflow = "";
+  }
+
+  function next(){
+    currentIndex = (currentIndex + 1) % testimonials.length;
+    openModal(currentIndex);
+  }
+
+  function prev(){
+    currentIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+    openModal(currentIndex);
+  }
+
+  cards.forEach((card, index)=>{
+    card.addEventListener("click", ()=> openModal(index));
+  });
+
+  nextBtn.addEventListener("click", next);
+  prevBtn.addEventListener("click", prev);
+  closeBtn.addEventListener("click", closeModal);
+
+  window.addEventListener("keydown", e=>{
+    if(e.key === "Escape") closeModal();
+  });
+
+  const bars = document.querySelectorAll(".hc-bar-fill");
+
+const barObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const bar = entry.target;
+      const width = bar.getAttribute("data-width");
+      bar.style.width = width + "%";
+    }
+  });
+}, { threshold: 0.4 });
+
+bars.forEach(bar => barObserver.observe(bar));
+
+});
+
+// rating counter animation
+document.addEventListener("DOMContentLoaded", function(){
+
+  const ratingEl = document.querySelector(".hc-rating-number");
+  const countEl = document.querySelector(".hc-review-count strong");
+
+  function animateNumber(el, target, decimals = 0){
+    let start = 0;
+    const duration = 1200;
+    const startTime = performance.now();
+
+    function update(currentTime){
+      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3); // smooth cubic ease-out
+
+      const value = start + (target - start) * ease;
+      el.textContent = decimals > 0 
+        ? value.toFixed(decimals) 
+        : Math.floor(value);
+
+      if(progress < 1){
+        requestAnimationFrame(update);
+      }
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // Animate rating (with decimal)
+  if(ratingEl){
+    const rating = parseFloat(ratingEl.textContent);
+    ratingEl.textContent = "0";
+    animateNumber(ratingEl, rating, 1);
+  }
+
+  // Animate review count (integer)
+  if(countEl){
+    const count = parseInt(countEl.textContent);
+    countEl.textContent = "0";
+    animateNumber(countEl, count, 0);
+  }
+
+});
+
+// revel animation
+document.addEventListener("DOMContentLoaded", function(){
+
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  };
+
+  const revealObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+
+        const items = entry.target.querySelectorAll('.reveal-item');
+
+        items.forEach((item, index) => {
+          const delay = index * 120; // smooth stagger
+          setTimeout(() => {
+            item.classList.add('is-visible');
+          }, delay);
+        });
+
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.reveal-group')
+    .forEach(group => revealObserver.observe(group));
+
+});
+</script>
+</body>
+</html>

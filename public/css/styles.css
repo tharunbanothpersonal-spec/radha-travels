@@ -2142,3 +2142,457 @@ a{color:inherit;text-decoration:none}
   color: #fff;
   box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
 }
+
+/* ===============================================
+   FINAL ULTRA PREMIUM REVIEW SECTION
+=============================================== */
+
+.home-review-preview {
+  padding: 70px 0;
+  background: radial-gradient(circle at top left, #184f3f, #0f2e25);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Floating background glow */
+.home-review-preview::before {
+  content: "";
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  background: rgba(53,193,151,0.15);
+  filter: blur(160px);
+  top: -120px;
+  left: -120px;
+  animation: floatGlow 12s ease-in-out infinite alternate;
+}
+
+@keyframes floatGlow {
+  from { transform: translateY(0); }
+  to { transform: translateY(-40px); }
+}
+
+.home-review-preview .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ================= HEADING ================= */
+
+/* ================= PREMIUM REVIEW HEADING ================= */
+
+.hrp-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: -50px;
+}
+
+.hrp-heading h2 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #cdebe2,
+    #ffffff
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    0 0 20px rgba(255,255,255,0.15);
+
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+/* Elegant underline accent */
+.hrp-heading h2::after {
+  content: "";
+  position: absolute;
+  width: 60%;
+  height: 3px;
+  left: 20%;
+  bottom: 0;
+  background: linear-gradient(90deg,#2fd2a3,#35c197);
+  border-radius: 4px;
+  box-shadow: 0 0 15px rgba(47,210,163,0.5);
+}
+
+/* Subtitle refinement */
+.hrp-heading p {
+  font-size: 14px;
+  color: #cdebe2;
+  margin-top: 12px;
+  letter-spacing: 0.5px;
+}
+
+.hrp-heading h2 {
+  animation: fadeSlide 0.8s ease forwards;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ================= MOBILE HEADING REFINEMENT ================= */
+
+@media (max-width: 768px) {
+
+  .hrp-heading {
+    margin-bottom: 28px;
+  }
+
+  .hrp-heading h2 {
+    font-size: 24px;      /* Reduced from 36px */
+    letter-spacing: 1px;
+    padding-bottom: 8px;
+  }
+
+  .hrp-heading h2::after {
+    width: 50%;
+    left: 25%;
+    height: 2px;
+  }
+
+  .hrp-heading p {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+}
+/* ================= LAYOUT ================= */
+
+.hrp-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+@media (min-width: 992px) {
+  .hrp-layout {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .hrp-summary { flex: 1; }
+  .hrp-cards { flex: 1; }
+
+  .hrp-separator {
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, #ff4d4d, transparent);
+    margin: 0 30px;
+  }
+}
+
+/* ================= GLASS BASE ================= */
+
+.hrp-summary,
+.hrp-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glass shine */
+.hrp-summary::before,
+.hrp-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 120%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-20deg);
+  transition: 0.8s;
+}
+
+.hrp-summary:hover::before,
+.hrp-card:hover::before {
+  left: 120%;
+}
+
+
+/* ================= SUMMARY ================= */
+
+.hrp-summary {
+  padding: 28px 25px;
+  transition: 0.4s ease;
+}
+
+.hrp-summary:hover {
+  transform: translateY(-6px);
+}
+
+.hrp-average {
+  text-align: center;
+}
+
+.hrp-number {
+  font-size: 60px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: -30px;
+}
+
+
+
+/* ================= RATING STARS (ACCURATE) ================= */
+
+/* Premium animated stars */
+.hrp-stars {
+  margin-top: -30px;
+  text-align: center;
+}
+
+.star {
+  font-size: 40px;
+  position: relative;
+  display: inline-block;
+  margin: 0 4px;
+}
+
+/* Empty star (base grey) */
+.star.empty {
+  color: rgba(255,255,255,0.25);
+}
+
+/* Full star */
+.star.full {
+  background: linear-gradient(90deg,#ffd700,#ffae00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 10px rgba(255,215,0,0.6),
+    0 0 22px rgba(255,180,0,0.4);
+}
+
+/* Partial star */
+.star.partial {
+  color: rgba(255,255,255,0.25);
+}
+
+.star.partial::before {
+  content: "★";
+  position: absolute;
+  left: 0;
+  width: var(--percent);
+  overflow: hidden;
+  background: linear-gradient(90deg,#ffd700,#ffae00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    0 0 10px rgba(255,215,0,0.6),
+    0 0 22px rgba(255,180,0,0.4);
+}
+
+.hrp-stars span:nth-child(1){animation-delay:0.1s;}
+.hrp-stars span:nth-child(2){animation-delay:0.2s;}
+.hrp-stars span:nth-child(3){animation-delay:0.3s;}
+.hrp-stars span:nth-child(4){animation-delay:0.4s;}
+.hrp-stars span:nth-child(5){animation-delay:0.5s;}
+
+@keyframes starBounce {
+  0% { transform: translateY(-10px); opacity:0; }
+  100% { transform: translateY(0); opacity:1; }
+}
+
+/* Rating label */
+.hrp-rating-label {
+  font-size: 12px;
+  color: #9ccfc0;
+  text-align: center;
+  margin: 14px 0 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: -10px;
+  }
+
+/* Bars */
+.hrp-bar-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.hrp-bar-row span {
+  width: 22px;
+  font-size: 12px;
+  color: #ddd;
+}
+
+.hrp-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.hrp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg,#1e7f5c,#35c197);
+  border-radius: 20px;
+  animation: fillBar 1.3s ease forwards;
+}
+
+@keyframes fillBar {
+  from { width: 0; }
+}
+
+/* Review count */
+.hrp-review-count {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #cdebe2;
+}
+
+.hrp-review-count strong {
+  font-size: 18px;
+  color: #35c197;
+  margin-right: 4px;
+}
+
+/* Trust badge */
+.hrp-badge {
+  margin-top: 6px;
+  font-size: 12px;
+  text-align: center;
+  color: #35c197;
+}
+
+/* ================= CARDS ================= */
+
+.hrp-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hrp-card {
+  display: flex;
+  transition: 0.3s ease;
+}
+
+.hrp-card:hover {
+  transform: translateY(-6px) scale(1.12);
+  box-shadow: 0 35px 70px rgba(0,0,0,0.45);
+}
+
+.hrp-card-image {
+  width: 160px;
+  /* height: 110px; */
+  flex-shrink: 0;
+}
+
+.hrp-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hrp-card-content {
+  padding: 14px;
+}
+
+.hrp-card-stars {
+  font-size: 14px;
+  background: linear-gradient(90deg,#ffd700,#ffae00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 6px;
+}
+
+.hrp-card-content p {
+  font-size: 13px;
+  color: #f1f1f1;
+  margin-bottom: 6px;
+}
+
+.hrp-card-content span {
+  font-size: 12px;
+  color: #35c197;
+}
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .home-review-preview {
+    padding: 50px 0;
+  }
+
+  .hrp-cards {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+  }
+
+  .hrp-card {
+    flex-direction: column;
+  }
+
+  .hrp-card:last-child {
+    grid-column: span 2;
+  }
+
+  .hrp-card-image {
+    width: 100%;
+    height: 110px;
+  }
+}
+
+/* ================= BUTTON ================= */
+
+.hrp-button {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.hrp-button a {
+  padding: 12px 30px;
+  background: linear-gradient(135deg,#1e7f5c,#2fd2a3);
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.hrp-button a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(47,210,163,0.4);
+}
+.counter-finish {
+  animation: counterPop 0.4s ease;
+}
+
+@keyframes counterPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.star.partial::before {
+  animation: fillStar 2s ease forwards;
+}
+
+@keyframes fillStar {
+  from { width: 0; }
+  to { width: var(--percent); }
+}

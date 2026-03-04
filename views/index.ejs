@@ -5,11 +5,6 @@
   <%- include('./partials/head', { title }) %>
   <title><%= title %></title>
   
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Zl4Ccc4IMfM99m6A0rxpWJCBGz0HQUu9CzmsDijcQZo9kgQFURZy6N4ZIFUkoWSlQqW0BvEwGh+RjQ2BpD8c+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/booking.css"/>
@@ -267,6 +262,120 @@
     </div>
   </div>
 </section>
+
+<!-- Testimonial / Happy customer -->
+<section class="home-review-preview reveal-group">
+
+  <div class="container">
+
+    <!-- HEADING -->
+    <div class="hrp-heading reveal-item">
+      <h2>Trusted Journeys. Genuine Smiles.</h2>
+      <p>Luxury travel experiences rated by real families</p>
+    </div>
+
+    <div class="hrp-layout">
+
+      <!-- LEFT: SUMMARY -->
+      <div class="hrp-summary reveal-item">
+
+        <div class="hrp-average">
+
+          <div class="hrp-number counter"
+               data-target="<%= avgRating || 4.8 %>">
+            0
+          </div>
+
+          <div class="hrp-stars">
+  <% 
+    const rating = avgRating || 4.8;
+    const fullStars = Math.floor(rating);
+    const decimal = rating - fullStars;
+  %>
+
+  <% for(let i = 1; i <= 5; i++) { %>
+    <% if(i <= fullStars) { %>
+      <span class="star full">★</span>
+    <% } else if(i === fullStars + 1 && decimal > 0) { %>
+      <span class="star partial" style="--percent:<%= decimal * 100 %>%">★</span>
+    <% } else { %>
+      <span class="star empty">★</span>
+    <% } %>
+  <% } %>
+</div>
+
+        </div>
+
+        <div class="hrp-rating-label">
+          Customer Satisfaction Breakdown
+        </div>
+
+        <div class="hrp-bars">
+          <% for(let i=5;i>=1;i--){ %>
+            <div class="hrp-bar-row">
+              <span><%= i %></span>
+              <div class="hrp-bar">
+                <div class="hrp-bar-fill"
+                     style="width:<%= ratingPercentages ? ratingPercentages[i] : 70 %>%">
+                </div>
+              </div>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="hrp-review-count">
+          <strong class="counter"
+                  data-target="<%= totalReviews || 0 %>">0</strong>
+          Verified Reviews
+        </div>
+
+        <div class="hrp-badge">
+          ✔ Verified Travel Experiences
+        </div>
+
+      </div>
+
+      <!-- SEPARATOR -->
+      <div class="hrp-separator"></div>
+
+      <!-- RIGHT: CARDS -->
+      <div class="hrp-cards">
+
+        <% randomTestimonials.slice(0,3).forEach(t => { %>
+
+        <div class="hrp-card reveal-item">
+
+          <div class="hrp-card-image">
+            <img src="<%= t.image || '/images/default-user.png' %>"
+                 alt="<%= t.name %>">
+          </div>
+
+          <div class="hrp-card-content">
+
+            <div class="hrp-card-stars">
+              <% for(let i=0;i<t.rating;i++){ %>★<% } %>
+            </div>
+
+            <p><%= t.review.substring(0,85) %>...</p>
+            <span><%= t.name %></span>
+
+          </div>
+
+        </div>
+
+        <% }) %>
+
+      </div>
+
+    </div>
+
+    <div class="hrp-button reveal-item">
+      <a href="/happy-customers">View All Reviews</a>
+    </div>
+
+  </div>
+
+</section>
 <!-- Home Gallery -->
 <section class="home-gallery cyber-emerald-mode reveal-group">
   <div class="cyber-ambient-glow"></div>
@@ -335,6 +444,55 @@
     const revealGroups = document.querySelectorAll('.reveal-group');
     revealGroups.forEach(group => revealObserver.observe(group));
   });
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  const counters = document.querySelectorAll(".counter");
+
+  function animateCounter(counter) {
+    const target = parseFloat(counter.getAttribute("data-target"));
+    const isDecimal = target % 1 !== 0;
+
+    let current = 0;
+    const duration = 1200;
+    const increment = target / (duration / 16);
+
+    function update() {
+      current += increment;
+
+      if (current < target) {
+        counter.innerText = isDecimal
+          ? current.toFixed(1)
+          : Math.floor(current);
+        requestAnimationFrame(update);
+      } else {
+        counter.innerText = isDecimal
+          ? target.toFixed(1)
+          : target;
+          counter.classList.add("counter-finish");
+      }
+    }
+
+    update();
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        counters.forEach(counter => {
+          if (!counter.classList.contains("counted")) {
+            counter.classList.add("counted");
+            animateCounter(counter);
+          }
+        });
+      }
+    });
+  }, { threshold: 0.4 });
+
+  const section = document.querySelector(".home-review-preview");
+  if(section) observer.observe(section);
+
+});
 </script>
 <script src="/js/main.js" defer></script>
 <script src="/js/admin-login.js" defer></script>

@@ -1,0 +1,55 @@
+<style>
+  table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th {
+  background: #1e7f5c;
+  color: white;
+  padding: 10px;
+}
+
+table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+table tr:hover {
+  background: #f9f9f9;
+}
+</style>
+<h1>Manage Testimonials</h1>
+
+<table border="1" cellpadding="10">
+<tr>
+  <th>Name</th>
+  <th>Rating</th>
+  <th>Status</th>
+  <th>Actions</th>
+</tr>
+
+<% testimonials.forEach(t => { %>
+<tr>
+  <td><%= t.name %></td>
+  <td><%= t.rating %>★</td>
+  <td><%= t.status %></td>
+  <td>
+
+    <form action="/admin/testimonials/approve/<%= t.id %>" method="POST">
+      <button>Approve</button>
+    </form>
+
+    <form action="/admin/testimonials/delete/<%= t.id %>" method="POST">
+      <button>Delete</button>
+    </form>
+
+    <form action="/admin/testimonials/replace-image/<%= t.id %>" method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" required>
+      <button>Replace Image</button>
+    </form>
+
+  </td>
+</tr>
+<% }) %>
+</table>

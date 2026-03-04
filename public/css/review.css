@@ -1,0 +1,611 @@
+/* =========================
+REVIEW PAGE PREMIUM DESIGN
+========================= */
+
+.review-section{
+padding:130px 20px 90px;
+display:flex;
+justify-content:center;
+background:radial-gradient(circle at top,#0e3b2f,#061c17);
+}
+
+/* card */
+
+.review-card{
+max-width:620px;
+width:100%;
+background:linear-gradient(145deg,#174c3d,#0b2e25);
+border-radius:24px;
+padding:36px;
+box-shadow:
+0 35px 70px rgba(0,0,0,.65),
+0 0 70px rgba(0,255,180,.08) inset,
+0 0 30px rgba(32,209,162,.08);
+border:1px solid rgba(225, 21, 21, 0.05);
+margin-top: -80px;
+}
+
+/* heading */
+
+.review-title{
+text-align:center;
+font-size:30px;
+font-weight:700;
+letter-spacing:.4px;
+margin-bottom:4px;
+color:#ffffff;
+margin-top: -20px;
+}
+
+.review-divider{
+width:55px;
+height:3px;
+background:#20d1a2;
+margin:12px auto 16px;
+border-radius:4px;
+}
+
+.review-sub{
+text-align:center;
+opacity:.85;
+margin-bottom:28px;
+color:#cfe9df;
+font-size:14px;
+}
+
+/* form */
+
+.rf-group{
+margin-bottom:18px;
+}
+
+.rf-group label{
+display:block;
+margin-bottom:6px;
+font-weight:600;
+font-size:14px;
+color:#e6fff7;
+}
+
+.rf-group input,
+.rf-group select,
+.rf-group textarea{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid rgba(255,255,255,.08);
+background:rgba(0,0,0,.28);
+color:white;
+font-size:14px;
+transition:.25s;
+}
+
+.rf-group textarea{
+resize:vertical;
+min-height:95px;
+}
+
+.rf-group input::placeholder,
+.rf-group textarea::placeholder{
+color:#9bbfb5;
+}
+
+.rf-group input:focus,
+.rf-group select:focus,
+.rf-group textarea:focus{
+outline:none;
+border-color:#1ed6a8;
+box-shadow:
+0 0 0 2px rgba(30,214,168,.15),
+0 0 15px rgba(30,214,168,.15);
+}
+
+/* =========================
+STAR RATING
+========================= */
+
+.rf-stars{
+display:flex;
+gap:6px;
+flex-direction:row-reverse;
+justify-content:flex-end;
+margin-top:4px;
+}
+
+.rf-stars input{
+display:none;
+}
+
+.rf-stars label{
+font-size:32px;
+color:#5e7a73;
+cursor:pointer;
+transition:.25s;
+}
+
+/* hover glow */
+
+.rf-stars label:hover,
+.rf-stars label:hover ~ label{
+color:#ffc83d;
+transform:scale(1.15);
+text-shadow:
+0 0 6px rgba(255,200,61,.7),
+0 0 16px rgba(255,200,61,.5);
+}
+
+/* selected glow */
+
+.rf-stars input:checked ~ label{
+color:#ffc83d;
+text-shadow:
+0 0 6px rgba(255,200,61,.7),
+0 0 16px rgba(255,200,61,.5);
+}
+
+/* =========================
+IMAGE PREVIEW
+========================= */
+
+.review-image-preview{
+margin-top:10px;
+display:flex;
+justify-content:center;
+}
+
+.review-image-preview img{
+max-width:180px;
+border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,.45);
+}
+
+/* =========================
+BUTTON
+========================= */
+
+.review-submit{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:15px;
+font-weight:700;
+background:linear-gradient(135deg,#20d1a2,#18b48a);
+color:#00372c;
+cursor:pointer;
+transition:.3s;
+margin-top:10px;
+}
+
+.review-submit:hover{
+transform:translateY(-3px);
+box-shadow:0 12px 30px rgba(0,0,0,.5);
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:768px){
+
+.review-section{
+padding:110px 16px 70px;
+}
+
+.review-card{
+padding:28px;
+}
+
+.review-title{
+font-size:24px;
+}
+
+.rf-stars label{
+font-size:28px;
+}
+
+.review-submit{
+padding:13px;
+}
+
+}
+/* =========================
+PREMIUM SUCCESS MODAL
+========================= */
+
+.review-success-modal{
+
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:rgba(0,0,0,.65);
+backdrop-filter:blur(10px);
+
+opacity:0;
+pointer-events:none;
+
+transition:.35s ease;
+
+z-index:9999;
+
+}
+
+.review-success-modal.active{
+opacity:1;
+pointer-events:auto;
+}
+
+/* =========================
+MODAL CARD
+========================= */
+
+.review-success-box{
+
+position:relative;
+
+background:linear-gradient(160deg,#174c3d,#0b2e25);
+
+padding:60px 50px;
+
+border-radius:30px;
+
+text-align:center;
+
+max-width:420px;
+width:90%;
+
+border:1px solid rgba(255,255,255,.07);
+
+box-shadow:
+0 35px 90px rgba(0,0,0,.8),
+0 0 80px rgba(0,255,180,.12) inset;
+
+animation:successPop .5s cubic-bezier(.22,.9,.22,1);
+
+overflow:hidden;
+
+}
+
+/* gradient glow border */
+
+.review-success-box::before{
+
+content:"";
+
+position:absolute;
+inset:-1px;
+
+border-radius:30px;
+
+background:linear-gradient(
+120deg,
+transparent,
+rgba(32,209,162,.35),
+transparent
+);
+
+opacity:.35;
+pointer-events:none;
+
+}
+
+/* =========================
+ICON
+========================= */
+
+.success-icon{
+
+width:90px;
+height:90px;
+
+margin:auto;
+margin-bottom:25px;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:40px;
+font-weight:700;
+
+background:linear-gradient(135deg,#20d1a2,#19b48c);
+
+color:#00372c;
+
+box-shadow:
+0 0 35px rgba(32,209,162,.75),
+0 0 90px rgba(32,209,162,.35);
+
+animation:iconPulse 2.4s infinite;
+
+}
+
+/* =========================
+TEXT
+========================= */
+
+.review-success-box h2{
+
+color:#ffffff;
+
+font-size:30px;
+font-weight:700;
+
+margin-bottom:10px;
+
+letter-spacing:.5px;
+
+}
+
+.review-success-box p{
+
+color:#d8f4ec;
+
+font-size:16px;
+
+margin-bottom:10px;
+
+}
+
+.success-sub{
+
+font-size:14px;
+opacity:.75;
+
+}
+
+/* =========================
+ANIMATIONS
+========================= */
+
+@keyframes successPop{
+
+0%{
+transform:scale(.7) translateY(30px);
+opacity:0;
+}
+
+60%{
+transform:scale(1.05);
+}
+
+100%{
+transform:scale(1);
+opacity:1;
+}
+
+}
+
+@keyframes iconPulse{
+
+0%{
+box-shadow:
+0 0 25px rgba(32,209,162,.45),
+0 0 60px rgba(32,209,162,.2);
+}
+
+50%{
+box-shadow:
+0 0 45px rgba(32,209,162,.85),
+0 0 110px rgba(32,209,162,.4);
+}
+
+100%{
+box-shadow:
+0 0 25px rgba(32,209,162,.45),
+0 0 60px rgba(32,209,162,.2);
+}
+
+}
+/* =========================
+FLOATING LIGHT PARTICLES
+========================= */
+
+.review-particles{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+overflow:hidden;
+pointer-events:none;
+}
+
+.review-particles span{
+position:absolute;
+display:block;
+width:10px;
+height:10px;
+background:#20d1a2;
+border-radius:50%;
+opacity:.25;
+animation:floatParticle 14s linear infinite;
+}
+
+.review-particles span:nth-child(1){
+left:10%;
+animation-duration:18s;
+}
+
+.review-particles span:nth-child(2){
+left:30%;
+animation-duration:16s;
+}
+
+.review-particles span:nth-child(3){
+left:55%;
+animation-duration:20s;
+}
+
+.review-particles span:nth-child(4){
+left:75%;
+animation-duration:15s;
+}
+
+.review-particles span:nth-child(5){
+left:90%;
+animation-duration:19s;
+}
+
+@keyframes floatParticle{
+0%{
+transform:translateY(100vh) scale(0);
+opacity:0;
+}
+20%{
+opacity:.35;
+}
+100%{
+transform:translateY(-10vh) scale(1);
+opacity:0;
+}
+}
+/* =========================
+FORM REVEAL ANIMATION
+========================= */
+
+.review-card{
+opacity:0;
+transform:translateY(35px);
+animation:reviewReveal .7s ease forwards;
+animation-delay:.15s;
+}
+
+@keyframes reviewReveal{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+/* =========================
+INPUT MICRO INTERACTION
+========================= */
+
+.rf-group input,
+.rf-group select,
+.rf-group textarea{
+transition:
+border .25s,
+box-shadow .25s,
+transform .2s;
+}
+
+.rf-group input:focus,
+.rf-group select:focus,
+.rf-group textarea:focus{
+
+transform:translateY(-2px);
+
+box-shadow:
+0 0 0 2px rgba(30,214,168,.15),
+0 10px 25px rgba(0,0,0,.35);
+
+}
+/* =========================
+STAR MICRO ANIMATION
+========================= */
+
+.rf-stars label{
+transition:
+transform .18s ease,
+color .25s,
+text-shadow .25s;
+}
+
+.rf-stars label:hover{
+transform:translateY(-3px) scale(1.15);
+}
+
+/* star click animation */
+
+.rf-stars input:checked + label{
+animation:starPop .35s ease;
+}
+
+@keyframes starPop{
+
+0%{transform:scale(.8);}
+50%{transform:scale(1.3);}
+100%{transform:scale(1);}
+
+}
+.review-submit{
+
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:15px;
+font-weight:700;
+
+background:linear-gradient(
+120deg,
+#20d1a2,
+#18b48a,
+#20d1a2
+);
+
+background-size:200% 100%;
+
+color:#00372c;
+
+cursor:pointer;
+
+transition:
+transform .25s,
+box-shadow .25s,
+background-position .4s;
+
+margin-top:10px;
+
+}
+
+.review-submit:hover{
+
+transform:translateY(-3px);
+
+background-position:100% 0;
+
+box-shadow:0 12px 30px rgba(0,0,0,.5);
+
+}
+/* =========================
+CARD AMBIENT GLOW
+========================= */
+
+.review-card::after{
+
+content:"";
+
+position:absolute;
+
+inset:-40px;
+
+background:radial-gradient(
+circle,
+rgba(32,209,162,.12),
+transparent 70%
+);
+
+z-index:-1;
+
+animation:cardGlow 7s ease-in-out infinite;
+
+}
+
+@keyframes cardGlow{
+
+0%,100%{opacity:.4;}
+
+50%{opacity:.7;}
+
+}

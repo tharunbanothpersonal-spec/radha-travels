@@ -17,6 +17,7 @@ import db from "./db.js";
 import bookingsRouter from "./routes/bookings.js";
 import galleryRoutes from "./routes/galleryRoutes.js";
 import fleetRoutes from "./routes/fleet.routes.js";
+import testimonialsRoutes from "./routes/testimonials.routes.js";
 
 // Admin (NEW SYSTEM)
 import adminAuth from "./admin/admin.auth.js";
@@ -642,12 +643,40 @@ app.get("/", (req, res) => {
   const featuredFleet = db
     .prepare("SELECT * FROM fleet WHERE is_active = 1 ORDER BY id DESC LIMIT 4")
     .all();
+const randomTestimonials = db.prepare(`
+  SELECT * FROM testimonials
+  WHERE status='approved'
+  ORDER BY RANDOM()
+  LIMIT 4
+`).all();
+const testimonials = db.prepare(`
+  SELECT * FROM testimonials 
+  WHERE status='approved'
+`).all();
+
+const avgRating = testimonials.length
+  ? (testimonials.reduce((a,b)=>a+b.rating,0)/testimonials.length).toFixed(1)
+  : 0;
+
+const ratingPercentages = {};
+for(let i=1;i<=5;i++){
+  const count = testimonials.filter(t => t.rating === i).length;
+  ratingPercentages[i] = testimonials.length 
+    ? (count / testimonials.length) * 100 
+    : 0;
+}
+const totalReviews = testimonials.length;
 
   res.render("index", {
   title: "Hyderabad Cab Service | Outstation, Airport & Tempo Traveller | Radha Travels",
     heroSlides: loadHeroSlides(),
     featuredGallery,
     featuredFleet,
+    testimonials,
+      avgRating,
+      totalReviews,
+  ratingPercentages,
+    randomTestimonials,
     latestPosts: blogPosts
   .sort((a, b) => new Date(b.date) - new Date(a.date))
   .slice(0, 3)
@@ -942,6 +971,11 @@ app.use("/gallery", galleryRoutes);
 // =======================================================
 
 app.use("/fleet", fleetRoutes);
+
+// =======================================================
+//  TESTIMONIAL PUBLIC
+// =======================================================
+app.use(testimonialsRoutes);
 
 // =======================================================
 //  SMTP CHECK (UTILITY)

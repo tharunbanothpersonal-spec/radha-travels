@@ -28,7 +28,9 @@ try {
 
 db.pragma("busy_timeout = 5000");
 
-
+console.log(
+  db.prepare("PRAGMA table_info(testimonials)").all()
+);
 
 // create bookings table if not exists
 db.exec(`
@@ -167,4 +169,27 @@ if (fleetCount.total === 0) {
 try {
   db.exec("ALTER TABLE fleet ADD COLUMN status TEXT DEFAULT 'active'");
 } catch {}
+
+// =============================
+// TESTIMONIALS TABLE
+// =============================
+
+db.exec(`
+CREATE TABLE IF NOT EXISTS testimonials (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  service TEXT NOT NULL,
+  review TEXT NOT NULL,
+  rating INTEGER NOT NULL,
+  image TEXT,
+  status TEXT DEFAULT 'pending',
+  created_at TEXT DEFAULT (datetime('now'))
+);
+`);
+
+// Safe migration
+try {
+  db.exec("ALTER TABLE testimonials ADD COLUMN service TEXT");
+} catch {}
+
 export default db;
