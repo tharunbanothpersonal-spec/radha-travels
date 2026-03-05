@@ -1,3 +1,94 @@
+<head>
+  <style>
+    /* DASHBOARD GRID */
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    /* STAT CARD */
+
+    .stat-card {
+      background: #0f1b34;
+      border: 1px solid rgba(0, 255, 200, 0.15);
+      border-radius: 12px;
+      padding: 14px;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      transition: 0.2s;
+    }
+
+    .stat-card:hover {
+      border-color: #22c55e;
+      transform: translateY(-2px);
+    }
+
+    /* ICON */
+
+    .stat-icon {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    /* NUMBER */
+
+    .stat-card h3 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    /* LABEL */
+
+    .stat-card p {
+      margin: 0;
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    /* QUICK ACTIONS */
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .action-btn {
+      background: #1d4ed8;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    /* DESKTOP */
+
+    @media (min-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+
+      .quick-actions {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .stat-card {
+        padding: 24px;
+      }
+
+      .stat-card h3 {
+        font-size: 30px;
+      }
+    }
+  </style>
+</head>
 <%- include("../admin/partials/header") %>
 
 <section class="section-header">
@@ -5,72 +96,97 @@
   <span class="subtext">Live system analytics & operational metrics</span>
 </section>
 
-<%
-  const bookingList = Array.isArray(locals.bookings) ? locals.bookings : [];
-  const galleryList = Array.isArray(locals.gallery) ? locals.gallery : [];
-  const fleetList = Array.isArray(locals.fleet) ? locals.fleet : [];
-  const totalFleet = fleetList.length;
+<% const bookingList = Array.isArray(locals.bookings) ? locals.bookings : [];
+const galleryList = Array.isArray(locals.gallery) ? locals.gallery : []; const
+fleetList = Array.isArray(locals.fleet) ? locals.fleet : []; const totalFleet =
+fleetList.length; const totalBookings = bookingList.length; const totalGallery =
+galleryList.length; const pendingBookings = bookingList.filter(b => b.status ===
+"pending").length; const reviews = Array.isArray(locals.reviews) ?
+locals.reviews : []; const totalReviews = locals.totalReviews || 0; const
+avgRating = locals.avgRating || 0; %>
 
-  const totalBookings = bookingList.length;
-  const totalGallery = galleryList.length;
-  const pendingBookings = bookingList.filter(b => b.status === "pending").length;
-%>
-
-<!-- STAT GRID -->
+<!-- KPI STATS -->
 
 <div class="dashboard-grid">
-
-  <div class="card stat-card">
+  <a href="/admin/bookings" class="stat-card">
     <div class="stat-icon">📅</div>
     <h3 class="stat-number" data-count="<%= totalBookings %>">0</h3>
-    <p>Total Bookings</p>
-  </div>
+    <p>Bookings</p>
+  </a>
 
-  <div class="card stat-card">
-    <div class="stat-icon">🖼️</div>
+  <a href="/admin/gallery" class="stat-card">
+    <div class="stat-icon">🖼</div>
     <h3 class="stat-number" data-count="<%= totalGallery %>">0</h3>
-    <p>Gallery Items</p>
-  </div>
+    <p>Gallery</p>
+  </a>
 
-  <div class="card stat-card">
-    <div class="stat-icon">⚠️</div>
+  <a href="/admin/bookings?status=pending" class="stat-card">
+    <div class="stat-icon">⚠</div>
     <h3 class="stat-number" data-count="<%= pendingBookings %>">0</h3>
-    <p>Pending Approvals</p>
+    <p>Pending</p>
+  </a>
+
+  <a href="/admin/fleet" class="stat-card">
+    <div class="stat-icon">🚘</div>
+    <h3 class="stat-number" data-count="<%= totalFleet %>">0</h3>
+    <p>Fleet</p>
+  </a>
+
+  <a href="/admin/testimonials" class="stat-card">
+    <div class="stat-icon">⭐</div>
+    <h3 class="stat-number" data-count="<%= totalReviews %>">0</h3>
+    <p>Reviews</p>
+  </a>
+
+  <div class="stat-card">
+    <div class="stat-icon">📊</div>
+    <h3 class="stat-number" data-count="<%= avgRating %>">0</h3>
+    <p>Avg Rating</p>
   </div>
-
-  <div class="card stat-card">
-  <div class="stat-icon">🚘</div>
-  <h3 class="stat-number" data-count="<%= totalFleet %>">0</h3>
-  <p>Fleet Vehicles</p>
-</div>
-
 </div>
 
 <!-- QUICK ACTIONS -->
 
-<div class="actions-panel">
-  <a href="/admin/bookings" class="btn btn-primary">Manage Bookings</a>
-  <a href="/admin/gallery" class="btn btn-primary">Review Gallery</a>
-  <a href="/admin/fleet" class="btn btn-primary">Manage Fleet</a>
+<div class="quick-actions">
+  <a href="/admin/bookings" class="action-btn"> 📅 Manage Bookings </a>
+
+  <a href="/admin/fleet" class="action-btn"> 🚘 Manage Fleet </a>
+
+  <a href="/admin/gallery" class="action-btn"> 🖼 Upload Gallery </a>
+
+  <a href="/admin/testimonials" class="action-btn"> ⭐ Manage Reviews </a>
 </div>
 
 <script>
-/* Animated counter */
-document.querySelectorAll(".stat-number").forEach(el => {
-  const target = +el.getAttribute("data-count");
-  let count = 0;
-  const speed = 20;
-  const update = () => {
-    if (count < target) {
-      count++;
-      el.innerText = count;
-      setTimeout(update, speed);
-    } else {
-      el.innerText = target;
-    }
-  };
-  update();
-});
+  document.addEventListener('DOMContentLoaded', () => {
+    const counters = document.querySelectorAll('.stat-number');
+
+    counters.forEach((counter) => {
+      const target = parseFloat(counter.dataset.count) || 0;
+      const isDecimal = target % 1 !== 0;
+
+      let current = 0;
+      const duration = 800;
+      const steps = 75;
+      const increment = target / steps;
+
+      const update = () => {
+        current += increment;
+
+        if (current < target) {
+          counter.innerText = isDecimal
+            ? current.toFixed(1)
+            : Math.floor(current);
+
+          requestAnimationFrame(update);
+        } else {
+          counter.innerText = isDecimal ? target.toFixed(1) : target;
+        }
+      };
+
+      update();
+    });
+  });
 </script>
 
 <%- include("../admin/partials/footer") %>

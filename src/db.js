@@ -1,17 +1,16 @@
 // src/db.js (ES module)
-import Database from "better-sqlite3";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
+import Database from 'better-sqlite3';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // DB path (project-root/data/bookings.db)
-const DB_PATH = process.env.GALLERY_DB_PATH
-  || path.join(__dirname, "..", "data", "radha.db");
-  console.log("🟢 USING GALLERY DB:", DB_PATH);
-
+const DB_PATH =
+  process.env.GALLERY_DB_PATH || path.join(__dirname, '..', 'data', 'radha.db');
+console.log('🟢 USING GALLERY DB:', DB_PATH);
 
 // ensure data dir exists
 const dataDir = path.dirname(DB_PATH);
@@ -21,16 +20,12 @@ if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 const db = new Database(DB_PATH, { timeout: 5000 });
 
 try {
-  db.pragma("journal_mode = WAL");
+  db.pragma('journal_mode = WAL');
 } catch (e) {
-  console.warn("⚠ WAL mode not set:", e.message);
+  console.warn('⚠ WAL mode not set:', e.message);
 }
 
-db.pragma("busy_timeout = 5000");
-
-console.log(
-  db.prepare("PRAGMA table_info(testimonials)").all()
-);
+db.pragma('busy_timeout = 5000');
 
 // create bookings table if not exists
 db.exec(`
@@ -55,12 +50,21 @@ CREATE TABLE IF NOT EXISTS bookings (
 `);
 // 🔹 Ensure driver columns exist (safe migration)
 
-try { db.exec("ALTER TABLE bookings ADD COLUMN driver_name TEXT"); } catch {}
-try { db.exec("ALTER TABLE bookings ADD COLUMN driver_phone TEXT"); } catch {}
-try { db.exec("ALTER TABLE bookings ADD COLUMN vehicle_type TEXT"); } catch {}
-try { db.exec("ALTER TABLE bookings ADD COLUMN vehicle_number TEXT"); } catch {}
-try { db.exec("ALTER TABLE bookings ADD COLUMN vehicle_color TEXT"); } catch {}
-
+try {
+  db.exec('ALTER TABLE bookings ADD COLUMN driver_name TEXT');
+} catch {}
+try {
+  db.exec('ALTER TABLE bookings ADD COLUMN driver_phone TEXT');
+} catch {}
+try {
+  db.exec('ALTER TABLE bookings ADD COLUMN vehicle_type TEXT');
+} catch {}
+try {
+  db.exec('ALTER TABLE bookings ADD COLUMN vehicle_number TEXT');
+} catch {}
+try {
+  db.exec('ALTER TABLE bookings ADD COLUMN vehicle_color TEXT');
+} catch {}
 
 // create gallery table if not exists
 db.exec(`
@@ -80,7 +84,6 @@ CREATE TABLE IF NOT EXISTS gallery (
 try {
   db.exec("ALTER TABLE gallery ADD COLUMN status TEXT DEFAULT 'pending'");
 } catch {}
-
 
 // =============================
 // FLEET TABLE (CLEAN VERSION)
@@ -108,11 +111,11 @@ CREATE TABLE IF NOT EXISTS fleet (
 // FIX OLD STRUCTURE IF EXISTS
 // =============================
 
-const fleetColumnsCheck = db.prepare("PRAGMA table_info(fleet)").all();
-const hasOldSeating = fleetColumnsCheck.some(col => col.name === "seating");
+const fleetColumnsCheck = db.prepare('PRAGMA table_info(fleet)').all();
+const hasOldSeating = fleetColumnsCheck.some((col) => col.name === 'seating');
 
 if (hasOldSeating) {
-  console.log("🔄 Fixing old fleet table structure...");
+  console.log('🔄 Fixing old fleet table structure...');
 
   db.exec(`
     CREATE TABLE fleet_new (
@@ -136,35 +139,90 @@ if (hasOldSeating) {
     SELECT id, name, category, seating FROM fleet;
   `);
 
-  db.exec("DROP TABLE fleet;");
-  db.exec("ALTER TABLE fleet_new RENAME TO fleet;");
+  db.exec('DROP TABLE fleet;');
+  db.exec('ALTER TABLE fleet_new RENAME TO fleet;');
 
-  console.log("✅ Fleet table migrated successfully.");
+  console.log('✅ Fleet table migrated successfully.');
 }
 
 // =============================
 // INSERT SAMPLE DATA (ONLY IF EMPTY)
 // =============================
 
-const fleetCount = db.prepare("SELECT COUNT(*) as total FROM fleet").get();
+const fleetCount = db.prepare('SELECT COUNT(*) as total FROM fleet').get();
 
 if (fleetCount.total === 0) {
-
   const insert = db.prepare(`
     INSERT INTO fleet 
     (name, category, seating_capacity, luggage_capacity, price_per_km, description, image)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
 
-  insert.run("Maruti Swift", "Hatchback", 4, 2, 12, "Perfect for city rides.", "/images/fleet/swift.jpg");
-  insert.run("Toyota Etios", "Sedan", 4, 3, 14, "Comfortable sedan.", "/images/fleet/etios.jpg");
-  insert.run("Honda City", "Prime Sedan", 4, 3, 18, "Luxury sedan.", "/images/fleet/city.jpg");
-  insert.run("Toyota Innova", "SUV", 7, 4, 20, "Family outstation SUV.", "/images/fleet/innova.jpg");
-  insert.run("Innova Crysta", "Prime SUV", 7, 4, 22, "Premium SUV travel.", "/images/fleet/crysta.jpg");
-  insert.run("Tempo Traveller 12 Seater", "Tempo Traveller", 12, 6, 28, "Group travel vehicle.", "/images/fleet/tempo12.jpg");
-  insert.run("Mini Bus 25 Seater", "Buses", 25, 10, 35, "Large group bus.", "/images/fleet/minibus.jpg");
+  insert.run(
+    'Maruti Swift',
+    'Hatchback',
+    4,
+    2,
+    12,
+    'Perfect for city rides.',
+    '/images/fleet/swift.jpg'
+  );
+  insert.run(
+    'Toyota Etios',
+    'Sedan',
+    4,
+    3,
+    14,
+    'Comfortable sedan.',
+    '/images/fleet/etios.jpg'
+  );
+  insert.run(
+    'Honda City',
+    'Prime Sedan',
+    4,
+    3,
+    18,
+    'Luxury sedan.',
+    '/images/fleet/city.jpg'
+  );
+  insert.run(
+    'Toyota Innova',
+    'SUV',
+    7,
+    4,
+    20,
+    'Family outstation SUV.',
+    '/images/fleet/innova.jpg'
+  );
+  insert.run(
+    'Innova Crysta',
+    'Prime SUV',
+    7,
+    4,
+    22,
+    'Premium SUV travel.',
+    '/images/fleet/crysta.jpg'
+  );
+  insert.run(
+    'Tempo Traveller 12 Seater',
+    'Tempo Traveller',
+    12,
+    6,
+    28,
+    'Group travel vehicle.',
+    '/images/fleet/tempo12.jpg'
+  );
+  insert.run(
+    'Mini Bus 25 Seater',
+    'Buses',
+    25,
+    10,
+    35,
+    'Large group bus.',
+    '/images/fleet/minibus.jpg'
+  );
 
-  console.log("🚘 Sample Fleet Data Inserted");
+  console.log('🚘 Sample Fleet Data Inserted');
 }
 try {
   db.exec("ALTER TABLE fleet ADD COLUMN status TEXT DEFAULT 'active'");
@@ -189,7 +247,7 @@ CREATE TABLE IF NOT EXISTS testimonials (
 
 // Safe migration
 try {
-  db.exec("ALTER TABLE testimonials ADD COLUMN service TEXT");
+  db.exec('ALTER TABLE testimonials ADD COLUMN service TEXT');
 } catch {}
 
 export default db;
