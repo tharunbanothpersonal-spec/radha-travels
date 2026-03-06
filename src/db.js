@@ -250,4 +250,19 @@ try {
   db.exec('ALTER TABLE testimonials ADD COLUMN service TEXT');
 } catch {}
 
+// =============================
+// IP COUNT TABLE
+// =============================
+
+db.prepare(
+  `
+CREATE TABLE IF NOT EXISTS visitors (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ip TEXT,
+  visit_date TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+)
+`
+).run();
+
 export default db;

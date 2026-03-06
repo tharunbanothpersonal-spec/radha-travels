@@ -66,6 +66,27 @@ router.get('/dashboard', requireAdmin, (req, res) => {
       )
       .get().avg || 0;
 
+  const today = new Date().toISOString().split('T')[0];
+
+  const totalVisitors = db
+    .prepare(
+      `
+SELECT COUNT(DISTINCT ip) as total
+FROM visitors
+`
+    )
+    .get().total;
+
+  const todayVisitors = db
+    .prepare(
+      `
+SELECT COUNT(DISTINCT ip) as total
+FROM visitors
+WHERE visit_date = ?
+`
+    )
+    .get(today).total;
+
   res.render('admin/dashboard', {
     bookings,
     gallery,
@@ -75,6 +96,8 @@ router.get('/dashboard', requireAdmin, (req, res) => {
     approvedReviews,
     pendingReviews,
     avgRating,
+    totalVisitors,
+    todayVisitors,
 
     title: 'Dashboard | Admin',
     active: 'dashboard',
