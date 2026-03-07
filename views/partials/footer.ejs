@@ -310,11 +310,6 @@
     </div>
 
     <div class="rt-footer-bottom-bar">
-      <div class="visitor-popularity">
-        <h4>🌍 Popular with Travelers From</h4>
-
-        <canvas id="stateChart"></canvas>
-      </div>
       <p>© <span id="yr"></span> Radha Travels. All rights reserved.</p>
     </div>
   </div>
@@ -323,39 +318,4 @@
 
 <script>
   document.getElementById('yr')?.append(new Date().getFullYear());
-</script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-  fetch('/api/visitor-states')
-    .then((res) => res.json())
-    .then((data) => {
-      const labels = ['Telangana', 'Andhra', 'Karnataka'];
-      const counts = [12, 8, 5];
-
-      const ctx = document.getElementById('stateChart');
-
-      new Chart(ctx, {
-        type: 'bar',
-
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: 'Visitors',
-              data: counts,
-              backgroundColor: '#22c55e',
-            },
-          ],
-        },
-
-        options: {
-          plugins: {
-            legend: { display: false },
-          },
-          scales: {
-            y: { display: false },
-          },
-        },
-      });
-    });
 </script>

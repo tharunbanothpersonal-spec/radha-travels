@@ -535,11 +535,14 @@ const list = document.getElementById("stateVisitors");
 
 if(!list) return;
 
-let max = 0;
+list.innerHTML = "";
 
-data.forEach(s=>{
-if(s.total > max) max = s.total;
-});
+if(!data || data.length === 0){
+list.innerHTML = "<li>No visitor data yet</li>";
+return;
+}
+
+let max = Math.max(...data.map(s => s.total));
 
 data.forEach(s=>{
 
@@ -549,9 +552,11 @@ const item = document.createElement("li");
 
 item.innerHTML = `
 <span class="state-name">${s.state}</span>
+
 <div class="state-bar">
 <div class="state-fill" data-width="${percent}%"></div>
 </div>
+
 <span class="state-count">${s.total}</span>
 `;
 
@@ -559,27 +564,15 @@ list.appendChild(item);
 
 });
 
-/* Animate bars when visible */
+/* animate bars */
 
-const observer = new IntersectionObserver(entries => {
-
-entries.forEach(entry => {
-
-if(entry.isIntersecting){
+setTimeout(()=>{
 
 document.querySelectorAll(".state-fill").forEach(bar=>{
 bar.style.width = bar.dataset.width;
 });
 
-observer.disconnect();
-
-}
-
-});
-
-},{threshold:0.4});
-
-observer.observe(document.querySelector(".india-popularity"));
+},200);
 
 }catch(err){
 
@@ -589,7 +582,7 @@ console.error("State visitor error",err);
 
 }
 
-document.addEventListener("DOMContentLoaded",loadStateVisitors);
+document.addEventListener("DOMContentLoaded", loadStateVisitors);
 
 </script>
 <script>
