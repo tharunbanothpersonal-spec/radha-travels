@@ -189,6 +189,20 @@
     background: var(--emerald-600);
   }
 
+  .visitor-popularity {
+    margin-top: 20px;
+  }
+
+  .visitor-popularity h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    opacity: 0.9;
+  }
+
+  #stateChart {
+    max-height: 160px;
+  }
+
   /* --- DESKTOP SCALING --- */
   @media (min-width: 768px) {
     .rt-robust-footer {
@@ -296,9 +310,12 @@
     </div>
 
     <div class="rt-footer-bottom-bar">
-      <p>© <span id="yr"></span> Radha Travels. All rights reserved.</p>
+      <div class="visitor-popularity">
+        <h4>🌍 Popular with Travelers From</h4>
 
-      <div class="visitor-counter">🌍 Visitors: <%= totalVisitors %></div>
+        <canvas id="stateChart"></canvas>
+      </div>
+      <p>© <span id="yr"></span> Radha Travels. All rights reserved.</p>
     </div>
   </div>
   <%- include('booking-modal') %>
@@ -306,4 +323,39 @@
 
 <script>
   document.getElementById('yr')?.append(new Date().getFullYear());
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  fetch('/api/visitor-states')
+    .then((res) => res.json())
+    .then((data) => {
+      const labels = data.map((s) => s.state);
+      const counts = data.map((s) => s.total);
+
+      const ctx = document.getElementById('stateChart');
+
+      new Chart(ctx, {
+        type: 'bar',
+
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: 'Visitors',
+              data: counts,
+              backgroundColor: '#22c55e',
+            },
+          ],
+        },
+
+        options: {
+          plugins: {
+            legend: { display: false },
+          },
+          scales: {
+            y: { display: false },
+          },
+        },
+      });
+    });
 </script>

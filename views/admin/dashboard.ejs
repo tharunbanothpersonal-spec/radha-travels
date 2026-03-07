@@ -68,6 +68,19 @@
       font-size: 13px;
     }
 
+    .state-visitors{
+list-style:none;
+padding:0;
+margin-top:10px;
+}
+
+.state-visitors li{
+display:flex;
+justify-content:space-between;
+padding:6px 0;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
     /* DESKTOP */
 
     @media (min-width: 900px) {
@@ -154,6 +167,24 @@ avgRating = locals.avgRating || 0; %>
     <h3 class="stat-number" data-count="<%= todayVisitors %>">0</h3>
     <p>Visitors Today</p>
   </div>
+  <div class="stat-card">
+
+<h3>Visitors by State</h3>
+
+<ul class="state-visitors">
+
+<% stateVisitors.forEach(s => { %>
+
+<li>
+<span><%= s.state %></span>
+<strong><%= s.total %></strong>
+</li>
+
+<% }) %>
+
+</ul>
+
+</div>
 </div>
 
 <!-- QUICK ACTIONS -->

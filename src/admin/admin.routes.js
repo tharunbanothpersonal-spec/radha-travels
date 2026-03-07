@@ -87,6 +87,18 @@ WHERE visit_date = ?
     )
     .get(today).total;
 
+  const stateVisitors = db
+    .prepare(
+      `
+SELECT state, COUNT(*) as total
+FROM visitors
+GROUP BY state
+ORDER BY total DESC
+LIMIT 10
+`
+    )
+    .all();
+
   res.render('admin/dashboard', {
     bookings,
     gallery,
@@ -97,6 +109,7 @@ WHERE visit_date = ?
     pendingReviews,
     avgRating,
     totalVisitors,
+    stateVisitors,
     todayVisitors,
 
     title: 'Dashboard | Admin',

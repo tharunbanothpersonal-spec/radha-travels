@@ -264,5 +264,9 @@ CREATE TABLE IF NOT EXISTS visitors (
 )
 `
 ).run();
+// Safe migration
+try {
+  db.exec('ALTER TABLE visitors ADD COLUMN state TEXT;');
+} catch {}
 
 export default db;

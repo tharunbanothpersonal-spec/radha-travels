@@ -660,6 +660,26 @@ app.get('/blog/:slug', (req, res) => {
   });
 });
 
+// ip counter
+
+app.get('/api/visitor-states', (req, res) => {
+  const states = db
+    .prepare(
+      `
+SELECT state, COUNT(*) as total
+FROM visitors
+WHERE state IS NOT NULL
+AND state != 'Unknown'
+GROUP BY state
+ORDER BY total DESC
+LIMIT 6
+`
+    )
+    .all();
+
+  res.json(states);
+});
+
 // =======================================================
 //  PUBLIC ROUTES
 // =======================================================
