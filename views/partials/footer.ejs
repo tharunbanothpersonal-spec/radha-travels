@@ -329,8 +329,8 @@
   fetch('/api/visitor-states')
     .then((res) => res.json())
     .then((data) => {
-      const labels = data.map((s) => s.state);
-      const counts = data.map((s) => s.total);
+      const labels = ['Telangana', 'Andhra', 'Karnataka'];
+      const counts = [12, 8, 5];
 
       const ctx = document.getElementById('stateChart');
 

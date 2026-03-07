@@ -662,10 +662,11 @@ app.get('/blog/:slug', (req, res) => {
 
 // ip counter
 
-app.get('/api/visitor-states', (req, res) => {
-  const states = db
-    .prepare(
-      `
+app.get('/api/state-visitors', (req, res) => {
+  try {
+    const states = db
+      .prepare(
+        `
 SELECT state, COUNT(*) as total
 FROM visitors
 WHERE state IS NOT NULL
@@ -674,10 +675,14 @@ GROUP BY state
 ORDER BY total DESC
 LIMIT 6
 `
-    )
-    .all();
+      )
+      .all();
 
-  res.json(states);
+    res.json(states);
+  } catch (err) {
+    console.error(err);
+    res.json([]);
+  }
 });
 
 // =======================================================
@@ -738,6 +743,34 @@ app.get('/', (req, res) => {
   }
   const totalReviews = testimonials.length;
 
+  const today = new Date().toISOString().split('T')[0];
+
+  let totalVisitors = 0;
+  let todayVisitors = 0;
+
+  try {
+    totalVisitors = db
+      .prepare(
+        `
+SELECT COUNT(DISTINCT ip) as total
+FROM visitors
+`
+      )
+      .get().total;
+
+    todayVisitors = db
+      .prepare(
+        `
+SELECT COUNT(DISTINCT ip) as total
+FROM visitors
+WHERE visit_date = ?
+`
+      )
+      .get(today).total;
+  } catch (err) {
+    console.log('Visitor stats error', err.message);
+  }
+
   res.render('index', {
     title:
       'Hyderabad Cab Service | Outstation, Airport & Tempo Traveller | Radha Travels',
@@ -749,6 +782,8 @@ app.get('/', (req, res) => {
     totalReviews,
     ratingPercentages,
     randomTestimonials,
+    totalVisitors,
+    todayVisitors,
     latestPosts: blogPosts
       .sort((a, b) => new Date(b.date) - new Date(a.date))
       .slice(0, 3)

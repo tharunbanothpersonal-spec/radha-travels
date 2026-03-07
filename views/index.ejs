@@ -60,6 +60,93 @@
     .reveal-item.is-visible.reveal-luxury-mask img {
       transform: scale(1); /* Image snaps into its frame perfectly */
     }
+
+  /* ============================ */
+/* INDIA POPULARITY SECTION */
+/* ============================ */
+
+.india-popularity{
+padding:60px 20px;
+background:#0f1b34;
+color:white;
+}
+
+.popularity-header{
+text-align:center;
+max-width:700px;
+margin:auto;
+margin-bottom:30px;
+}
+
+.popularity-header h2{
+font-size:28px;
+margin-bottom:8px;
+}
+
+.popularity-header p{
+opacity:0.8;
+font-size:14px;
+}
+
+.popularity-map{
+max-width:700px;
+margin:auto;
+background:#0c1426;
+padding:25px;
+border-radius:12px;
+border:1px solid rgba(0,255,200,0.15);
+}
+
+.state-title{
+margin-bottom:15px;
+font-size:18px;
+text-align:left;
+}
+
+#stateVisitors{
+list-style:none;
+padding:0;
+margin:0;
+}
+
+#stateVisitors li{
+display:grid;
+grid-template-columns:140px 1fr 40px;
+align-items:center;
+gap:10px;
+margin-bottom:12px;
+font-size:14px;
+}
+
+.state-bar{
+background:#1f2a44;
+height:8px;
+border-radius:6px;
+overflow:hidden;
+}
+.state-fill{
+background:#22c55e;
+height:100%;
+border-radius:6px;
+width:0;
+transition:width 1s ease;
+}
+
+.state-count{
+text-align:right;
+font-weight:600;
+}
+
+/* mobile */
+
+@media(max-width:768px){
+
+#stateVisitors li{
+grid-template-columns:90px 1fr 30px;
+font-size:12px;
+}
+
+}
 </style>
 </head>
 <body>
@@ -410,7 +497,101 @@
     <% } %>
   </div>
 </section>
+
+<!-- Visitor Popularity Section -->
+
+<section class="india-popularity">
+
+  <div class="container">
+
+    <div class="popularity-header">
+      <h2>🌍 Trusted by Travelers Across India</h2>
+      <p>Thousands of pilgrims and tourists choose Radha Travels for safe and comfortable journeys.</p>
+    </div>
+
+    <div class="popularity-map">
+
+      <h3 class="state-title">Popular States</h3>
+
+      <ul id="stateVisitors"></ul>
+
+    </div>
+
+  </div>
+
+</section>
+
 <%- include('partials/footer') %>
+<script>
+
+async function loadStateVisitors(){
+
+try{
+
+const res = await fetch("/api/state-visitors");
+const data = await res.json();
+
+const list = document.getElementById("stateVisitors");
+
+if(!list) return;
+
+let max = 0;
+
+data.forEach(s=>{
+if(s.total > max) max = s.total;
+});
+
+data.forEach(s=>{
+
+const percent = (s.total / max) * 100;
+
+const item = document.createElement("li");
+
+item.innerHTML = `
+<span class="state-name">${s.state}</span>
+<div class="state-bar">
+<div class="state-fill" data-width="${percent}%"></div>
+</div>
+<span class="state-count">${s.total}</span>
+`;
+
+list.appendChild(item);
+
+});
+
+/* Animate bars when visible */
+
+const observer = new IntersectionObserver(entries => {
+
+entries.forEach(entry => {
+
+if(entry.isIntersecting){
+
+document.querySelectorAll(".state-fill").forEach(bar=>{
+bar.style.width = bar.dataset.width;
+});
+
+observer.disconnect();
+
+}
+
+});
+
+},{threshold:0.4});
+
+observer.observe(document.querySelector(".india-popularity"));
+
+}catch(err){
+
+console.error("State visitor error",err);
+
+}
+
+}
+
+document.addEventListener("DOMContentLoaded",loadStateVisitors);
+
+</script>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const observerOptions = {
@@ -496,5 +677,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 <script src="/js/main.js" defer></script>
 <script src="/js/admin-login.js" defer></script>
+
+
 </body>
 </html>
