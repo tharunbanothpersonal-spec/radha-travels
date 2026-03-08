@@ -1129,6 +1129,23 @@ app.get('/internal/smtp-check', async (req, res) => {
   socket.connect(port, host);
 });
 
+// pricing API
+
+app.get('/api/pricing', (req, res) => {
+  try {
+    const pricing = db.prepare(`
+      SELECT * FROM pricing
+    `).all();
+
+    res.json(pricing);
+
+  } catch (err) {
+    console.error('Pricing API error:', err);
+    res.status(500).json({ error: 'Failed to load pricing' });
+  }
+});
+
+
 // =======================================================
 //  404
 // =======================================================

@@ -1,0 +1,352 @@
+<head>
+<style>
+
+/* ===============================
+PRICING CONTAINER
+=============================== */
+
+.pricing-container{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:20px;
+max-width:700px;
+}
+
+/* ===============================
+VEHICLE SELECTOR
+=============================== */
+
+.vehicle-selector{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.vehicle-card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:12px;
+padding:14px;
+text-align:center;
+cursor:pointer;
+font-size:13px;
+transition:all .25s ease;
+}
+
+.vehicle-card:hover{
+border-color:#10b981;
+transform:translateY(-2px);
+box-shadow:0 0 12px rgba(16,185,129,.3);
+}
+
+.vehicle-card.active{
+background:linear-gradient(135deg,#059669,#10b981);
+color:white;
+border-color:#10b981;
+box-shadow:0 0 16px rgba(16,185,129,.5);
+}
+
+/* desktop */
+
+@media(min-width:900px){
+.vehicle-selector{
+grid-template-columns:repeat(5,1fr);
+}
+}
+
+/* ===============================
+PRICING EDITOR
+=============================== */
+
+.pricing-editor{
+display:flex;
+flex-direction:column;
+gap:16px;
+}
+
+.pricing-box{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+border-radius:14px;
+padding:16px;
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.pricing-box h3{
+margin:0 0 6px;
+font-size:14px;
+}
+
+.pricing-box input{
+padding:8px;
+border-radius:8px;
+border:1px solid rgba(255,255,255,0.1);
+background:rgba(255,255,255,0.05);
+color:white;
+}
+
+/* ===============================
+BUTTON
+=============================== */
+
+.btn-save{
+background:linear-gradient(135deg,#059669,#10b981);
+border:none;
+padding:12px;
+border-radius:10px;
+color:white;
+cursor:pointer;
+}
+
+/* ===============================
+MESSAGE
+=============================== */
+
+.pricing-msg{
+background:rgba(16,185,129,.15);
+border:1px solid rgba(16,185,129,.4);
+padding:10px;
+border-radius:8px;
+font-size:13px;
+}
+
+.hidden{
+display:none;
+}
+
+</style>
+</head>
+
+<%- include("../admin/partials/header") %>
+
+<section class="section-header">
+<h2>Pricing Manager</h2>
+<span class="subtext">Update pricing used in estimator</span>
+</section>
+
+<div class="pricing-container">
+
+<!-- ===============================
+VEHICLE SELECTOR
+=============================== -->
+
+<div class="vehicle-selector">
+
+<% [...new Set(pricing.map(p=>p.vehicle))].forEach(v=>{ %>
+
+<div class="vehicle-card" data-vehicle="<%= v %>">
+🚘 <%= v %>
+</div>
+
+<% }) %>
+
+</div>
+
+<!-- ===============================
+PRICING EDITOR
+=============================== -->
+
+<div id="pricingEditor" class="pricing-editor hidden">
+
+<div class="pricing-box">
+
+<h3>Outstation</h3>
+
+<label>Per KM</label>
+<input id="out_per_km">
+
+<label>Driver Allowance</label>
+<input id="out_driver">
+
+</div>
+
+<div class="pricing-box">
+
+<h3>Local</h3>
+
+<label>Base Price</label>
+<input id="local_base">
+
+<label>Extra KM</label>
+<input id="local_km">
+
+<label>Extra Hour</label>
+<input id="local_hour">
+
+</div>
+
+<div class="pricing-box">
+
+<h3>Airport</h3>
+
+<label>Flat Price</label>
+<input id="airport_price">
+
+</div>
+
+<button id="savePricing" class="btn-save">Save Pricing</button>
+
+<div id="pricingMsg" class="pricing-msg hidden"></div>
+
+</div>
+
+</div>
+
+<script>
+
+/* ===============================
+DATA
+=============================== */
+
+const pricing=<%- JSON.stringify(pricing) %>;
+
+let currentVehicle=null;
+
+const vehicleCards=document.querySelectorAll(".vehicle-card");
+const editor=document.getElementById("pricingEditor");
+
+/* ===============================
+LOAD PRICING
+=============================== */
+
+function loadPricing(vehicle){
+
+const out=pricing.find(p=>p.vehicle===vehicle && p.service==="Outstation");
+const local=pricing.find(p=>p.vehicle===vehicle && p.service==="Local");
+const airport=pricing.find(p=>p.vehicle===vehicle && p.service==="Airport");
+
+document.getElementById("out_per_km").value=out?.per_km||"";
+document.getElementById("out_driver").value=out?.driver_allowance||"";
+
+document.getElementById("local_base").value=local?.base_price||"";
+document.getElementById("local_km").value=local?.per_km||"";
+document.getElementById("local_hour").value=local?.extra_per_hour||"";
+
+document.getElementById("airport_price").value=airport?.flat_price||"";
+
+}
+
+/* ===============================
+VEHICLE SELECT
+=============================== */
+
+vehicleCards.forEach(card=>{
+
+card.addEventListener("click",()=>{
+
+vehicleCards.forEach(c=>c.classList.remove("active"));
+
+card.classList.add("active");
+
+const vehicle=card.dataset.vehicle;
+
+currentVehicle=vehicle;
+
+editor.classList.remove("hidden");
+
+loadPricing(vehicle);
+
+localStorage.setItem("pricingVehicle",vehicle);
+
+});
+
+});
+
+/* restore selected vehicle */
+
+const savedVehicle=localStorage.getItem("pricingVehicle");
+
+if(savedVehicle){
+
+vehicleCards.forEach(card=>{
+
+if(card.dataset.vehicle===savedVehicle){
+
+card.classList.add("active");
+
+editor.classList.remove("hidden");
+
+loadPricing(savedVehicle);
+
+currentVehicle=savedVehicle;
+
+}
+
+});
+
+}
+
+/* ===============================
+SAVE PRICING
+=============================== */
+
+document.getElementById("savePricing").addEventListener("click",async()=>{
+
+if(!currentVehicle) return;
+
+const updates=[];
+
+pricing.forEach(row=>{
+
+if(row.vehicle!==currentVehicle) return;
+
+if(row.service==="Outstation"){
+
+updates.push({
+id:row.id,
+per_km:document.getElementById("out_per_km").value,
+driver_allowance:document.getElementById("out_driver").value
+});
+
+}
+
+if(row.service==="Local"){
+
+updates.push({
+id:row.id,
+base_price:document.getElementById("local_base").value,
+per_km:document.getElementById("local_km").value,
+extra_per_hour:document.getElementById("local_hour").value
+});
+
+}
+
+if(row.service==="Airport"){
+
+updates.push({
+id:row.id,
+flat_price:document.getElementById("airport_price").value
+});
+
+}
+
+});
+
+for(const u of updates){
+
+await fetch("/admin/pricing/update/"+u.id,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(u)
+});
+
+}
+
+const msg=document.getElementById("pricingMsg");
+
+msg.classList.remove("hidden");
+
+msg.innerText="✔ Pricing updated successfully";
+
+setTimeout(()=>msg.classList.add("hidden"),3000);
+
+});
+
+</script>
+
+<%- include("../admin/partials/footer") %>

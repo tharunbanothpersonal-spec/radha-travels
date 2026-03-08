@@ -318,8 +318,8 @@ a{color:inherit;text-decoration:none}
    Quick Estimate Modal (compact)
    =========================== */
 .qe-backdrop[hidden]{display:none !important}
-.qe-backdrop{position:fixed;inset:0;z-index:110;display:grid;place-items:center;background:rgba(0,0,0,.35);backdrop-filter:blur(6px)}
-.qe-modal{width:min(340px,92vw);background:#fff;border-radius:14px;box-shadow:0 24px 64px rgba(0,0,0,.28);overflow:hidden;animation:qePop .18s ease-out both}
+.qe-backdrop{position:fixed;inset:0;z-index:100000;display:grid;place-items:center;background:rgba(0,0,0,.35);backdrop-filter:blur(6px)}
+.qe-modal{width:min(340px,92vw);background:#fff;border-radius:14px;box-shadow:0 24px 64px rgba(0,0,0,.28);overflow:hidden;animation:qePop .18s ease-out both;z-index: 100000;}
 @keyframes qePop{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
 .qe-head{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;background:var(--g-header);color:#fff}
 .qe-head h3{margin:0;font-size:17px;font-weight:700}

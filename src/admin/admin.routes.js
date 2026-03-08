@@ -660,4 +660,44 @@ router.post(
   }
 );
 
+//pricing admin
+router.get('/pricing', requireAdmin, (req, res) => {
+
+  const pricing = db.prepare(`
+    SELECT * FROM pricing
+    ORDER BY service, vehicle
+  `).all();
+
+  res.render('admin/pricing', {
+    title: 'Pricing Management | Admin',
+    pricing,
+    active: 'pricing'
+  });
+
+});
+
+router.post('/pricing/update/:id', requireAdmin, (req, res) => {
+
+  const { per_km, driver_allowance, base_price, flat_price } = req.body;
+
+  db.prepare(`
+    UPDATE pricing
+    SET
+      per_km=?,
+      driver_allowance=?,
+      base_price=?,
+      flat_price=?
+    WHERE id=?
+  `).run(
+    per_km || null,
+    driver_allowance || null,
+    base_price || null,
+    flat_price || null,
+    req.params.id
+  );
+
+  res.redirect('/admin/pricing');
+
+});
+
 export default router;

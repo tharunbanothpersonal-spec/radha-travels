@@ -269,4 +269,130 @@ try {
   db.exec('ALTER TABLE visitors ADD COLUMN state TEXT;');
 } catch {}
 
+// =============================
+// pricing TABLE
+// =============================
+db.prepare(
+  `
+CREATE TABLE IF NOT EXISTS pricing (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  service TEXT,
+  vehicle TEXT,
+  per_km INTEGER,
+  min_km_per_day INTEGER,
+  driver_allowance INTEGER,
+  base_price INTEGER,
+  base_km INTEGER,
+  base_hours INTEGER,
+  extra_per_hour INTEGER,
+  flat_price INTEGER
+)
+`
+).run();
+
+const count = db.prepare('SELECT COUNT(*) as c FROM pricing').get().c;
+
+if (count === 0) {
+  const insert = db.prepare(`
+INSERT INTO pricing 
+(service, vehicle, per_km, min_km_per_day, driver_allowance, base_price, base_km, base_hours, extra_per_hour, flat_price)
+VALUES (?,?,?,?,?,?,?,?,?,?)
+`);
+
+  insert.run(
+    'Outstation',
+    'Hatchback',
+    12,
+    300,
+    400,
+    null,
+    null,
+    null,
+    null,
+    null
+  );
+  insert.run('Outstation', 'Sedan', 14, 300, 500, null, null, null, null, null);
+  insert.run(
+    'Outstation',
+    'Premium Sedan',
+    16,
+    300,
+    600,
+    null,
+    null,
+    null,
+    null,
+    null
+  );
+  insert.run('Outstation', 'SUV', 18, 300, 600, null, null, null, null, null);
+  insert.run(
+    'Outstation',
+    'Premium SUV',
+    22,
+    300,
+    700,
+    null,
+    null,
+    null,
+    null,
+    null
+  );
+
+  insert.run('Local', 'Hatchback', 12, null, null, 2200, 80, 8, 150, null);
+  insert.run('Local', 'Sedan', 14, null, null, 2600, 80, 8, 200, null);
+  insert.run('Local', 'Premium Sedan', 16, null, null, 3200, 80, 8, 250, null);
+  insert.run('Local', 'SUV', 18, null, null, 3500, 80, 8, 250, null);
+  insert.run('Local', 'Premium SUV', 22, null, null, 4200, 80, 8, 300, null);
+
+  insert.run(
+    'Airport',
+    'Hatchback',
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    1100
+  );
+  insert.run(
+    'Airport',
+    'Sedan',
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    1300
+  );
+  insert.run(
+    'Airport',
+    'Premium Sedan',
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    1600
+  );
+  insert.run('Airport', 'SUV', null, null, null, null, null, null, null, 1800);
+  insert.run(
+    'Airport',
+    'Premium SUV',
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    2200
+  );
+}
+
 export default db;
