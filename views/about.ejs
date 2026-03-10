@@ -28,17 +28,36 @@
         =============================== */
         .section-title { font-size: 3.2rem; line-height: 1.1; margin-bottom: 20px; }
         .journey-title { font-size: 4rem; line-height: 1; }
-        .text-lead { font-size: 1.05rem; color: #444; margin-bottom: 20px; }
+        .text-lead { font-size: 0.8rem; color: #444; margin-bottom: 20px; }
         .tagline { display: inline-flex; align-items: center; gap: 8px; color: var(--gold-leaf); letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 10px;}
 
         /* ===============================
            HERO
         =============================== */
         .hero {
-            height: 80vh; 
-            background: linear-gradient(rgba(2, 44, 34, 0.4), rgba(2, 44, 34, 0.9)), url('/images/IMG_8975.jpg') center/cover; 
-            display: flex; align-items: center; color: var(--pure-white); position: relative;
-        }
+    height: 80vh;
+    background: linear-gradient(rgba(2, 44, 34, 0.4), rgba(2, 44, 34, 0.9)),
+                url('/images/IMG_8975.jpg') center/cover;
+    display: flex;
+    align-items: center;
+    color: var(--pure-white);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:url('/images/IMG_8975.jpg') center/cover no-repeat;
+    animation:heroZoom 18s ease-in-out infinite alternate;
+    z-index:-1;
+}
+
+@keyframes heroZoom{
+    from{ transform:scale(1); }
+    to{ transform:scale(1.08); }
+}
         .hero-inner { max-width: 900px; padding-left: 5%; }
         .hero h1 { font-size: clamp(2.5rem, 8vw, 5.5rem); line-height: 0.95; margin-bottom: 20px; font-weight: 900; }
         .hero h1 span { color: var(--gold-leaf); font-style: italic; font-weight: 400; }
@@ -142,7 +161,13 @@
             text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; 
             font-size: 0.8rem; transition: 0.3s;
         }
-        .cta-btn:hover { background: var(--deep-emerald); color: var(--gold-leaf); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .cta-btn:hover {
+    background: var(--deep-emerald);
+    color: var(--gold-leaf);
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.2),
+        0 0 18px rgba(197,160,89,0.35);
+}
         
         .cta-outline {
             display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; border: 1px solid var(--gold-leaf); color: var(--deep-emerald); 
@@ -163,8 +188,8 @@
         @media (max-width: 900px) {
             .foundation, .journey, .why-us, .guardian-section, .final-cta { padding: 60px 0; }
             .mission { padding: 60px 0; }
-            .section-title { font-size: 2.1rem; margin-bottom: 15px; }
-            .journey-title { font-size: 2.5rem; }
+            .section-title { font-size: 1.8rem; margin-bottom: 15px; }
+            .journey-title { font-size: 2.0rem; }
             .hero-inner { padding-left: 0; margin-left: 5px; }
             
             .stat-chips-wrapper { margin-top: -30px; }
@@ -190,7 +215,7 @@
             .guardian-badge { left: 10px; bottom: -15px; right: 10px; padding: 15px; }
             
             .btn-group { flex-direction: column; width: 100%; }
-            .cta-btn, .cta-outline { width: 50%; justify-content: center; padding: 16px 20px; font-size: 0.75rem; }
+            .cta-btn, .cta-outline { width: 100%; max-width: 280px; justify-content: center; padding: 16px 20px; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -387,7 +412,7 @@
     <section class="final-cta reveal">
         <div class="container">
             <h2 class="section-title" style="margin-bottom: 10px;">Ready for the Radha Experience?</h2>
-            <p style="opacity: 0.8; letter-spacing: 1px; font-size: 1rem;">Your safe, comfortable, and dignified journey begins with a single click.</p>
+            <p style="opacity: 0.8; letter-spacing: 1px; font-size: 1rem;margin-bottom: 20px;">Your safe, comfortable, and dignified journey begins with a single click.</p>
             <a href="#" role="button" class="open-booking cta-btn">
                 Secure Your Dates
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
