@@ -26,39 +26,20 @@
         /* ===============================
            TYPOGRAPHY
         =============================== */
-        .section-title { font-size: 3.2rem; line-height: 1.1; margin-bottom: 20px; }
-        .journey-title { font-size: 4rem; line-height: 1; }
-        .text-lead { font-size: 0.8rem; color: #444; margin-bottom: 20px; }
+        .section-title { font-size: 2rem; line-height: 1.1; margin-bottom: 20px; }
+        .journey-title { font-size: 2.2rem; line-height: 1; }
+        .text-lead { font-size: 0.80rem; color: #444; margin-bottom: 20px; }
         .tagline { display: inline-flex; align-items: center; gap: 8px; color: var(--gold-leaf); letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 10px;}
 
         /* ===============================
            HERO
         =============================== */
         .hero {
-    height: 80vh;
-    background: linear-gradient(rgba(2, 44, 34, 0.4), rgba(2, 44, 34, 0.9)),
-                url('/images/IMG_8975.jpg') center/cover;
-    display: flex;
-    align-items: center;
-    color: var(--pure-white);
-    position: relative;
-    overflow: hidden;
-}
-
-.hero::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:url('/images/IMG_8975.jpg') center/cover no-repeat;
-    animation:heroZoom 18s ease-in-out infinite alternate;
-    z-index:-1;
-}
-
-@keyframes heroZoom{
-    from{ transform:scale(1); }
-    to{ transform:scale(1.08); }
-}
-        .hero-inner { max-width: 900px; padding-left: 5%; }
+            height: 80vh; 
+            background: linear-gradient(rgba(2, 44, 34, 0.4), rgba(2, 44, 34, 0.9)), url('/images/IMG_8975.jpg') center/cover; 
+            display: flex; align-items: center; color: var(--pure-white); position: relative;
+        }
+        .hero-inner { max-width: 900px; padding-left: 5%; margin-left: 20px;}
         .hero h1 { font-size: clamp(2.5rem, 8vw, 5.5rem); line-height: 0.95; margin-bottom: 20px; font-weight: 900; }
         .hero h1 span { color: var(--gold-leaf); font-style: italic; font-weight: 400; }
         .hero p { font-size: 1.1rem; font-weight: 300; letter-spacing: 1px; max-width: 600px; opacity: 0.9; margin-bottom: 30px;}
@@ -76,16 +57,15 @@
         .chip:last-child { border-right: none; }
         .chip-icon { color: var(--gold-leaf); margin-bottom: 10px; }
         .chip-number-wrap { display: flex; align-items: center; justify-content: center; color: var(--deep-emerald); margin-bottom: 5px; }
-        .chip-number-wrap h4 { font-size: 2.5rem; line-height: 1; }
-        .chip-suffix { color: var(--gold-leaf); font-size: 1.5rem; font-weight: 700; margin-left: 2px; font-family: 'Playfair Display', serif; }
-        .chip-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: #666; font-weight: 600; }
+        .chip-number-wrap h4 { font-size: 1.5rem; line-height: 1; }
+        .chip-suffix { color: var(--gold-leaf); font-size: 1rem; font-weight: 700; margin-left: 2px; font-family: 'Playfair Display', serif; }
+        .chip-label { font-size: 0.5rem; text-transform: uppercase; letter-spacing: 2px; color: #666; font-weight: 600; }
 
         /* ===============================
            SECTION PADDINGS 
         =============================== */
-        .foundation { padding: 80px 0; background: var(--pure-white); margin-top: -50px; }
-        .journey { padding: 90px 0; background: var(--deep-emerald); color: var(--silk); position: relative; overflow: hidden; }
-        .mission { padding: 100px 0; text-align: center; background: var(--silk); border-bottom: 1px solid #eee; }
+        .foundation { padding: 80px 0; background: var(--pure-white); margin-top: -50px; margin-bottom: -50px;}
+        .journey { padding-top: 40px; background: var(--deep-emerald); color: var(--silk); position: relative; overflow: hidden; }
         .why-us { padding: 90px 0; background: var(--pure-white); }
         .guardian-section { padding: 90px 0; background: var(--silk); border-top: 1px solid rgba(197, 160, 89, 0.15); }
         .final-cta { padding: 90px 0; text-align: center; background: var(--deep-emerald); color: white; }
@@ -123,9 +103,24 @@
         .t-point h3 { font-size: 1.8rem; margin-bottom: 10px; color: var(--gold-leaf); }
 
         /* ===============================
-           MISSION
+           MISSION (UPDATED PORTRAIT GRID)
         =============================== */
-        .mission p { font-size: 1.5rem; font-family: 'Playfair Display', serif; font-style: italic; max-width: 850px; margin: 20px auto 30px; color: var(--classic-green); }
+        .mission { padding: 100px 0; background: var(--silk); border-bottom: 1px solid #eee; }
+        .mission-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        
+        .mission-image-wrap { position: relative; width: 100%; text-align: right; }
+        .mission-image-wrap img { 
+            width: 90%; max-width: 450px; height: 450px; object-fit: cover; 
+            border-radius: 8px; box-shadow: -15px 15px 0 rgba(197, 160, 89, 0.15); 
+        }
+        
+        /* This centers the text vertically and horizontally inside the column */
+        .mission-content { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .mission-content svg {text-align: center; color: var(--gold-leaf); }
+        .mission-content p { 
+            font-size: 1.4rem; font-family: 'Playfair Display', serif; font-style: italic; 
+            color: var(--classic-green); margin-bottom: 30px; line-height: 1.6; max-width: 500px;
+        }
 
         /* ===============================
            WHY CHOOSE: BENTO GRID
@@ -154,25 +149,47 @@
         }
 
         /* ===============================
+           BUTTONS
+        =============================== */
+        /* ===============================
            BUTTONS (SOLID & OUTLINE)
         =============================== */
-        .cta-btn {
-            display: inline-flex; align-items: center; gap: 10px; padding: 18px 45px; background: var(--gold-leaf); color: var(--deep-emerald); 
-            text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; 
-            font-size: 0.8rem; transition: 0.3s;
+        .cta-btn, .cta-outline {
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center;
+            gap: 10px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            font-size: 0.8rem; 
+            line-height: 1; 
+            transition: 0.3s;
         }
-        .cta-btn:hover {
-    background: var(--deep-emerald);
-    color: var(--gold-leaf);
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.2),
-        0 0 18px rgba(197,160,89,0.35);
-}
+
+        /* THE FIX: Push the SVG down to perfectly align with uppercase text */
+        .cta-btn svg, .cta-outline svg {
+            display: block;
+            flex-shrink: 0; /* Prevents the icon from squishing */
+            transform: translateY(2px); /* Pushes the arrow DOWN */
+        }
+
+        .cta-btn {
+            padding: 18px 45px; 
+            background: var(--gold-leaf); 
+            color: var(--deep-emerald); 
+        }
+        .cta-btn:hover { 
+            background: var(--deep-emerald); 
+            color: var(--gold-leaf); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+        }
         
         .cta-outline {
-            display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; border: 1px solid var(--gold-leaf); color: var(--deep-emerald); 
-            text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; 
-            font-size: 0.8rem; transition: 0.3s;
+            padding: 16px 40px; 
+            border: 1px solid var(--gold-leaf); 
+            color: var(--deep-emerald); 
         }
         .cta-outline:hover { background: var(--gold-leaf); color: var(--deep-emerald); }
         .cta-outline.light { color: var(--pure-white); border-color: rgba(255,255,255,0.4); }
@@ -186,21 +203,27 @@
            MOBILE OPTIMIZATION
         =============================== */
         @media (max-width: 900px) {
+            .chip-icon{width: 18px; height: 18px;}
             .foundation, .journey, .why-us, .guardian-section, .final-cta { padding: 60px 0; }
             .mission { padding: 60px 0; }
-            .section-title { font-size: 1.8rem; margin-bottom: 15px; }
-            .journey-title { font-size: 2.0rem; }
-            .hero-inner { padding-left: 0; margin-left: 5px; }
+            .section-title { font-size: 2.1rem; margin-bottom: 15px; }
+            .journey-title { font-size: 2.5rem; }
+            .hero-inner { padding-left: 0; }
             
             .stat-chips-wrapper { margin-top: -30px; }
-            .stat-chips { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 20px 10px; }
+            .stat-chips { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 5px; }
             .chip:nth-child(even) { border-right: none; }
             .chip:nth-child(1), .chip:nth-child(2) { border-bottom: 1px solid #eee; padding-bottom: 15px; }
-            .chip-number-wrap h4 { font-size: 2rem; }
-
+            
             .foundation-grid { grid-template-columns: 1fr; gap: 30px; }
             .f-image-stack img { height: 300px; } 
             .f-overlay-box { position: relative; bottom: auto; right: auto; margin-top: -20px; width: 90%; padding: 20px; }
+
+            /* Mission Mobile Fix */
+            .mission-grid { grid-template-columns: 1fr; gap: 40px; }
+            .mission-image-wrap { text-align: center; }
+            .mission-image-wrap img { width: 100%; height: 350px; box-shadow: -10px 10px 0 rgba(197, 160, 89, 0.15); }
+            .mission-content p { font-size: 1.25rem; padding: 0 10px; }
             
             .journey-wrapper { flex-direction: column; gap: 30px; }
             .journey-sticky { position: static; }
@@ -215,7 +238,7 @@
             .guardian-badge { left: 10px; bottom: -15px; right: 10px; padding: 15px; }
             
             .btn-group { flex-direction: column; width: 100%; }
-            .cta-btn, .cta-outline { width: 100%; max-width: 280px; justify-content: center; padding: 16px 20px; font-size: 0.75rem; }
+            .cta-btn, .cta-outline { width: 100%; max-width: 300px; justify-content: center; padding: 16px 20px; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -232,7 +255,7 @@
             <h1>Trust in Every <span>Mile.</span></h1>
             <p>India’s most prestigious travel partner for families and sacred pilgrimages.</p>
             <div class="btn-group">
-                <a href="#" role="button" class="open-booking cta-btn">
+                <a href="#contact" class="cta-btn">
                     Begin Your Voyage
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
@@ -324,15 +347,28 @@
         </div>
     </section>
 
-    <section class="mission reveal">
+    <section class="mission">
         <div class="container">
-            <svg style="color: var(--gold-leaf); margin-bottom: 10px;" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
-            <h2 class="section-title">Our Mission</h2>
-            <p>"To be the silent guardian of your journey, ensuring that every soul we carry arrives not just at their destination, but in a state of absolute grace and peace."</p>
-            <a href="/services" class="cta-outline green">
-                Discover Our Ethos
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </a>
+            <div class="mission-grid">
+                <div class="mission-image-wrap reveal">
+                    <img src="/images/story-aboutus.jpg" onerror="this.src='https://images.unsplash.com/photo-1516935292305-649f4810795c?auto=format&fit=crop&q=80&w=800'" alt="Silent Guardian on the Road">
+                </div>
+                
+                <div class="mission-content reveal">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                        <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
+                    </svg>
+                    <h2 class="section-title" style="margin-bottom: 15px;">Our Mission</h2>
+                    <p>"To be the silent guardian of your journey, ensuring that every soul we carry arrives not just at their destination, but in a state of absolute grace and peace."</p>
+                    <div>
+                        <a href="/services" class="cta-outline green">
+                            Discover Our Ethos
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -372,7 +408,9 @@
                 </div>
             </div>
             <div style="text-align: center; margin-top: 40px;" class="reveal">
-                <a href="/blog" class="cta-outline">Compare Vehicle Classes</a>
+                <a href="/standards" class="cta-outline">Compare Vehicle Classes
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
             </div>
         </div>
     </section>
@@ -392,7 +430,7 @@
                         <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--deep-emerald);">"I live in Bangalore, and my parents wanted to visit Srisailam. The driver treated them like his own family. I slept peacefully knowing they were safe."</p>
                         <span style="display: block; margin-top: 10px; font-size: 0.75rem; font-weight: 700; color: var(--gold-leaf); text-transform: uppercase;">— Verified Client Family</span>
                     </div>
-                    <a href="/happy-customers" class="cta-btn">
+                    <a href="/contact" class="cta-btn">
                         Consult a Guardian
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </a>
@@ -412,8 +450,8 @@
     <section class="final-cta reveal">
         <div class="container">
             <h2 class="section-title" style="margin-bottom: 10px;">Ready for the Radha Experience?</h2>
-            <p style="opacity: 0.8; letter-spacing: 1px; font-size: 1rem;margin-bottom: 20px;">Your safe, comfortable, and dignified journey begins with a single click.</p>
-            <a href="#" role="button" class="open-booking cta-btn">
+            <p style="opacity: 0.8; letter-spacing: 1px; font-size: 1rem; margin-bottom: 20px;">Your safe, comfortable, and dignified journey begins with a single click.</p>
+            <a href="/book" role="button" class="open-booking cta-btn">
                 Secure Your Dates
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
