@@ -998,20 +998,70 @@ app.get('/services', (req, res) => {
 
 // Service detail
 app.get('/services/:slug', (req, res) => {
+
   const service = SERVICES.find((s) => s.slug === req.params.slug);
+
   if (!service) {
     return res.status(404).render('pages/404', { title: 'Not Found' });
   }
 
-  res.render('services/show', {
-    title: `${service.title} in Hyderabad | Affordable Cab Service | Radha Travels`,
-    service,
-    details: service.details || { intro: '', routes: [] },
-    segments: SEGMENTS,
-    isOut: req.params.slug === 'outstation',
-    isLocal: req.params.slug === 'local-tour',
-    isAirport: req.params.slug === 'airport-transfer',
+  // ---- Load pricing from DB ----
+  const pricingRows = db.prepare(`
+    SELECT * FROM pricing
+  `).all();
+
+  // ---- Convert DB pricing to object ----
+  const pricingMap = {};
+
+  pricingRows.forEach(row => {
+
+    if (!pricingMap[row.vehicle]) pricingMap[row.vehicle] = {};
+
+    pricingMap[row.vehicle][row.service] = row;
+
   });
+
+  // ---- Apply DB pricing to segments ----
+  const segments = SEGMENTS.map(seg => {
+
+    const dbVehicle = pricingMap[seg.label];
+
+    if (!dbVehicle) return seg;
+
+    return {
+      ...seg,
+      pricing: {
+        local: dbVehicle.Local ? {
+          pack: "8Hrs / 80KM",
+          base: dbVehicle.Local.base_price,
+          extra_km: dbVehicle.Local.per_km,
+          extra_hr: dbVehicle.Local.extra_per_hour,
+          driver: 0
+        } : seg.pricing.local,
+
+        outstation: dbVehicle.Outstation ? {
+          per_km: dbVehicle.Outstation.per_km,
+          min_km_day: dbVehicle.Outstation.min_km_per_day,
+          driver: dbVehicle.Outstation.driver_allowance,
+          night: dbVehicle.Outstation.driver_allowance
+        } : seg.pricing.outstation,
+
+        airport: dbVehicle.Airport ? {
+          pickup: dbVehicle.Airport.flat_price,
+          drop: dbVehicle.Airport.flat_price,
+          waiting_per_hr: 200
+        } : seg.pricing.airport
+      }
+    };
+
+  });
+
+  res.render('services/show', {
+    title: `${service.title} | Radha Travels`,
+    service,
+    segments
+  });
+
 });
 
 // =======================================================
@@ -1145,6 +1195,12 @@ app.get('/api/pricing', (req, res) => {
   }
 });
 
+// =======================================================
+//  ABOUT US PAGE
+// =======================================================
+app.get("/about", (req, res) => {
+  res.render("about");
+});
 
 // =======================================================
 //  404

@@ -1,0 +1,238 @@
+.about-page{
+font-family:system-ui;
+color:#1c1c1c;
+}
+
+/* HERO */
+
+.about-hero{
+position:relative;
+min-height:90vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:40px 20px;
+color:white;
+
+background:
+linear-gradient(rgba(8,25,20,0.75),rgba(6,18,14,0.9)),
+url("/images/hero-aboutus.jpg") center/cover no-repeat;
+}
+
+.about-hero__overlay{
+position:absolute;
+inset:0;
+background:radial-gradient(circle,rgba(60,220,140,0.18),transparent 60%);
+}
+
+.about-hero__content{
+max-width:520px;
+z-index:2;
+}
+
+.about-hero__tag{
+font-size:12px;
+letter-spacing:3px;
+opacity:.85;
+margin-bottom:10px;
+display:block;
+}
+
+.about-hero__title{
+font-size:36px;
+line-height:1.2;
+font-weight:800;
+margin-bottom:14px;
+}
+
+.about-hero__title span{
+background:linear-gradient(90deg,#3ddc97,#1fa463);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.about-hero__desc{
+font-size:15px;
+margin-bottom:22px;
+}
+
+.about-hero__cta{
+background:#198754;
+color:white;
+padding:12px 26px;
+border-radius:30px;
+text-decoration:none;
+font-weight:600;
+}
+
+/* TRUST */
+
+.trust-strip{
+background:#f5faf7;
+padding:25px 0;
+}
+
+.trust-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+text-align:center;
+}
+
+.trust-card{
+background:white;
+padding:14px;
+border-radius:10px;
+box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.trust-icon{
+font-size:22px;
+margin-bottom:6px;
+}
+
+.trust-card strong{
+display:block;
+color:#198754;
+}
+
+/* STORY */
+
+.about-story{
+padding:60px 20px;
+text-align:center;
+}
+
+.about-story img{
+width:100%;
+border-radius:10px;
+margin-bottom:16px;
+}
+
+.about-story h2{
+font-size:24px;
+margin-bottom:10px;
+color:#0f5132;
+}
+
+/* FEATURES */
+
+.features{
+background:#f7faf8;
+padding:60px 20px;
+}
+
+.features h2{
+text-align:center;
+margin-bottom:20px;
+}
+
+.features-grid{
+display:grid;
+gap:14px;
+}
+
+.feature-card{
+background:white;
+padding:18px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.feature-icon{
+font-size:26px;
+margin-bottom:6px;
+}
+
+/* JOURNEY TIMELINE */
+
+.journey{
+padding:60px 20px;
+}
+
+.journey h2{
+text-align:center;
+margin-bottom:30px;
+}
+
+.timeline{
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.timeline-item{
+display:flex;
+gap:14px;
+align-items:flex-start;
+}
+
+.timeline-icon{
+width:40px;
+height:40px;
+background:#198754;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+font-size:18px;
+flex-shrink:0;
+}
+
+.timeline-content{
+background:#f7faf8;
+padding:12px;
+border-radius:8px;
+}
+
+.timeline-content h3{
+color:#198754;
+margin-bottom:4px;
+}
+
+/* CTA */
+
+.about-cta{
+background:linear-gradient(135deg,#0f5132,#0a3a25);
+color:white;
+text-align:center;
+padding:70px 20px;
+}
+
+.cta-btn{
+background:#198754;
+padding:12px 26px;
+border-radius:30px;
+color:white;
+text-decoration:none;
+font-weight:600;
+}
+
+/* DESKTOP */
+
+@media(min-width:768px){
+
+.trust-grid{
+grid-template-columns:repeat(4,1fr);
+}
+
+.features-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(min-width:1024px){
+
+.features-grid{
+grid-template-columns:repeat(4,1fr);
+}
+
+.about-hero__title{
+font-size:52px;
+}
+
+}

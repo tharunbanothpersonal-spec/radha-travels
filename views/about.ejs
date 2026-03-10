@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>The Radha Legacy | Official Page</title>
+    <%- include('./partials/head', { title:'The Radha Legacy | Official Page' }) %>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --deep-emerald: #022c22;
+            --classic-green: #064e3b;
+            --gold-leaf: #c5a059;
+            --silk: #fdfcf8;
+            --pure-white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--silk); color: var(--deep-emerald); line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3, h4, .serif { font-family: 'Playfair Display', serif; }
+
+        .container { padding: 0 25px; max-width: 1200px; margin: auto; }
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ===============================
+           TYPOGRAPHY
+        =============================== */
+        .section-title { font-size: 3.2rem; line-height: 1.1; margin-bottom: 20px; }
+        .journey-title { font-size: 4rem; line-height: 1; }
+        .text-lead { font-size: 1.05rem; color: #444; margin-bottom: 20px; }
+        .tagline { display: inline-flex; align-items: center; gap: 8px; color: var(--gold-leaf); letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase; font-weight: 700; margin-bottom: 10px;}
+
+        /* ===============================
+           HERO
+        =============================== */
+        .hero {
+            height: 80vh; 
+            background: linear-gradient(rgba(2, 44, 34, 0.4), rgba(2, 44, 34, 0.9)), url('/images/IMG_8975.jpg') center/cover; 
+            display: flex; align-items: center; color: var(--pure-white); position: relative;
+        }
+        .hero-inner { max-width: 900px; padding-left: 5%; }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 5.5rem); line-height: 0.95; margin-bottom: 20px; font-weight: 900; }
+        .hero h1 span { color: var(--gold-leaf); font-style: italic; font-weight: 400; }
+        .hero p { font-size: 1.1rem; font-weight: 300; letter-spacing: 1px; max-width: 600px; opacity: 0.9; margin-bottom: 30px;}
+
+        /* ===============================
+           FLOATING STAT CHIPS
+        =============================== */
+        .stat-chips-wrapper { position: relative; margin-top: -50px; z-index: 10; }
+        .stat-chips {
+            display: grid; grid-template-columns: repeat(4, 1fr); background: var(--pure-white);
+            border-radius: 8px; box-shadow: 0 15px 30px rgba(0,0,0,0.06); padding: 30px 20px;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+        .chip { text-align: center; border-right: 1px solid #eee; display: flex; flex-direction: column; align-items: center; }
+        .chip:last-child { border-right: none; }
+        .chip-icon { color: var(--gold-leaf); margin-bottom: 10px; }
+        .chip-number-wrap { display: flex; align-items: center; justify-content: center; color: var(--deep-emerald); margin-bottom: 5px; }
+        .chip-number-wrap h4 { font-size: 2.5rem; line-height: 1; }
+        .chip-suffix { color: var(--gold-leaf); font-size: 1.5rem; font-weight: 700; margin-left: 2px; font-family: 'Playfair Display', serif; }
+        .chip-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: #666; font-weight: 600; }
+
+        /* ===============================
+           SECTION PADDINGS 
+        =============================== */
+        .foundation { padding: 80px 0; background: var(--pure-white); margin-top: -50px; }
+        .journey { padding: 90px 0; background: var(--deep-emerald); color: var(--silk); position: relative; overflow: hidden; }
+        .mission { padding: 100px 0; text-align: center; background: var(--silk); border-bottom: 1px solid #eee; }
+        .why-us { padding: 90px 0; background: var(--pure-white); }
+        .guardian-section { padding: 90px 0; background: var(--silk); border-top: 1px solid rgba(197, 160, 89, 0.15); }
+        .final-cta { padding: 90px 0; text-align: center; background: var(--deep-emerald); color: white; }
+
+        /* ===============================
+           FOUNDATION
+        =============================== */
+        .foundation-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; align-items: center; }
+        .f-image-stack { position: relative; overflow: hidden; border-radius: 2px; }
+        .f-image-stack img { width: 100%; height: 450px; object-fit: cover; transform: scale(1.1); transition: transform 1.5s ease; }
+        .f-image-stack.active img { transform: scale(1); }
+        .f-overlay-box { 
+            position: absolute; bottom: -20px; right: 20px; background: rgba(2, 44, 34, 0.85); 
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); color: var(--gold-leaf); 
+            padding: 30px; border-left: 4px solid var(--gold-leaf); box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 2;
+        }
+        .f-overlay-box h4 { font-size: 2.5rem; line-height: 1; margin-bottom: 5px; }
+
+        /* ===============================
+           JOURNEY
+        =============================== */
+        .journey::after {
+            content: "LEGACY"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            font-size: 18vw; font-family: 'Playfair Display', serif; font-weight: 900; color: transparent; 
+            -webkit-text-stroke: 1px rgba(197, 160, 89, 0.08); z-index: 0; pointer-events: none;
+        }
+        .journey-wrapper { display: flex; gap: 60px; align-items: flex-start; position: relative; z-index: 1; }
+        .journey-sticky { position: sticky; top: 120px; flex: 1; }
+        .journey-scroll { flex: 1.2; padding-top: 10px; }
+        .t-point { margin-bottom: 60px; position: relative; padding-left: 35px; border-left: 1px solid rgba(197, 160, 89, 0.3); }
+        .t-point::before { 
+            content: ""; position: absolute; left: -6px; top: 0; width: 12px; height: 12px; 
+            background: var(--gold-leaf); border-radius: 50%; box-shadow: 0 0 10px rgba(197, 160, 89, 0.5);
+        }
+        .t-point h3 { font-size: 1.8rem; margin-bottom: 10px; color: var(--gold-leaf); }
+
+        /* ===============================
+           MISSION
+        =============================== */
+        .mission p { font-size: 1.5rem; font-family: 'Playfair Display', serif; font-style: italic; max-width: 850px; margin: 20px auto 30px; color: var(--classic-green); }
+
+        /* ===============================
+           WHY CHOOSE: BENTO GRID
+        =============================== */
+        .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+        .bento-card { padding: 40px 30px; border-radius: 12px; transition: 0.4s; border: 1px solid #f1f1f1; position: relative; }
+        .bento-card:hover { transform: translateY(-5px); border-color: var(--gold-leaf); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .bento-large { grid-column: span 2; background: var(--deep-emerald); color: var(--pure-white); border: none; }
+        .bento-large h3 { color: var(--gold-leaf); font-size: 2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;}
+        .bento-small { background: var(--silk); color: var(--deep-emerald); }
+        .bento-small h3 { color: var(--classic-green); font-size: 1.5rem; margin-bottom: 12px; display: flex; align-items: center; gap: 12px;}
+
+        /* ===============================
+           GUARDIAN PROMISE 
+        =============================== */
+        .guardian-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .guardian-img-wrap { position: relative; }
+        .guardian-img-wrap img { width: 100%; height: 450px; object-fit: cover; border-radius: 4px; }
+        .guardian-badge {
+            position: absolute; bottom: 20px; left: -20px; background: var(--deep-emerald); color: var(--pure-white); 
+            padding: 20px 25px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); border-left: 3px solid var(--gold-leaf);
+        }
+        .testimonial-box {
+            padding: 25px; background: var(--pure-white); border-left: 3px solid var(--classic-green); 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03); margin-top: 20px; margin-bottom: 30px;
+        }
+
+        /* ===============================
+           BUTTONS (SOLID & OUTLINE)
+        =============================== */
+        .cta-btn {
+            display: inline-flex; align-items: center; gap: 10px; padding: 18px 45px; background: var(--gold-leaf); color: var(--deep-emerald); 
+            text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; 
+            font-size: 0.8rem; transition: 0.3s;
+        }
+        .cta-btn:hover { background: var(--deep-emerald); color: var(--gold-leaf); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        
+        .cta-outline {
+            display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; border: 1px solid var(--gold-leaf); color: var(--deep-emerald); 
+            text-decoration: none; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; 
+            font-size: 0.8rem; transition: 0.3s;
+        }
+        .cta-outline:hover { background: var(--gold-leaf); color: var(--deep-emerald); }
+        .cta-outline.light { color: var(--pure-white); border-color: rgba(255,255,255,0.4); }
+        .cta-outline.light:hover { background: var(--pure-white); color: var(--deep-emerald); border-color: var(--pure-white); }
+        .cta-outline.green { color: var(--classic-green); border-color: var(--classic-green); }
+        .cta-outline.green:hover { background: var(--classic-green); color: var(--pure-white); }
+
+        .btn-group { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 25px; }
+
+        /* ===============================
+           MOBILE OPTIMIZATION
+        =============================== */
+        @media (max-width: 900px) {
+            .foundation, .journey, .why-us, .guardian-section, .final-cta { padding: 60px 0; }
+            .mission { padding: 60px 0; }
+            .section-title { font-size: 2.1rem; margin-bottom: 15px; }
+            .journey-title { font-size: 2.5rem; }
+            .hero-inner { padding-left: 0; margin-left: 5px; }
+            
+            .stat-chips-wrapper { margin-top: -30px; }
+            .stat-chips { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 20px 10px; }
+            .chip:nth-child(even) { border-right: none; }
+            .chip:nth-child(1), .chip:nth-child(2) { border-bottom: 1px solid #eee; padding-bottom: 15px; }
+            .chip-number-wrap h4 { font-size: 2rem; }
+
+            .foundation-grid { grid-template-columns: 1fr; gap: 30px; }
+            .f-image-stack img { height: 300px; } 
+            .f-overlay-box { position: relative; bottom: auto; right: auto; margin-top: -20px; width: 90%; padding: 20px; }
+            
+            .journey-wrapper { flex-direction: column; gap: 30px; }
+            .journey-sticky { position: static; }
+            .journey::after { font-size: 25vw; top: 5%; } 
+            
+            .bento-grid { grid-template-columns: 1fr; gap: 15px; margin-top: 30px; }
+            .bento-large { grid-column: span 1; padding: 30px 20px; }
+            .bento-small { padding: 30px 20px; }
+
+            .guardian-grid { grid-template-columns: 1fr; gap: 30px; }
+            .guardian-img-wrap img { height: 300px; }
+            .guardian-badge { left: 10px; bottom: -15px; right: 10px; padding: 15px; }
+            
+            .btn-group { flex-direction: column; width: 100%; }
+            .cta-btn, .cta-outline { width: 50%; justify-content: center; padding: 16px 20px; font-size: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/header') %>
+    <%- include('./partials/ticker') %>
+
+    <header class="hero">
+        <div class="hero-inner reveal">
+            <span class="tagline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                Since 2008
+            </span>
+            <h1>Trust in Every <span>Mile.</span></h1>
+            <p>India’s most prestigious travel partner for families and sacred pilgrimages.</p>
+            <div class="btn-group">
+                <a href="#" role="button" class="open-booking cta-btn">
+                    Begin Your Voyage
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="stat-chips-wrapper reveal" id="stats-section">
+        <div class="container">
+            <div class="stat-chips">
+                <div class="chip">
+                    <svg class="chip-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <div class="chip-number-wrap"><h4 class="counter" data-target="18">0</h4><span class="chip-suffix">+</span></div>
+                    <p class="chip-label">Years Legacy</p>
+                </div>
+                <div class="chip">
+                    <svg class="chip-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <div class="chip-number-wrap"><h4 class="counter" data-target="10">0</h4><span class="chip-suffix">k+</span></div>
+                    <p class="chip-label">Happy Souls</p>
+                </div>
+                <div class="chip">
+                    <svg class="chip-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <div class="chip-number-wrap"><h4 class="counter" data-target="500">0</h4><span class="chip-suffix">+</span></div>
+                    <p class="chip-label">Sacred Circuits</p>
+                </div>
+                <div class="chip">
+                    <svg class="chip-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    <div class="chip-number-wrap"><h4 class="counter" data-target="50">0</h4><span class="chip-suffix">+</span></div>
+                    <p class="chip-label">Elite Fleet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="foundation">
+        <div class="container">
+            <div class="foundation-grid">
+                <div class="f-image-stack reveal">
+                    <img src="/images/about-story.JPG" alt="Legacy">
+                    <div class="f-overlay-box">
+                        <h4>18+</h4>
+                        <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.7rem;">Years of Integrity</p>
+                    </div>
+                </div>
+                <div class="f-text reveal">
+                    <h2 class="section-title">A Foundation of Human Connection.</h2>
+                    <p class="text-lead">Radha Travels wasn't built on a fleet of cars, but on a fleet of values. We started with a single driver who believed that a passenger is not a customer, but a guest of the family.</p>
+                    <p class="text-lead">Today, that single car has grown into a premium network, yet our core remains unshakable: absolute safety, profound respect, and the relentless pursuit of your peace of mind.</p>
+                    <a href="/gallery" class="cta-outline">
+                        Read Our Full Story
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="journey">
+        <div class="container journey-wrapper">
+            <div class="journey-sticky reveal">
+                <span class="tagline light">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    Our Evolution
+                </span>
+                <h2 class="journey-title">A Legacy<br>of Trust.</h2>
+                <p class="text-lead" style="margin-top: 15px; color: rgba(253, 252, 248, 0.8);">Watch how we grew from a single family car to India's most trusted premium travel concierge.</p>
+                <div class="btn-group">
+                    <a href="/fleet" class="cta-outline light">
+                        Explore Our Fleet
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="journey-scroll">
+                <div class="t-point reveal">
+                    <h3>2008: The First Light</h3>
+                    <p class="text-lead" style="color: rgba(253, 252, 248, 0.8);">Founded with one vehicle and a promise to provide honest, reliable transport for local families in Andhra Pradesh.</p>
+                </div>
+                <div class="t-point reveal">
+                    <h3>2016: Sacred Expansion</h3>
+                    <p class="text-lead" style="color: rgba(253, 252, 248, 0.8);">Specialized into the 'Temple Corridor'. We became the first choice for elders visiting Tirumala, known for our patient and respectful chauffeurs.</p>
+                </div>
+                <div class="t-point reveal">
+                    <h3>2026: The New Standard</h3>
+                    <p class="text-lead" style="color: rgba(253, 252, 248, 0.8);">Integrating elite fleet management technology to ensure the safest road travel experience, merging traditional care with modern transparency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission reveal">
+        <div class="container">
+            <svg style="color: var(--gold-leaf); margin-bottom: 10px;" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+            <h2 class="section-title">Our Mission</h2>
+            <p>"To be the silent guardian of your journey, ensuring that every soul we carry arrives not just at their destination, but in a state of absolute grace and peace."</p>
+            <a href="/services" class="cta-outline green">
+                Discover Our Ethos
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <section class="why-us">
+        <div class="container">
+            <div style="text-align: center; max-width: 700px; margin: auto;" class="reveal">
+                <span class="tagline" style="justify-content: center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/></svg>
+                    The Standards
+                </span>
+                <h2 class="section-title">The Radha Distinction</h2>
+            </div>
+            
+            <div class="bento-grid">
+                <div class="bento-card bento-large reveal">
+                    <h3>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg>
+                        The Sacred Chauffeur
+                    </h3>
+                    <p class="text-lead" style="color: rgba(255,255,255,0.9); margin-bottom: 0;">Our drivers are more than navigators. Handpicked for their integrity and trained in the etiquette of luxury, they understand the deep respect required for pilgrimage travel.</p>
+                </div>
+                
+                <div class="bento-card bento-small reveal" style="transition-delay: 0.1s;">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/></svg>
+                        Pristine Cabs
+                    </h3>
+                    <p class="text-lead" style="margin-bottom: 0;">Every vehicle is deep-cleaned and maintained to showroom standards.</p>
+                </div>
+                
+                <div class="bento-card bento-small reveal" style="transition-delay: 0.2s;">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                        Safety First
+                    </h3>
+                    <p class="text-lead" style="margin-bottom: 0;">With 24/7 fleet monitoring and rigorous checks, your safety is our religion.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;" class="reveal">
+                <a href="/blog" class="cta-outline">Compare Vehicle Classes</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="guardian-section">
+        <div class="container">
+            <div class="guardian-grid">
+                <div class="reveal">
+                    <span class="tagline">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        Booking for Loved Ones?
+                    </span>
+                    <h2 class="section-title">Distance shouldn't delay their devotion.</h2>
+                    <p class="text-lead">At Radha Travels, we offer the <strong>Guardian Promise</strong>. Our chauffeurs are trained to drive at smooth paces, identify hygienic rest stops, and offer respectful assistance at every stop.</p>
+                    
+                    <div class="testimonial-box">
+                        <p style="font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--deep-emerald);">"I live in Bangalore, and my parents wanted to visit Srisailam. The driver treated them like his own family. I slept peacefully knowing they were safe."</p>
+                        <span style="display: block; margin-top: 10px; font-size: 0.75rem; font-weight: 700; color: var(--gold-leaf); text-transform: uppercase;">— Verified Client Family</span>
+                    </div>
+                    <a href="/happy-customers" class="cta-btn">
+                        Consult a Guardian
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+
+                <div class="guardian-img-wrap reveal">
+                    <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=800" alt="Family Trust">
+                    <div class="guardian-badge">
+                        <h4 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; color: var(--gold-leaf); margin-bottom: 2px;">The Guardian Promise</h4>
+                        <p style="font-size: 0.8rem; margin: 0; opacity: 0.9;">Safe. Respectful. Monitored.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="final-cta reveal">
+        <div class="container">
+            <h2 class="section-title" style="margin-bottom: 10px;">Ready for the Radha Experience?</h2>
+            <p style="opacity: 0.8; letter-spacing: 1px; font-size: 1rem;">Your safe, comfortable, and dignified journey begins with a single click.</p>
+            <a href="#" role="button" class="open-booking cta-btn">
+                Secure Your Dates
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <%- include('./partials/footer') %>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.reveal, .f-image-stack').forEach(el => observer.observe(el));
+
+        const counters = document.querySelectorAll('.counter');
+        const speed = 50;
+
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 30);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        };
+
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    statObserver.unobserve(entry.target); 
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const statSection = document.getElementById('stats-section');
+        if(statSection) {
+            statObserver.observe(statSection);
+        }
+    </script>
+</body>
+</html>

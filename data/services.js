@@ -12,9 +12,9 @@ export const SEGMENTS = [
       { name: "Hyundai i20",          img: "/images/fleet/hatchback/i20.png" }
     ],
     pricing: {
-      local:      { pack: "8Hrs / 80KM", base: 1699, extra_km: 12,  extra_hr: 150, driver: 0 },
-      outstation: { per_km: 12.5,  min_km_day: 300, driver: 300, night: 300 },
-      airport:    { pickup: 899, drop: 899, waiting_per_hr: 150 },
+      local:      { pack: "8Hrs / 80KM", base: 2200, extra_km: 12,  extra_hr: 150, driver: 0 },
+      outstation: { per_km: 14,  min_km_day: 300, driver: 300, night: 300 },
+      airport:    { pickup: 1200, drop: 1200, waiting_per_hr: 150 },
       corporate:  { monthly: "On Request", gst: "18%" },
       custom:     { note: "Tailored itinerary & hours. Get a quick estimate." }
     }
@@ -38,8 +38,8 @@ export const SEGMENTS = [
     }
   },
   {
-    id: "prime-sedan",
-    label: "Prime Sedan",
+    id: "premium-sedan",
+    label: "premium Sedan",
     desc: "Premium trims for executive comfort and features.",
     cars: [
       { name: "Honda City ZX",        img: "/images/fleet/prime-sedan/city.png" },
@@ -73,8 +73,8 @@ export const SEGMENTS = [
     }
   },
   {
-    id: "prime-suv",
-    label: "Prime SUV",
+    id: "premium-suv",
+    label: "premium SUV",
     desc: "Spacious & luxurious SUVs with advanced features.",
     cars: [
       { name: "Toyota Innova Hycross", img: "/images/fleet/prime-suv/hycross.png" },
