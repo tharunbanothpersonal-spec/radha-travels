@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 // DB path (project-root/data/bookings.db)
 const DB_PATH =
-  process.env.GALLERY_DB_PATH || path.join(__dirname, '..', 'data', 'radha.db');
+  process.env.GALLERY_DB_PATH || 'C:/Users/Dell/project/RadhaTravelsDB/radha.db';
 console.log('🟢 USING GALLERY DB:', DB_PATH);
 
 // ensure data dir exists
