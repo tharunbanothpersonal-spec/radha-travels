@@ -3,54 +3,42 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import db from "../db.js";   // Now points to your Turso DB
+import db from "../db.js";   
 import { requireAdmin } from "../admin/admin.middleware.js";
+
+// --- CLOUDINARY IMPORTS ---
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 const router = express.Router();
 
-/* -------------------------------------------------------
-   PATH SETUP (ESM SAFE)
-------------------------------------------------------- */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-/* -------------------------------------------------------
-   MULTER STORAGE
-------------------------------------------------------- */
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Determine role safely
-    const role =
-      req.body.uploaded_by ||
-      (req.session?.admin ? "admin" : "customer");
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-    const uploadDir = path.join(
-      process.cwd(),
-      "public",
-      "uploads",
-      "gallery",
-      role
-    );
-
-    // Ensure directory exists
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
-    cb(null, uploadDir);
+// Cloudinary Storage for Gallery (Handles both images and videos)
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: async (req, file) => {
+    const role = req.body.uploaded_by || (req.session?.admin ? "admin" : "customer");
+    return {
+      folder: `radha_travels/gallery/${role}`,
+      allowed_formats: ['jpg', 'jpeg', 'png', 'webp', 'mp4'],
+      resource_type: 'auto' // Automatically detects if it's an image or video
+    };
   },
-
-  filename: (req, file, cb) => {
-    const unique =
-      Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, unique + path.extname(file.originalname));
-  }
 });
 
 const upload = multer({ storage });
 
 /* -------------------------------------------------------
-   AUTO LOAD FILES FROM /auto (Converted to Async Turso)
+   AUTO LOAD FILES FROM /auto (Leaves local hardcoded files alone)
 ------------------------------------------------------- */
 async function autoLoadGallery() {
   const autoDir = path.join(process.cwd(), "public", "uploads", "gallery", "auto");
@@ -72,12 +60,7 @@ async function autoLoadGallery() {
       if (!exists) {
         await db.execute({
           sql: `INSERT INTO gallery (filename, filepath, type, uploaded_by) VALUES (?, ?, ?, ?)`,
-          args: [
-            file,
-            filepath,
-            file.endsWith(".mp4") ? "video" : "image",
-            "auto"
-          ]
+          args: [file, filepath, file.endsWith(".mp4") ? "video" : "image", "auto"]
         });
       }
     } catch (err) {
@@ -91,7 +74,7 @@ async function autoLoadGallery() {
 ------------------------------------------------------- */
 
 /* GALLERY PAGE */
-router.get("/", async (req, res) => { // <-- ADDED ASYNC
+router.get("/", async (req, res) => { 
   await autoLoadGallery();
 
   let gallery = [];
@@ -108,7 +91,7 @@ router.get("/", async (req, res) => { // <-- ADDED ASYNC
   res.render("gallery", {
     title: "Gallery | Radha Travels",
     gallery,
-    isAdmin: req.session?.isAdmin === true   // ✅ EXPLICIT
+    isAdmin: req.session?.isAdmin === true   
   });
 });
 
@@ -116,41 +99,28 @@ router.get("/", async (req, res) => { // <-- ADDED ASYNC
 router.get("/upload", (req, res) => {
   res.render("upload", {
     title: "Upload Gallery | Radha Travels",
-    query: req.query   // 👈 IMPORTANT
+    query: req.query   
   });
 });
 
 /* HANDLE UPLOAD */
-router.post("/upload", upload.single("file"), async (req, res) => { // <-- ADDED ASYNC
+router.post("/upload", upload.single("file"), async (req, res) => { 
   const { title, description, uploaded_by, category } = req.body;
 
   if (!req.file) {
     return res.redirect("/gallery/upload?success=1");
   }
 
-  // ✅ Determine role (single source of truth)
-  const role =
-    uploaded_by ||
-    (req.session?.admin ? "admin" : "customer");
-
-  // ✅ Build browser-safe filepath intentionally
-  const filepath = `/uploads/gallery/${role}/${req.file.filename}`;
-
+  const role = uploaded_by || (req.session?.admin ? "admin" : "customer");
+  
+  // Use the permanent Cloudinary URL
+  const filepath = req.file.path;
   const type = req.file.mimetype.startsWith("video") ? "video" : "image";
 
   try {
     await db.execute({
       sql: `INSERT INTO gallery (filename, filepath, title, description, type, uploaded_by, category, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      args: [
-        req.file.filename,
-        filepath,
-        title || null,
-        description || null,
-        type,
-        role,
-        category,
-        "pending"
-      ]
+      args: [req.file.filename || "cloudinary_upload", filepath, title || null, description || null, type, role, category, "pending"]
     });
   } catch (err) {
     console.error("❌ Gallery insert error:", err.message);
@@ -160,27 +130,15 @@ router.post("/upload", upload.single("file"), async (req, res) => { // <-- ADDED
 });
 
 // DELETE GALLERY ITEM — ADMIN ONLY
-router.post("/delete/:id", requireAdmin, async (req, res) => { // <-- ADDED ASYNC
+router.post("/delete/:id", requireAdmin, async (req, res) => { 
   const { id } = req.params;
 
   try {
-    const itemRes = await db.execute({
-      sql: "SELECT filepath FROM gallery WHERE id = ?",
-      args: [id]
-    });
-    
-    const item = itemRes.rows[0];
-
-    if (!item) return res.redirect("/gallery");
-
     await db.execute({
       sql: "DELETE FROM gallery WHERE id = ?",
       args: [id]
     });
-
-    const fullPath = path.join(process.cwd(), "public", item.filepath);
-    if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
-
+    // Removed fs.unlinkSync because we cannot delete local files that live in the cloud!
   } catch (err) {
     console.error("Gallery delete error:", err.message);
   }

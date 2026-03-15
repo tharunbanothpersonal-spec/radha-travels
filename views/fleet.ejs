@@ -466,7 +466,7 @@ body {
            data-image="<%= vehicle.image %>">
 
         <div class="lux-img-box">
-          <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800';">
+          <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
         </div>
 
         <div class="lux-details">
@@ -495,7 +495,7 @@ body {
     <button class="lux-close" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
 
     <div class="lux-modal-img">
-      <img id="modalImage" src="" alt="Vehicle Image" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800';">
+        <img id="modalImage" src="" alt="Vehicle Image">
     </div>
 
     <div class="lux-modal-body">
@@ -550,7 +550,7 @@ document.addEventListener("DOMContentLoaded", () => {
     card.addEventListener("click", () => {
       const data = card.dataset;
 
-      modalImage.src = data.image && data.image !== "undefined" ? data.image : "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800";
+      modalImage.src = data.image && data.image !== "undefined" ? data.image : "/images/placeholder.jpg";
       modalName.textContent = data.name;
       modalCategory.textContent = data.category;
       modalSeating.textContent = data.seating;

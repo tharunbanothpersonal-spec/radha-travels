@@ -9,28 +9,35 @@ import fs from 'fs';
 import path from 'path';
 import multer from 'multer';
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads/fleet');
-  },
-  filename: function (req, file, cb) {
-    const uniqueName = Date.now() + '-' + file.originalname;
-    cb(null, uniqueName);
-  },
+// --- NEW CLOUDINARY IMPORTS ---
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+
+// Configure Cloudinary with your .env secrets
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const upload = multer({ storage });
-
-const testimonialStorage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads/testimonials');
-  },
-  filename: function (req, file, cb) {
-    const uniqueName = Date.now() + '-' + file.originalname;
-    cb(null, uniqueName);
+// Setup Cloudinary Storage for Fleet
+const fleetStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'radha_travels/fleet',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
   },
 });
+const upload = multer({ storage: fleetStorage });
 
+// Setup Cloudinary Storage for Testimonials
+const testimonialStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'radha_travels/testimonials',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+  },
+});
 const uploadTestimonial = multer({ storage: testimonialStorage });
 
 const router = express.Router();
@@ -279,20 +286,7 @@ router.post('/bookings/assign-driver/:id', requireAdmin, async (req, res) => {
 router.post('/gallery/delete/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-
-    // 1. Get image path from DB
-    const itemRes = await db.execute({ sql: 'SELECT filepath FROM gallery WHERE id = ?', args: [id] });
-    const item = itemRes.rows[0];
-
-    if (item?.filepath) {
-      const fullPath = path.join(process.cwd(), 'public', item.filepath.replace(/^\/+/, ''));
-      // 2. Delete file if exists
-      if (fs.existsSync(fullPath)) {
-        fs.unlinkSync(fullPath);
-      }
-    }
-
-    // 3. Delete DB record
+    // We strictly delete from the database now. Cloudinary hosts the file.
     await db.execute({ sql: 'DELETE FROM gallery WHERE id = ?', args: [id] });
   } catch (err) {
     console.error('Delete gallery item error:', err.message);
@@ -353,7 +347,8 @@ router.post('/fleet/add', requireAdmin, upload.single('image'), async (req, res)
       price_per_km, price_per_day, description, sort_order,
     } = req.body;
 
-    const imagePath = req.file ? '/uploads/fleet/' + req.file.filename : null;
+    // Grab the Cloudinary URL directly
+    const imagePath = req.file ? req.file.path : null;
 
     await db.execute({
       sql: `INSERT INTO fleet (name, category, seating_capacity, luggage_capacity, price_per_km, price_per_day, description, sort_order, is_active, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
@@ -398,7 +393,8 @@ router.post('/fleet/edit/:id', requireAdmin, upload.single('image'), async (req,
     let imagePath;
 
     if (req.file) {
-      imagePath = '/uploads/fleet/' + req.file.filename;
+      // Assign the Cloudinary URL
+      imagePath = req.file.path;
     } else {
       const existingRes = await db.execute({ sql: 'SELECT image FROM fleet WHERE id = ?', args: [req.params.id] });
       imagePath = existingRes.rows[0]?.image || null;
@@ -500,21 +496,10 @@ router.post('/testimonials/image/:id', requireAdmin, uploadTestimonial.single('i
 
     const { id } = req.params;
 
-    // 1️⃣ Get existing image from DB
-    const testimonialRes = await db.execute({ sql: 'SELECT image FROM testimonials WHERE id = ?', args: [id] });
-    const testimonial = testimonialRes.rows[0];
+    // Grab the permanent Cloudinary URL
+    const imagePath = req.file.path;
 
-    // 2️⃣ Delete old image if exists
-    if (testimonial?.image) {
-      const fullPath = path.join(process.cwd(), 'public', testimonial.image.replace(/^\/+/, ''));
-      if (fs.existsSync(fullPath)) {
-        fs.unlinkSync(fullPath);
-      }
-    }
-
-    // 3️⃣ Save new image path
-    const imagePath = '/uploads/testimonials/' + req.file.filename;
-
+    // Update the database directly, avoiding local file deletions
     await db.execute({ sql: "UPDATE testimonials SET image = ? WHERE id = ?", args: [imagePath, id] });
   } catch (err) {
     console.error('Testimonial image replace error:', err.message);
