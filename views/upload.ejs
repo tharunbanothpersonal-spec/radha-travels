@@ -53,7 +53,7 @@
               </div>
               <span class="rt-drop-text">TAP OR DRAG FILE HERE</span>
             </div>
-            <input type="file" name="file" id="file-input" required class="rt-hidden-input">
+            <input type="file" name="file" id="file-input" required accept="image/*,video/mp4,video/mov" class="rt-hidden-input">
             
             <div class="rt-preview-container" id="preview-container" style="display: none;">
               <img id="image-preview" src="" alt="Preview">
@@ -131,16 +131,42 @@
   fileInput.addEventListener('change', function() { handleFiles(this.files); });
 
   function handleFiles(files) {
-    if (files.length > 0 && files[0].type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        imagePreview.src = e.target.result;
-        previewContainer.style.display = 'block';
-        dropContent.style.opacity = '0';
-      };
-      reader.readAsDataURL(files[0]);
-    }
+
+  if (!files.length) return;
+
+  const file = files[0];
+
+  if (file.type.startsWith('image/')) {
+
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      imagePreview.src = e.target.result;
+      previewContainer.style.display = 'block';
+      dropContent.style.opacity = '0';
+    };
+
+    reader.readAsDataURL(file);
+
+  } else {
+
+    // Hide preview for videos
+    previewContainer.style.display = 'none';
+    dropContent.style.opacity = '1';
+
   }
+
+}
+
+document.querySelector(".rt-cyber-form").addEventListener("submit", () => {
+
+  const btn = document.querySelector(".rt-submit-btn");
+
+  btn.disabled = true;
+
+  btn.innerHTML = "[ UPLOADING... ]";
+
+});
 
   clearBtn.addEventListener('click', (e) => {
     e.stopPropagation();
