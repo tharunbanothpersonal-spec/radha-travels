@@ -17,9 +17,9 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 const fleetStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: 'radha_travels/fleet',
-    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
-  },
+  folder: "radha_travels/fleet",
+  resource_type: "image"
+}
 });
 const upload = multer({ storage: fleetStorage });
 
