@@ -1186,6 +1186,15 @@ app.get('/api/pricing', async (req, res) => {
     res.status(500).json({ error: 'Failed to load pricing' });
   }
 });
+//temporary
+app.get("/cloudinary-test", async (req, res) => {
+  try {
+    const result = await cloudinary.api.ping();
+    res.json(result);
+  } catch (err) {
+    res.json({ error: err.message });
+  }
+});
 
 // =======================================================
 //  ABOUT US PAGE
