@@ -191,7 +191,9 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
   } catch (err) {
 
-    console.error("Gallery insert error:", err.message);
+    console.error("Gallery insert error:", err);
+console.error("Error message:", err.message);
+console.error("Stack:", err.stack);
 
   }
 
