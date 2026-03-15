@@ -13,13 +13,6 @@ import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
-// Configure Cloudinary with your .env secrets
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
 // Setup Cloudinary Storage for Fleet
 const fleetStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -342,32 +335,58 @@ router.post('/fleet/delete/:id', requireAdmin, async (req, res) => {
 // add vehicle in fleet
 router.post('/fleet/add', requireAdmin, upload.single('image'), async (req, res) => {
   try {
-    const {
-      name, category, seating_capacity, luggage_capacity,
-      price_per_km, price_per_day, description, sort_order,
-    } = req.body;
+
+    console.log("Fleet upload request received");
 
     if (!req.file) {
-      console.log("Fleet upload failed: no file received");
+      console.error("No file received from upload");
       return res.redirect('/admin/fleet');
     }
-    // Grab the Cloudinary URL directly
-    const imagePath = req.file.path;
+
+    console.log("Cloudinary upload result:", req.file);
+
+    const {
+      name,
+      category,
+      seating_capacity,
+      luggage_capacity,
+      price_per_km,
+      price_per_day,
+      description,
+      sort_order,
+    } = req.body;
+
+    const imagePath = req.file?.path || null;
 
     await db.execute({
-      sql: `INSERT INTO fleet (name, category, seating_capacity, luggage_capacity, price_per_km, price_per_day, description, sort_order, is_active, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
+      sql: `INSERT INTO fleet
+      (name, category, seating_capacity, luggage_capacity, price_per_km, price_per_day, description, sort_order, is_active, image)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
       args: [
-        name, category, seating_capacity || null, luggage_capacity || null,
-        price_per_km || null, price_per_day || null, description || null,
-        sort_order || 0, imagePath
+        name,
+        category,
+        seating_capacity || null,
+        luggage_capacity || null,
+        price_per_km || null,
+        price_per_day || null,
+        description || null,
+        sort_order || 0,
+        imagePath
       ]
     });
-  } catch (err) {
-    console.error('Add fleet error:', err);
-  }
-  res.redirect('/admin/fleet');
-});
 
+    console.log("Fleet vehicle inserted successfully");
+
+    res.redirect('/admin/fleet');
+
+  } catch (err) {
+
+    console.error("Fleet add error:", err);
+
+    res.status(500).send("Fleet Upload Failed");
+
+  }
+});
 //toggle in fleet
 router.post('/fleet/toggle/:id', requireAdmin, async (req, res) => {
   try {

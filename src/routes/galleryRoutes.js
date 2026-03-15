@@ -14,15 +14,6 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-/* -------------------------------------------------------
-   CLOUDINARY CONFIG
-------------------------------------------------------- */
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 
 /* -------------------------------------------------------
    CLOUDINARY STORAGE
@@ -171,7 +162,7 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     (req.session?.admin ? "admin" : "customer");
 
   const filepath = req.file.path;
-  const public_id = req.file.filename;
+  const public_id = req.file.filename || req.file.public_id;
 
   const type = req.file.mimetype.startsWith("video")
     ? "video"
