@@ -347,8 +347,12 @@ router.post('/fleet/add', requireAdmin, upload.single('image'), async (req, res)
       price_per_km, price_per_day, description, sort_order,
     } = req.body;
 
+    if (!req.file) {
+      console.log("Fleet upload failed: no file received");
+      return res.redirect('/admin/fleet');
+    }
     // Grab the Cloudinary URL directly
-    const imagePath = req.file ? req.file.path : null;
+    const imagePath = req.file.path;
 
     await db.execute({
       sql: `INSERT INTO fleet (name, category, seating_capacity, luggage_capacity, price_per_km, price_per_day, description, sort_order, is_active, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
