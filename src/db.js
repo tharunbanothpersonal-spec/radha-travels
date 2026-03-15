@@ -395,4 +395,40 @@ VALUES (?,?,?,?,?,?,?,?,?,?)
   );
 }
 
+// =============================
+// ADMINS TABLE (For Authentication & Password Resets)
+// =============================
+
+db.exec(`
+CREATE TABLE IF NOT EXISTS admins (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL UNIQUE,
+  password TEXT NOT NULL,
+  reset_token TEXT,
+  reset_token_expires INTEGER,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+`);
+
+// Insert default admin if table is empty
+const adminCount = db.prepare('SELECT COUNT(*) as c FROM admins').get().c;
+
+if (adminCount === 0) {
+  const insertAdmin = db.prepare(`
+    INSERT INTO admins (username, password) 
+    VALUES (?, ?)
+  `);
+  // Note: We are using plain text 'admin123' to match your current flow, 
+  // but this should be updated to a hashed password later!
+  insertAdmin.run('admin', 'admin123'); 
+  console.log('🛡️ Default Admin User Inserted');
+}
+// Safe migration to add email to admins
+try {
+  db.exec("ALTER TABLE admins ADD COLUMN email TEXT");
+} catch {}
+
+// Force update the admin email in the database so the reset link has a destination
+db.prepare("UPDATE admins SET email = 'booking@radhatravels.co.in' WHERE username = 'admin'").run();
+
 export default db;

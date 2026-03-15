@@ -1,72 +1,222 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Driver Assigned – Radha Travels</title>
-<style>
-  body{margin:0;padding:0;background:#f4fbf7;font-family:Arial,Helvetica,sans-serif}
-  .card{max-width:620px;margin:24px auto;background:#fff;border-radius:16px;
-        box-shadow:0 20px 50px rgba(11,122,70,.12);overflow:hidden}
-  .header{padding:22px;background:linear-gradient(90deg,#00c48c,#0a7a46,#f5b630);color:#fff}
-  .brand{font-size:26px;font-weight:900}
-  .section{padding:24px;color:#07361f}
-  .row{margin-bottom:16px}
-  .label{font-size:12px;color:#6b8f7f}
-  .value{font-size:16px;font-weight:800}
-  .highlight{background:#fff8e1;border-left:4px solid #f5b630;padding:14px;border-radius:8px}
-  .cta{display:inline-block;margin:12px 10px 0 0;padding:14px 20px;border-radius:999px;
-       background:#0b7a46;color:#fff;font-weight:900;text-decoration:none}
-  .footer{padding:22px;background:linear-gradient(90deg,#0a7a46,#00c48c,#0a7a46);color:#fff}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Driver Assigned - Radha Travels</title>
+  <style>
+    /* ==========================================
+       FRESH MINT & EMERALD (SVG & Table Hybrid)
+    ========================================== */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@400;500;600&display=swap');
+
+    body {
+      margin: 0; padding: 0;
+      background-color: #e6f2eb; 
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    table { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    td, th { padding: 0; }
+    
+    .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+    .font-sans { font-family: 'Inter', -apple-system, Arial, sans-serif; }
+
+    .email-wrapper { width: 100%; background-color: #e6f2eb; padding: 25px 10px; box-sizing: border-box; }
+    
+    .mobile-card {
+      max-width: 440px; 
+      margin: 0 auto;
+      background-color: #f2fcf6; /* Very light greenish tint */
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #d1e8db;
+      border-top: 5px solid #047857; 
+      box-shadow: 0 10px 25px rgba(4, 120, 87, 0.08);
+    }
+
+    /* --- Header --- */
+    .header {
+      padding: 35px 20px 25px 20px;
+      text-align: center;
+      border-bottom: 1px solid #d1e8db;
+      background-color: #f2fcf6;
+    }
+    
+    .header-icon { margin-bottom: 15px; }
+    .header h1 { color: #064e3b; font-size: 26px; margin: 0 0 5px 0; letter-spacing: 0.5px; }
+    .header p { color: #047857; font-size: 13px; text-transform: uppercase; letter-spacing: 2px; margin: 0; font-weight: 600; }
+
+    /* --- Content --- */
+    .content { padding: 30px 25px; }
+    
+    .greeting {
+      color: #334155;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .greeting strong { color: #064e3b; }
+
+    /* --- SVG Data Table --- */
+    .data-list {
+      background-color: #eaf5ef; 
+      border-radius: 12px;
+      padding: 25px 20px;
+      margin-bottom: 25px;
+      border: 1px solid #d1e8db;
+    }
+
+    .data-label {
+      color: #527a66;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+    
+    .data-value {
+      color: #064e3b;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    
+    .data-value a { color: #064e3b; text-decoration: none; }
+
+    /* --- Highlight Callout --- */
+    .highlight-box {
+      background-color: #d1e8db; /* Mint accent box */
+      border-left: 3px solid #047857;
+      padding: 15px 20px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 30px;
+    }
+    
+    .highlight-box p { margin: 0; color: #064e3b; font-size: 13px; line-height: 1.5; }
+    .highlight-box strong { color: #047857; font-weight: 700; }
+
+    /* --- Buttons --- */
+    .btn {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      padding: 16px 0;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 15px;
+    }
+    .btn-primary { background-color: #047857; color: #ffffff !important; }
+    .btn-secondary { background-color: transparent; color: #047857 !important; border: 1px solid #047857; }
+
+    /* --- Footer --- */
+    .footer {
+      background-color: #eaf5ef;
+      padding: 30px 20px;
+      text-align: center;
+      border-top: 1px solid #d1e8db;
+    }
+    .footer-note { color: #527a66; font-size: 12px; line-height: 1.6; margin: 0 0 20px 0; }
+    .footer-note strong { color: #047857; }
+    .footer-contact { color: #334155; font-size: 13px; margin: 0; }
+    .footer-contact a { color: #047857; text-decoration: none; font-weight: 600; }
+  </style>
 </head>
-
-<body>
-<div class="card">
-
-  <!-- Header -->
-  <div class="header">
-    <div class="brand">🚘 Driver Assigned</div>
-    <div>Radha Travels</div>
-  </div>
-
-  <div class="section">
-    <p>Dear <strong><%= booking.fullName %></strong>,</p>
-
-    <p>Your driver has been assigned. Please find the details below.</p>
-
-    <div class="row">
-      <div class="label">Driver Name</div>
-      <div class="value"><%= driver.name %></div>
-    </div>
-
-    <div class="row">
-      <div class="label">Driver Phone</div>
-      <div class="value">
-        <a href="tel:<%= driver.phone %>" style="color:#0b7a46;text-decoration:none">
-          <%= driver.phone %>
-        </a>
+<body class="font-sans">
+  <div class="email-wrapper">
+    <div class="mobile-card">
+      
+      <div class="header">
+        <div class="header-icon">
+          <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h1 class="font-serif">Driver Assigned</h1>
+        <p>Radha Travels..🚘</p>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="label">Vehicle</div>
-      <div class="value"><%= vehicle.type %> • <%= vehicle.number %></div>
-    </div>
+      <div class="content">
+        <div class="greeting">
+          Dear <strong><%= booking.fullName %></strong>,<br>
+          Your dedicated chauffeur and vehicle have been assigned for your upcoming premium transfer.
+        </div>
 
-    <div class="highlight">
-      📞 Driver will contact you about <strong>30 minutes before pickup</strong>.
-    </div>
+        <div class="data-list">
+          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            
+            <tr>
+              <td width="40" valign="top" style="padding-top: 4px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </td>
+              <td valign="top" style="padding-bottom: 25px;">
+                <div class="data-label">Driver Name</div>
+                <div class="data-value font-serif" style="font-size: 18px;"><%= driver.name %></div>
+              </td>
+            </tr>
 
-    <a href="https://wa.me/91<%= driver.phone.replace(/\D/g,'') %>" class="cta">WhatsApp Driver</a>
-    <a href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(booking.pickup) %>"
-       class="cta">View Pickup</a>
+            <tr>
+              <td width="40" valign="top" style="padding-top: 4px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              </td>
+              <td valign="top" style="padding-bottom: 25px;">
+                <div class="data-label">Driver Contact</div>
+                <div class="data-value">
+                  <a href="tel:<%= driver.phone %>"><%= driver.phone %></a>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="40" valign="top" style="padding-top: 4px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+              </td>
+              <td valign="top" style="padding-bottom: 25px;">
+                <div class="data-label">Assigned Vehicle</div>
+                <div class="data-value"><%= vehicle.type %><br><span style="color:#527a66; font-size:14px; text-transform:uppercase; letter-spacing:1px; font-weight:400;"><%= vehicle.number %></span></div>
+              </td>
+            </tr>
+
+            <tr>
+              <td width="40" valign="top" style="padding-top: 4px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </td>
+              <td valign="top">
+                <div class="data-label">Pickup Location</div>
+                <div class="data-value"><%= booking.pickup %></div>
+              </td>
+            </tr>
+
+          </table>
+        </div>
+
+        <div class="highlight-box">
+          <p>Your chauffeur will contact you approximately <strong>30 minutes prior</strong> to your scheduled pickup time.</p>
+        </div>
+
+        <a href="https://wa.me/91<%= driver.phone.replace(/\D/g,'') %>" class="btn btn-primary">WhatsApp Chauffeur</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=<%= encodeURIComponent(booking.pickup) %>" class="btn btn-secondary">Map Pickup Location</a>
+      </div>
+
+      <div class="footer">
+        <p class="footer-note">
+          Thank you for choosing <strong>Radha Travels</strong> for your journey.<br>We wish you a safe and comfortable ride.
+        </p>
+        <p class="footer-contact">
+          📞 +91 8332958915<br>
+          <a href="mailto:booking@radhatravels.co.in">booking@radhatravels.co.in</a>
+        </p>
+      </div>
+
+    </div>
   </div>
-
-  <div class="footer">
-    Thank you for choosing <strong>Radha Travels</strong><br/>
-    Safe journey 🚗
-  </div>
-
-</div>
 </body>
 </html>

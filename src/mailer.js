@@ -1,29 +1,35 @@
-// NEW SendGrid-based Mailer
-// Fully replaces SMTP. Works 100% on Render.
-// Handles: booking confirmation, driver allotment, admin copy.
-
 import fs from "fs";
 import ejs from "ejs";
 import path from "path";
 import { fileURLToPath } from "url";
-import sgMail from "@sendgrid/mail";
+import nodemailer from "nodemailer"; // Swapped SendGrid for Nodemailer
 import dotenv from "dotenv";
 
 dotenv.config();
 
 // load config
-const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+const BREVO_SMTP_LOGIN = process.env.BREVO_SMTP_LOGIN;
+const BREVO_SMTP_KEY = process.env.BREVO_SMTP_KEY;
 const MAIL_FROM = process.env.MAIL_FROM;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const BRAND_NAME = process.env.BRAND_NAME || "Radha Travels";
 const SITE_URL = process.env.SITE_ORIGIN || "http://localhost:3000";
 
-// init SendGrid
-if (!SENDGRID_API_KEY) {
-  console.error("❌ SENDGRID_API_KEY missing");
+// init Brevo Transporter
+let transporter;
+if (!BREVO_SMTP_LOGIN || !BREVO_SMTP_KEY) {
+  console.error("❌ BREVO SMTP credentials missing");
 } else {
-  sgMail.setApiKey(SENDGRID_API_KEY);
-  console.log("✅ SendGrid mailer initialized");
+  transporter = nodemailer.createTransport({
+    host: 'smtp-relay.brevo.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: BREVO_SMTP_LOGIN,
+      pass: BREVO_SMTP_KEY,
+    },
+  });
+  console.log("✅ Brevo mailer initialized");
 }
 
 const __filename = fileURLToPath(import.meta.url);
@@ -49,47 +55,52 @@ async function renderTemplate(name, data = {}) {
   return await ejs.renderFile(file, data, { async: true });
 }
 
-// --- CORE SEND FUNCTION ---
+// --- CORE SEND FUNCTION (Updated for Brevo) ---
 async function sendEmail({ to, subject, html, text }) {
   try {
     const msg = {
+      from: `"${BRAND_NAME}" <${MAIL_FROM}>`,
       to,
-      from: MAIL_FROM,
       subject,
       html,
       text: text || "",
     };
 
-    const res = await sgMail.send(msg);
+    const res = await transporter.sendMail(msg);
     console.log("📨 Mail sent:", subject, "→", to);
     return { ok: true, res };
   } catch (err) {
-    console.error("❌ sendEmail error:", err && err.response ? err.response.body : err);
+    console.error("❌ sendEmail error:", err);
     return { ok: false, error: err.message || String(err) };
   }
 }
 
 
 
-
-
-// --- ADMIN RESET EMAIL (SendGrid version) ---
+// --- ADMIN RESET EMAIL (Updated for Express Routes) ---
 export async function sendAdminResetEmail(admin, token) {
   try {
     const origin = process.env.SITE_ORIGIN || "http://localhost:3000";
-    const resetUrl = `${origin.replace(/\/$/, "")}/admin/reset.html?token=${encodeURIComponent(token)}`;
+    
+    // 🔥 THE FIX: Changed to match our new Express route
+    const resetUrl = `${origin.replace(/\/$/, "")}/admin/reset/${encodeURIComponent(token)}`;
 
+    // Premium HTML Template for the email itself
     const html = `
-      <p>Hello ${admin.name || admin.email},</p>
-      <p>You requested to reset your admin password.</p>
-      <p>Click this link to reset your password:</p>
-      <p><a href="${resetUrl}">${resetUrl}</a></p>
-      <p>This link is valid for 1 hour.</p>
+      <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc;">
+        <h2 style="color: #0f172a; margin-top: 0;">Password Reset</h2>
+        <p style="color: #334155; font-size: 16px;">Hello ${admin.username || 'Admin'},</p>
+        <p style="color: #334155; font-size: 16px;">You requested a password reset for your Radha Travels administrator account.</p>
+        <div style="text-align: center; margin: 35px 0;">
+          <a href="${resetUrl}" style="background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); color: #1e293b; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">Reset Password</a>
+        </div>
+        <p style="color: #64748b; font-size: 13px; margin-bottom: 0;">This link is valid for 1 hour. If you did not request this reset, please safely ignore this email.</p>
+      </div>
     `;
 
     return await sendEmail({
       to: admin.email,
-      subject: "Admin password reset",
+      subject: "Action Required: Admin Password Reset",
       html,
       text: `Reset your password here: ${resetUrl}`,
     });
