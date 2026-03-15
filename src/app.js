@@ -10,10 +10,9 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { fileURLToPath } from 'url';
 
-import { v2 as cloudinary } from "cloudinary";
 import dotenv from "dotenv";
-
 dotenv.config();
+import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -66,8 +65,8 @@ Allow: /
 Sitemap: https://radhatravels.co.in/sitemap.xml`
   );
 });
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
 app.use(

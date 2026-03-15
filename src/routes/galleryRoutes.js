@@ -21,18 +21,18 @@ const __dirname = path.dirname(__filename);
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async (req, file) => {
+ params: async (req, file) => {
 
-    const role =
-      req.body.uploaded_by ||
-      (req.session?.admin ? "admin" : "customer");
+  const role =
+    req.body.uploaded_by ||
+    (req.session?.admin ? "admin" : "customer");
 
-    return {
-      folder: `radha_travels/gallery/${role}`,
-      allowed_formats: ["jpg", "jpeg", "png", "webp", "mp4", "mov"],
-      resource_type: "auto"
-    };
-  },
+  return {
+    folder: `radha_travels/gallery/${role}`,
+    resource_type: "auto",
+    format: file.mimetype.split("/")[1]
+  };
+},
 });
 
 const upload = multer({ storage });
