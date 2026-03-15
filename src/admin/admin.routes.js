@@ -1,4 +1,4 @@
-import db from '../db.js'; // make sure this import exists at top
+import db from '../db.js'; 
 import {
   sendBookingConfirmation,
   sendDriverAllotmentEmail,
@@ -25,7 +25,6 @@ const testimonialStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'public/uploads/testimonials');
   },
-
   filename: function (req, file, cb) {
     const uniqueName = Date.now() + '-' + file.originalname;
     cb(null, uniqueName);
@@ -41,106 +40,76 @@ router.get('/', requireAdmin, (req, res) => {
   res.redirect('/admin/dashboard');
 });
 
-router.get('/dashboard', requireAdmin, (req, res) => {
-  const bookings = db.prepare('SELECT * FROM bookings ORDER BY id DESC').all();
-  const gallery = db.prepare('SELECT * FROM gallery ORDER BY id DESC').all();
-  const fleet = db.prepare('SELECT * FROM fleet ORDER BY id DESC').all();
+router.get('/dashboard', requireAdmin, async (req, res) => {
+  try {
+    const bookingsRes = await db.execute('SELECT * FROM bookings ORDER BY id DESC');
+    const bookings = bookingsRes.rows;
 
-  // REVIEW ANALYTICS
-  const totalReviews = db
-    .prepare('SELECT COUNT(*) as c FROM testimonials')
-    .get().c;
+    const galleryRes = await db.execute('SELECT * FROM gallery ORDER BY id DESC');
+    const gallery = galleryRes.rows;
 
-  const approvedReviews = db
-    .prepare("SELECT COUNT(*) as c FROM testimonials WHERE status='approved'")
-    .get().c;
+    const fleetRes = await db.execute('SELECT * FROM fleet ORDER BY id DESC');
+    const fleet = fleetRes.rows;
 
-  const pendingReviews = db
-    .prepare("SELECT COUNT(*) as c FROM testimonials WHERE status='pending'")
-    .get().c;
+    // REVIEW ANALYTICS
+    const totalReviewsRes = await db.execute('SELECT COUNT(*) as c FROM testimonials');
+    const totalReviews = totalReviewsRes.rows[0].c;
 
-  const avgRating =
-    db
-      .prepare(
-        "SELECT ROUND(AVG(rating),1) as avg FROM testimonials WHERE status='approved'"
-      )
-      .get().avg || 0;
+    const approvedReviewsRes = await db.execute("SELECT COUNT(*) as c FROM testimonials WHERE status='approved'");
+    const approvedReviews = approvedReviewsRes.rows[0].c;
 
-  const today = new Date().toISOString().split('T')[0];
+    const pendingReviewsRes = await db.execute("SELECT COUNT(*) as c FROM testimonials WHERE status='pending'");
+    const pendingReviews = pendingReviewsRes.rows[0].c;
 
-  const totalVisitors = db
-    .prepare(
-      `
-SELECT COUNT(DISTINCT ip) as total
-FROM visitors
-`
-    )
-    .get().total;
+    const avgRatingRes = await db.execute("SELECT ROUND(AVG(rating),1) as avg FROM testimonials WHERE status='approved'");
+    const avgRating = avgRatingRes.rows[0].avg || 0;
 
-  const todayVisitors = db
-    .prepare(
-      `
-SELECT COUNT(DISTINCT ip) as total
-FROM visitors
-WHERE visit_date = ?
-`
-    )
-    .get(today).total;
+    const today = new Date().toISOString().split('T')[0];
 
-  const stateVisitors = db
-    .prepare(
-      `
-SELECT state, COUNT(*) as total
-FROM visitors
-GROUP BY state
-ORDER BY total DESC
-LIMIT 10
-`
-    )
-    .all();
+    const totalVisitorsRes = await db.execute('SELECT COUNT(DISTINCT ip) as total FROM visitors');
+    const totalVisitors = totalVisitorsRes.rows[0].total;
 
-  res.render('admin/dashboard', {
-    bookings,
-    gallery,
-    fleet,
+    const todayVisitorsRes = await db.execute({
+      sql: 'SELECT COUNT(DISTINCT ip) as total FROM visitors WHERE visit_date = ?',
+      args: [today]
+    });
+    const todayVisitors = todayVisitorsRes.rows[0].total;
 
-    totalReviews,
-    approvedReviews,
-    pendingReviews,
-    avgRating,
-    totalVisitors,
-    stateVisitors,
-    todayVisitors,
+    const stateVisitorsRes = await db.execute('SELECT state, COUNT(*) as total FROM visitors GROUP BY state ORDER BY total DESC LIMIT 10');
+    const stateVisitors = stateVisitorsRes.rows;
 
-    title: 'Dashboard | Admin',
-    active: 'dashboard',
-  });
+    res.render('admin/dashboard', {
+      bookings,
+      gallery,
+      fleet,
+      totalReviews,
+      approvedReviews,
+      pendingReviews,
+      avgRating,
+      totalVisitors,
+      stateVisitors,
+      todayVisitors,
+      title: 'Dashboard | Admin',
+      active: 'dashboard',
+    });
+  } catch (err) {
+    console.error('Dashboard error:', err);
+    res.status(500).send('Database Error');
+  }
 });
 
-router.get('/gallery', requireAdmin, (req, res) => {
+router.get('/gallery', requireAdmin, async (req, res) => {
   let items = [];
-
   try {
-    items = db
-      .prepare(
-        `
-  SELECT
-    id,
-    title,
-    description,
-    filepath,
-    uploaded_by,
-    category,
-    status,
-    created_at
-  FROM gallery
-  ORDER BY created_at DESC
-`
-      )
-      .all();
+    const result = await db.execute(`
+      SELECT id, title, description, filepath, uploaded_by, category, status, created_at
+      FROM gallery ORDER BY created_at DESC
+    `);
+    items = result.rows;
   } catch (err) {
     console.error('Admin gallery error:', err.message);
   }
+  
   res.render('admin/gallery', {
     title: 'Gallery Management | Admin',
     items,
@@ -148,14 +117,19 @@ router.get('/gallery', requireAdmin, (req, res) => {
   });
 });
 
-router.get('/bookings', requireAdmin, (req, res) => {
-  const bookings = db.prepare('SELECT * FROM bookings ORDER BY id DESC').all();
-  res.render('admin/bookings', {
-    bookings,
-    title: 'Bookings | Admin',
-    success: req.query.success,
-    active: 'bookings',
-  });
+router.get('/bookings', requireAdmin, async (req, res) => {
+  try {
+    const result = await db.execute('SELECT * FROM bookings ORDER BY id DESC');
+    res.render('admin/bookings', {
+      bookings: result.rows,
+      title: 'Bookings | Admin',
+      success: req.query.success,
+      active: 'bookings',
+    });
+  } catch (err) {
+    console.error('Bookings error:', err);
+    res.status(500).send('Database Error');
+  }
 });
 
 //booking accept route
@@ -163,16 +137,15 @@ router.post('/bookings/confirm/:id', requireAdmin, async (req, res) => {
   try {
     const { id } = req.params;
 
-    const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(id);
+    const bookingRes = await db.execute({ sql: 'SELECT * FROM bookings WHERE id = ?', args: [id] });
+    const booking = bookingRes.rows[0];
+    
     if (!booking) return res.redirect('/admin/bookings');
 
-    db.prepare(
-      `
-      UPDATE bookings
-      SET status = 'confirmed'
-      WHERE id = ?
-    `
-    ).run(id);
+    await db.execute({
+      sql: "UPDATE bookings SET status = 'confirmed' WHERE id = ?",
+      args: [id]
+    });
 
     console.log('Booking confirmed:', booking.booking_id);
 
@@ -192,7 +165,6 @@ router.post('/bookings/confirm/:id', requireAdmin, async (req, res) => {
         pickup: booking.pickup,
         notes: booking.notes,
       });
-
       console.log('Mail result:', mailResult);
     }
 
@@ -205,21 +177,20 @@ router.post('/bookings/confirm/:id', requireAdmin, async (req, res) => {
 
 //booking reject route
 router.post('/bookings/reject/:id', requireAdmin, async (req, res) => {
-  const { id } = req.params;
-
-  const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(id);
-  if (!booking) return res.redirect('/admin/bookings');
-
-  db.prepare(
-    `
-    UPDATE bookings
-    SET status = 'rejected'
-    WHERE id = ?
-  `
-  ).run(id);
-
-  // Send rejection email (simple version)
   try {
+    const { id } = req.params;
+
+    const bookingRes = await db.execute({ sql: 'SELECT * FROM bookings WHERE id = ?', args: [id] });
+    const booking = bookingRes.rows[0];
+    
+    if (!booking) return res.redirect('/admin/bookings');
+
+    await db.execute({
+      sql: "UPDATE bookings SET status = 'rejected' WHERE id = ?",
+      args: [id]
+    });
+
+    // Send rejection email
     if (booking.email) {
       await sendBookingConfirmation({
         bookingId: booking.booking_id,
@@ -229,18 +200,20 @@ router.post('/bookings/reject/:id', requireAdmin, async (req, res) => {
       });
     }
   } catch (err) {
-    console.error('Rejection email failed:', err);
+    console.error('Rejection error:', err);
   }
-
+  
   res.redirect('/admin/bookings');
 });
 
 //delete booking route
-router.post('/bookings/delete/:id', requireAdmin, (req, res) => {
-  const { id } = req.params;
-
-  db.prepare('DELETE FROM bookings WHERE id = ?').run(id);
-
+router.post('/bookings/delete/:id', requireAdmin, async (req, res) => {
+  try {
+    const { id } = req.params;
+    await db.execute({ sql: 'DELETE FROM bookings WHERE id = ?', args: [id] });
+  } catch (err) {
+    console.error('Delete booking error:', err);
+  }
   res.redirect('/admin/bookings');
 });
 
@@ -256,29 +229,23 @@ router.post('/bookings/assign-driver/:id', requireAdmin, async (req, res) => {
       vehicleColor,
     } = req.body;
 
-    const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(id);
+    const bookingRes = await db.execute({ sql: 'SELECT * FROM bookings WHERE id = ?', args: [id] });
+    const booking = bookingRes.rows[0];
+    
     if (!booking) return res.redirect('/admin/bookings');
 
     // Update DB
-    db.prepare(
-      `
-      UPDATE bookings SET
-        driver_name = ?,
-        driver_phone = ?,
-        vehicle_type = ?,
-        vehicle_number = ?,
-        vehicle_color = ?,
-        status = 'driver_assigned'
-      WHERE id = ?
-    `
-    ).run(
-      driverName || null,
-      driverPhone || null,
-      vehicleType || null,
-      vehicleNumber || null,
-      vehicleColor || null,
-      id
-    );
+    await db.execute({
+      sql: `UPDATE bookings SET driver_name = ?, driver_phone = ?, vehicle_type = ?, vehicle_number = ?, vehicle_color = ?, status = 'driver_assigned' WHERE id = ?`,
+      args: [
+        driverName || null,
+        driverPhone || null,
+        vehicleType || null,
+        vehicleNumber || null,
+        vehicleColor || null,
+        id
+      ]
+    });
 
     // Send driver allotment email
     if (booking.email) {
@@ -296,15 +263,8 @@ router.post('/bookings/assign-driver/:id', requireAdmin, async (req, res) => {
           carType: booking.car_type,
           bookingType: booking.booking_type,
         },
-        {
-          name: driverName,
-          phone: driverPhone,
-        },
-        {
-          type: vehicleType,
-          number: vehicleNumber,
-          color: vehicleColor,
-        }
+        { name: driverName, phone: driverPhone },
+        { type: vehicleType, number: vehicleNumber, color: vehicleColor }
       );
     }
 
@@ -316,22 +276,16 @@ router.post('/bookings/assign-driver/:id', requireAdmin, async (req, res) => {
 });
 
 //gallery delete route
-router.post('/gallery/delete/:id', requireAdmin, (req, res) => {
-  const { id } = req.params;
-
+router.post('/gallery/delete/:id', requireAdmin, async (req, res) => {
   try {
+    const { id } = req.params;
+
     // 1. Get image path from DB
-    const item = db
-      .prepare('SELECT filepath FROM gallery WHERE id = ?')
-      .get(id);
+    const itemRes = await db.execute({ sql: 'SELECT filepath FROM gallery WHERE id = ?', args: [id] });
+    const item = itemRes.rows[0];
 
     if (item?.filepath) {
-      const fullPath = path.join(
-        process.cwd(),
-        'public',
-        item.filepath.replace(/^\/+/, '')
-      );
-
+      const fullPath = path.join(process.cwd(), 'public', item.filepath.replace(/^\/+/, ''));
       // 2. Delete file if exists
       if (fs.existsSync(fullPath)) {
         fs.unlinkSync(fullPath);
@@ -339,7 +293,7 @@ router.post('/gallery/delete/:id', requireAdmin, (req, res) => {
     }
 
     // 3. Delete DB record
-    db.prepare('DELETE FROM gallery WHERE id = ?').run(id);
+    await db.execute({ sql: 'DELETE FROM gallery WHERE id = ?', args: [id] });
   } catch (err) {
     console.error('Delete gallery item error:', err.message);
   }
@@ -347,138 +301,98 @@ router.post('/gallery/delete/:id', requireAdmin, (req, res) => {
   res.redirect('/admin/gallery');
 });
 
-router.post('/gallery/approve/:id', requireAdmin, (req, res) => {
-  console.log('✅ APPROVE HIT, ID =', req.params.id);
-
-  const result = db
-    .prepare("UPDATE gallery SET status = 'approved' WHERE id = ?")
-    .run(req.params.id);
-
-  console.log('🧪 Rows updated:', result.changes);
-
+router.post('/gallery/approve/:id', requireAdmin, async (req, res) => {
+  try {
+    await db.execute({ sql: "UPDATE gallery SET status = 'approved' WHERE id = ?", args: [req.params.id] });
+  } catch (err) {
+    console.error('Approve gallery error:', err.message);
+  }
   res.redirect('/admin/gallery');
 });
 
-router.post('/gallery/reject/:id', requireAdmin, (req, res) => {
+router.post('/gallery/reject/:id', requireAdmin, async (req, res) => {
   try {
-    db.prepare("UPDATE gallery SET status = 'rejected' WHERE id = ?").run(
-      req.params.id
-    );
+    await db.execute({ sql: "UPDATE gallery SET status = 'rejected' WHERE id = ?", args: [req.params.id] });
   } catch (err) {
-    console.error('Reject error:', err.message);
+    console.error('Reject gallery error:', err.message);
   }
-
   res.redirect('/admin/gallery');
 });
 
 // ===============================
 // FLEET MANAGEMENT
 // ===============================
-router.get('/fleet', requireAdmin, (req, res) => {
-  const vehicles = db
-    .prepare(
-      'SELECT * FROM fleet ORDER BY category ASC, sort_order ASC, id DESC'
-    )
-    .all();
-
-  res.render('admin/fleet', {
-    title: 'Fleet Management | Admin',
-    vehicles,
-    active: 'fleet',
-  });
+router.get('/fleet', requireAdmin, async (req, res) => {
+  try {
+    const result = await db.execute('SELECT * FROM fleet ORDER BY category ASC, sort_order ASC, id DESC');
+    res.render('admin/fleet', {
+      title: 'Fleet Management | Admin',
+      vehicles: result.rows,
+      active: 'fleet',
+    });
+  } catch (err) {
+    console.error('Fleet route error:', err);
+    res.status(500).send('Database Error');
+  }
 });
 
-router.post('/fleet/delete/:id', requireAdmin, (req, res) => {
-  const { id } = req.params;
-
-  db.prepare('DELETE FROM fleet WHERE id = ?').run(id);
-
+router.post('/fleet/delete/:id', requireAdmin, async (req, res) => {
+  try {
+    await db.execute({ sql: 'DELETE FROM fleet WHERE id = ?', args: [req.params.id] });
+  } catch (err) {
+    console.error('Delete fleet error:', err);
+  }
   res.redirect('/admin/fleet');
 });
 
 // add vehicle in fleet
+router.post('/fleet/add', requireAdmin, upload.single('image'), async (req, res) => {
+  try {
+    const {
+      name, category, seating_capacity, luggage_capacity,
+      price_per_km, price_per_day, description, sort_order,
+    } = req.body;
 
-router.post('/fleet/add', requireAdmin, upload.single('image'), (req, res) => {
-  const {
-    name,
-    category,
-    seating_capacity,
-    luggage_capacity,
-    price_per_km,
-    price_per_day,
-    description,
-    sort_order,
-  } = req.body;
+    const imagePath = req.file ? '/uploads/fleet/' + req.file.filename : null;
 
-  const imagePath = req.file ? '/uploads/fleet/' + req.file.filename : null;
-
-  db.prepare(
-    `
-    INSERT INTO fleet (
-      name,
-      category,
-      seating_capacity,
-      luggage_capacity,
-      price_per_km,
-      price_per_day,
-      description,
-      sort_order,
-      is_active,
-      image
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)
-  `
-  ).run(
-    name,
-    category,
-    seating_capacity || null,
-    luggage_capacity || null,
-    price_per_km || null,
-    price_per_day || null,
-    description || null,
-    sort_order || 0,
-    imagePath
-  );
-
+    await db.execute({
+      sql: `INSERT INTO fleet (name, category, seating_capacity, luggage_capacity, price_per_km, price_per_day, description, sort_order, is_active, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1, ?)`,
+      args: [
+        name, category, seating_capacity || null, luggage_capacity || null,
+        price_per_km || null, price_per_day || null, description || null,
+        sort_order || 0, imagePath
+      ]
+    });
+  } catch (err) {
+    console.error('Add fleet error:', err);
+  }
   res.redirect('/admin/fleet');
 });
 
 //toggle in fleet
+router.post('/fleet/toggle/:id', requireAdmin, async (req, res) => {
+  try {
+    const vehicleRes = await db.execute({ sql: 'SELECT is_active FROM fleet WHERE id = ?', args: [req.params.id] });
+    const vehicle = vehicleRes.rows[0];
 
-router.post('/fleet/toggle/:id', requireAdmin, (req, res) => {
-  const vehicle = db
-    .prepare('SELECT is_active FROM fleet WHERE id = ?')
-    .get(req.params.id);
+    if (!vehicle) return res.redirect('/admin/fleet');
 
-  if (!vehicle) return res.redirect('/admin/fleet');
-
-  db.prepare(
-    `
-    UPDATE fleet
-    SET is_active = ?
-    WHERE id = ?
-  `
-  ).run(vehicle.is_active ? 0 : 1, req.params.id);
-
+    await db.execute({
+      sql: 'UPDATE fleet SET is_active = ? WHERE id = ?',
+      args: [vehicle.is_active ? 0 : 1, req.params.id]
+    });
+  } catch (err) {
+    console.error('Toggle fleet error:', err);
+  }
   res.redirect('/admin/fleet');
 });
 
 // vehicle edit
-
-router.post(
-  '/fleet/edit/:id',
-  requireAdmin,
-  upload.single('image'),
-  (req, res) => {
+router.post('/fleet/edit/:id', requireAdmin, upload.single('image'), async (req, res) => {
+  try {
     const {
-      name,
-      category,
-      seating_capacity,
-      luggage_capacity,
-      price_per_km,
-      price_per_day,
-      description,
-      sort_order,
+      name, category, seating_capacity, luggage_capacity,
+      price_per_km, price_per_day, description, sort_order,
     } = req.body;
 
     let imagePath;
@@ -486,218 +400,161 @@ router.post(
     if (req.file) {
       imagePath = '/uploads/fleet/' + req.file.filename;
     } else {
-      const existing = db
-        .prepare('SELECT image FROM fleet WHERE id = ?')
-        .get(req.params.id);
-      imagePath = existing?.image || null;
+      const existingRes = await db.execute({ sql: 'SELECT image FROM fleet WHERE id = ?', args: [req.params.id] });
+      imagePath = existingRes.rows[0]?.image || null;
     }
 
-    db.prepare(
-      `
-    UPDATE fleet SET
-      name = ?,
-      category = ?,
-      seating_capacity = ?,
-      luggage_capacity = ?,
-      price_per_km = ?,
-      price_per_day = ?,
-      description = ?,
-      sort_order = ?,
-      image = ?
-    WHERE id = ?
-  `
-    ).run(
-      name,
-      category,
-      seating_capacity || null,
-      luggage_capacity || null,
-      price_per_km || null,
-      price_per_day || null,
-      description || null,
-      sort_order || 0,
-      imagePath,
-      req.params.id
-    );
-
-    res.redirect('/admin/fleet');
+    await db.execute({
+      sql: `UPDATE fleet SET name = ?, category = ?, seating_capacity = ?, luggage_capacity = ?, price_per_km = ?, price_per_day = ?, description = ?, sort_order = ?, image = ? WHERE id = ?`,
+      args: [
+        name, category, seating_capacity || null, luggage_capacity || null,
+        price_per_km || null, price_per_day || null, description || null,
+        sort_order || 0, imagePath, req.params.id
+      ]
+    });
+  } catch (err) {
+    console.error('Edit fleet error:', err);
   }
-);
+  res.redirect('/admin/fleet');
+});
 
 // ===============================
 // TESTIMONIALS MANAGEMENT
 // ===============================
 
-router.get('/testimonials', requireAdmin, (req, res) => {
-  const filter = req.query.status || 'all';
+router.get('/testimonials', requireAdmin, async (req, res) => {
+  try {
+    const filter = req.query.status || 'all';
+    let testimonials;
 
-  let testimonials;
+    if (filter === 'approved') {
+      const resData = await db.execute("SELECT * FROM testimonials WHERE status='approved' ORDER BY created_at DESC");
+      testimonials = resData.rows;
+    } else if (filter === 'pending') {
+      const resData = await db.execute("SELECT * FROM testimonials WHERE status='pending' ORDER BY created_at DESC");
+      testimonials = resData.rows;
+    } else {
+      const resData = await db.execute('SELECT * FROM testimonials ORDER BY created_at DESC');
+      testimonials = resData.rows;
+    }
 
-  if (filter === 'approved') {
-    testimonials = db
-      .prepare(
-        "SELECT * FROM testimonials WHERE status='approved' ORDER BY created_at DESC"
-      )
-      .all();
-  } else if (filter === 'pending') {
-    testimonials = db
-      .prepare(
-        "SELECT * FROM testimonials WHERE status='pending' ORDER BY created_at DESC"
-      )
-      .all();
-  } else {
-    testimonials = db
-      .prepare('SELECT * FROM testimonials ORDER BY created_at DESC')
-      .all();
+    const totalRes = await db.execute('SELECT COUNT(*) as c FROM testimonials');
+    const total = totalRes.rows[0].c;
+
+    const approvedRes = await db.execute("SELECT COUNT(*) as c FROM testimonials WHERE status='approved'");
+    const approved = approvedRes.rows[0].c;
+
+    const pendingRes = await db.execute("SELECT COUNT(*) as c FROM testimonials WHERE status='pending'");
+    const pending = pendingRes.rows[0].c;
+
+    const avgRatingRes = await db.execute("SELECT ROUND(AVG(rating),1) as avg FROM testimonials WHERE status='approved'");
+    const avgRating = avgRatingRes.rows[0].avg || 0;
+
+    res.render('admin/testimonials', {
+      title: 'Testimonials | Admin',
+      testimonials,
+      total,
+      approved,
+      pending,
+      avgRating,
+      filter,
+      active: 'testimonials',
+    });
+  } catch (err) {
+    console.error('Testimonials route error:', err);
+    res.status(500).send('Database Error');
   }
-
-  const total = db.prepare('SELECT COUNT(*) as c FROM testimonials').get().c;
-  const approved = db
-    .prepare("SELECT COUNT(*) as c FROM testimonials WHERE status='approved'")
-    .get().c;
-  const pending = db
-    .prepare("SELECT COUNT(*) as c FROM testimonials WHERE status='pending'")
-    .get().c;
-
-  const avgRating =
-    db
-      .prepare(
-        "SELECT ROUND(AVG(rating),1) as avg FROM testimonials WHERE status='approved'"
-      )
-      .get().avg || 0;
-
-  res.render('admin/testimonials', {
-    title: 'Testimonials | Admin',
-    testimonials,
-    total,
-    approved,
-    pending,
-    avgRating,
-    filter,
-    active: 'testimonials',
-  });
 });
-router.post('/testimonials/approve/:id', requireAdmin, (req, res) => {
-  db.prepare(
-    `
-UPDATE testimonials
-SET status='approved'
-WHERE id=?
-`
-  ).run(req.params.id);
 
+router.post('/testimonials/approve/:id', requireAdmin, async (req, res) => {
+  try {
+    await db.execute({ sql: "UPDATE testimonials SET status='approved' WHERE id=?", args: [req.params.id] });
+  } catch (err) {
+    console.error('Approve testimonial error:', err);
+  }
   res.redirect('/admin/testimonials');
 });
 
-router.post('/testimonials/reject/:id', requireAdmin, (req, res) => {
-  db.prepare(
-    `
-UPDATE testimonials
-SET status='pending'
-WHERE id=?
-`
-  ).run(req.params.id);
-
+router.post('/testimonials/reject/:id', requireAdmin, async (req, res) => {
+  try {
+    await db.execute({ sql: "UPDATE testimonials SET status='pending' WHERE id=?", args: [req.params.id] });
+  } catch (err) {
+    console.error('Reject testimonial error:', err);
+  }
   res.redirect('/admin/testimonials');
 });
 
-router.post('/testimonials/delete/:id', requireAdmin, (req, res) => {
-  db.prepare(
-    `
-DELETE FROM testimonials
-WHERE id=?
-`
-  ).run(req.params.id);
-
+router.post('/testimonials/delete/:id', requireAdmin, async (req, res) => {
+  try {
+    await db.execute({ sql: "DELETE FROM testimonials WHERE id=?", args: [req.params.id] });
+  } catch (err) {
+    console.error('Delete testimonial error:', err);
+  }
   res.redirect('/admin/testimonials');
 });
 
 //testimonial image replace route
-router.post(
-  '/testimonials/image/:id',
-  requireAdmin,
-  uploadTestimonial.single('image'),
-  (req, res) => {
-    try {
-      if (!req.file) {
-        return res.redirect('/admin/testimonials');
+router.post('/testimonials/image/:id', requireAdmin, uploadTestimonial.single('image'), async (req, res) => {
+  try {
+    if (!req.file) return res.redirect('/admin/testimonials');
+
+    const { id } = req.params;
+
+    // 1️⃣ Get existing image from DB
+    const testimonialRes = await db.execute({ sql: 'SELECT image FROM testimonials WHERE id = ?', args: [id] });
+    const testimonial = testimonialRes.rows[0];
+
+    // 2️⃣ Delete old image if exists
+    if (testimonial?.image) {
+      const fullPath = path.join(process.cwd(), 'public', testimonial.image.replace(/^\/+/, ''));
+      if (fs.existsSync(fullPath)) {
+        fs.unlinkSync(fullPath);
       }
-
-      const { id } = req.params;
-
-      // 1️⃣ Get existing image from DB
-      const testimonial = db
-        .prepare('SELECT image FROM testimonials WHERE id = ?')
-        .get(id);
-
-      // 2️⃣ Delete old image if exists
-      if (testimonial?.image) {
-        const fullPath = path.join(
-          process.cwd(),
-          'public',
-          testimonial.image.replace(/^\/+/, '')
-        );
-
-        if (fs.existsSync(fullPath)) {
-          fs.unlinkSync(fullPath);
-        }
-      }
-
-      // 3️⃣ Save new image path
-      const imagePath = '/uploads/testimonials/' + req.file.filename;
-
-      db.prepare(
-        `
-        UPDATE testimonials
-        SET image = ?
-        WHERE id = ?
-      `
-      ).run(imagePath, id);
-    } catch (err) {
-      console.error('Testimonial image replace error:', err.message);
     }
 
-    res.redirect('/admin/testimonials');
+    // 3️⃣ Save new image path
+    const imagePath = '/uploads/testimonials/' + req.file.filename;
+
+    await db.execute({ sql: "UPDATE testimonials SET image = ? WHERE id = ?", args: [imagePath, id] });
+  } catch (err) {
+    console.error('Testimonial image replace error:', err.message);
   }
-);
-
-//pricing admin
-router.get('/pricing', requireAdmin, (req, res) => {
-
-  const pricing = db.prepare(`
-    SELECT * FROM pricing
-    ORDER BY service, vehicle
-  `).all();
-
-  res.render('admin/pricing', {
-    title: 'Pricing Management | Admin',
-    pricing,
-    active: 'pricing'
-  });
-
+  res.redirect('/admin/testimonials');
 });
 
-router.post('/pricing/update/:id', requireAdmin, (req, res) => {
+//pricing admin
+router.get('/pricing', requireAdmin, async (req, res) => {
+  try {
+    const result = await db.execute('SELECT * FROM pricing ORDER BY service, vehicle');
+    res.render('admin/pricing', {
+      title: 'Pricing Management | Admin',
+      pricing: result.rows,
+      active: 'pricing'
+    });
+  } catch (err) {
+    console.error('Pricing route error:', err);
+    res.status(500).send('Database Error');
+  }
+});
 
-  const { per_km, driver_allowance, base_price, flat_price } = req.body;
+router.post('/pricing/update/:id', requireAdmin, async (req, res) => {
+  try {
+    const { per_km, driver_allowance, base_price, flat_price } = req.body;
 
-  db.prepare(`
-    UPDATE pricing
-    SET
-      per_km=?,
-      driver_allowance=?,
-      base_price=?,
-      flat_price=?
-    WHERE id=?
-  `).run(
-    per_km || null,
-    driver_allowance || null,
-    base_price || null,
-    flat_price || null,
-    req.params.id
-  );
-
+    await db.execute({
+      sql: `UPDATE pricing SET per_km=?, driver_allowance=?, base_price=?, flat_price=? WHERE id=?`,
+      args: [
+        per_km || null,
+        driver_allowance || null,
+        base_price || null,
+        flat_price || null,
+        req.params.id
+      ]
+    });
+  } catch (err) {
+    console.error('Pricing update error:', err);
+  }
   res.redirect('/admin/pricing');
-
 });
 
 export default router;

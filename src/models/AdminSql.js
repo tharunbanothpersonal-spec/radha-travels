@@ -1,30 +1,40 @@
 // src/models/AdminSql.js
-// Named exports: createAdmin, findAdminByEmail, findAdminById, validatePassword
+// Named exports: createAdmin, findAdminByEmail, findAdminById, validatePassword, etc.
 
 import bcrypt from "bcrypt";
-import db from "../db.js"; // better-sqlite3 instance used elsewhere
+import db from "../db.js"; // Now points to Turso
 import crypto from "crypto";
 
 const SALT_ROUNDS = 10;
 
 export async function createAdmin(email, password, name = "Admin") {
   const hash = await bcrypt.hash(password, SALT_ROUNDS);
-  const stmt = db.prepare(`INSERT INTO admins (email, password_hash, name) VALUES (?, ?, ?)`);
-  const info = stmt.run(email, hash, name);
-  // better-sqlite3 returns { changes, lastInsertRowid } sometimes
-  return { lastID: info.lastInsertRowid ?? info.lastID ?? null };
+  
+  const result = await db.execute({
+    sql: `INSERT INTO admins (email, password_hash, name) VALUES (?, ?, ?)`,
+    args: [email, hash, name]
+  });
+  
+  // Turso returns lastInsertRowid. We cast it to a Number to match old behavior.
+  return { lastID: result.lastInsertRowid ? Number(result.lastInsertRowid) : null };
 }
 
-export function findAdminByEmail(email) {
+export async function findAdminByEmail(email) { // <-- ADDED ASYNC
   if (!email) return null;
-  const row = db.prepare(`SELECT * FROM admins WHERE email = ?`).get(email);
-  return row || null;
+  const result = await db.execute({
+    sql: `SELECT * FROM admins WHERE email = ?`,
+    args: [email]
+  });
+  return result.rows[0] || null;
 }
 
-export function findAdminById(id) {
+export async function findAdminById(id) { // <-- ADDED ASYNC
   if (!id) return null;
-  const row = db.prepare(`SELECT * FROM admins WHERE id = ?`).get(id);
-  return row || null;
+  const result = await db.execute({
+    sql: `SELECT * FROM admins WHERE id = ?`,
+    args: [id]
+  });
+  return result.rows[0] || null;
 }
 
 export async function validatePassword(hash, password) {
@@ -32,34 +42,47 @@ export async function validatePassword(hash, password) {
   return bcrypt.compare(password, hash);
 }
 
-// ... existing imports and db
-
-export async function updateAdminPassword(adminId, newPassword) {
-  const SALT_ROUNDS = 10;
+export async function updateAdminPassword(adminId, newPassword) { // <-- ADDED ASYNC
   const hash = await bcrypt.hash(newPassword, SALT_ROUNDS);
   const changedAt = new Date().toISOString();
-  const stmt = db.prepare(`UPDATE admins SET password_hash = ?, password_changed_at = ? WHERE id = ?`);
-  const info = stmt.run(hash, changedAt, adminId);
-  return { changes: info.changes || 0, password_changed_at: changedAt };
+  
+  const result = await db.execute({
+    sql: `UPDATE admins SET password_hash = ?, password_changed_at = ? WHERE id = ?`,
+    args: [hash, changedAt, adminId]
+  });
+  
+  // Turso uses rowsAffected instead of changes
+  return { changes: result.rowsAffected || 0, password_changed_at: changedAt };
 }
 
-
 // generate and store reset token
-export function setAdminResetToken(email, expiresInMinutes = 60) {
+export async function setAdminResetToken(email, expiresInMinutes = 60) { // <-- ADDED ASYNC
   const token = crypto.randomBytes(24).toString("hex");
   const expiresAt = new Date(Date.now() + expiresInMinutes * 60 * 1000).toISOString();
-  const stmt = db.prepare("UPDATE admins SET reset_token = ?, reset_expires = ? WHERE email = ?");
-  const info = stmt.run(token, expiresAt, email);
-  if (info.changes === 0) return null;
+  
+  const result = await db.execute({
+    sql: "UPDATE admins SET reset_token = ?, reset_expires = ? WHERE email = ?",
+    args: [token, expiresAt, email]
+  });
+  
+  if (result.rowsAffected === 0) return null;
+  
   // return token (we email it)
   return { token, expiresAt };
 }
 
-export function findAdminByResetToken(token) {
+export async function findAdminByResetToken(token) { // <-- ADDED ASYNC
   // token stored in DB as-is
-  return db.prepare("SELECT * FROM admins WHERE reset_token = ?").get(token) || null;
+  const result = await db.execute({
+    sql: "SELECT * FROM admins WHERE reset_token = ?",
+    args: [token]
+  });
+  return result.rows[0] || null;
 }
 
-export function clearAdminResetToken(adminId) {
-  return db.prepare("UPDATE admins SET reset_token = NULL, reset_expires = NULL WHERE id = ?").run(adminId);
+export async function clearAdminResetToken(adminId) { // <-- ADDED ASYNC
+  return await db.execute({
+    sql: "UPDATE admins SET reset_token = NULL, reset_expires = NULL WHERE id = ?",
+    args: [adminId]
+  });
 }

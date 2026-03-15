@@ -3,7 +3,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import db from "../db.js";   // ✅ your existing better-sqlite3 DB
+import db from "../db.js";   // Now points to your Turso DB
 import { requireAdmin } from "../admin/admin.middleware.js";
 
 const router = express.Router();
@@ -47,40 +47,43 @@ const storage = multer.diskStorage({
   }
 });
 
-
 const upload = multer({ storage });
 
 /* -------------------------------------------------------
-   AUTO LOAD FILES FROM /auto
+   AUTO LOAD FILES FROM /auto (Converted to Async Turso)
 ------------------------------------------------------- */
-function autoLoadGallery() {
+async function autoLoadGallery() {
   const autoDir = path.join(process.cwd(), "public", "uploads", "gallery", "auto");
   if (!fs.existsSync(autoDir)) return;
 
   const files = fs.readdirSync(autoDir);
 
-  const checkStmt = db.prepare(
-    "SELECT id FROM gallery WHERE filepath = ?"
-  );
-
-  const insertStmt = db.prepare(`
-    INSERT INTO gallery (filename, filepath, type, uploaded_by)
-    VALUES (?, ?, ?, ?)
-  `);
-
-  files.forEach(file => {
+  for (const file of files) {
     const filepath = `/uploads/gallery/auto/${file}`;
-    const exists = checkStmt.get(filepath);
+    
+    try {
+      const existsRes = await db.execute({
+        sql: "SELECT id FROM gallery WHERE filepath = ?",
+        args: [filepath]
+      });
+      
+      const exists = existsRes.rows[0];
 
-    if (!exists) {
-      insertStmt.run(
-        file,
-        filepath,
-        file.endsWith(".mp4") ? "video" : "image",
-        "auto"
-      );
+      if (!exists) {
+        await db.execute({
+          sql: `INSERT INTO gallery (filename, filepath, type, uploaded_by) VALUES (?, ?, ?, ?)`,
+          args: [
+            file,
+            filepath,
+            file.endsWith(".mp4") ? "video" : "image",
+            "auto"
+          ]
+        });
+      }
+    } catch (err) {
+      console.error(`Error auto-loading ${file}:`, err.message);
     }
-  });
+  }
 }
 
 /* -------------------------------------------------------
@@ -88,14 +91,16 @@ function autoLoadGallery() {
 ------------------------------------------------------- */
 
 /* GALLERY PAGE */
-router.get("/", (req, res) => {
-  autoLoadGallery();
+router.get("/", async (req, res) => { // <-- ADDED ASYNC
+  await autoLoadGallery();
 
   let gallery = [];
   try {
-    gallery = db
-      .prepare("SELECT * FROM gallery WHERE status = ? ORDER BY created_at DESC")
-.all("approved");
+    const result = await db.execute({
+      sql: "SELECT * FROM gallery WHERE status = ? ORDER BY created_at DESC",
+      args: ["approved"]
+    });
+    gallery = result.rows;
   } catch (err) {
     console.error("Gallery fetch error:", err.message);
   }
@@ -107,7 +112,6 @@ router.get("/", (req, res) => {
   });
 });
 
-
 /* UPLOAD PAGE */
 router.get("/upload", (req, res) => {
   res.render("upload", {
@@ -116,72 +120,63 @@ router.get("/upload", (req, res) => {
   });
 });
 
-
 /* HANDLE UPLOAD */
-router.post("/upload", upload.single("file"), (req, res) => {
+router.post("/upload", upload.single("file"), async (req, res) => { // <-- ADDED ASYNC
   const { title, description, uploaded_by, category } = req.body;
 
   if (!req.file) {
     return res.redirect("/gallery/upload?success=1");
   }
 
-// ✅ Determine role (single source of truth)
-const role =
-  uploaded_by ||
-  (req.session?.admin ? "admin" : "customer");
+  // ✅ Determine role (single source of truth)
+  const role =
+    uploaded_by ||
+    (req.session?.admin ? "admin" : "customer");
 
-// ✅ Build browser-safe filepath intentionally
-const filepath = `/uploads/gallery/${role}/${req.file.filename}`;
-
+  // ✅ Build browser-safe filepath intentionally
+  const filepath = `/uploads/gallery/${role}/${req.file.filename}`;
 
   const type = req.file.mimetype.startsWith("video") ? "video" : "image";
 
   try {
-    db.prepare(`
-     INSERT INTO gallery (
-  filename,
-  filepath,
-  title,
-  description,
-  type,
-  uploaded_by,
-  category,
-  status
-)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(
-  req.file.filename,
-  filepath,
-  title || null,
-  description || null,
-  type,
-  role,
-  category,
-  "pending"
-);
+    await db.execute({
+      sql: `INSERT INTO gallery (filename, filepath, title, description, type, uploaded_by, category, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      args: [
+        req.file.filename,
+        filepath,
+        title || null,
+        description || null,
+        type,
+        role,
+        category,
+        "pending"
+      ]
+    });
   } catch (err) {
     console.error("❌ Gallery insert error:", err.message);
   }
 
   res.redirect("/gallery/upload?success=1");
-
 });
 
 // DELETE GALLERY ITEM — ADMIN ONLY
-
-
-
-router.post("/delete/:id", requireAdmin, (req, res) => {
+router.post("/delete/:id", requireAdmin, async (req, res) => { // <-- ADDED ASYNC
   const { id } = req.params;
 
   try {
-    const item = db
-      .prepare("SELECT filepath FROM gallery WHERE id = ?")
-      .get(id);
+    const itemRes = await db.execute({
+      sql: "SELECT filepath FROM gallery WHERE id = ?",
+      args: [id]
+    });
+    
+    const item = itemRes.rows[0];
 
     if (!item) return res.redirect("/gallery");
 
-    db.prepare("DELETE FROM gallery WHERE id = ?").run(id);
+    await db.execute({
+      sql: "DELETE FROM gallery WHERE id = ?",
+      args: [id]
+    });
 
     const fullPath = path.join(process.cwd(), "public", item.filepath);
     if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
@@ -192,7 +187,5 @@ router.post("/delete/:id", requireAdmin, (req, res) => {
 
   res.redirect("/gallery");
 });
-
-
 
 export default router;

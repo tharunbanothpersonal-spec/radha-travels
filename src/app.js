@@ -1,5 +1,5 @@
 // =======================================================
-//  Radha Travels — Clean app.js (Admin reset version)
+//  Radha Travels — Clean app.js (Turso Cloud Version)
 // =======================================================
 
 import express from 'express';
@@ -83,7 +83,6 @@ app.use((req, res, next) => {
 });
 
 //for IP visitor counter
-
 app.use(trackVisitor);
 
 // =======================================================
@@ -122,26 +121,20 @@ app.use('/admin', adminAuth); // /admin/login, /admin/logout
 app.use('/admin', adminRoutes); // /admin, /admin/bookings, /admin/gallery
 
 // =======================================================
-//  IP COUNTER
+//  IP COUNTER (Converted to Async Turso)
 // =======================================================
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   try {
-    const result = db
-      .prepare(
-        `
+    const result = await db.execute(`
       SELECT COUNT(DISTINCT ip) as total
       FROM visitors
-    `
-      )
-      .get();
-
-    res.locals.totalVisitors = result?.total || 0;
+    `);
+    res.locals.totalVisitors = result.rows[0]?.total || 0;
   } catch (err) {
     console.error('Visitor counter error:', err.message);
     res.locals.totalVisitors = 0;
   }
-
   next();
 });
 
@@ -662,23 +655,19 @@ app.get('/blog/:slug', (req, res) => {
 
 // ip counter
 
-app.get('/api/state-visitors', (req, res) => {
+app.get('/api/state-visitors', async (req, res) => {
   try {
-    const states = db
-      .prepare(
-        `
-SELECT state, COUNT(*) as total
-FROM visitors
-WHERE state IS NOT NULL
-AND state != 'Unknown'
-GROUP BY state
-ORDER BY total DESC
-LIMIT 6
-`
-      )
-      .all();
+    const result = await db.execute(`
+      SELECT state, COUNT(*) as total
+      FROM visitors
+      WHERE state IS NOT NULL
+      AND state != 'Unknown'
+      GROUP BY state
+      ORDER BY total DESC
+      LIMIT 6
+    `);
 
-    res.json(states);
+    res.json(result.rows);
   } catch (err) {
     console.error(err);
     res.json([]);
@@ -689,44 +678,36 @@ LIMIT 6
 //  PUBLIC ROUTES
 // =======================================================
 
-// Home
-app.get('/', (req, res) => {
+// Home (Converted to Async Turso)
+app.get('/', async (req, res) => {
   let featuredGallery = [];
-
   try {
-    featuredGallery = db
-      .prepare(
-        `
-        SELECT * FROM gallery
-        ORDER BY created_at DESC
-        LIMIT 6
-      `
-      )
-      .all();
+    const galleryRes = await db.execute(`
+      SELECT * FROM gallery
+      ORDER BY created_at DESC
+      LIMIT 6
+    `);
+    featuredGallery = galleryRes.rows;
   } catch (err) {
     console.error('Featured gallery error:', err.message);
   }
-  const featuredFleet = db
-    .prepare('SELECT * FROM fleet WHERE is_active = 1 ORDER BY id DESC LIMIT 4')
-    .all();
-  const randomTestimonials = db
-    .prepare(
-      `
-  SELECT * FROM testimonials
-  WHERE status='approved'
-  ORDER BY RANDOM()
-  LIMIT 4
-`
-    )
-    .all();
-  const testimonials = db
-    .prepare(
-      `
-  SELECT * FROM testimonials 
-  WHERE status='approved'
-`
-    )
-    .all();
+  
+  const fleetRes = await db.execute('SELECT * FROM fleet WHERE is_active = 1 ORDER BY id DESC LIMIT 4');
+  const featuredFleet = fleetRes.rows;
+  
+  const randomTestRes = await db.execute(`
+    SELECT * FROM testimonials
+    WHERE status='approved'
+    ORDER BY RANDOM()
+    LIMIT 4
+  `);
+  const randomTestimonials = randomTestRes.rows;
+  
+  const testimonialsRes = await db.execute(`
+    SELECT * FROM testimonials 
+    WHERE status='approved'
+  `);
+  const testimonials = testimonialsRes.rows;
 
   const avgRating = testimonials.length
     ? (
@@ -749,24 +730,17 @@ app.get('/', (req, res) => {
   let todayVisitors = 0;
 
   try {
-    totalVisitors = db
-      .prepare(
-        `
-SELECT COUNT(DISTINCT ip) as total
-FROM visitors
-`
-      )
-      .get().total;
+    const totalVisRes = await db.execute(`
+      SELECT COUNT(DISTINCT ip) as total
+      FROM visitors
+    `);
+    totalVisitors = totalVisRes.rows[0].total;
 
-    todayVisitors = db
-      .prepare(
-        `
-SELECT COUNT(DISTINCT ip) as total
-FROM visitors
-WHERE visit_date = ?
-`
-      )
-      .get(today).total;
+    const todayVisRes = await db.execute({
+      sql: `SELECT COUNT(DISTINCT ip) as total FROM visitors WHERE visit_date = ?`,
+      args: [today]
+    });
+    todayVisitors = todayVisRes.rows[0].total;
   } catch (err) {
     console.log('Visitor stats error', err.message);
   }
@@ -798,7 +772,6 @@ WHERE visit_date = ?
 // Home special tour package
 //==========================
 
-// Dynamic Route for Special Tour Packages
 // Dynamic Route for Special Tour Packages
 app.get('/tours/:destination', (req, res) => {
   // Grab the destination from the URL (e.g., "srisailam")
@@ -996,72 +969,74 @@ app.get('/services', (req, res) => {
   });
 });
 
-// Service detail
-app.get('/services/:slug', (req, res) => {
-
+// Service detail (Converted to Async Turso)
+app.get('/services/:slug', async (req, res) => {
   const service = SERVICES.find((s) => s.slug === req.params.slug);
 
   if (!service) {
     return res.status(404).render('pages/404', { title: 'Not Found' });
   }
 
-  // ---- Load pricing from DB ----
-  const pricingRows = db.prepare(`
-    SELECT * FROM pricing
-  `).all();
+  try {
+    // ---- Load pricing from DB ----
+    const pricingRes = await db.execute(`SELECT * FROM pricing`);
+    const pricingRows = pricingRes.rows;
 
-  // ---- Convert DB pricing to object ----
-  const pricingMap = {};
+    // ---- Convert DB pricing to object ----
+    const pricingMap = {};
 
-  pricingRows.forEach(row => {
+    pricingRows.forEach((row) => {
+      if (!pricingMap[row.vehicle]) pricingMap[row.vehicle] = {};
+      pricingMap[row.vehicle][row.service] = row;
+    });
 
-    if (!pricingMap[row.vehicle]) pricingMap[row.vehicle] = {};
+    // ---- Apply DB pricing to segments ----
+    const segments = SEGMENTS.map((seg) => {
+      const dbVehicle = pricingMap[seg.label];
+      if (!dbVehicle) return seg;
 
-    pricingMap[row.vehicle][row.service] = row;
+      return {
+        ...seg,
+        pricing: {
+          local: dbVehicle.Local
+            ? {
+                pack: '8Hrs / 80KM',
+                base: dbVehicle.Local.base_price,
+                extra_km: dbVehicle.Local.per_km,
+                extra_hr: dbVehicle.Local.extra_per_hour,
+                driver: 0,
+              }
+            : seg.pricing.local,
 
-  });
+          outstation: dbVehicle.Outstation
+            ? {
+                per_km: dbVehicle.Outstation.per_km,
+                min_km_day: dbVehicle.Outstation.min_km_per_day,
+                driver: dbVehicle.Outstation.driver_allowance,
+                night: dbVehicle.Outstation.driver_allowance,
+              }
+            : seg.pricing.outstation,
 
-  // ---- Apply DB pricing to segments ----
-  const segments = SEGMENTS.map(seg => {
+          airport: dbVehicle.Airport
+            ? {
+                pickup: dbVehicle.Airport.flat_price,
+                drop: dbVehicle.Airport.flat_price,
+                waiting_per_hr: 200,
+              }
+            : seg.pricing.airport,
+        },
+      };
+    });
 
-    const dbVehicle = pricingMap[seg.label];
-
-    if (!dbVehicle) return seg;
-
-    return {
-      ...seg,
-      pricing: {
-        local: dbVehicle.Local ? {
-          pack: "8Hrs / 80KM",
-          base: dbVehicle.Local.base_price,
-          extra_km: dbVehicle.Local.per_km,
-          extra_hr: dbVehicle.Local.extra_per_hour,
-          driver: 0
-        } : seg.pricing.local,
-
-        outstation: dbVehicle.Outstation ? {
-          per_km: dbVehicle.Outstation.per_km,
-          min_km_day: dbVehicle.Outstation.min_km_per_day,
-          driver: dbVehicle.Outstation.driver_allowance,
-          night: dbVehicle.Outstation.driver_allowance
-        } : seg.pricing.outstation,
-
-        airport: dbVehicle.Airport ? {
-          pickup: dbVehicle.Airport.flat_price,
-          drop: dbVehicle.Airport.flat_price,
-          waiting_per_hr: 200
-        } : seg.pricing.airport
-      }
-    };
-
-  });
-
-  res.render('services/show', {
-    title: `${service.title} | Radha Travels`,
-    service,
-    segments
-  });
-
+    res.render('services/show', {
+      title: `${service.title} | Radha Travels`,
+      service,
+      segments,
+    });
+  } catch (err) {
+    console.error('Service page error:', err);
+    res.status(500).send('Database Error');
+  }
 });
 
 // =======================================================
@@ -1084,23 +1059,25 @@ app.get('/admin/allotted-bookings', requireAdmin, (req, res) => {
   res.render('admin/allotted-bookings');
 });
 
-//FLEET SECTION ROUTE
-app.get('/fleet', (req, res) => {
-  const vehicles = db
-    .prepare(
-      `
-    SELECT * FROM fleet
-    WHERE is_active = 1
-    ORDER BY category ASC, sort_order ASC
-  `
-    )
-    .all();
+//FLEET SECTION ROUTE (Converted to Async Turso)
+app.get('/fleet', async (req, res) => {
+  try {
+    const fleetRes = await db.execute(`
+      SELECT * FROM fleet
+      WHERE is_active = 1
+      ORDER BY category ASC, sort_order ASC
+    `);
+    const vehicles = fleetRes.rows;
 
-  res.render('fleet', {
-    title:
-      'Tempo Traveller & Cab Rental in Hyderabad | SUV, Sedan & Bus | Radha Travels',
-    vehicles,
-  });
+    res.render('fleet', {
+      title:
+        'Tempo Traveller & Cab Rental in Hyderabad | SUV, Sedan & Bus | Radha Travels',
+      vehicles,
+    });
+  } catch (err) {
+    console.error('Fleet page error:', err);
+    res.status(500).send('Database Error');
+  }
 });
 
 /* =========================
@@ -1116,27 +1093,34 @@ app.get('/track-booking', (req, res) => {
   });
 });
 
-// Handle tracking form submission
-app.post('/track-booking', (req, res) => {
+// Handle tracking form submission (Converted to Async Turso)
+app.post('/track-booking', async (req, res) => {
   const { bookingId } = req.body;
 
-  const booking = db
-    .prepare('SELECT * FROM bookings WHERE booking_id = ?')
-    .get(bookingId);
-
-  if (!booking) {
-    return res.render('track-booking', {
-      title: 'Track Your Cab Booking Online | Radha Travels Hyderabad',
-      booking: null,
-      error: 'Booking not found. Please check your ID.',
+  try {
+    const bookingRes = await db.execute({
+      sql: 'SELECT * FROM bookings WHERE booking_id = ?',
+      args: [bookingId]
     });
-  }
+    const booking = bookingRes.rows[0];
 
-  res.render('track-booking', {
-    title: 'Track Booking | Radha Travels',
-    booking,
-    error: null,
-  });
+    if (!booking) {
+      return res.render('track-booking', {
+        title: 'Track Your Cab Booking Online | Radha Travels Hyderabad',
+        booking: null,
+        error: 'Booking not found. Please check your ID.',
+      });
+    }
+
+    res.render('track-booking', {
+      title: 'Track Booking | Radha Travels',
+      booking,
+      error: null,
+    });
+  } catch (err) {
+    console.error('Track booking error:', err);
+    res.status(500).send('Database Error');
+  }
 });
 
 // =======================================================
@@ -1179,16 +1163,11 @@ app.get('/internal/smtp-check', async (req, res) => {
   socket.connect(port, host);
 });
 
-// pricing API
-
-app.get('/api/pricing', (req, res) => {
+// pricing API (Converted to Async Turso)
+app.get('/api/pricing', async (req, res) => {
   try {
-    const pricing = db.prepare(`
-      SELECT * FROM pricing
-    `).all();
-
-    res.json(pricing);
-
+    const pricingRes = await db.execute(`SELECT * FROM pricing`);
+    res.json(pricingRes.rows);
   } catch (err) {
     console.error('Pricing API error:', err);
     res.status(500).json({ error: 'Failed to load pricing' });

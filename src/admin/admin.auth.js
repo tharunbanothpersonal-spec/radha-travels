@@ -1,6 +1,6 @@
 import express from "express";
 import crypto from "crypto";
-import db from "../db.js"; // Make sure this path points correctly to your db.js
+import db from "../db.js"; 
 import { sendAdminResetEmail } from "../mailer.js";
 
 const router = express.Router();
@@ -14,21 +14,34 @@ router.get("/login", (req, res) => {
 });
 
 /* LOGIN SUBMIT */
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => { // <-- ADDED ASYNC
   const { username, password } = req.body;
 
-  // Query SQLite for the user
-  const admin = db.prepare('SELECT * FROM admins WHERE username = ? AND password = ?').get(username, password);
+  try {
+    // Query Turso Cloud DB for the user
+    const result = await db.execute({
+      sql: 'SELECT * FROM admins WHERE username = ? AND password = ?',
+      args: [username, password]
+    });
+    
+    const admin = result.rows[0];
 
-  if (admin) {
-    req.session.admin = { username: admin.username };
-    return res.redirect("/admin");
+    if (admin) {
+      req.session.admin = { username: admin.username };
+      return res.redirect("/admin");
+    }
+
+    res.render("admin/login", {
+      title: "Admin Login | Radha Travels",
+      error: "Invalid credentials"
+    });
+  } catch (err) {
+    console.error("Login database error:", err);
+    res.render("admin/login", {
+      title: "Admin Login | Radha Travels",
+      error: "A network error occurred. Please try again."
+    });
   }
-
-  res.render("admin/login", {
-    title: "Admin Login | Radha Travels",
-    error: "Invalid credentials"
-  });
 });
 
 /* LOGOUT */
@@ -52,23 +65,30 @@ router.get("/forgot-password", (req, res) => {
 });
 
 /* FORGOT PASSWORD SUBMIT */
-router.post("/forgot-password", async (req, res) => { // <-- ADDED ASYNC
+router.post("/forgot-password", async (req, res) => { 
   const { username } = req.body;
 
   try {
-    // 1. Find admin in SQLite
-    const admin = db.prepare('SELECT * FROM admins WHERE username = ?').get(username);
+    // 1. Find admin in Turso
+    const result = await db.execute({
+      sql: 'SELECT * FROM admins WHERE username = ?',
+      args: [username]
+    });
+    
+    const admin = result.rows[0];
 
     if (admin) {
       // 2. Generate token and expiration (1 hour from now)
       const resetToken = crypto.randomBytes(32).toString('hex');
       const expires = Date.now() + 3600000; 
 
-      // 3. Save token to SQLite
-      db.prepare('UPDATE admins SET reset_token = ?, reset_token_expires = ? WHERE username = ?')
-        .run(resetToken, expires, username);
+      // 3. Save token to Turso
+      await db.execute({
+        sql: 'UPDATE admins SET reset_token = ?, reset_token_expires = ? WHERE username = ?',
+        args: [resetToken, expires, username]
+      });
 
-      // 4. TRIGGER THE EMAIL INSTEAD OF CONSOLE LOG
+      // 4. TRIGGER THE EMAIL
       if (admin.email) {
         await sendAdminResetEmail(admin, resetToken);
       } else {
@@ -98,70 +118,90 @@ router.post("/forgot-password", async (req, res) => { // <-- ADDED ASYNC
 ========================================== */
 
 /* VERIFY TOKEN & SHOW RESET PAGE */
-router.get("/reset/:token", (req, res) => {
+router.get("/reset/:token", async (req, res) => { // <-- ADDED ASYNC
   const { token } = req.params;
 
-  // Check if token exists AND hasn't expired
-  const admin = db.prepare('SELECT * FROM admins WHERE reset_token = ? AND reset_token_expires > ?')
-                  .get(token, Date.now());
-
-  if (!admin) {
-    return res.render("admin/forgot-password", {
-      title: "Forgot Password | Radha Travels",
-      error: "Password reset token is invalid or has expired. Please request a new one.",
-      success: null
+  try {
+    // Check if token exists AND hasn't expired
+    const result = await db.execute({
+      sql: 'SELECT * FROM admins WHERE reset_token = ? AND reset_token_expires > ?',
+      args: [token, Date.now()]
     });
-  }
+    
+    const admin = result.rows[0];
 
-  // Token is valid, show the reset form
-  res.render("admin/reset-password", {
-    title: "Set New Password | Radha Travels",
-    token: token,
-    error: null
-  });
+    if (!admin) {
+      return res.render("admin/forgot-password", {
+        title: "Forgot Password | Radha Travels",
+        error: "Password reset token is invalid or has expired. Please request a new one.",
+        success: null
+      });
+    }
+
+    // Token is valid, show the reset form
+    res.render("admin/reset-password", {
+      title: "Set New Password | Radha Travels",
+      token: token,
+      error: null
+    });
+  } catch (err) {
+    console.error("Reset token verification error:", err);
+    res.redirect("/admin/login");
+  }
 });
 
 /* SUBMIT NEW PASSWORD */
-router.post("/reset/:token", (req, res) => {
+router.post("/reset/:token", async (req, res) => { // <-- ADDED ASYNC
   const { token } = req.params;
   const { password, confirmPassword } = req.body;
 
-  // Verify token again just in case it expired while they were typing
-  const admin = db.prepare('SELECT * FROM admins WHERE reset_token = ? AND reset_token_expires > ?')
-                  .get(token, Date.now());
-
-  if (!admin) {
-    return res.render("admin/forgot-password", {
-      title: "Forgot Password | Radha Travels",
-      error: "Token has expired. Please request a new one.",
-      success: null
+  try {
+    // Verify token again just in case it expired while they were typing
+    const result = await db.execute({
+      sql: 'SELECT * FROM admins WHERE reset_token = ? AND reset_token_expires > ?',
+      args: [token, Date.now()]
     });
-  }
+    
+    const admin = result.rows[0];
 
-  // Check if passwords match
-  if (password !== confirmPassword) {
-    return res.render("admin/reset-password", {
+    if (!admin) {
+      return res.render("admin/forgot-password", {
+        title: "Forgot Password | Radha Travels",
+        error: "Token has expired. Please request a new one.",
+        success: null
+      });
+    }
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      return res.render("admin/reset-password", {
+        title: "Set New Password | Radha Travels",
+        token: token,
+        error: "Passwords do not match."
+      });
+    }
+
+    // Update the password in Turso and clear the tokens
+    // NOTE: We are saving plain text right now. We will hash this in the next step!
+    await db.execute({
+      sql: `UPDATE admins SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?`,
+      args: [password, admin.id]
+    });
+
+    // Send them back to login
+    res.render("admin/login", {
+      title: "Admin Login | Radha Travels",
+      error: null,
+      success: "Password has been successfully reset. You can now log in." 
+    });
+  } catch (err) {
+    console.error("Password reset update error:", err);
+    res.render("admin/reset-password", {
       title: "Set New Password | Radha Travels",
       token: token,
-      error: "Passwords do not match."
+      error: "An error occurred while saving your new password. Please try again."
     });
   }
-
-  // Update the password in SQLite and clear the tokens
-  // NOTE: We are saving plain text right now. We will hash this in the next step!
-  db.prepare(`
-    UPDATE admins 
-    SET password = ?, reset_token = NULL, reset_token_expires = NULL 
-    WHERE id = ?
-  `).run(password, admin.id);
-
-  // Send them back to login
-  res.render("admin/login", {
-    title: "Admin Login | Radha Travels",
-    error: null,
-    // You can optionally add a success message to your login.ejs to catch this!
-    success: "Password has been successfully reset. You can now log in." 
-  });
 });
 
 export default router;

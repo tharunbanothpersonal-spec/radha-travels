@@ -1,434 +1,231 @@
 // src/db.js (ES module)
-import Database from 'better-sqlite3';
-import path from 'path';
-import fs from 'fs';
-import { fileURLToPath } from 'url';
+import { createClient } from "@libsql/client";
+import dotenv from "dotenv";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+dotenv.config();
 
-// DB path (project-root/data/bookings.db)
-const DB_PATH =
-  process.env.GALLERY_DB_PATH || 'C:/Users/Dell/project/RadhaTravelsDB/radha.db';
-console.log('🟢 USING GALLERY DB:', DB_PATH);
+// Connect to Turso Cloud DB
+const db = createClient({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN,
+});
 
-// ensure data dir exists
-const dataDir = path.dirname(DB_PATH);
-if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+console.log('🟢 CONNECTED TO TURSO CLOUD DB');
 
-// open DB (synchronous)
-const db = new Database(DB_PATH, { timeout: 5000 });
+async function initDB() {
+  try {
+    // =============================
+    // 1. CREATE ALL TABLES
+    // =============================
+    
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS bookings (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        booking_id TEXT NOT NULL UNIQUE,
+        full_name TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        email TEXT,
+        booking_type TEXT NOT NULL,
+        car_type TEXT NOT NULL,
+        num_days INTEGER,
+        date TEXT,
+        time TEXT,
+        pickup TEXT,
+        notes TEXT,
+        service TEXT,
+        source TEXT,
+        status TEXT DEFAULT 'pending',
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+    `);
 
-try {
-  db.pragma('journal_mode = WAL');
-} catch (e) {
-  console.warn('⚠ WAL mode not set:', e.message);
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS gallery (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        filename TEXT,
+        filepath TEXT,
+        title TEXT,
+        description TEXT,
+        type TEXT,
+        uploaded_by TEXT,
+        category TEXT,
+        status TEXT DEFAULT 'pending',
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+    `);
+
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS fleet (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        category TEXT NOT NULL,
+        seating_capacity INTEGER,
+        luggage_capacity INTEGER,
+        price_per_km REAL,
+        price_per_day REAL,
+        description TEXT,
+        is_active INTEGER DEFAULT 1,
+        sort_order INTEGER DEFAULT 0,
+        image TEXT,
+        status TEXT DEFAULT 'active',
+        created_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+    `);
+
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS testimonials (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        service TEXT NOT NULL,
+        review TEXT NOT NULL,
+        rating INTEGER NOT NULL,
+        image TEXT,
+        status TEXT DEFAULT 'pending',
+        created_at TEXT DEFAULT (datetime('now'))
+      );
+    `);
+
+    // Add this line to nuke the broken table
+    await db.execute('DROP TABLE IF EXISTS visitors');
+
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS visitors (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ip TEXT,
+        visit_date TEXT,
+        state TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS pricing (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        service TEXT,
+        vehicle TEXT,
+        per_km INTEGER,
+        min_km_per_day INTEGER,
+        driver_allowance INTEGER,
+        base_price INTEGER,
+        base_km INTEGER,
+        base_hours INTEGER,
+        extra_per_hour INTEGER,
+        flat_price INTEGER
+      )
+    `);
+
+    await db.execute(`
+      CREATE TABLE IF NOT EXISTS admins (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
+        email TEXT,
+        reset_token TEXT,
+        reset_token_expires INTEGER,
+        created_at TEXT DEFAULT (datetime('now'))
+      );
+    `);
+
+    // =============================
+    // 2. FORCE SAFE MIGRATIONS 
+    // =============================
+    // This forces Turso to add these columns if they were missed in previous runs
+    const migrations = [
+      'ALTER TABLE bookings ADD COLUMN driver_name TEXT',
+      'ALTER TABLE bookings ADD COLUMN driver_phone TEXT',
+      'ALTER TABLE bookings ADD COLUMN vehicle_type TEXT',
+      'ALTER TABLE bookings ADD COLUMN vehicle_number TEXT',
+      'ALTER TABLE bookings ADD COLUMN vehicle_color TEXT',
+      'ALTER TABLE admins ADD COLUMN email TEXT'
+    ];
+
+   for (const query of migrations) {
+      try {
+        await db.execute(query);
+      } catch (e) {
+        // If the error ISN'T just "column already exists", log it so we can see it!
+        if (!e.message.includes("duplicate column name")) {
+           console.error(`⚠️ Migration failed for query: ${query}`);
+           console.error(`Reason: ${e.message}`);
+        }
+      }
+    }
+
+    // =============================
+    // 3. INSERT SAMPLE DATA
+    // =============================
+
+    // Fleet Data
+    const fleetCheck = await db.execute('SELECT COUNT(*) as total FROM fleet');
+    if (fleetCheck.rows[0].total === 0) {
+      const fleetData = [
+        ['Maruti Swift', 'Hatchback', 4, 2, 12, 'Perfect for city rides.', '/images/fleet/swift.jpg'],
+        ['Toyota Etios', 'Sedan', 4, 3, 14, 'Comfortable sedan.', '/images/fleet/etios.jpg'],
+        ['Honda City', 'Prime Sedan', 4, 3, 18, 'Luxury sedan.', '/images/fleet/city.jpg'],
+        ['Toyota Innova', 'SUV', 7, 4, 20, 'Family outstation SUV.', '/images/fleet/innova.jpg'],
+        ['Innova Crysta', 'Prime SUV', 7, 4, 22, 'Premium SUV travel.', '/images/fleet/crysta.jpg'],
+        ['Tempo Traveller 12 Seater', 'Tempo Traveller', 12, 6, 28, 'Group travel vehicle.', '/images/fleet/tempo12.jpg'],
+        ['Mini Bus 25 Seater', 'Buses', 25, 10, 35, 'Large group bus.', '/images/fleet/minibus.jpg']
+      ];
+
+      for (const car of fleetData) {
+        await db.execute({
+          sql: `INSERT INTO fleet (name, category, seating_capacity, luggage_capacity, price_per_km, description, image) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          args: car
+        });
+      }
+      console.log('🚘 Sample Fleet Data Inserted');
+    }
+
+    // Pricing Data
+    const pricingCheck = await db.execute('SELECT COUNT(*) as c FROM pricing');
+    if (pricingCheck.rows[0].c === 0) {
+      const pricingData = [
+        ['Outstation', 'Hatchback', 12, 300, 400, null, null, null, null, null],
+        ['Outstation', 'Sedan', 14, 300, 500, null, null, null, null, null],
+        ['Outstation', 'Premium Sedan', 16, 300, 600, null, null, null, null, null],
+        ['Outstation', 'SUV', 18, 300, 600, null, null, null, null, null],
+        ['Outstation', 'Premium SUV', 22, 300, 700, null, null, null, null, null],
+        ['Local', 'Hatchback', 12, null, null, 2200, 80, 8, 150, null],
+        ['Local', 'Sedan', 14, null, null, 2600, 80, 8, 200, null],
+        ['Local', 'Premium Sedan', 16, null, null, 3200, 80, 8, 250, null],
+        ['Local', 'SUV', 18, null, null, 3500, 80, 8, 250, null],
+        ['Local', 'Premium SUV', 22, null, null, 4200, 80, 8, 300, null],
+        ['Airport', 'Hatchback', null, null, null, null, null, null, null, 1100],
+        ['Airport', 'Sedan', null, null, null, null, null, null, null, 1300],
+        ['Airport', 'Premium Sedan', null, null, null, null, null, null, null, 1600],
+        ['Airport', 'SUV', null, null, null, null, null, null, null, 1800],
+        ['Airport', 'Premium SUV', null, null, null, null, null, null, null, 2200]
+      ];
+
+      for (const price of pricingData) {
+        await db.execute({
+          sql: `INSERT INTO pricing (service, vehicle, per_km, min_km_per_day, driver_allowance, base_price, base_km, base_hours, extra_per_hour, flat_price) VALUES (?,?,?,?,?,?,?,?,?,?)`,
+          args: price
+        });
+      }
+    }
+
+    // Admin Data
+    const adminCheck = await db.execute('SELECT COUNT(*) as c FROM admins');
+    if (adminCheck.rows[0].c === 0) {
+      await db.execute({
+        sql: `INSERT INTO admins (username, password, email) VALUES (?, ?, ?)`,
+        args: ['admin', 'admin123', 'booking@radhatravels.co.in']
+      });
+      console.log('🛡️ Default Admin User Inserted');
+    } else {
+      await db.execute(`UPDATE admins SET email = 'booking@radhatravels.co.in' WHERE username = 'admin'`);
+    }
+
+    console.log('✅ ALL CLOUD TABLES INITIALIZED');
+
+  } catch (error) {
+    console.error('❌ Database Initialization Error:', error);
+  }
 }
 
-db.pragma('busy_timeout = 5000');
-
-// create bookings table if not exists
-db.exec(`
-CREATE TABLE IF NOT EXISTS bookings (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  booking_id TEXT NOT NULL UNIQUE,
-  full_name TEXT NOT NULL,
-  phone TEXT NOT NULL,
-  email TEXT,
-  booking_type TEXT NOT NULL,
-  car_type TEXT NOT NULL,
-  num_days INTEGER,
-  date TEXT,
-  time TEXT,
-  pickup TEXT,
-  notes TEXT,
-  service TEXT,
-  source TEXT,
-  status TEXT DEFAULT 'pending',
-  created_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
-`);
-// 🔹 Ensure driver columns exist (safe migration)
-
-try {
-  db.exec('ALTER TABLE bookings ADD COLUMN driver_name TEXT');
-} catch {}
-try {
-  db.exec('ALTER TABLE bookings ADD COLUMN driver_phone TEXT');
-} catch {}
-try {
-  db.exec('ALTER TABLE bookings ADD COLUMN vehicle_type TEXT');
-} catch {}
-try {
-  db.exec('ALTER TABLE bookings ADD COLUMN vehicle_number TEXT');
-} catch {}
-try {
-  db.exec('ALTER TABLE bookings ADD COLUMN vehicle_color TEXT');
-} catch {}
-
-// create gallery table if not exists
-db.exec(`
-CREATE TABLE IF NOT EXISTS gallery (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  filename TEXT,
-  filepath TEXT,
-  title TEXT,
-  description TEXT,
-  type TEXT,
-  uploaded_by TEXT,
-  category TEXT,
-  created_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
-`);
-// Ensure gallery status column exists (safe migration)
-try {
-  db.exec("ALTER TABLE gallery ADD COLUMN status TEXT DEFAULT 'pending'");
-} catch {}
-
-// =============================
-// FLEET TABLE (CLEAN VERSION)
-// =============================
-
-// Create fleet table (new structure)
-db.exec(`
-CREATE TABLE IF NOT EXISTS fleet (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  category TEXT NOT NULL,
-  seating_capacity INTEGER,
-  luggage_capacity INTEGER,
-  price_per_km REAL,
-  price_per_day REAL,
-  description TEXT,
-  is_active INTEGER DEFAULT 1,
-  sort_order INTEGER DEFAULT 0,
-  image TEXT,
-  created_at TEXT NOT NULL DEFAULT (datetime('now'))
-);
-`);
-
-// =============================
-// FIX OLD STRUCTURE IF EXISTS
-// =============================
-
-const fleetColumnsCheck = db.prepare('PRAGMA table_info(fleet)').all();
-const hasOldSeating = fleetColumnsCheck.some((col) => col.name === 'seating');
-
-if (hasOldSeating) {
-  console.log('🔄 Fixing old fleet table structure...');
-
-  db.exec(`
-    CREATE TABLE fleet_new (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      category TEXT NOT NULL,
-      seating_capacity INTEGER,
-      luggage_capacity INTEGER,
-      price_per_km REAL,
-      price_per_day REAL,
-      description TEXT,
-      is_active INTEGER DEFAULT 1,
-      sort_order INTEGER DEFAULT 0,
-      image TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-  `);
-
-  db.exec(`
-    INSERT INTO fleet_new (id, name, category, seating_capacity)
-    SELECT id, name, category, seating FROM fleet;
-  `);
-
-  db.exec('DROP TABLE fleet;');
-  db.exec('ALTER TABLE fleet_new RENAME TO fleet;');
-
-  console.log('✅ Fleet table migrated successfully.');
-}
-
-// =============================
-// INSERT SAMPLE DATA (ONLY IF EMPTY)
-// =============================
-
-const fleetCount = db.prepare('SELECT COUNT(*) as total FROM fleet').get();
-
-if (fleetCount.total === 0) {
-  const insert = db.prepare(`
-    INSERT INTO fleet 
-    (name, category, seating_capacity, luggage_capacity, price_per_km, description, image)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `);
-
-  insert.run(
-    'Maruti Swift',
-    'Hatchback',
-    4,
-    2,
-    12,
-    'Perfect for city rides.',
-    '/images/fleet/swift.jpg'
-  );
-  insert.run(
-    'Toyota Etios',
-    'Sedan',
-    4,
-    3,
-    14,
-    'Comfortable sedan.',
-    '/images/fleet/etios.jpg'
-  );
-  insert.run(
-    'Honda City',
-    'Prime Sedan',
-    4,
-    3,
-    18,
-    'Luxury sedan.',
-    '/images/fleet/city.jpg'
-  );
-  insert.run(
-    'Toyota Innova',
-    'SUV',
-    7,
-    4,
-    20,
-    'Family outstation SUV.',
-    '/images/fleet/innova.jpg'
-  );
-  insert.run(
-    'Innova Crysta',
-    'Prime SUV',
-    7,
-    4,
-    22,
-    'Premium SUV travel.',
-    '/images/fleet/crysta.jpg'
-  );
-  insert.run(
-    'Tempo Traveller 12 Seater',
-    'Tempo Traveller',
-    12,
-    6,
-    28,
-    'Group travel vehicle.',
-    '/images/fleet/tempo12.jpg'
-  );
-  insert.run(
-    'Mini Bus 25 Seater',
-    'Buses',
-    25,
-    10,
-    35,
-    'Large group bus.',
-    '/images/fleet/minibus.jpg'
-  );
-
-  console.log('🚘 Sample Fleet Data Inserted');
-}
-try {
-  db.exec("ALTER TABLE fleet ADD COLUMN status TEXT DEFAULT 'active'");
-} catch {}
-
-// =============================
-// TESTIMONIALS TABLE
-// =============================
-
-db.exec(`
-CREATE TABLE IF NOT EXISTS testimonials (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT NOT NULL,
-  service TEXT NOT NULL,
-  review TEXT NOT NULL,
-  rating INTEGER NOT NULL,
-  image TEXT,
-  status TEXT DEFAULT 'pending',
-  created_at TEXT DEFAULT (datetime('now'))
-);
-`);
-
-// Safe migration
-try {
-  db.exec('ALTER TABLE testimonials ADD COLUMN service TEXT');
-} catch {}
-
-// =============================
-// IP COUNT TABLE
-// =============================
-
-db.prepare(
-  `
-CREATE TABLE IF NOT EXISTS visitors (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  ip TEXT,
-  visit_date TEXT,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-)
-`
-).run();
-// Safe migration
-try {
-  db.exec('ALTER TABLE visitors ADD COLUMN state TEXT;');
-} catch {}
-
-// =============================
-// pricing TABLE
-// =============================
-db.prepare(
-  `
-CREATE TABLE IF NOT EXISTS pricing (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  service TEXT,
-  vehicle TEXT,
-  per_km INTEGER,
-  min_km_per_day INTEGER,
-  driver_allowance INTEGER,
-  base_price INTEGER,
-  base_km INTEGER,
-  base_hours INTEGER,
-  extra_per_hour INTEGER,
-  flat_price INTEGER
-)
-`
-).run();
-
-const count = db.prepare('SELECT COUNT(*) as c FROM pricing').get().c;
-
-if (count === 0) {
-  const insert = db.prepare(`
-INSERT INTO pricing 
-(service, vehicle, per_km, min_km_per_day, driver_allowance, base_price, base_km, base_hours, extra_per_hour, flat_price)
-VALUES (?,?,?,?,?,?,?,?,?,?)
-`);
-
-  insert.run(
-    'Outstation',
-    'Hatchback',
-    12,
-    300,
-    400,
-    null,
-    null,
-    null,
-    null,
-    null
-  );
-  insert.run('Outstation', 'Sedan', 14, 300, 500, null, null, null, null, null);
-  insert.run(
-    'Outstation',
-    'Premium Sedan',
-    16,
-    300,
-    600,
-    null,
-    null,
-    null,
-    null,
-    null
-  );
-  insert.run('Outstation', 'SUV', 18, 300, 600, null, null, null, null, null);
-  insert.run(
-    'Outstation',
-    'Premium SUV',
-    22,
-    300,
-    700,
-    null,
-    null,
-    null,
-    null,
-    null
-  );
-
-  insert.run('Local', 'Hatchback', 12, null, null, 2200, 80, 8, 150, null);
-  insert.run('Local', 'Sedan', 14, null, null, 2600, 80, 8, 200, null);
-  insert.run('Local', 'Premium Sedan', 16, null, null, 3200, 80, 8, 250, null);
-  insert.run('Local', 'SUV', 18, null, null, 3500, 80, 8, 250, null);
-  insert.run('Local', 'Premium SUV', 22, null, null, 4200, 80, 8, 300, null);
-
-  insert.run(
-    'Airport',
-    'Hatchback',
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    1100
-  );
-  insert.run(
-    'Airport',
-    'Sedan',
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    1300
-  );
-  insert.run(
-    'Airport',
-    'Premium Sedan',
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    1600
-  );
-  insert.run('Airport', 'SUV', null, null, null, null, null, null, null, 1800);
-  insert.run(
-    'Airport',
-    'Premium SUV',
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    2200
-  );
-}
-
-// =============================
-// ADMINS TABLE (For Authentication & Password Resets)
-// =============================
-
-db.exec(`
-CREATE TABLE IF NOT EXISTS admins (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT NOT NULL UNIQUE,
-  password TEXT NOT NULL,
-  reset_token TEXT,
-  reset_token_expires INTEGER,
-  created_at TEXT DEFAULT (datetime('now'))
-);
-`);
-
-// Insert default admin if table is empty
-const adminCount = db.prepare('SELECT COUNT(*) as c FROM admins').get().c;
-
-if (adminCount === 0) {
-  const insertAdmin = db.prepare(`
-    INSERT INTO admins (username, password) 
-    VALUES (?, ?)
-  `);
-  // Note: We are using plain text 'admin123' to match your current flow, 
-  // but this should be updated to a hashed password later!
-  insertAdmin.run('admin', 'admin123'); 
-  console.log('🛡️ Default Admin User Inserted');
-}
-// Safe migration to add email to admins
-try {
-  db.exec("ALTER TABLE admins ADD COLUMN email TEXT");
-} catch {}
-
-// Force update the admin email in the database so the reset link has a destination
-db.prepare("UPDATE admins SET email = 'booking@radhatravels.co.in' WHERE username = 'admin'").run();
+// Run the setup
+initDB();
 
 export default db;

@@ -7,16 +7,13 @@ export default async function trackVisitor(req, res, next) {
 
     const today = new Date().toISOString().split('T')[0];
 
-    /* Check if IP already counted today */
-
-    const existing = db
-      .prepare(
-        `
-      SELECT id FROM visitors
-      WHERE ip = ? AND visit_date = ?
-    `
-      )
-      .get(ip, today);
+    /* Check if IP already counted today using Turso */
+    const existingRes = await db.execute({
+      sql: `SELECT id FROM visitors WHERE ip = ? AND visit_date = ?`,
+      args: [ip, today]
+    });
+    
+    const existing = existingRes.rows[0];
 
     if (!existing) {
       let state = 'Unknown';
@@ -32,16 +29,16 @@ export default async function trackVisitor(req, res, next) {
         console.log('Geo lookup failed');
       }
 
-      db.prepare(
-        `
-        INSERT INTO visitors (ip, visit_date, state)
-        VALUES (?, ?, ?)
-      `
-      ).run(ip, today, state);
+      /* Insert new visitor using Turso */
+      await db.execute({
+        sql: `INSERT INTO visitors (ip, visit_date, state) VALUES (?, ?, ?)`,
+        args: [ip, today, state]
+      });
     }
   } catch (err) {
     console.error('Visitor tracking error:', err.message);
   }
 
+  // Always call next() so the website continues to load even if tracking fails!
   next();
 }
