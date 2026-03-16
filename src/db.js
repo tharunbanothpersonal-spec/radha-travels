@@ -86,17 +86,16 @@ async function initDB() {
     `);
 
     // Add this line to nuke the broken table
-    await db.execute('DROP TABLE IF EXISTS visitors');
 
     await db.execute(`
-      CREATE TABLE IF NOT EXISTS visitors (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        ip TEXT,
-        visit_date TEXT,
-        state TEXT,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
+CREATE TABLE IF NOT EXISTS visitors (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  ip TEXT,
+  visit_date TEXT,
+  state TEXT,
+  last_seen TEXT
+)
+`);
 
     await db.execute(`
       CREATE TABLE IF NOT EXISTS pricing (

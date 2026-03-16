@@ -926,22 +926,84 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
-//live ip counter
-async function updateVisitors() {
+
+/* ======================================
+   LIVE VISITOR COUNTER
+====================================== */
+
+async function updateLiveVisitors() {
 
   try {
 
     const res = await fetch("/api/live-visitors");
     const data = await res.json();
 
-    document.getElementById("liveVisitors").innerText = data.total;
+    const el = document.getElementById("liveVisitors");
 
-  } catch (err) {}
+    if (el) {
+      el.textContent = data.total || 0;
+    }
+
+  } catch (err) {
+    console.log("Live visitor fetch failed");
+  }
 
 }
 
-updateVisitors();
-setInterval(updateVisitors, 30000);
+/* Run immediately */
+updateLiveVisitors();
+
+/* Refresh every 30 seconds */
+setInterval(updateLiveVisitors, 30000);
+
+
+
+/* ======================================
+   STATE VISITOR LIST
+====================================== */
+
+async function loadStateVisitors() {
+
+  try {
+
+    const res = await fetch("/api/state-visitors");
+    const states = await res.json();
+
+    const list = document.getElementById("stateVisitors");
+
+    if (!list) return;
+
+    list.innerHTML = "";
+
+    if (states.length === 0) {
+
+      list.innerHTML = "<li>No visitor data yet</li>";
+      return;
+
+    }
+
+    states.forEach(state => {
+
+      const li = document.createElement("li");
+
+      li.textContent = `${state.state} (${state.total})`;
+
+      list.appendChild(li);
+
+    });
+
+  } catch (err) {
+
+    console.log("State visitor fetch failed");
+
+  }
+
+}
+
+/* Load state visitors */
+loadStateVisitors();
+
+
 </script>
 <script src="/js/main.js" defer></script>
 <script src="/js/admin-login.js" defer></script>

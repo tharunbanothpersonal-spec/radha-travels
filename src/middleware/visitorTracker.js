@@ -2,103 +2,66 @@ import db from "../db.js";
 
 export default async function trackVisitor(req, res, next) {
 
-try {
+  try {
 
+    const ip =
+      req.headers["x-forwarded-for"] ||
+      req.socket.remoteAddress ||
+      req.ip;
 
-/* ---------------- GET REAL IP ---------------- */
+    const today = new Date().toISOString().split("T")[0];
+    const now = new Date().toISOString();
 
-let ip =
-  req.headers["x-forwarded-for"]?.split(",")[0] ||
-  req.socket?.remoteAddress ||
-  req.ip ||
-  "Unknown";
+    /* Check if visitor already exists today */
 
-// Normalize IPv6 localhost
-if (ip === "::1") ip = "127.0.0.1";
+    const existing = await db.execute({
+      sql: "SELECT id FROM visitors WHERE ip=? AND visit_date=?",
+      args: [ip, today]
+    });
 
-const today = new Date().toISOString().split("T")[0];
+    if (existing.rows.length > 0) {
 
-/* ---------------- CHECK IF ALREADY COUNTED TODAY ---------------- */
+      /* update activity time */
 
-const existing = await db.execute({
-  sql: `
-    SELECT id
-    FROM visitors
-    WHERE ip = ? AND visit_date = ?
-    LIMIT 1
-  `,
-  args: [ip, today]
-});
+      await db.execute({
+        sql: "UPDATE visitors SET last_seen=? WHERE ip=?",
+        args: [now, ip]
+      });
 
-if (existing.rows.length) {
-  return next();
-}
+    } else {
 
-/* ---------------- GEO LOOKUP ---------------- */
+      let state = "Unknown";
 
-let country = "Unknown";
-let state = "Unknown";
-let city = "Unknown";
+      try {
 
-try {
+        const geo = await fetch(`https://ipapi.co/${ip}/json/`);
+        const data = await geo.json();
 
-  const response = await fetch(`https://ipapi.co/${ip}/json/`);
-  const geo = await response.json();
+        if (data.country === "IN") {
+          state = data.region;
+        }
 
-  country = geo.country_name || "Unknown";
-  state = geo.region || "Unknown";
-  city = geo.city || "Unknown";
+      } catch (err) {
+        console.log("Geo lookup failed");
+      }
 
-} catch (err) {
+      await db.execute({
+        sql: `
+        INSERT INTO visitors
+        (ip, visit_date, state, last_seen)
+        VALUES (?, ?, ?, ?)
+        `,
+        args: [ip, today, state, now]
+      });
 
-  console.log("Geo lookup failed");
+    }
 
-}
+  } catch (err) {
 
-/* ---------------- USER AGENT ---------------- */
+    console.error("Visitor tracking error:", err.message);
 
-const userAgent = req.headers["user-agent"] || "Unknown";
+  }
 
-/* ---------------- INSERT VISITOR ---------------- */
-
-const now = new Date().toISOString();
-await db.execute({
-  sql: `
-    UPDATE visitors
-    SET last_seen = ?
-    WHERE ip = ?
-  `,
-  args: [now, ip]
-});
-
-await db.execute({
-  sql: `
-    INSERT INTO visitors
-    (ip, user_agent, country, state, city, visit_date, last_seen)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `,
-  args: [
-    ip,
-    userAgent,
-    country,
-    state,
-    city,
-    today,
-    now
-  ]
-});
-
-
-} catch (err) {
-
-
-console.error("Visitor tracking error:", err.message);
-
-
-}
-
-/* Always continue loading the page */
-
-next();
+  next();
 
 }
