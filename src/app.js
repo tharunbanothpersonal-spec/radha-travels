@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 
 import dotenv from "dotenv";
 dotenv.config();
-import cloudinary from "../config/cloudinary.js";
+import cloudinary from "./cloudinary.js";
 console.log("☁️ Cloudinary configured");
 
 // DB

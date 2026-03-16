@@ -7,7 +7,7 @@ import streamifier from "streamifier";
 
 import db from "../db.js";
 import { requireAdmin } from "../admin/admin.middleware.js";
-import cloudinary from "../config/cloudinary.js";
+import cloudinary from "../cloudinary.js";
 
 const router = express.Router();
 

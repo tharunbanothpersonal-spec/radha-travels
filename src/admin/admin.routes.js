@@ -10,7 +10,7 @@ import path from 'path';
 import multer from 'multer';
 
 // --- NEW CLOUDINARY IMPORTS ---
-import cloudinary from '../config/cloudinary.js';
+import cloudinary from '../cloudinary.js';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 const router = express.Router();
