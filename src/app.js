@@ -679,6 +679,26 @@ app.get('/api/state-visitors', async (req, res) => {
   }
 });
 
+app.get("/api/live-visitors", async (req, res) => {
+
+  try {
+
+    const result = await db.execute(`
+      SELECT COUNT(DISTINCT ip) as total
+      FROM visitors
+      WHERE last_seen >= datetime('now', '-5 minutes')
+    `);
+
+    res.json({ total: result.rows[0].total });
+
+  } catch (err) {
+
+    res.json({ total: 0 });
+
+  }
+
+});
+
 // =======================================================
 //  PUBLIC ROUTES
 // =======================================================

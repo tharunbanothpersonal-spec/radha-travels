@@ -60,92 +60,323 @@
     .reveal-item.is-visible.reveal-luxury-mask img {
       transform: scale(1); /* Image snaps into its frame perfectly */
     }
+/* ==========================================================================
+   Elevated Trust Widget - Ultra Compact Mobile, Spacious Desktop
+   ========================================================================== */
 
-  /* ============================ */
-/* INDIA POPULARITY SECTION */
-/* ============================ */
-
-.india-popularity{
-padding:60px 20px;
-background:#0f1b34;
-color:white;
+.trust-widget-section {
+  background-color: #f4fdf8; 
+  padding: 1.5rem 1rem; /* Tighter section padding on mobile */
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1f2937;
 }
 
-.popularity-header{
-text-align:center;
-max-width:700px;
-margin:auto;
-margin-bottom:30px;
+.tw-container {
+  max-width: 760px; 
+  margin: 0 auto;
 }
 
-.popularity-header h2{
-font-size:28px;
-margin-bottom:8px;
+/* --- Header --- */
+/* --- Elevated Header Styling --- */
+.tw-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the badge and text */
 }
 
-.popularity-header p{
-opacity:0.8;
-font-size:14px;
+/* The Live Pill Badge */
+.tw-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #dcfce7;
+  color: #059669; /* Deep Green */
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 4px -1px rgba(5, 150, 105, 0.1);
 }
 
-.popularity-map{
-max-width:700px;
-margin:auto;
-background:#0c1426;
-padding:25px;
-border-radius:12px;
-border:1px solid rgba(0,255,200,0.15);
+/* Blinking dot inside the badge */
+.tw-badge-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #059669;
+  border-radius: 50%;
+  animation: badge-blink 1.5s infinite ease-in-out;
 }
 
-.state-title{
-margin-bottom:15px;
-font-size:18px;
-text-align:left;
+@keyframes badge-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
-#stateVisitors{
-list-style:none;
-padding:0;
-margin:0;
+/* The Title */
+.tw-title {
+  font-size: 1.5rem; /* Base mobile size */
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.35rem 0;
+  line-height: 1.2;
 }
 
-#stateVisitors li{
-display:grid;
-grid-template-columns:140px 1fr 40px;
-align-items:center;
-gap:10px;
-margin-bottom:12px;
-font-size:14px;
+/* The "India" Highlight */
+.tw-highlight {
+  color: #059669; /* Brand Green */
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
 }
 
-.state-bar{
-background:#1f2a44;
-height:8px;
-border-radius:6px;
-overflow:hidden;
-}
-.state-fill{
-background:#22c55e;
-height:100%;
-border-radius:6px;
-width:0;
-transition:width 1s ease;
-}
-
-.state-count{
-text-align:right;
-font-weight:600;
+/* The Marker Underline Effect */
+.tw-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 2px; /* Position it behind the bottom half of the text */
+  left: -2px;
+  right: -2px;
+  height: 8px; 
+  background-color: #a7f3d0; /* Soft mint highlight */
+  z-index: -1;
+  border-radius: 4px;
+  transform: rotate(-1.5deg); /* Slight tilt for a handwritten feel */
 }
 
-/* mobile */
-
-@media(max-width:768px){
-
-#stateVisitors li{
-grid-template-columns:90px 1fr 30px;
-font-size:12px;
+/* Desktop Scaling */
+@media (min-width: 600px) {
+  .tw-header {
+    margin-bottom: 2.5rem;
+  }
+  .tw-live-badge {
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+  }
+  .tw-title {
+    font-size: 2rem; /* Much larger on desktop */
+  }
+  .tw-highlight::after {
+    height: 12px; /* Thicker underline for bigger text */
+    bottom: 4px;
+  }
 }
 
+/* --- Main Card --- */
+.tw-main-card {
+  background: #ffffff;
+  border-radius: 16px; /* Slightly softer radius on mobile */
+  box-shadow: 0 10px 25px -5px rgba(5, 150, 105, 0.08), 0 4px 10px -5px rgba(5, 150, 105, 0.04);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+/* --- Metrics Grid --- */
+.tw-metrics-grid {
+  display: flex;
+  flex-direction: row; 
+  gap: 0.75rem; /* Tighter gap between boxes */
+  padding: 1rem; /* Reduced inner card padding */
+}
+
+.tw-metric-box {
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 12px;
+  padding: 0.85rem 1rem; /* Compact inner box padding */
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Tighter gap between icon and text */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tw-metric-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border-color: #d1fae5;
+}
+
+/* --- Icons --- */
+.tw-icon-wrapper {
+  position: relative;
+  width: 30px; /* Smaller icon wrapper */
+  height: 30px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.live-bg { background-color: #dcfce7; }
+.total-bg { background-color: #d1fae5; }
+
+.tw-icon.green-icon {
+  width: 20px; /* Smaller SVG */
+  height: 20px;
+  color: #059669; 
+  z-index: 2;
+}
+
+/* Pulse Animation */
+.tw-pulse-ring {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 12px;
+  border: 2px solid #34d399;
+  animation: tw-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes tw-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+/* --- Data Typography --- */
+.tw-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.tw-value {
+  font-size: 1.35rem; /* Scaled down number */
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.1;
+  margin-bottom: 0.15rem;
+}
+
+.tw-label {
+  font-size: 0.5rem; /* Smaller label */
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* --- Locations Footer --- */
+.tw-locations {
+  background-color: #f8fafc;
+  padding: 1rem; /* Tighter padding */
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tw-locations-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #4b5563;
+}
+
+.tw-state-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem; /* Tighter pill spacing */
+}
+
+.tw-state-list li {
+  background: #ffffff;
+  color: #059669; 
+  font-size: 0.75rem; /* Smaller text inside pills */
+  font-weight: 600;
+  padding: 0.25rem 0.6rem; /* Slimmer pills */
+  border-radius: 6px; 
+  border: 1px solid #d1fae5;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+/* --- Desktop Scaling (Expanding back to spacious design) --- */
+@media (min-width: 600px) {
+  .trust-widget-section {
+    padding: 3rem 1rem;
+  }
+  
+  .tw-header {
+    margin-bottom: 2rem;
+  }
+  
+  .tw-title {
+    font-size: 1.75rem;
+  }
+  
+  .tw-subtitle {
+    font-size: 1rem;
+  }
+
+  .tw-main-card {
+    border-radius: 20px;
+  }
+
+  .tw-metrics-grid {
+    flex-direction: row; 
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .tw-metric-box {
+    flex: 1; 
+    justify-content: center;
+    padding: 1.25rem;
+  }
+  
+  .tw-icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+  }
+  
+  .tw-icon.green-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .tw-pulse-ring {
+    border-radius: 14px;
+  }
+  
+  .tw-value {
+    font-size: 1.75rem;
+  }
+  
+  .tw-label {
+    font-size: 0.8rem;
+  }
+
+  .tw-locations {
+    flex-direction: row; 
+    justify-content: flex-start;
+    padding: 1.25rem 1.5rem;
+    gap: 0.75rem;
+  }
+  
+  .tw-locations-title {
+    margin-right: 0.5rem;
+    font-size: 0.85rem;
+  }
+  
+  .tw-state-list {
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .tw-state-list li {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 8px;
+  }
 }
 </style>
 </head>
@@ -498,27 +729,54 @@ font-size:12px;
   </div>
 </section>
 
-<!-- Visitor Popularity Section -->
-
-<section class="india-popularity">
-
-  <div class="container">
-
-    <div class="popularity-header">
-      <h2>🌍 Trusted by Travelers Across India</h2>
-      <p>Thousands of pilgrims and tourists choose Radha Travels for safe and comfortable journeys.</p>
-    </div>
-
-    <div class="popularity-map">
-
-      <h3 class="state-title">Popular States</h3>
-
-      <ul id="stateVisitors"></ul>
-
-    </div>
-
+<!-- visitor section -->
+<section class="trust-widget-section">
+  <div class="tw-container">
+    
+    <div class="tw-header">
+  <div class="tw-live-badge">
+    <span class="tw-badge-dot"></span>
+    Live Tracker
   </div>
+  <h2 class="tw-title">Our Network in <span class="tw-highlight">India</span></h2>
+  <p class="tw-subtitle">Real-time traveler statistics and booking trends</p>
+</div>
 
+    <div class="tw-main-card">
+      
+      <div class="tw-metrics-grid">
+        
+        <div class="tw-metric-box">
+          <div class="tw-icon-wrapper live-bg">
+            <span class="tw-pulse-ring"></span>
+            <svg class="tw-icon green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="tw-data">
+            <span class="tw-value" id="liveVisitors">0</span>
+            <span class="tw-label">Watching Now</span>
+          </div>
+        </div>
+
+        <div class="tw-metric-box">
+          <div class="tw-icon-wrapper total-bg">
+            <svg class="tw-icon green-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+          </div>
+          <div class="tw-data">
+            <span class="tw-value"><%= totalVisitors %>+</span>
+            <span class="tw-label">Total Rides</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tw-locations">
+        <span class="tw-locations-title">Trending Regions:</span>
+        <ul id="stateVisitors" class="tw-state-list">
+          </ul>
+      </div>
+
+    </div>
+  </div>
 </section>
 
 <%- include('partials/footer') %>
@@ -667,6 +925,23 @@ document.addEventListener("DOMContentLoaded", function() {
   if(section) observer.observe(section);
 
 });
+
+//live ip counter
+async function updateVisitors() {
+
+  try {
+
+    const res = await fetch("/api/live-visitors");
+    const data = await res.json();
+
+    document.getElementById("liveVisitors").innerText = data.total;
+
+  } catch (err) {}
+
+}
+
+updateVisitors();
+setInterval(updateVisitors, 30000);
 </script>
 <script src="/js/main.js" defer></script>
 <script src="/js/admin-login.js" defer></script>

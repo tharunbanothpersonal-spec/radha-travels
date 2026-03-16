@@ -1,44 +1,104 @@
-import db from '../db.js';
+import db from "../db.js";
 
 export default async function trackVisitor(req, res, next) {
-  try {
-    const ip =
-      req.headers['x-forwarded-for'] || req.socket.remoteAddress || req.ip;
 
-    const today = new Date().toISOString().split('T')[0];
+try {
 
-    /* Check if IP already counted today using Turso */
-    const existingRes = await db.execute({
-      sql: `SELECT id FROM visitors WHERE ip = ? AND visit_date = ?`,
-      args: [ip, today]
-    });
-    
-    const existing = existingRes.rows[0];
 
-    if (!existing) {
-      let state = 'Unknown';
+/* ---------------- GET REAL IP ---------------- */
 
-      try {
-        const response = await fetch(`https://ipapi.co/${ip}/json/`);
-        const data = await response.json();
+let ip =
+  req.headers["x-forwarded-for"]?.split(",")[0] ||
+  req.socket?.remoteAddress ||
+  req.ip ||
+  "Unknown";
 
-        if (data.country === 'IN') {
-          state = data.region;
-        }
-      } catch (err) {
-        console.log('Geo lookup failed');
-      }
+// Normalize IPv6 localhost
+if (ip === "::1") ip = "127.0.0.1";
 
-      /* Insert new visitor using Turso */
-      await db.execute({
-        sql: `INSERT INTO visitors (ip, visit_date, state) VALUES (?, ?, ?)`,
-        args: [ip, today, state]
-      });
-    }
-  } catch (err) {
-    console.error('Visitor tracking error:', err.message);
-  }
+const today = new Date().toISOString().split("T")[0];
 
-  // Always call next() so the website continues to load even if tracking fails!
-  next();
+/* ---------------- CHECK IF ALREADY COUNTED TODAY ---------------- */
+
+const existing = await db.execute({
+  sql: `
+    SELECT id
+    FROM visitors
+    WHERE ip = ? AND visit_date = ?
+    LIMIT 1
+  `,
+  args: [ip, today]
+});
+
+if (existing.rows.length) {
+  return next();
+}
+
+/* ---------------- GEO LOOKUP ---------------- */
+
+let country = "Unknown";
+let state = "Unknown";
+let city = "Unknown";
+
+try {
+
+  const response = await fetch(`https://ipapi.co/${ip}/json/`);
+  const geo = await response.json();
+
+  country = geo.country_name || "Unknown";
+  state = geo.region || "Unknown";
+  city = geo.city || "Unknown";
+
+} catch (err) {
+
+  console.log("Geo lookup failed");
+
+}
+
+/* ---------------- USER AGENT ---------------- */
+
+const userAgent = req.headers["user-agent"] || "Unknown";
+
+/* ---------------- INSERT VISITOR ---------------- */
+
+const now = new Date().toISOString();
+await db.execute({
+  sql: `
+    UPDATE visitors
+    SET last_seen = ?
+    WHERE ip = ?
+  `,
+  args: [now, ip]
+});
+
+await db.execute({
+  sql: `
+    INSERT INTO visitors
+    (ip, user_agent, country, state, city, visit_date, last_seen)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `,
+  args: [
+    ip,
+    userAgent,
+    country,
+    state,
+    city,
+    today,
+    now
+  ]
+});
+
+
+} catch (err) {
+
+
+console.error("Visitor tracking error:", err.message);
+
+
+}
+
+/* Always continue loading the page */
+
+next();
+
 }
