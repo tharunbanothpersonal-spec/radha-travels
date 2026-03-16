@@ -55,25 +55,22 @@ export default async function trackVisitor(req, res, next) {
     /* local development fallback */
 
     if (ip === "::1" || ip === "127.0.0.1") {
-      ip = "8.8.8.8";
+      ip = "122.161.0.0"; // Airtel Delhi IP for local testing
     }
 
     /* -----------------------------------------
-       IST TIME
-    ----------------------------------------- */
-
-/* -----------------------------------------
-       PROPER IST TIME (Native JS)
+       TIME SETUP (CLEAN IST & UTC)
     ----------------------------------------- */
 
     const now = new Date();
 
-    // The 'sv-SE' locale naturally formats to exactly what SQLite needs: YYYY-MM-DD HH:mm:ss
-    const istString = now.toLocaleString('sv-SE', { timeZone: 'Asia/Kolkata' });
+    // 1. IST for visit_date: Resets daily counts at 12:00 AM India time.
+    // Result: "2026-03-17"
+    const today = now.toLocaleString('sv-SE', { timeZone: 'Asia/Kolkata' }).split(' ')[0];
 
-    // istString looks exactly like: "2026-03-17 01:48:43"
-    const today = istString.split(' ')[0]; // Extracts "2026-03-17"
-    const lastSeen = istString;            // Full timestamp
+    // 2. Clean UTC for last_seen: Perfect for SQLite math.
+    // Result: "2026-03-16 20:23:47"
+    const lastSeen = now.toISOString().replace('T', ' ').substring(0, 19);
 
     /* -----------------------------------------
        CHECK EXISTING VISITOR
@@ -96,24 +93,25 @@ export default async function trackVisitor(req, res, next) {
     } else {
 
       /* -----------------------------------------
-         GEO LOCATION
+         GEO LOCATION (NEW RELIABLE API)
       ----------------------------------------- */
 
       let state = "India";
 
       try {
-
-        const geo = await fetch(`https://ipwho.is/${ip}`);
+        // Using ip-api.com which is more reliable for servers
+        const geo = await fetch(`http://ip-api.com/json/${ip}`);
         const data = await geo.json();
 
-        if (data.success && data.country_code === "IN") {
-          state = data.region;
+        // ip-api uses 'status', 'countryCode', and 'regionName'
+        if (data.status === "success" && data.countryCode === "IN") {
+          state = data.regionName;
+        } else if (data.status === "fail") {
+          console.log(`Geo API failed for IP ${ip}: ${data.message}`);
         }
 
       } catch (err) {
-
-        console.log("Geo lookup failed");
-
+        console.error(`Geo lookup network error for IP ${ip}:`, err.message);
       }
 
       /* -----------------------------------------
