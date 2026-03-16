@@ -70,7 +70,8 @@ export default async function trackVisitor(req, res, next) {
 
     // 2. Clean UTC for last_seen: Perfect for SQLite math.
     // Result: "2026-03-16 20:23:47"
-    const lastSeen = now.toISOString().replace('T', ' ').substring(0, 19);
+    // This generates the exact current IST time formatted as "YYYY-MM-DD HH:MM:SS"
+const lastSeen = now.toLocaleString('sv-SE', { timeZone: 'Asia/Kolkata' });
 
     /* -----------------------------------------
        CHECK EXISTING VISITOR
