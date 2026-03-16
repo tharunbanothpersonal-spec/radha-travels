@@ -84,7 +84,7 @@ Your feedback helps us improve and serve travellers better.
 <div id="imagePreview" class="review-image-preview"></div>
 </div>
 
-<button type="submit" class="review-submit">
+<button type="submit" id="submitReview" class="review-submit">
 Submit Review
 </button>
 
@@ -173,6 +173,20 @@ window.location="/happy-customers";
 });
 
 }
+
+//submit to submitting
+const submitBtn = document.querySelector("#submitReview");
+
+form.addEventListener("submit", function () {
+
+  if (submitBtn.disabled) {
+    return false;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerText = "Submitting...";
+
+});
 
 </script>
 </body>
