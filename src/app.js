@@ -1210,6 +1210,12 @@ app.use((req, res) => {
   res.status(404).render('pages/404', { title: 'Not Found' });
 });
 
+
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED PROMISE REJECTION:");
+  console.error(err);
+});
+
 // =======================================================
 //  START SERVER
 // =======================================================

@@ -135,61 +135,43 @@ router.get("/upload", (req, res) => {
 ------------------------------------------------------- */
 
 router.post("/upload", upload.single("file"), async (req, res) => {
-  try{
-    
-
-  const { title, description, uploaded_by, category } = req.body;
-
-  if (!req.file) {
-    return res.redirect("/gallery/upload?error=file");
-  }
-
-  const role =
-    uploaded_by ||
-    (req.session?.admin ? "admin" : "customer");
-
-const streamUpload = (buffer) => {
-  return new Promise((resolve, reject) => {
-
-    const stream = cloudinary.uploader.upload_stream(
-      {
-        folder: "radha_travels/gallery"
-      },
-      (error, result) => {
-        if (result) resolve(result);
-        else reject(error);
-      }
-    );
-
-    stream.end(buffer);
-
-  });
-};
-
-let filepath;
-let public_id;
-
-try {
-
-  const uploadResult = await streamUpload(req.file.buffer);
-
-  filepath = uploadResult.secure_url;
-  public_id = uploadResult.public_id;
-
-} catch (error) {
-
-  console.error("Cloudinary upload failed:");
-  console.error(error);
-
-  return res.redirect("/gallery/upload?error=upload_failed");
-
-}
-
-  const type = req.file.mimetype.startsWith("video")
-    ? "video"
-    : "image";
 
   try {
+
+    const { title, description, uploaded_by, category } = req.body;
+
+    if (!req.file) {
+      return res.redirect("/gallery/upload?error=file");
+    }
+
+    const role =
+      uploaded_by ||
+      (req.session?.admin ? "admin" : "customer");
+
+    const streamUpload = (buffer) => {
+      return new Promise((resolve, reject) => {
+
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "radha_travels/gallery" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
+
+        stream.end(buffer);
+
+      });
+    };
+
+    const uploadResult = await streamUpload(req.file.buffer);
+
+    const filepath = uploadResult.secure_url;
+    const public_id = uploadResult.public_id;
+
+    const type = req.file.mimetype.startsWith("video")
+      ? "video"
+      : "image";
 
     await db.execute({
       sql: `
@@ -210,23 +192,19 @@ try {
       ],
     });
 
+    res.redirect("/gallery/upload?success=1");
+
   } catch (err) {
 
-    console.error("Gallery insert error:", err);
-console.error("Error message:", err.message);
-console.error("Stack:", err.stack);
+    console.error("Gallery upload fatal error:");
+    console.error(err);
+    console.error(err.stack);
 
-  }
-
-  res.redirect("/gallery/upload?success=1");
-
-
-  }catch (err) {
-    console.error("Gallery upload fatal error:", err);
     res.redirect("/gallery/upload?error=server");
-  }
-});
 
+  }
+
+});
 /* -------------------------------------------------------
    DELETE GALLERY ITEM (ADMIN)
 ------------------------------------------------------- */
