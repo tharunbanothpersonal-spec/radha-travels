@@ -152,7 +152,10 @@ router.post("/upload", upload.single("file"), async (req, res) => {
       return new Promise((resolve, reject) => {
 
         const stream = cloudinary.uploader.upload_stream(
-          { folder: "radha_travels/gallery" },
+  {
+    folder: "radha_travels/gallery",
+    resource_type: "auto"
+  },
           (error, result) => {
             if (error) reject(error);
             else resolve(result);
