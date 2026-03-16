@@ -10,8 +10,11 @@ import path from 'path';
 import multer from 'multer';
 
 // --- NEW CLOUDINARY IMPORTS ---
-import { v2 as cloudinary } from 'cloudinary';
+import cloudinary from '../config/cloudinary.js';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
+
+const router = express.Router();
+
 
 // Setup Cloudinary Storage for Fleet
 const fleetStorage = new CloudinaryStorage({
@@ -33,7 +36,6 @@ const testimonialStorage = new CloudinaryStorage({
 });
 const uploadTestimonial = multer({ storage: testimonialStorage });
 
-const router = express.Router();
 
 // 🔹 DEFAULT ADMIN ROOT
 router.get('/', requireAdmin, (req, res) => {

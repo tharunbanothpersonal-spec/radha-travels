@@ -3,23 +3,24 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import streamifier from "streamifier";
+
 import db from "../db.js";
 import { requireAdmin } from "../admin/admin.middleware.js";
-
-import { v2 as cloudinary } from "cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
 const router = express.Router();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 /* -------------------------------------------------------
-   CLOUDINARY STORAGE
+   MULTER (MEMORY STORAGE)
 ------------------------------------------------------- */
+
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 }
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB
 });
 
 /* -------------------------------------------------------
@@ -138,43 +139,42 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
   try {
 
-    const { title, description, uploaded_by, category } = req.body;
-
     if (!req.file) {
       return res.redirect("/gallery/upload?error=file");
     }
+
+    const { title, description, uploaded_by, category } = req.body;
 
     const role =
       uploaded_by ||
       (req.session?.admin ? "admin" : "customer");
 
-    const streamUpload = (buffer) => {
-      return new Promise((resolve, reject) => {
+    /* ---------- CLOUDINARY UPLOAD ---------- */
 
-        const stream = cloudinary.uploader.upload_stream(
-  {
-    folder: "radha_travels/gallery",
-    resource_type: "auto"
-  },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
+    const uploadResult = await new Promise((resolve, reject) => {
+
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          folder: "radha_travels/gallery",
+          resource_type: "auto"
+        },
+        (error, result) => {
+
+          if (error) {
+            console.error("Cloudinary upload failed:", error);
+            reject(error);
+          } else {
+            resolve(result);
           }
-        );
 
-        stream.end(buffer);
+        }
+      );
 
-      });
-    };
+      streamifier.createReadStream(req.file.buffer).pipe(stream);
 
-    const uploadResult = await streamUpload(req.file.buffer);
+    });
 
-    const filepath = uploadResult.secure_url;
-    const public_id = uploadResult.public_id;
-
-    const type = req.file.mimetype.startsWith("video")
-      ? "video"
-      : "image";
+    /* ---------- DATABASE INSERT ---------- */
 
     await db.execute({
       sql: `
@@ -183,14 +183,14 @@ router.post("/upload", upload.single("file"), async (req, res) => {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
       args: [
-        req.file.originalname || "cloudinary_upload",
-        filepath,
-        public_id,
+        req.file.originalname,
+        uploadResult.secure_url,
+        uploadResult.public_id,
         title || null,
         description || null,
-        type,
+        uploadResult.resource_type === "video" ? "video" : "image",
         role,
-        category,
+        category || "General",
         "pending"
       ],
     });
@@ -201,13 +201,13 @@ router.post("/upload", upload.single("file"), async (req, res) => {
 
     console.error("Gallery upload fatal error:");
     console.error(err);
-    console.error(err.stack);
 
     res.redirect("/gallery/upload?error=server");
 
   }
 
 });
+
 /* -------------------------------------------------------
    DELETE GALLERY ITEM (ADMIN)
 ------------------------------------------------------- */
