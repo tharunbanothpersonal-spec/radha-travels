@@ -7,7 +7,6 @@ import db from "../db.js";
 import { requireAdmin } from "../admin/admin.middleware.js";
 
 import { v2 as cloudinary } from "cloudinary";
-import { CloudinaryStorage } from "multer-storage-cloudinary";
 
 const router = express.Router();
 
@@ -18,17 +17,10 @@ const __dirname = path.dirname(__filename);
 /* -------------------------------------------------------
    CLOUDINARY STORAGE
 ------------------------------------------------------- */
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: "radha_travels/gallery",
-    resource_type: "auto",
-    allowed_formats: ["jpg", "jpeg", "png", "webp", "mp4", "mov"]
-  }
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 10 * 1024 * 1024 }
 });
-
-const upload = multer({ storage });
 
 /* -------------------------------------------------------
    AUTO LOAD LOCAL FILES (legacy support)
@@ -154,8 +146,28 @@ router.post("/upload", upload.single("file"), async (req, res) => {
     uploaded_by ||
     (req.session?.admin ? "admin" : "customer");
 
-  const filepath = req.file.path;
-  const public_id = req.file.filename || req.file.public_id;
+const streamUpload = (buffer) => {
+  return new Promise((resolve, reject) => {
+
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "radha_travels/gallery"
+      },
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+
+    stream.end(buffer);
+
+  });
+};
+
+const uploadResult = await streamUpload(req.file.buffer);
+
+const filepath = uploadResult.secure_url;
+const public_id = uploadResult.public_id;
 
   const type = req.file.mimetype.startsWith("video")
     ? "video"
