@@ -135,6 +135,8 @@ router.get("/upload", (req, res) => {
 ------------------------------------------------------- */
 
 router.post("/upload", upload.single("file"), async (req, res) => {
+  try{
+    
 
   const { title, description, uploaded_by, category } = req.body;
 
@@ -164,10 +166,24 @@ const streamUpload = (buffer) => {
   });
 };
 
-const uploadResult = await streamUpload(req.file.buffer);
+let filepath;
+let public_id;
 
-const filepath = uploadResult.secure_url;
-const public_id = uploadResult.public_id;
+try {
+
+  const uploadResult = await streamUpload(req.file.buffer);
+
+  filepath = uploadResult.secure_url;
+  public_id = uploadResult.public_id;
+
+} catch (error) {
+
+  console.error("Cloudinary upload failed:");
+  console.error(error);
+
+  return res.redirect("/gallery/upload?error=upload_failed");
+
+}
 
   const type = req.file.mimetype.startsWith("video")
     ? "video"
@@ -204,6 +220,11 @@ console.error("Stack:", err.stack);
 
   res.redirect("/gallery/upload?success=1");
 
+
+  }catch (err) {
+    console.error("Gallery upload fatal error:", err);
+    res.redirect("/gallery/upload?error=server");
+  }
 });
 
 /* -------------------------------------------------------
