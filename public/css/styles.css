@@ -93,7 +93,8 @@ a{color:inherit;text-decoration:none}
 .header-wrap{height:70px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
 .brand-logo{height:48px;width:auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
-.brand-name{font-weight:700;font-size:1.25rem;color:#ecfdf5;letter-spacing:.3px;text-shadow:0 2px 4px rgba(0,0,0,.25); display: none;}
+.brand-name{font-weight:700;font-size:1.25rem;color:#ecfdf5;letter-spacing:.3px;text-shadow:0 2px 4px rgba(0,0,0,.25)}
+.brand-mobile{ display: none;}
 .nav{display:flex;align-items:center;gap:1.4rem;margin-left:auto}
 .nav a{color:#ecfdf5;font-weight:600;font-size:.95rem;position:relative;transition:color .3s}
 .nav a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:#d1fae5;transition:width .3s}
@@ -111,6 +112,56 @@ a{color:inherit;text-decoration:none}
 .burger{display:none;flex-direction:column;justify-content:center;align-items:center;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);cursor:pointer}
 .burger span{width:22px;height:2px;background:#ecfdf5;margin:4px 0;border-radius:2px}
 @media (max-width:900px){
+    .brand-name{display: none;}
+
+.brand-mobile {
+  text-decoration: none;
+  display: block !important;
+  padding-left: 5px;
+}
+
+/* 1. The Physical Dark Plate */
+.premium-plate {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(145deg, #1A1C23, #0D0E12); /* Deep Obsidian/Carbon */
+  padding: 8px 16px;
+  border-radius: 6px; /* A sharp, modern automotive edge */
+  
+  /* Creates a 3D "machined" edge */
+  border-top: 1px solid rgba(255, 255, 255, 0.15); 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 20px rgba(0, 30, 15, 0.5); /* Casts a shadow onto your green header */
+}
+
+/* 2. Bold, Crisp Core Brand */
+.premium-plate .brand-r {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #FFFFFF; /* Pure, stark white */
+  letter-spacing: 1px;
+}
+
+/* 3. The Luminous Accent Line (The "Tech/Fleet" Vibe) */
+.premium-plate .brand-divider {
+  width: 2px;
+  height: 18px;
+  background: #10B981; /* A bright, luminous emerald */
+  margin: 0 10px;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8); /* Gives it a slight LED glow */
+  border-radius: 2px;
+}
+
+/* 4. The Refined Sub-brand */
+.premium-plate .brand-t {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #9CA3AF; /* Premium brushed silver */
+  letter-spacing: 2.5px; /* Wide spacing implies luxury */
+}
+
   .burger{display:flex}
   .btn-header{display:none}
   .nav{
@@ -119,6 +170,9 @@ a{color:inherit;text-decoration:none}
     padding:1rem 0; box-shadow:0 10px 25px rgba(0,0,0,.2);
   }
   .nav.open{display:flex}
+  .header-wrap{gap: 5px;}
+
+
 }
 
 /* ===========================
@@ -147,7 +201,12 @@ a{color:inherit;text-decoration:none}
 .tick-item::before{content:"•";color:var(--tick);margin-right:.4rem;opacity:.85}
 .ticker:hover .ticker-rail{animation-play-state:paused}
 @keyframes ticker-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@media (max-width:520px){.tick-item{font-size:13.5px}.ticker-rail{gap:28px}}
+@media (max-width:520px){.tick-item{font-size:13.5px}.ticker-rail{gap:28px}
+.header-wrap{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}}
 
 /* ===========================
    HERO (auto + captions)
@@ -157,7 +216,7 @@ a{color:inherit;text-decoration:none}
 .hero-bg figure{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1.2s ease}
 .hero-bg figure.active{opacity:1;z-index:1;animation:zoomFade 7s ease-in-out both}
 .hero-bg img{width:100%;height:100%;object-fit:cover}
-@media (max-width:520px){.hero-bg img{width:100%;height:100%;object-fit:fill}}
+@media (max-width:520px){.hero-bg img{width:100%;height:100%;object-fit:cover}}
 
 /* Captions */
 /* Updated Hero Captions — top center alignment */
@@ -275,7 +334,7 @@ a{color:inherit;text-decoration:none}
   pointer-events:auto; position:relative; display:inline-flex; align-items:center; justify-content:center;
   height:50px; padding:0 20px; border-radius:999px; border:none;
   font-family:Poppins,system-ui,Segoe UI,Roboto,Inter,sans-serif;
-  font-weight:800; letter-spacing:.3px; text-transform:uppercase; font-size:15px;
+  font-weight:800; letter-spacing:.3px; text-transform:uppercase; font-size:0.75em;
   cursor:pointer; text-decoration:none; user-select:none; isolation:isolate;
   transition:transform .2s, box-shadow .2s, filter .2s; box-shadow:0 8px 22px rgba(0,0,0,.22)
 }
@@ -2596,3 +2655,4 @@ a{color:inherit;text-decoration:none}
   from { width: 0; }
   to { width: var(--percent); }
 }
+
