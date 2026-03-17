@@ -93,7 +93,7 @@ a{color:inherit;text-decoration:none}
 .header-wrap{height:70px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
 .brand-logo{height:48px;width:auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
-.brand-name{font-weight:700;font-size:1.25rem;color:#ecfdf5;letter-spacing:.3px;text-shadow:0 2px 4px rgba(0,0,0,.25)}
+.brand-name{font-weight:700;font-size:1.25rem;color:#ecfdf5;letter-spacing:.3px;text-shadow:0 2px 4px rgba(0,0,0,.25); display: none;}
 .nav{display:flex;align-items:center;gap:1.4rem;margin-left:auto}
 .nav a{color:#ecfdf5;font-weight:600;font-size:.95rem;position:relative;transition:color .3s}
 .nav a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:#d1fae5;transition:width .3s}
