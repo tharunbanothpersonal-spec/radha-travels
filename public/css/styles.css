@@ -56,7 +56,7 @@ body{
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-.container{width:min(var(--content),92%);margin-inline:auto}
+.container{/*width:min(var(--content),92%);*/margin-inline:auto; margin: auto 2rem auto 1rem; }
 .section{padding:28px 0}
 .muted{color:var(--muted)}
 
@@ -94,20 +94,187 @@ a{color:inherit;text-decoration:none}
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
 .brand-logo{height:48px;width:auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
 .brand-name{font-weight:700;font-size:1.25rem;color:#ecfdf5;letter-spacing:.3px;text-shadow:0 2px 4px rgba(0,0,0,.25)}
-.brand-mobile{ display: none;}
-.nav{display:flex;align-items:center;gap:1.4rem;margin-left:auto}
-.nav a{color:#ecfdf5;font-weight:600;font-size:.95rem;position:relative;transition:color .3s}
-.nav a::after{content:"";position:absolute;left:0;bottom:-4px;height:2px;width:0;background:#d1fae5;transition:width .3s}
-.nav a:hover{color:#fff}
-.nav a:hover::after{width:100%}
-.btn-header{
-  background:var(--g-primary); color:#fff; font-weight:700;
-  border-radius:999px; padding:.6rem 1.4rem;
-  box-shadow:0 6px 18px rgba(16,185,129,.45);
-  transition:transform .2s, box-shadow .2s;
+/* 1. The Physical Dark Plate */
+.premium-plate {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(145deg, #1A1C23, #0D0E12); /* Deep Obsidian/Carbon */
+  padding: 10px 8px;
+  border-radius: 6px; /* A sharp, modern automotive edge */
+  
+  /* Creates a 3D "machined" edge */
+  border-top: 1px solid rgba(255, 255, 255, 0.15); 
+  border-bottom: 1px solid rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 20px rgba(0, 30, 15, 0.5); /* Casts a shadow onto your green header */
+  /* border: 2px red dotted; */
 }
-.btn-header:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(16,185,129,.55)}
 
+/* 2. Bold, Crisp Core Brand */
+.premium-plate .brand-r {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: #FFFFFF; /* Pure, stark white */
+  letter-spacing: 1px;
+}
+
+/* 3. The Luminous Accent Line (The "Tech/Fleet" Vibe) */
+.premium-plate .brand-divider {
+  width: 2px;
+  height: 18px;
+  background: #10B981; /* A bright, luminous emerald */
+  margin: 0 10px;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8); /* Gives it a slight LED glow */
+  border-radius: 2px;
+}
+
+/* 4. The Refined Sub-brand */
+.premium-plate .brand-t {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9CA3AF; /* Premium brushed silver */
+  letter-spacing: 2.5px; /* Wide spacing implies luxury */
+}
+.brand-mobile{ display: none;}
+.nav{display:flex;align-items:center;gap:1.4rem}
+/* 1. Set up the base shape */
+.nav a {
+  color: #ecfdf5; 
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.4rem; /*Adds space around the text to create the pill */
+  border-radius: 10px; /* Makes the edges perfectly round */
+  transition: all 0.3s ease; /* Smoothly animates the background, lift, and shadow */
+}
+
+/* 2. Create the elevated pill on hover */
+.nav a:hover {
+  background: #d1fae5; /* Using the mint green you had for the underline */
+  color: #064e3b; /* Dark text for contrast against the light mint background */
+  transform: translateY(-3px); /* Lifts the button up */
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.25); /* Adds the soft green shadow beneath it */
+}
+.rt-user-svg {
+  stroke: currentColor; 
+  transition: all 0.3s ease !important;
+}
+
+/* The User Icon Hover State (Gold/Amber Accent) */
+.rt-admin-nav-btn:hover .rt-user-svg {
+  stroke: #f59e0b !important; /* Icon turns gold */
+  transform: scale(1.1) !important;
+}
+/* --- 1. The Admin Button Base --- */
+.rt-admin-nav-btn {
+  position: relative !important; /* CRITICAL: Keeps the tooltip attached to the button */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  margin-left: 0.5rem;
+  border-radius: 50%; /* Makes a nice circular hover state for the icon */
+  color: #5b6b80; /* Muted gray to match the other links */
+  text-decoration: none;
+  transition: all 0.2s ease;
+  overflow: visible !important;
+}
+
+.rt-admin-nav-btn:hover {
+  background: rgba(16, 185, 129, 0.1); /* Soft emerald background */
+  color: #065f46; /* Deep emerald icon */
+}
+
+/* Kill any stray green underline from the main nav */
+.rt-admin-nav-btn::after {
+  display: none !important;
+}
+
+/* --- 2. The Tooltip --- */
+.rt-admin-nav-btn::before {
+  content: attr(data-tooltip); /* Pulls the text from your HTML */
+  position: absolute;
+  top: 120%; /* Pushes it below the button */
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  background: #0f172a; /* Crisp, dark slate background */
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none; /* Stops the tooltip from flickering if your mouse hits it */
+  /* Hidden state */
+  opacity: 0;  visibility: hidden;  z-index: 9999; /* Forces it above everything else on the page */  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);}
+/* --- 3. Animate Tooltip on Hover --- */
+.rt-admin-nav-btn:hover::before {  opacity: 1 !important;  visibility: visible !important;  transform: translateX(-50%) translateY(0); /* Snaps up sharply */}
+
+/* --- 1. The Refined Base Button --- */
+.btn-header {
+  position: relative; /* Required for the pulse ring */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.8rem;
+  border-radius: 100px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 700; /* Bolder text for better readability */
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-decoration: none;
+  border: none;
+  z-index: 1; /* Keeps the button above the pulse ring */
+  
+  /* Smoother, premium Coral/Sunset gradient */
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  
+  /* Colored glow instead of a muddy black shadow */
+  box-shadow: 0 6px 16px rgba(255, 107, 107, 0.35);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* --- 2. The Continuous Pulse Ring --- */
+.btn-header::before {
+  content: "";
+  position: absolute;
+  inset: 0; /* Fits the ring exactly to the button's size */
+  border-radius: 100px;
+  
+  /* Matches the button's color */
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+  z-index: -1; /* Tucks the ring behind the main button */
+  
+  /* Runs the pulse animation infinitely */
+  animation: bookingPulse .80s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* --- 3. Crisp Hover & Click States --- */
+.btn-header:hover {
+  transform: translateY(-2px); /* Gentle lift */
+  box-shadow: 0 10px 24px rgba(255, 107, 107, 0.5); /* Enhanced glow */
+  filter: brightness(1.05); /* Slight highlight */
+}
+
+.btn-header:active {
+  transform: translateY(1px); /* Satisfying physical click down */
+  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+}
+
+/* --- 4. Pulse Animation Keyframes --- */
+@keyframes bookingPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.3); /* Expands the ring outward 30% */
+    opacity: 0; /* Smoothly fades out as it expands */
+  }
+}
 /* Burger / mobile nav */
 .burger{display:none;flex-direction:column;justify-content:center;align-items:center;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);cursor:pointer}
 .burger span{width:22px;height:2px;background:#ecfdf5;margin:4px 0;border-radius:2px}
