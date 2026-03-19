@@ -15,16 +15,100 @@
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+/* Import a fun, rounded font just for this section (optional, but highly recommended!) */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+.section-head-playful {
+  font-family: 'Nunito', sans-serif;
+  text-align: center;
+  /* REDUCED PADDING: Brought down from 3.5rem to 2rem to instantly shrink height */
+  padding: 2rem 1.5rem; 
+  position: relative;
+  background: linear-gradient(135deg, #e0f2fe 0%, #dcfce7 100%); 
+  /* REDUCED BORDER RADIUS: slightly smaller to match the compact size */
+  border-radius: 20px; 
+  margin: 0 auto 2rem auto;
+  max-width: 900px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(34, 197, 94, 0.2); 
+}
+
+.svc-heading-playful {
+  /* REDUCED FONT SIZE: 3.2rem -> 2.6rem */
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: #15803d; 
+  /* REDUCED MARGIN: 1rem -> 0.3rem to pull the subheading up closer */
+  margin-top: 0;
+  margin-bottom: 0.3rem; 
+  position: relative;
+  z-index: 2;
+  text-shadow: 3px 3px 0px #bbf7d0, 6px 6px 0px rgba(0,0,0,0.05); 
+}
+
+.svc-subheading-playful {
+  /* REDUCED FONT SIZE: 1.25rem -> 1.05rem */
+  font-size: 1.05rem;
+  color: #166534;
+  font-weight: 700;
+  position: relative;
+  z-index: 2;
+  margin: 0; /* Removes default paragraph spacing */
+}
+
+/* --- The Energetic Animations --- */
+.floating-icon {
+  position: absolute;
+  /* REDUCED DEFAULT ICON SIZE */
+  font-size: 2rem;
+  z-index: 1;
+  opacity: 0.9;
+  animation: float 3s ease-in-out infinite; 
+}
+
+/* Adjusted positions to fit the newly compacted box perfectly */
+.icon-1 { top: 25%; left: 8%; animation-delay: 0s; }
+.icon-2 { bottom: 15%; right: 8%; animation-delay: 1.5s; font-size: 2.5rem; }
+
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-30px) rotate(20deg); } /* Shortened the bob distance */
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+.svc-grid-premium {
+  margin: 0 80px;
+}
+
+/* Mobile adjustments so it stays cute on phones */
+@media (max-width: 768px) {
+  .section-head-playful {
+    padding: 1.5rem 1rem; /* Even tighter for phones */
+  }
+  .svc-heading-playful { font-size: 2rem; }
+  .svc-subheading-playful { font-size: 0.95rem; }
+  .icon-1, .icon-2 { font-size: 1.5rem; }
+  .svc-grid-premium { margin: 0; }
+  .svc-grid-premium {
+  margin: 0;
+}
+}
+
+
+  </style>
 </head>
 <body>
   <%- include('../partials/header') %>
   <%- include('../partials/ticker') %>
 
   <main class="container section">
-    <header class="section-head mb-4">
-      <h1 class="svc-heading">Our Services</h1>
-      <p class="svc-subheading">Choose comfort, class, and reliability — wherever your journey takes you.</p>
-    </header>
+    <header class="section-head-playful mb-4">
+  <div class="floating-icon icon-1">🌴</div>
+  <div class="floating-icon icon-2">🚕</div>
+  
+  <h1 class="svc-heading-playful">Our Services ✨</h1>
+  <p class="svc-subheading-playful">Choose comfort, class, and reliability — wherever your journey takes you!</p>
+</header>
 
     <div class="svc-grid-premium" role="list">
       <% services.forEach(function(s, idx){ 
