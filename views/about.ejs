@@ -199,6 +199,132 @@
 
         .btn-group { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 25px; }
 
+/* ===============================
+   OUR TEAM (CIRCULAR AVATARS)
+=============================== */
+.team-circular { 
+    padding: 100px 0; 
+    background: var(--pure-white); 
+    border-top: 1px solid rgba(197, 160, 89, 0.15); 
+}
+
+.team-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+/* --- The 4-Column Desktop Grid --- */
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Changed to 4 columns */
+    gap: 30px; /* Slightly tighter gap to fit 4 people */
+    max-width: 1200px; /* Widened the container so they don't look squished */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.avatar-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: default;
+}
+
+/* --- The Avatar Image --- */
+.avatar-img-wrap {
+    width: 150px; /* Slightly smaller for 4 columns */
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 24px;
+    position: relative;
+    padding: 8px; 
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.avatar-img-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1px solid var(--gold-leaf);
+    transform: scale(0.85); 
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.avatar-card:hover .avatar-img-wrap {
+    transform: translateY(-8px); 
+}
+
+.avatar-card:hover .avatar-img-wrap::before {
+    transform: scale(1); 
+    opacity: 0.6;
+}
+
+.avatar-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 15px 35px rgba(2, 44, 34, 0.08); 
+}
+
+/* --- Typography --- */
+.avatar-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; /* Scaled down slightly for 4 columns */
+    color: var(--deep-emerald);
+    margin-bottom: 4px;
+}
+
+.avatar-role {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--gold-leaf);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.avatar-info p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #5b6b80;
+    line-height: 1.5;
+    max-width: 240px;
+    margin: 0 auto;
+}
+
+/* ===============================
+   MOBILE ADJUSTMENTS (2-COLUMN)
+=============================== */
+@media (max-width: 900px) {
+    .team-circular { padding: 60px 0; }
+    .team-header { margin-bottom: 40px; }
+    
+    /* 2-Column Grid */
+    .avatar-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 40px 15px; 
+        max-width: 600px;
+    }
+    
+    .avatar-img-wrap {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 16px;
+    }
+    
+    .avatar-info h3 { font-size: 1.15rem; }
+    .avatar-role { font-size: 0.6rem; margin-bottom: 8px; }
+    .avatar-info p { font-size: 0.85rem; max-width: 100%; }
+    
+    /* Removed the :last-child hack since 4 items perfectly balance into 2 rows of 2! */
+}
         /* ===============================
            MOBILE OPTIMIZATION
         =============================== */
@@ -286,6 +412,7 @@
                     <div class="chip-number-wrap"><h4 class="counter" data-target="50">0</h4><span class="chip-suffix">+</span></div>
                     <p class="chip-label">Elite Fleet</p>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -446,6 +573,67 @@
             </div>
         </div>
     </section>
+
+   <section class="team-circular">
+    <div class="container1">
+        
+        <div class="team-header reveal">
+            <span class="tagline" style="justify-content: center;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6 6 3-6 3-3 6-3-6-6-3 6-3 3-6z"/></svg>
+                The People Behind The Legacy
+            </span>
+            <h2 class="journey-title" style="color: var(--deep-emerald);">Meet Our Guardians</h2>
+        </div>
+
+       <div class="avatar-grid">
+            
+            <div class="avatar-card reveal">
+                <div class="avatar-img-wrap">
+                    <img src="/images/team-1.jpg" onerror="this.src='https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=600'" alt="Founder">
+                </div>
+                <div class="avatar-info">
+                    <h3>Ramakrishna V.</h3>
+                    <span class="avatar-role">Founder & Visionary</span>
+                    <p>"A journey is truly successful only when our guests feel at home."</p>
+                </div>
+            </div>
+
+            <div class="avatar-card reveal" style="transition-delay: 0.1s;">
+                <div class="avatar-img-wrap">
+                    <img src="/images/team-2.jpg" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=600'" alt="Operations Head">
+                </div>
+                <div class="avatar-info">
+                    <h3>Lakshmi S.</h3>
+                    <span class="avatar-role">Head of Operations</span>
+                    <p>"We maintain the sacred standards our clients expect every day."</p>
+                </div>
+            </div>
+
+            <div class="avatar-card reveal" style="transition-delay: 0.2s;">
+                <div class="avatar-img-wrap">
+                    <img src="/images/team-3.jpg" onerror="this.src='https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=600'" alt="Lead Chauffeur">
+                </div>
+                <div class="avatar-info">
+                    <h3>Venkat K.</h3>
+                    <span class="avatar-role">Chief Fleet Captain</span>
+                    <p>"Every passenger is family. Their safety is my absolute religion."</p>
+                </div>
+            </div>
+
+            <div class="avatar-card reveal" style="transition-delay: 0.3s;">
+                <div class="avatar-img-wrap">
+                    <img src="/images/team-4.jpg" onerror="this.src='https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=600'" alt="Guest Relations">
+                </div>
+                <div class="avatar-info">
+                    <h3>Ananya P.</h3>
+                    <span class="avatar-role">Guest Relations</span>
+                    <p>"From booking to arrival, your peace of mind is my priority."</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
     <section class="final-cta reveal">
         <div class="container1">
