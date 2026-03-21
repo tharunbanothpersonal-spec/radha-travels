@@ -2,575 +2,799 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <%- include('./partials/head', { title: 'Hyderabad to ' + tour.name + ' | Radha Travels' }) %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <%- include('./partials/head', { title: 'Premium Journey: Hyderabad to ' + tour.name + ' | Radha Travels' }) %>
   <link rel="stylesheet" href="/css/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     /* ==========================================
-       EMERALD CYBER THEME: DETAILS PAGE
-       Mobile-First (440px)
+       RADHA TRAVELS: ULTIMATE EDITORIAL THEME
     ========================================== */
+    :root {
+      --brand-emerald: #059669;
+      --brand-emerald-dark: #047857;
+      --text-main: #0f172a;      
+      --text-body: #475569;      
+      --text-light: #64748b;     
+      --bg-page: #f8fafc;        
+      --bg-card: #ffffff;
+      --border-light: #e2e8f0;
+      --shadow-elegant: 0 10px 40px -10px rgba(15, 23, 42, 0.08);
+    }
+
     body {
-      background-color: #010a07; /* Deep cyber-black */
-      color: #fff;
-      margin: 0;
-      font-family: Arial, sans-serif;
+      background-color: var(--bg-page); color: var(--text-body);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0; line-height: 1.8; font-size: 16px;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* --- Cinematic Hero Section --- */
-    .rt-dossier-hero {
-      position: relative;
-      width: 100%;
-      height: 60vh; /* Takes up 60% of the screen height */
-      min-height: 400px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end; /* Pushes text to the bottom */
-      padding: 20px 15px;
-      overflow: hidden;
-    }
+    h1, h2, h3, h4 { color: var(--text-main); margin: 0; }
+    ul { padding: 0; margin: 0; list-style: none; }
+    a { text-decoration: none; color: inherit; }
 
-    .rt-hero-bg {
+    /* --- HERO SECTION --- */
+    .editorial-hero {
+      position: relative; width: 100%; height: 75vh; min-height: 550px;
+      background-color: #0f172a; display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding-bottom: 60px; 
+      overflow: hidden; /* Added for clean image animation */
+    }
+    .hero-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 1;
+    }
+    .hero-gradient {
       position: absolute; inset: 0;
-      background-size: cover; background-position: center;
-      filter: brightness(0.8) contrast(1.1);
-      z-index: 1;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.50) 0%, rgba(15, 23, 42, 0.85) 100%);
     }
-
-    /* Seamless fade from image into the dark page background */
-    .rt-hero-fade {
-      position: absolute; inset: 0; z-index: 2;
-      background: linear-gradient(180deg, rgba(1, 10, 7, 0.2) 0%, rgba(1, 10, 7, 0.8) 70%, #010a07 100%);
+    .nav-back {
+      position: absolute; top: 30px; left: 30px; z-index: 20;
+      display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 600; font-size: 14px;
+      background: rgba(255, 255, 255, 0.1); padding: 10px 20px; border-radius: 100px;
+      backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.2); transition: all 0.3s;
     }
-
-    .rt-hero-scanline {
-      position: absolute; inset: 0; z-index: 3;
-      background: linear-gradient(to bottom, transparent 50%, rgba(16, 185, 129, 0.05) 51%);
-      background-size: 100% 4px;
-      pointer-events: none;
+    .nav-back:hover { background: rgba(255, 255, 255, 0.25); transform: translateX(-4px); }
+    
+    .hero-content {
+      position: relative; z-index: 10; max-width: 900px; width: 100%; padding: 0 24px; text-align: center;
     }
-
-    /* Floating Back Button */
-    .rt-hud-back-btn {
-      position: absolute; top: 100px; left: 15px; z-index: 10; /* Top left placement */
+    
+    .hero-rating-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(2, 44, 34, 0.6);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: #10b981; font-family: monospace; font-size: 11px;
-      text-decoration: none; padding: 8px 16px; border-radius: 4px;
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      transition: all 0.3s ease;
-      letter-spacing: 1px;
-    }
-    
-    .rt-hud-back-btn:hover {
-      background: rgba(16, 185, 129, 0.2);
-      color: #fff; border-color: #10b981;
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+      background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px);
+      color: #fff; padding: 6px 16px; border-radius: 100px; font-size: 13px; font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.15); margin-bottom: 24px;
     }
 
-    /* Hero Text Content */
-    .rt-hero-content {
-      position: relative; z-index: 10;
-      max-width: 800px; margin: 0 auto; width: 100%;
-      padding-bottom: 20px;
+    .hero-title {
+      color: #fff; font-size: clamp(36px, 6vw, 64px); font-weight: 800;
+      letter-spacing: -1px; line-height: 1.1; margin: 0 0 16px 0; text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .hero-desc {
+      color: #f1f5f9; font-size: clamp(16px, 2vw, 18px); font-weight: 400; line-height: 1.6;
+      max-width: 650px; margin: 0 auto 32px auto; text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
-    .rt-hero-tag {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: #022c22; border-left: 2px solid #10b981;
-      color: #10b981; font-family: monospace; font-size: 10px;
-      padding: 4px 10px; margin-bottom: 12px; letter-spacing: 2px;
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-hero {
+      display: inline-flex; align-items: center; justify-content: center; 
+      padding: 5px 10px; border-radius: 100px; font-weight: 700; font-size: 13px; transition: all 0.3s ease; box-sizing: border-box; text-decoration: none;
+    }
+    .btn-primary { background: var(--brand-emerald); color: white; border: 2px solid var(--brand-emerald); box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3); }
+    .btn-primary:hover { background: var(--brand-emerald-dark); border-color: var(--brand-emerald-dark); transform: translateY(-2px); }
+    .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 2px solid rgba(255,255,255,0.4); backdrop-filter: blur(8px); }
+    .btn-secondary span {
+  display: inline-block; /* Required for transform animations to work on spans */
+  animation: exploreBtn 1.5s ease-in-out infinite;
+}
+    .btn-secondary:hover { background: white; color: var(--text-main); transform: translateY(-2px); }
+
+    .inline-trust-strip {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 24px; margin-top: 40px;
+    }
+    .inline-trust-item {
+      display: flex; align-items: center; gap: 8px; color: #e2e8f0; font-size: 14px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .inline-trust-item svg { color: #34d399; } 
+
+    @media (max-width: 768px) {
+      .editorial-hero { height: auto; padding-top: 100px; padding-bottom: 80px; }
+      .nav-back { top: 20px; left: 20px; font-size: 12px; padding: 8px 16px; }
+      .hero-actions { flex-direction: row; width: 100%; flex-wrap: nowrap; }
+      .inline-trust-strip { flex-direction: row; gap: 12px; align-items: center; margin-top: 15px; }
+      .inline-trust-item { font-size: 13px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
     }
 
-    .rt-hero-tag::before {
-      content: ''; display: block; width: 6px; height: 6px;
-      background: #10b981; border-radius: 50%;
-      box-shadow: 0 0 8px #10b981; animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } }
-
-    .rt-hero-content h1 {
-      font-size: 36px; font-weight: 300; margin: 0 0 10px 0; color: #fff;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.9);
-    }
-
-    .rt-hero-content p {
-      font-size: 14px; color: #a7f3d0; line-height: 1.6; margin: 0;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.9);
-    }
-
-    /* --- Glassmorphic Content Section --- */
-/* ==========================================
-       BENTO GRID DETAILS SECTION (Mobile First)
-    ========================================== */
-    .rt-dossier-body {
-      position: relative; z-index: 10;
-      padding: 0 15px 80px;
-      max-width: 900px; margin: 0 auto;
-      margin-top: -40px; /* Pulls grid up to overlap the hero image perfectly */
-    }
-
-    .rt-bento-grid {
-      display: grid;
-      grid-template-columns: 1fr; /* 1 column on mobile */
-      gap: 20px;
-    }
-
-    /* Individual Glass Cards */
-    .rt-bento-card {
-      background: rgba(2, 44, 34, 0.45);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(16, 185, 129, 0.15);
-      border-top: 1px solid rgba(16, 185, 129, 0.4);
-      border-radius: 16px;
-      padding: 30px 25px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-      transition: transform 0.3s ease, border-color 0.3s ease;
-    }
-    
-    .rt-bento-card:hover {
-      border-color: rgba(16, 185, 129, 0.4);
-      transform: translateY(-2px);
-    }
-
-    /* Typography inside Cards */
-    .rt-card-label {
-      color: #ffffff; font-family: monospace; font-size: 11px;
-      letter-spacing: 2px; text-transform: uppercase;
-      margin-bottom: 20px; display: inline-block;
-      background: rgba(16, 185, 129, 0.1); padding: 4px 10px; border-radius: 4px;
-    }
-
-    .rt-bento-title { color: #fff; font-size: 22px; margin: 0 0 15px 0; font-weight: 300; }
-    .rt-bento-subtitle { color: #fff; font-size: 16px; margin: 0 0 15px 0; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;}
-    .rt-bento-text { color: #d1fae5; font-size: 15px; line-height: 1.7; margin: 0; }
-    .rt-muted-text { color: #6ee7b7; font-size: 13px; line-height: 1.6; margin: 0; opacity: 0.8; }
-
-    /* Custom Elements */
-    .rt-route-path-box {
-      background: rgba(0,0,0,0.3); border-radius: 12px;
-      padding: 20px; margin-top: 25px; border-left: 3px solid #10b981;
-    }
-
-    .rt-glowing-list { list-style: none; padding: 0; margin: 0 0 15px 0; }
-    .rt-glowing-list li {
-      color: #fff; font-size: 15px; margin-bottom: 12px;
-      display: flex; align-items: flex-start; gap: 10px;
-    }
-    .rt-glowing-list li::before {
-      content: ''; display: block; width: 8px; height: 8px; margin-top: 6px;
-      background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; flex-shrink: 0;
-    }
-
-    /* Pill Tags for 'Ideal For' */
-    .rt-tags-container { display: flex; flex-wrap: wrap; gap: 10px; }
-    .rt-cyber-pill {
-      background: transparent; border: 1px solid rgba(16, 185, 129, 0.4);
-      color: #a7f3d0; font-size: 13px; padding: 8px 16px; border-radius: 20px;
-      transition: all 0.3s;
-    }
-    .rt-cyber-pill:hover { background: rgba(16, 185, 129, 0.15); color: #fff; border-color: #10b981; }
-
-    /* Fleet Stack */
-    .rt-fleet-stack { display: flex; flex-direction: column; gap: 10px; }
-    .rt-fleet-row {
+    /* --- OVERLAPPING STATS BAR --- */
+    .stats-wrapper { max-width: 1000px; margin: -57px auto 18px; padding: 0 24px; position: relative; z-index: 20; }
+    .stats-bar {
+      background: var(--bg-card); border-radius: 20px; padding: 24px 40px;
       display: flex; justify-content: space-between; align-items: center;
-      background: rgba(0,0,0,0.3); padding: 12px 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: var(--shadow-elegant); border: 1px solid var(--border-light);
     }
-    .rt-fleet-row strong { color: #10b981; font-family: monospace; font-size: 14px; letter-spacing: 1px; }
-    .rt-fleet-row span { color: #a7f3d0; font-size: 13px; }
-
-    /* Amenities Grid & Advantages */
-    .rt-check-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; list-style: none; padding: 0; margin: 0; }
-    .rt-check-grid li, .rt-advantage-list li {
-      display: flex; align-items: flex-start; gap: 10px;
-      color: #d1fae5; font-size: 14px;
-    }
-    .rt-check-grid li::before, .rt-advantage-list li::before {
-      content: '✓'; color: #10b981; font-weight: bold;
-    }
-    .rt-advantage-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+    .stat-item { display: flex; align-items: center; gap: 16px; }
+    .stat-icon { width: 48px; height: 48px; background: #ecfdf5; color: var(--brand-emerald); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+    .stat-data { display: flex; flex-direction: column; }
+    .stat-label { font-size: 11px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+    .stat-value { font-size: 16px; color: var(--text-main); font-weight: 800; }
     
-    .rt-cyber-divider { height: 1px; background: rgba(16, 185, 129, 0.2); margin: 30px 0; }
+    @media (max-width: 768px) {
+      .stats-bar { flex-direction: row; align-items: flex-start; padding: 24px; gap: 10px; border-radius: 16px; }
+      .stat-item { width: 100%; gap: 8px; }
+      .stat-icon { width: 30px; height: 30px; background: #ecfdf5; color: var(--brand-emerald); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+      .stat-data { display: flex; flex-direction: column; }
+      .stat-label { font-size: 9px; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+      .stat-value { font-size: 11px; color: var(--text-main); font-weight: 800; }
+    }
 
-    /* Action Button */
-    .rt-booking-wrapper { margin-top: 40px; text-align: center; }
-    .rt-initiate-btn {
-      position: relative; display: inline-block; overflow: hidden;
-      background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981;
-      color: #10b981; font-family: monospace; font-size: 16px; font-weight: bold;
-      padding: 18px 40px; text-decoration: none; border-radius: 8px;
-      letter-spacing: 2px; transition: all 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    /* --- MAIN CONTENT CONTAINER --- */
+    .editorial-container { max-width: 1200px; margin: 0 auto 100px; padding: 0 24px; }
+
+    /* --- DISCOVER DESTINATION --- */
+    .luxury-card {
+      background: var(--bg-card); border-radius: 24px; padding: 48px;
+      box-shadow: var(--shadow-elegant); border: 1px solid var(--border-light); margin-bottom: 40px;
     }
-    .rt-btn-glow {
-      position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(16,185,129,0.4), transparent);
-      transform: skewX(-20deg); animation: cyberSweep 3s infinite;
+    .card-title { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 32px; display: flex; align-items: center; gap: 12px; justify-content: center; }
+    
+    @media (max-width: 768px) { .luxury-card { padding: 24px; border-radius: 16px; margin-bottom: 20px; } 
+    .card-title { font-size: 20px; } }
+
+    .destination-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+    @media(min-width: 992px) { .destination-layout { grid-template-columns: 1.1fr 0.9fr; align-items: start; } }
+
+    /* Left Side: Rich Text */
+    .dest-text-content h3 { color: var(--brand-emerald); font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; font-weight: 800;}
+    .dest-lead { font-size: 16px; color: var(--text-body); margin-bottom: 24px; }
+    
+    .temple-deep-dive { margin-bottom: 24px; border-left: 3px solid var(--brand-emerald); padding-left: 20px; }
+    .temple-deep-dive h4 { margin: 0 0 8px 0; color: var(--text-main); font-size: 16px; font-weight: 700; }
+    .temple-deep-dive p { margin: 0 0 16px 0; font-size: 15px; color: var(--text-body); }
+    .temple-deep-dive p:last-child { margin-bottom: 0; }
+    @media (max-width: 768px){
+      .dest-lead { font-size: 12px; color: var(--text-body); margin-bottom: 24px; }
+      .temple-deep-dive h4 {font-size: 14px; }
+      .temple-deep-dive p {font-size: 12px; }
     }
-    .rt-initiate-btn:hover { background: #10b981; color: #000; box-shadow: 0 0 25px rgba(16, 185, 129, 0.6); }
+
+    .info-badge-container { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; justify-content: center;}
+    .info-badge { background: var(--bg-page); padding: 16px 20px; border-radius: 12px; border: 1px solid var(--border-light); flex: 1; min-width: 140px; }
+    .info-badge span { display: block; font-size: 11px; color: var(--text-light); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+    .info-badge strong { color: var(--text-main); font-size: 15px; font-weight: 700;}
+    @media (max-width: 768px){
+      .info-badge { line-height: 1; text-align: center; padding: 16px 8px;}
+      .info-badge span { display: block; font-size: 10px; color: var(--text-light); text-transform: uppercase; font-weight: 700; margin-bottom: 4px; }
+      .info-badge strong { color: var(--text-main); font-size: 12px; font-weight: 700;}
+    }
+    .btn-outline-link {
+      display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700;
+      color: var(--brand-emerald); text-decoration: none; transition: 0.2s; padding: 10px 0;
+    }
+    .btn-outline-link:hover { color: var(--brand-emerald-dark); text-decoration: underline; }
+
+    .dest-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .img-main { grid-column: span 2; width: 100%; height: 280px; border-radius: 16px; background-color: #e2e8f0; background-size: cover; background-position: center; }
+    .img-sub { width: 100%; height: 180px; border-radius: 16px; background-color: #e2e8f0; background-size: cover; background-position: center; }
+    @media (max-width: 768px) { .img-main { height: 200px; } .img-sub { height: 140px; } }
+
+    .nearby-places-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 24px; }
+    .nearby-card { display: flex; gap: 16px; align-items: center; padding: 16px; background: var(--bg-page); border-radius: 16px; border: 1px solid var(--border-light); transition: all 0.3s ease; }
+    .nearby-card:hover { border-color: var(--brand-emerald); transform: translateY(-2px); box-shadow: var(--shadow-elegant); }
+    .nearby-img { width: 64px; height: 64px; border-radius: 12px; background-color: #cbd5e1; background-size: cover; background-position: center; flex-shrink: 0; }
+    .nearby-info h4 { margin: 0 0 4px 0; color: var(--text-main); font-size: 15px; font-weight: 700; line-height: 1.2;}
+    .nearby-info p { margin: 0; color: var(--text-light); font-size: 13px; line-height: 1.4; }
+
+    /* --- LOGISTICS GRID --- */
+    .logistics-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
+    @media(min-width: 992px) { .logistics-grid { grid-template-columns: 1.2fr 1fr; align-items: start; } }
+    
+    .sticky-column { position: static; }
+    @media(min-width: 992px) { .sticky-column { position: sticky; top: 40px; } }
+
+    .route-info-box { background: var(--bg-page); padding: 32px; border-radius: 20px; border: 1px solid var(--border-light); margin-bottom: 32px; }
+    .route-info-box h4 { font-size: 20px; color: var(--text-main); margin: 0 0 12px 0; font-weight: 800; display: flex; align-items: center; gap: 8px;}
+    
+    @media(max-width: 768px){
+      .route-info-box h4 { font-size: 15px;}
+      .route-info-box p{font-size: 12px !important;}
+      .route-info-box ul{font-size: 12px !important;}
+    }
+    
+    .trust-text { margin-bottom: 24px; }
+    .trust-text h3 { font-size: 16px; color: var(--text-main); font-weight: 700; margin: 0 0 8px 0; display: flex; align-items: center; gap: 8px; }
+    .trust-text h3 svg { color: var(--brand-emerald); }
+    .trust-text p { margin: 0; font-size: 15px; color: var(--text-body); }
+
+    .pricing-split { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 24px; }
+    @media(min-width: 768px) { .pricing-split { grid-template-columns: 1fr 1fr; } }
+    .price-box { padding: 24px; border-radius: 16px; }
+    .price-box.included { background: #ecfdf5; border: 1px solid #d1fae5; }
+    .price-box.excluded { background: #fff1f2; border: 1px solid #ffe4e6; }
+    .price-box h4 { margin: 0 0 16px 0; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .elegant-list li { position: relative; padding-left: 24px; margin-bottom: 12px; font-size: 14px; font-weight: 500;}
+    .elegant-list li::before { content: '✓'; position: absolute; left: 0; top: -1px; color: var(--brand-emerald); font-size: 16px; font-weight: bold; }
+    .price-box.excluded .elegant-list li::before { content: '✕'; color: #e11d48; }
+
+    .fleet-pill {
+      display: flex; align-items: center; padding: 16px 20px; border-radius: 16px;
+      border: 1px solid var(--border-light); margin-bottom: 12px; transition: all 0.3s ease; background: var(--bg-card);
+    }
+    .fleet-pill:hover { border-color: var(--brand-emerald); box-shadow: var(--shadow-elegant); transform: translateY(-2px); }
+    .fleet-pill-icon { font-size: 32px; margin-right: 16px; }
+    .fleet-name { display: block; font-weight: 700; color: var(--text-main); font-size: 16px; }
+    .fleet-desc { display: block; font-size: 13px; color: var(--text-light); }
+
+    /* --- CTA & FAQ --- */
+    .cta-title{color: white;}
+    .premium-cta-wrapper {
+      margin-top: 40px; background: var(--text-main); border-radius: 32px; padding: 80px 40px; text-align: center; color: white;
+    }
+    @media (max-width: 768px) { .premium-cta-wrapper { padding: 40px 24px; border-radius: 20px; } }
+    
+    .faq-container { margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 16px; margin-bottom: 16px; transition: all 0.3s ease; }
+    .faq-question { width: 100%; text-align: left; background: transparent; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 16px; font-weight: 700; color: var(--text-main); padding: 20px 24px; }
+    .faq-icon { font-size: 24px; color: var(--brand-emerald); transition: transform 0.3s ease; line-height: 1; }
+    .faq-item.active { border-color: var(--brand-emerald); }
+    .faq-item.active .faq-icon { transform: rotate(45deg); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-answer p { padding: 0 24px 24px 24px; margin: 0; color: var(--text-body); font-size: 15px; }
+
+    /* PROMISE TITLE */
+    .rt-promise { font-size: 24px; margin-bottom: 24px; }
+    /* PRICING */
+    .pricing-title { font-size: 24px; margin-bottom: 16px; }
+    .pricing-desc { font-size: 14px; margin: 0 0 20px 0; }
+    .included-title { color: var(--brand-emerald); }
+    .excluded-title { color: #e11d48; }
+    /* FLEET */
+    .fleet-title { font-size: 24px; margin-bottom: 24px; }
+    /* AMENITIES */
+    .amenities-box { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-light); }
+    .amenities-label { font-size: 11px; font-weight: 800; color: var(--text-light); margin: 0 0 12px 0; text-transform: uppercase; }
+    .amenities-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .amenity { background: var(--bg-page); padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; border: 1px solid var(--border-light); }
+    /* CTA */
+    .cta-title { font-size: clamp(28px, 4vw, 40px); margin: 0 0 16px 0; font-weight: 800; }
+    .cta-desc { font-size: 16px; color: #cbd5e1; max-width: 600px; margin: 0 auto; }
+    .cta-btn { margin-top: 24px; padding: 15px 24px; font-size: 25px; }
+
+    @media(max-width: 768px){
+      .rt-promise{font-size: 20px;}
+      .trust-text{margin-bottom: 10px;}
+      .trust-text h3{font-size: 14px;}
+      .trust-text p{font-size: 12px;}
+      .pricing-title{font-size: 20px;}
+      .pricing-desc{font-size: 12px;}
+      .pricing-split{grid-template-columns: 1fr 1fr;}
+      .price-box{padding: 15px 10px;}
+      .elegant-list li{font-size: 12px;}
+      .logistics-grid{gap: 0;}
+      .fleet-pill{padding: 10px 5px; flex-direction: row; flex-wrap: wrap;}
+      .fleet-title{font-size: 20px;}
+      .fleet-pill-icon{font-size: 30px;}
+      .fleet-name{font-size: 12px;}
+      .fleet-desc{font-size: 10px;}
+      .cta-title { font-size: clamp(25px, 4vw, 40px); }
+      .cta-desc{ font-size: 13px; }
+      .faq-container h2{font-size: 25px !important;}
+    }
 
     /* ==========================================
-       DESKTOP SCALING (768px+)
+       NEW: ANIMATIONS & SCROLL REVEALS
+       (Added safely without breaking layouts)
     ========================================== */
-    @media(min-width: 768px) {
-      .rt-bento-grid { grid-template-columns: repeat(2, 1fr); }
-      .rt-span-full { grid-column: span 2; }
-      .rt-bento-card { padding: 40px; }
-      .rt-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-      .rt-dossier-hero { padding: 40px; height: 50vh; }
+    /* --- EXPLORE BUTTON ANIMATION --- */
+@keyframes exploreBtn {
+  0%, 100% { transform: translateY(-2px); }
+  50% { transform: translateY(6px); } /* Bounces down 4 pixels */
+}
+    /* Hero Load Animations */
+    @keyframes heroFadeUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
+    @keyframes heroFadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes imageZoomReveal {
+      0% { transform: scale(1.08); filter: brightness(0.6); }
+      100% { transform: scale(1); filter: brightness(1); }
+    }
+
+    .hero-img { animation: imageZoomReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .nav-back { opacity: 0; animation: heroFadeIn 1s ease-out 0.5s forwards; }
+    
+    .animate-up { opacity: 0; animation: heroFadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+
+    /* Scroll Reveal Classes */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+    
+    .reveal-left { opacity: 0; transform: translateX(-40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-left.active { opacity: 1; transform: translateX(0); }
+    
+    .reveal-right { opacity: 0; transform: translateX(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal-right.active { opacity: 1; transform: translateX(0); }
+
     /* ==========================================
-   CYBER ACCORDION FAQ
-========================================== */
+       STYLISH ANIMATED UNDERLINES
+    ========================================== */
+    
+    /* 1. Main Card Titles & FAQ Heading */
+    .card-title, .faq-container h2 {
+      position: relative;
+      padding-bottom: 16px;
+    }
+    
+    .card-title::after, .faq-container h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0; /* Starts at 0 for the reveal animation */
+      height: 4px;
+      background: var(--brand-emerald);
+      border-radius: 10px;
+    }
 
-.tour-faq {
-  max-width: 900px;
-  margin: 60px auto 80px;
-  padding: 0 15px;
-}
+    /* 2. Left-align the titles in the Logistics and Fleet columns */
+    .logistics-left .card-title, .sticky-column .card-title {
+      justify-content: flex-start;
+    }
+    .logistics-left .card-title::after, .sticky-column .card-title::after {
+      left: 0;
+      transform: none;
+    }
 
-.tour-faq h2 {
-  text-align: center;
-  margin-bottom: 30px;
-  font-weight: 300;
-  letter-spacing: 1px;
-}
+    /* 3. The "Spiritual Heritage" Sub-heading */
+    .dest-text-content h3 {
+      position: relative;
+      display: inline-block;
+      padding-bottom: 8px;
+      margin-bottom: 16px !important;
+    }
+    
+    .dest-text-content h3::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0; /* Starts at 0 for the reveal animation */
+      height: 3px;
+      background: var(--brand-emerald);
+      border-radius: 10px;
+      opacity: 0.6;
+    }
 
-.faq-item {
-  background: rgba(2, 44, 34, 0.45);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(16,185,129,0.2);
-  border-radius: 12px;
-  margin-bottom: 16px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
+    /* 4. The "Draw Line" Animations */
+    @keyframes drawLine {
+      to { width: 100px; }
+    }
+    @keyframes drawLineSmall {
+      to { width: 30px; }
+    }
 
-.faq-item.active {
-  border-color: rgba(16,185,129,0.6);
-  box-shadow: 0 0 20px rgba(16,185,129,0.2);
-}
+    /* 5. Trigger animations only when the card scrolls into view (.active) */
+    .active .card-title::after,
+    .active.faq-container h2::after {
+      animation: drawLine 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+    
+    .active .dest-text-content h3::after {
+      animation: drawLineSmall 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+    }
+   /* ==========================================
+       EYE-CATCHING OFFICIAL LINK PRO
+    ========================================== */
+    .rt-official-link-pro {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      padding: 16px 24px;
+      margin-top: 16px;
+      background: var(--text-main); /* High contrast dark background */
+      border-radius: 16px;
+      text-decoration: none;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2);
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-.faq-question {
-  width: 100%;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  text-align: left;
-  padding: 18px 20px;
-  font-size: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  font-weight: 600;
-}
+    /* Vibrant Emerald Accent Line */
+    .rt-official-link-pro::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; width: 4px; height: 100%;
+      background: var(--brand-emerald);
+    }
 
-.faq-question:hover {
-  color: #10b981;
-}
+    .rt-official-link-pro .link-left {
+      display: flex; align-items: center; gap: 16px; z-index: 2;
+    }
 
-.faq-icon {
-  font-size: 20px;
-  color: #10b981;
-  transition: transform 0.3s ease;
-}
+    /* Glowing Pulse Animation */
+    .rt-official-link-pro .icon-box {
+      display: flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px;
+      background: rgba(5, 150, 105, 0.2); color: #34d399;
+      border-radius: 10px;
+      animation: linkPulse 2s infinite;
+    }
 
-.faq-item.active .faq-icon {
-  transform: rotate(45deg);
-}
+    @keyframes linkPulse {
+      0% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.6); }
+      70% { box-shadow: 0 0 0 12px rgba(5, 150, 105, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0); }
+    }
 
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease;
-  background: rgba(0,0,0,0.3);
-}
+    .rt-official-link-pro .link-text { display: flex; flex-direction: column; }
+    
+    .rt-official-link-pro .link-text span:first-child {
+      font-size: 11px; color: #94a3b8; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 2px; font-weight: 800;
+    }
+    
+    .rt-official-link-pro .link-text span:last-child {
+      font-size: 15px; color: #ffffff; font-weight: 700;
+    }
 
-.faq-answer p {
-  padding: 0 20px 20px;
-  margin: 0;
-  font-size: 14px;
-  color: #d1fae5;
-  line-height: 1.6;
-}
+    .rt-official-link-pro .link-arrow {
+      color: #34d399; transition: transform 0.3s ease; z-index: 2;
+    }
+
+    .rt-official-link-pro:hover {
+      transform: translateY(-4px); background: #1e293b;
+      box-shadow: 0 15px 30px -5px rgba(5, 150, 105, 0.3);
+    }
+
+    .rt-official-link-pro:hover .link-arrow { transform: translate(4px, -4px) scale(1.1); }
+    
+    @media (max-width: 768px) {
+      .rt-official-link-pro { width: 100%; gap: 16px; padding: 14px 20px; }
+      .rt-official-link-pro .link-text span:last-child { font-size: 14px; }
+    }
+
   </style>
 </head>
 <body>
 
 <%- include('./partials/header') %>
 <%- include('./partials/ticker') %>
-<section class="rt-dossier-hero">
-  <div class="rt-hero-bg" style="background-image: url('<%= tour.heroImage %>');"></div>
-  <div class="rt-hero-scanline"></div>
-  <div class="rt-hero-fade"></div>
 
-  <a href="/" class="rt-hud-back-btn">
-    <span style="font-size: 16px; line-height: 1;">←</span> BACK TO TOURS
+<section class="editorial-hero">
+  <img src="<%= tour.heroImage || 'https://images.unsplash.com/photo-1600080838615-3850550fc1cb?auto=format&fit=crop&q=80' %>" alt="<%= tour.name %>" class="hero-img">
+  <div class="hero-gradient"></div>
+  
+  <a href="/#special-tours" class="nav-back">
+    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path></svg>
+    All Tours
   </a>
 
-  <div class="rt-hero-content">
-    <div class="rt-hero-tag"><%= tour.name.toUpperCase() %></div>
-    <h1>Hyderabad to <%= tour.name %></h1>
-    <p><%= tour.intro %></p>
+  <div class="hero-content">
+    <h1 class="hero-title animate-up delay-100">Hyderabad to <%= tour.name %></h1>
+    <p class="hero-desc animate-up delay-200"><%= tour.intro %></p>
+    
+    <div class="hero-actions animate-up delay-300">
+      <a href="/contact" class="btn-hero btn-primary">Get Quick Estimate</a>
+      <a href="#discover" class="btn-hero btn-secondary">Explore Details <span style="margin-left: 6px;">↓</span></a>
+    </div>
+
+    <div class="inline-trust-strip animate-up delay-400">
+      <div class="inline-trust-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> Radha Travels Certified</div>
+      <div class="inline-trust-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> 10+ Years Experience</div>
+      <div class="inline-trust-item"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> 24/7 Travel Support</div>
+    </div>
   </div>
 </section>
 
-<section class="rt-dossier-body">
-  <div class="rt-bento-grid">
+<div class="stats-wrapper reveal">
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></div>
+      <div class="stat-data">
+        <span class="stat-label">Distance</span>
+        <span class="stat-value"><%= tour.distanceInfo ? (tour.distanceInfo.match(/\d+\s*(?:to|-)?\s*\d*\s*km/i) || ['View Details'])[0] : 'View Details' %></span>
+      </div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg></div>
+      <div class="stat-data"><span class="stat-label">Client Rating</span><span class="stat-value">4.9 / 5.0</span></div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-icon"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div>
+      <div class="stat-data"><span class="stat-label">Safety Status</span><span class="stat-value">Deep Cleaned</span></div>
+    </div>
+  </div>
+</div>
 
-    <div class="rt-bento-card rt-span-full">
-      <div class="rt-card-label">--> ROUTE TELEMETRY</div>
-      <h2 class="rt-bento-title"><%= tour.introTitle %></h2>
-      <p class="rt-bento-text"><%= tour.distanceInfo %></p>
+<main class="editorial-container" id="discover">
+  
+  <div class="luxury-card reveal">
+    <h2 class="card-title"><span>🛕</span> Discover <%= tour.name %></h2>
+    
+    <div class="destination-layout">
       
-      <div class="rt-route-path-box">
-        <h3 class="rt-bento-subtitle"><%= tour.routesTitle %></h3>
-        <% if (tour.routes && tour.routes.length > 0) { %>
-          <ul class="rt-glowing-list">
-            <% tour.routes.forEach(route => { %>
-              <li><%= route %></li>
-            <% }) %>
-          </ul>
+      <div class="dest-text-content">
+        <div>
+          <h3>Spiritual Heritage</h3>
+          <p class="dest-lead">
+            <%- tour.longDescription || `Embark on a profound spiritual journey to <strong>${tour.name}</strong>. Renowned globally for its deep-rooted historical significance and serene atmosphere, this sacred destination offers devotees a perfect blend of devotion, peace, and ancient heritage.` %>
+          </p>
+        </div>
+
+        <% if (tour.templeLegend || tour.templeArchitecture) { %>
+          <div class="temple-deep-dive">
+            <% if (tour.templeLegend) { %>
+              <h4>✨ The Sacred Legend</h4>
+              <p><%= tour.templeLegend %></p>
+            <% } %>
+            <% if (tour.templeArchitecture) { %>
+              <h4 style="margin-top: 16px;">🏛️ Architectural Marvel</h4>
+              <p><%= tour.templeArchitecture %></p>
+            <% } %>
+          </div>
         <% } %>
-        <p class="rt-muted-text"><%= tour.routeExtra %></p>
+
+        <div class="info-badge-container">
+          <div class="info-badge">
+            <span>Darshan Timings</span>
+            <strong><%= tour.templeTimings || '6:00 AM to 9:00 PM' %></strong>
+          </div>
+          <div class="info-badge">
+            <span>Best Time to Visit</span>
+            <strong><%= tour.bestTimeToVisit || 'September to March' %></strong>
+          </div>
+        </div>
+<% if (tour.officialWebsite) { %>
+          <div style="margin-top: 24px;" class="reveal">
+            <a href="<%= tour.officialWebsite %>" target="_blank" rel="noopener noreferrer" class="rt-official-link-pro">
+              <div class="link-left">
+                <div class="icon-box">
+                  <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
+                </div>
+                <div class="link-text">
+                  <span>Secure & Verified</span>
+                  <span>Official Temple Website</span>
+                </div>
+              </div>
+              <div class="link-arrow">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+              </div>
+            </a>
+          </div>
+        <% } %>
       </div>
+
+      <div class="dest-image-grid">
+        <div class="img-main" style="background-image: url('<%= tour.galleryImage1 || 'https://images.unsplash.com/photo-1600080838615-3850550fc1cb?auto=format&fit=crop&q=80' %>');"></div>
+        <div class="img-sub" style="background-image: url('<%= tour.galleryImage2 || 'https://images.unsplash.com/photo-1590050752118-2e8ce8e658e3?auto=format&fit=crop&q=80' %>');"></div>
+        <div class="img-sub" style="background-image: url('<%= tour.galleryImage3 || 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80' %>');"></div>
+      </div>
+
     </div>
 
-    <div class="rt-bento-card">
-      <div class="rt-card-label">-->OPTIMAL FOR</div>
-      <% if (tour.idealFor && tour.idealFor.length > 0) { %>
-        <div class="rt-tags-container">
-          <% tour.idealFor.forEach(item => { %>
-            <span class="rt-cyber-pill"><%= item %></span>
+    <div style="border-top: 1px solid var(--border-light); padding-top: 32px; margin-top: 16px;">
+      <h3 style="font-size: 18px; color: var(--text-main); margin: 0 0 16px 0; font-weight: 800;">Must-Visit Nearby Attractions</h3>
+      <div class="nearby-places-grid">
+        <% if (tour.nearbyAttractions && tour.nearbyAttractions.length > 0) { %>
+          <% tour.nearbyAttractions.forEach(place => { %>
+            <div class="nearby-card reveal">
+              <div class="nearby-img" style="background-image: url('<%= place.img %>');"></div>
+              <div class="nearby-info">
+                <h4><%= place.name %></h4>
+                <p><%= place.desc %></p>
+              </div>
+            </div>
           <% }) %>
-        </div>
-      <% } %>
-      <p class="rt-muted-text" style="margin-top: 20px;"><%= tour.idealExtra %></p>
-    </div>
-
-    <div class="rt-bento-card">
-      <div class="rt-card-label">/// VEHICLE FLEET</div>
-      <p class="rt-bento-text" style="margin-bottom: 20px;">Well-maintained AC and Non-AC Vehicles scaled to your group:</p>
-      <div class="rt-fleet-stack">
-        <div class="rt-fleet-row"><strong>09 SEATER</strong> <span>Small Families</span></div>
-        <div class="rt-fleet-row"><strong>12 SEATER</strong> <span>Mid-Sized Groups</span></div>
-        <div class="rt-fleet-row"><strong>17 SEATER</strong> <span>Large Communities</span></div>
-        <div class="rt-fleet-row"><strong>20+ BUS</strong> <span>Temple Mandalis</span></div>
+        <% } else { %>
+          <div class="nearby-card reveal"><div class="nearby-img" style="background-image: url('https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80');"></div><div class="nearby-info"><h4>Sacred Ghats</h4><p>Holy river viewpoints</p></div></div>
+          <div class="nearby-card reveal"><div class="nearby-img" style="background-image: url('https://images.unsplash.com/photo-1598096956890-a7d0d08779b6?q=80');"></div><div class="nearby-info"><h4>Historical Museum</h4><p>Ancient artifacts & history</p></div></div>
+        <% } %>
       </div>
     </div>
+  </div>
 
-    <div class="rt-bento-card rt-span-full">
-      <div class="rt-card-label">/// PREMIUM AMENITIES & ADVANTAGES</div>
-      
-      <div class="rt-split-grid">
-        <div>
-          <h3 class="rt-bento-subtitle">Standard Features:</h3>
-          <ul class="rt-check-grid">
-            <li>Push-Back Reclining Seats</li>
-            <li>Chilled AC (Dual Blower)</li>
-            <li>USB / Bluetooth Audio</li>
-            <li>Ample Luggage Space</li>
-            <li>Mobile Charging Ports</li>
-            <li>Icebox & First Aid Kit</li>
-            <li>Curtains for Privacy</li>
-            <li>Sanitized Interiors</li>
-          </ul>
-        </div>
 
-        <div>
-          <h3 class="rt-bento-subtitle">Why Choose Us:</h3>
-          <% if (tour.whyChoose && tour.whyChoose.length > 0) { %>
-            <ul class="rt-advantage-list">
-              <% tour.whyChoose.forEach(item => { %>
-                <li><%= item %></li>
-              <% }) %>
-            </ul>
+  <div class="logistics-grid">
+    
+    <div class="logistics-left">
+      <div class="route-info-box reveal-left">
+        <h4>🛣️ Route & Travel Time from Hyderabad</h4>
+        <p style="font-size: 15px; margin: 0 0 16px 0; line-height: 1.6;"><%= tour.distanceInfo %></p>
+        <p style="font-size: 12px; color: var(--text-light); margin: 0 0 8px 0; font-weight: 700; text-transform: uppercase;">Recommended Paths:</p>
+        <ul style="list-style-type: none; padding: 0; margin: 0; font-size: 14px; color: var(--text-body);">
+          <% if (tour.routes && tour.routes.length > 0) { %>
+            <% tour.routes.forEach(route => { %>
+              <li style="margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px;">
+                <span style="color: var(--brand-emerald); font-weight: bold;">→</span> <%= route %>
+              </li>
+            <% }) %>
           <% } %>
+        </ul>
+      </div>
+
+      <div class="luxury-card reveal-left">
+        <h2 class="card-title rt-promise">The Radha Travels Promise</h2>
+
+        <div class="trust-text">
+          <h3><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Vetted Route Chauffeurs</h3>
+          <p>We provide professional chauffeurs intimately familiar with the Hyderabad to <%= tour.name %> route. They undergo strict background checks and are trained in safe highway and night driving.</p>
+        </div>
+
+        <div class="trust-text">
+          <h3><svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> Immaculate Fleet Hygiene</h3>
+          <p>Every vehicle undergoes a rigorous deep-cleaning and sanitization process before reaching your pickup location. Enjoy fresh interiors, perfectly functioning dual-AC systems, and plush seating.</p>
         </div>
       </div>
-      
-      <div class="rt-cyber-divider"></div>
-      <p class="rt-bento-text" style="text-align: center;"><%= tour.whyExtra %></p>
+
+      <div class="luxury-card reveal-left">
+        <h2 class="card-title pricing-title">Transparent Pricing</h2>
+        <p class="pricing-desc">We believe in 100% honesty. The estimate we provide is what you pay.</p>
+
+        <div class="pricing-split">
+          <div class="price-box included">
+            <h4 class="included-title">Included</h4>
+            <ul class="elegant-list">
+              <li>Base Vehicle & Fuel</li>
+              <li>Driver Day Allowance</li>
+              <li>State Border Taxes</li>
+            </ul>
+          </div>
+
+          <div class="price-box excluded">
+            <h4 class="excluded-title">Additional (Actuals)</h4>
+            <ul class="elegant-list">
+              <li>Toll Plaza (Fastag)</li>
+              <li>Monument Parking</li>
+              <li>Driver Night Halt</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
-  </div> <div class="rt-booking-wrapper">
-    <a href="/contact" class="rt-initiate-btn">
-      <span class="rt-btn-glow"></span>
-      [ INITIATE SECURE BOOKING ]
+    <div class="sticky-column">
+      <div class="luxury-card reveal-right">
+        <h2 class="card-title fleet-title">Select Your Fleet</h2>
+
+        <div class="fleet-pill">
+          <div class="fleet-pill-icon">🚙</div>
+          <div>
+            <span class="fleet-name">Premium SUV</span>
+            <span class="fleet-desc">Innova / Ertiga • Up to 6 Seats</span>
+          </div>
+        </div>
+
+        <div class="fleet-pill">
+          <div class="fleet-pill-icon">🚐</div>
+          <div>
+            <span class="fleet-name">Tempo Traveller</span>
+            <span class="fleet-desc">Push-back Seats • 9 to 14 Seats</span>
+          </div>
+        </div>
+
+        <div class="fleet-pill">
+          <div class="fleet-pill-icon">🚌</div>
+          <div>
+            <span class="fleet-name">Luxury Mini Coach</span>
+            <span class="fleet-desc">For Large Groups • 17 to 25 Seats</span>
+          </div>
+        </div>
+
+        <div class="amenities-box">
+          <p class="amenities-label">Standard Amenities:</p>
+          <div class="amenities-list">
+            <span class="amenity">❄️ Dual AC</span>
+            <span class="amenity">💺 Push-back Seats</span>
+            <span class="amenity">🔋 Charging Ports</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="premium-cta-wrapper reveal">
+    <h2 class="cta-title">Your spiritual journey begins here.</h2>
+    <p class="cta-desc">
+      Get a customized quote for your trip to <%= tour.name %>. Secure your vehicle with a trusted travel partner today.
+    </p>
+    <a href="/contact" class="btn-hero btn-primary cta-btn">
+      Request Booking Estimate
     </a>
   </div>
 
-</section>
-<section class="tour-faq">
-  <h2>Frequently Asked Questions</h2>
 
-  <% const faqs = [
-    {
-      q: `What is the distance from Hyderabad to ${tour.name}?`,
-      a: tour.distanceInfo
-    },
-    {
-      q: `Do you provide same-day return trip to ${tour.name}?`,
-      a: `Yes, we offer same-day and multi-day cab services to ${tour.name} based on your travel requirements.`
-    },
-    {
-      q: `What vehicles are available for ${tour.name} trip?`,
-      a: "Sedan, SUV, Tempo Traveller and Bus options are available depending on group size and comfort preference."
-    },
-    {
-      q: `How much does Hyderabad to ${tour.name} cab cost?`,
-      a: "Pricing depends on vehicle type and duration. Contact Radha Travels for a customized quote."
-    }
-  ]; %>
+  <div class="faq-container reveal">
+    <h2 style="text-align: center; font-size: 32px; font-weight: 800; margin-bottom: 40px;">Frequently Asked Questions</h2>
+    <% const faqs = [
+      { q: `What is the exact distance from Hyderabad to ${tour.name}?`, a: tour.distanceInfo },
+      { q: `Can we customize our itinerary or add stops?`, a: `Absolutely. Since you are booking a private vehicle, the itinerary is completely flexible.` },
+      { q: `Are the drivers experienced with night driving?`, a: "Yes. All our chauffeurs handling outstation routes are trained in safe highway and night driving." },
+      { q: `How do we handle food and accommodation for the driver?`, a: "A standard daily driver allowance covers their food. They will manage their own accommodation." }
+    ]; %>
 
-  <% faqs.forEach((item, index) => { %>
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">
-        <span><%= item.q %></span>
-        <span class="faq-icon">+</span>
-      </button>
-      <div class="faq-answer">
-        <p><%= item.a %></p>
+    <% faqs.forEach((item, index) => { %>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span><%= item.q %></span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer"><p><%= item.a %></p></div>
       </div>
-    </div>
-  <% }) %>
-</section>
+    <% }) %>
+  </div>
+
+</main>
 
 <%- include('./partials/footer') %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    
+    // 1. FAQ Accordion Logic
+    document.querySelectorAll(".faq-question").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = button.parentElement;
+        const answer = button.nextElementSibling;
+        const isOpen = item.classList.contains("active");
+
+        document.querySelectorAll(".faq-item").forEach(i => {
+          i.classList.remove("active");
+          i.querySelector(".faq-answer").style.maxHeight = null;
+        });
+
+        if (!isOpen) {
+          item.classList.add("active");
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+      });
+    });
+
+    // 2. Scroll Reveal Logic
+    const revealOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.15 // Triggers when 15% of the element is visible
+    };
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target); // Stop observing once revealed
+        }
+      });
+    }, revealOptions);
+
+    // Apply observer to all reveal classes
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+      revealObserver.observe(el);
+    });
+    
+  });
+</script>
+
 <script type="application/ld+json">
 <%- JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {
-      "@type": "Question",
-      "name": `What is the distance from Hyderabad to ${tour.name}?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": tour.distanceInfo
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `Do you provide same-day return trip to ${tour.name}?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": `Yes, we provide same-day and multi-day cab services to ${tour.name}.`
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `What vehicles are available for ${tour.name} trip?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Sedan, SUV, Tempo Traveller and Bus options are available depending on group size."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": `How much does Hyderabad to ${tour.name} cab cost?`,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Pricing depends on vehicle type and travel duration. Contact Radha Travels for customized pricing."
-      }
-    }
+    { "@type": "Question", "name": `What is the distance from Hyderabad to ${tour.name}?`, "acceptedAnswer": { "@type": "Answer", "text": tour.distanceInfo } },
+    { "@type": "Question", "name": `Can we customize our itinerary or add stops?`, "acceptedAnswer": { "@type": "Answer", "text": `Yes, private vehicle itineraries are completely flexible.` } }
   ]
 }, null, 2) %>
 </script>
-<script>
-document.querySelectorAll(".faq-question").forEach(button => {
-  button.addEventListener("click", () => {
-    const item = button.parentElement;
-    const answer = button.nextElementSibling;
 
-    const isOpen = item.classList.contains("active");
-
-    document.querySelectorAll(".faq-item").forEach(i => {
-      i.classList.remove("active");
-      i.querySelector(".faq-answer").style.maxHeight = null;
-    });
-
-    if (!isOpen) {
-      item.classList.add("active");
-      answer.style.maxHeight = answer.scrollHeight + "px";
-    }
-  });
-});
-</script>
-<script type="application/ld+json">
-<%- JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://radhatravels.co.in/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Tours",
-      "item": "https://radhatravels.co.in/#special-tours"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": `Hyderabad to ${tour.name}`,
-      "item": `https://radhatravels.co.in/tours/${tour.name.toLowerCase()}`
-    }
-  ]
-}, null, 2) %>
-</script>
-<script type="application/ld+json">
-<%- JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "serviceType": `Hyderabad to ${tour.name} Cab Service`,
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": "Radha Travels",
-    "url": "https://radhatravels.co.in/",
-    "telephone": "+918332958915",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Hyderabad",
-      "addressRegion": "Telangana",
-      "addressCountry": "IN"
-    }
-  },
-  "areaServed": {
-    "@type": "City",
-    "name": tour.name
-  },
-  "availableChannel": {
-    "@type": "ServiceChannel",
-    "serviceLocation": {
-      "@type": "Place",
-      "name": "Hyderabad"
-    }
-  },
-  "description": `Premium cab and travel service from Hyderabad to ${tour.name}. Comfortable vehicles, experienced drivers, and customizable temple tour packages available.`
-}, null, 2) %>
-</script>
-<script type="application/ld+json">
-<%- JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": `Hyderabad to ${tour.name} Cab Service`,
-  "description": `Premium Hyderabad to ${tour.name} cab service by Radha Travels. Comfortable vehicles, professional drivers and temple travel packages available.`,
-  "url": `https://radhatravels.co.in/tours/${tour.name.toLowerCase()}`,
-  "inLanguage": "en",
-  "isPartOf": {
-    "@type": "WebSite",
-    "name": "Radha Travels",
-    "url": "https://radhatravels.co.in/"
-  }
-}, null, 2) %>
-</script>
 </body>
-
 </html>
