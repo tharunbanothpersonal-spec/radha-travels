@@ -2,159 +2,366 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <%- include('../partials/head', { 
-    title: title,
+    title: title || 'Travel Guides & Temple Routes | Radha Travels',
     metaDescription: "Hyderabad travel guides, temple trip planning, cab cost breakdowns and route information by Radha Travels."
   }) %>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-      --primary:#10b981;
-      --dark:#111827;
-      --muted:#6b7280;
+    /* ==========================================
+       REFINED VIBRANT PORTAL THEME
+    ========================================== */
+    :root {
+      /* Polished Brand Colors */
+      --brand-primary: #059669; 
+      --brand-primary-dark: #047857;
+      --accent-badge: #f97316; 
+      
+      /* Crisp Backgrounds & Text */
+      --bg-portal: #f8fafc;
+      --bg-card: #ffffff;
+      --text-hero: #0f172a;
+      --text-body: #475569;
+      --text-muted: #64748b;
+      --border-light: #e2e8f0;
+      
+      /* Multi-layered Premium Shadows */
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
 
-    body{
-      margin:0;
-      font-family:'Poppins',sans-serif;
-      background:#f8fafc;
+    body {
+      margin: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-portal);
+      color: var(--text-body);
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ================= HERO ================= */
+    a { text-decoration: none; color: inherit; }
+    h1, h2, h3, p { margin: 0; }
 
-    .blog-hero{
-      padding:70px 20px 50px;
-      background:linear-gradient(135deg,#065f46,#10b981);
-      color:white;
-      text-align:center;
+    /* --- 1. PREMIUM ANIMATED HERO --- */
+    .portal-hero {
+      position: relative;
+      padding: 140px 24px 120px; 
+      text-align: center;
+      color: #ffffff;
+      overflow: hidden;
+      background-color: var(--text-hero); /* Fallback */
     }
 
-    .blog-hero h1{
-      margin:0 0 10px;
-      font-size:24px;
-      font-weight:600;
+    /* 1a. Cinematic Image Slideshow (Ken Burns Effect) */
+    .hero-slideshow {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
     }
 
-    .blog-hero p{
-      font-size:13px;
-      opacity:.9;
+    .slide {
+      position: absolute;
+      inset: -10%; /* Bleed area to allow panning without showing edges */
+      width: 120%; height: 120%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      animation: slideCrossfade 24s infinite;
     }
 
-    @media(min-width:768px){
-      .blog-hero h1{ font-size:36px; }
-      .blog-hero p{ font-size:15px; }
+    /* Gradient overlay to ensure text is always readable */
+    .slide::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(4, 120, 87, 0.4), rgba(15, 23, 42, 0.5));
     }
 
-    /* ================= GRID ================= */
-
-    .blog-wrapper{
-      max-width:1100px;
-      margin:auto;
-      padding:50px 16px 80px;
+    .slide-1 { 
+      background-image: url('/images/blog-temple1.webp'); 
+      animation-delay: 0s; 
+    }
+    .slide-2 { 
+      background-image: url('/images/blog-temple2.webp'); 
+      animation-delay: 8s; 
+    }
+    .slide-3 { 
+      background-image: url('/images/stone-chariot.webp'); 
+      animation-delay: 16s; 
     }
 
-    .blog-grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:22px;
+    @keyframes slideCrossfade {
+      0% { opacity: 0; transform: scale(1); }
+      5% { opacity: 1; }
+      33% { opacity: 1; }
+      38% { opacity: 0; transform: scale(1.05); } /* Slow zoom out while fading */
+      100% { opacity: 0; }
     }
 
-    /* 2 COLUMN MOBILE */
-    @media(max-width:440px){
-      .blog-grid{
-        grid-template-columns:1fr 1fr;
-        gap:14px;
+    /* 1b. Floating Animated Orbs (Luxury Tech Feel) */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      z-index: 1;
+      opacity: 0.5;
+      animation: floatOrb 12s infinite ease-in-out alternate;
+    }
+    .orb-1 {
+      width: 400px; height: 400px;
+      background: #10b981; /* Glowing Emerald */
+      top: -100px; left: -100px;
+    }
+    .orb-2 {
+      width: 500px; height: 500px;
+      background: #0ea5e9; /* Subtle Blue accent */
+      bottom: -150px; right: -100px;
+      animation-duration: 16s;
+      animation-direction: alternate-reverse;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(60px, 40px) scale(1.1); }
+    }
+
+    /* 1c. The Subtle Geometric Grid Overlay */
+    .portal-hero::after {
+      content: ''; position: absolute; inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 2; /* Sits above slides and orbs, below text */
+    }
+
+    .hero-content { position: relative; z-index: 10; max-width: 800px; margin: 0 auto; }
+
+    /* Frosted Glass Badge */
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 20px; border-radius: 100px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      color: #ffffff;
+      font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+      margin-bottom: 24px; border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .hero-title {
+      font-size: clamp(34px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .hero-desc {
+      font-size: clamp(15px, 2vw, 18px);
+      font-weight: 400;
+      color: #f1f5f9;
+      line-height: 1.6;
+      max-width: 650px;
+      margin: 0 auto;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+
+    /* Interactive Premium Search Bar */
+    .hero-search-box {
+      display: flex; align-items: center;
+      background: #ffffff;
+      border-radius: 100px;
+      padding: 6px 6px 6px 24px;
+      margin: 40px auto 0;
+      max-width: 600px;
+      box-shadow: 0 15px 35px -5px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.8);
+      position: relative;
+      z-index: 15;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .hero-search-box:focus-within {
+      box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.2), 0 20px 40px -5px rgba(0,0,0,0.5);
+      transform: translateY(-2px);
+    }
+    
+    .hero-search-box svg { color: var(--text-muted); flex-shrink: 0; }
+    
+    .hero-search-box input {
+      border: none; outline: none; flex-grow: 1;
+      font-family: inherit; font-size: 16px; color: var(--text-hero);
+      padding: 12px 16px; background: transparent;
+    }
+    
+    .hero-search-box input::placeholder { color: #94a3b8; }
+    
+    .hero-search-box button {
+      background: var(--accent-badge); color: white;
+      border: none; border-radius: 100px;
+      padding: 14px 32px; font-size: 15px; font-weight: 800;
+      cursor: pointer; transition: all 0.3s;
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+    }
+    
+    .hero-search-box button:hover {
+      background: #ea580c;
+      box-shadow: 0 6px 15px rgba(249, 115, 22, 0.4);
+    }
+
+    /* --- 3. REFINED CARD GRID --- */
+    .grid-container {
+      max-width: 1200px; 
+      margin: -50px auto 100px; /* Your intentional negative margin */
+      padding: 0 24px;
+      min-height: 400px; 
+      
+      /* THE FIX: Forces the grid to float ABOVE the hero section */
+      position: relative; 
+      z-index: 30; 
+    }
+
+    .post-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 32px;
+    }
+
+    .post-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column; position: relative;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, opacity;
+    }
+
+    .post-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-hover);
+      border-color: rgba(5, 150, 105, 0.3);
+    }
+
+    .card-badge {
+      position: absolute; top: 16px; left: 16px; z-index: 10;
+      background: var(--accent-badge); color: #ffffff;
+      font-size: 11px; font-weight: 800; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 100px; letter-spacing: 0.5px;
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+    }
+
+    .card-image {
+      width: 100%; aspect-ratio: 16/10; overflow: hidden;
+      border-radius: 20px 20px 0 0; background: #e2e8f0;
+      position: relative;
+    }
+    
+    .card-image img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .post-card:hover .card-image img { transform: scale(1.08); }
+
+    .card-body { padding: 28px 24px 24px; display: flex; flex-direction: column; flex-grow: 1; }
+
+    .card-title {
+      font-size: 20px; font-weight: 800; color: var(--text-hero);
+      line-height: 1.35; margin-bottom: 12px; letter-spacing: -0.3px;
+      transition: color 0.3s;
+    }
+    .post-card:hover .card-title { color: var(--brand-primary); }
+
+    .card-excerpt {
+      font-size: 15px; color: var(--text-body); line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .card-footer {
+      margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border-light);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .card-date {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600; color: var(--text-muted);
+    }
+
+    .btn-read {
+      color: var(--brand-primary); font-size: 14px; font-weight: 800;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: gap 0.3s ease;
+    }
+    .btn-read svg { stroke-width: 3; }
+    .post-card:hover .btn-read { gap: 10px; color: var(--brand-primary-dark); }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      display: none; 
+      animation: cinematicReveal 0.5s ease forwards;
+    }
+    .no-results h3 { font-size: 24px; color: var(--text-hero); margin-bottom: 8px; }
+    .no-results p { font-size: 16px; color: var(--text-muted); }
+
+    /* ==========================================
+       MOBILE 2-COLUMN OPTIMIZATIONS
+    ========================================== */
+    @media(max-width: 768px) {
+      .portal-hero { padding: 110px 16px 80px; }
+      .hero-title { font-size: 30px; margin-bottom: 12px; }
+      
+      .hero-search-box { padding: 4px 4px 4px 16px; margin-top: 32px; }
+      .hero-search-box input { font-size: 14px; padding: 10px; }
+      .hero-search-box button { padding: 12px 20px; font-size: 14px; }
+      
+      .category-strip { padding: 6px; border-radius: 16px; }
+      .cat-pill { padding: 8px 16px; font-size: 12px; border-radius: 12px; }
+      
+      .grid-container { padding: 0 16px; margin-bottom: 60px; }
+      
+      .post-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .post-card { border-radius: 16px; }
+      .card-image { border-radius: 16px 16px 0 0; aspect-ratio: 4/3; }
+      .card-badge { top: 8px; left: 8px; font-size: 9px; padding: 4px 8px; }
+      
+      .card-body { padding: 12px; }
+      .card-title { font-size: 13px; margin-bottom: 6px; line-height: 1.3; letter-spacing: 0; }
+      .card-excerpt { font-size: 11px; margin-bottom: 12px; line-height: 1.4; -webkit-line-clamp: 2; }
+      
+      .card-footer { padding-top: 10px; flex-wrap: wrap; gap: 8px; }
+      .card-date { font-size: 10px; gap: 4px; }
+      .card-date svg { width: 12px; height: 12px; }
+      .btn-read { font-size: 11px; gap: 4px; }
+      .btn-read svg { width: 14px; height: 14px; }
+    }
+
+    /* --- STUDIO-GRADE CINEMATIC ANIMATIONS --- */
+    @keyframes cinematicReveal {
+      from { 
+        opacity: 0; 
+        transform: translateY(30px) scale(0.96); 
+        filter: blur(5px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+        filter: blur(0); 
       }
     }
-
-    /* TABLET */
-    @media(min-width:768px){
-      .blog-grid{
-        grid-template-columns:repeat(3,1fr);
-        gap:30px;
-      }
+    
+    .animate-up {
+      opacity: 0; 
+      animation: cinematicReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    /* ================= CARD ================= */
-
-    .blog-card{
-      background:white;
-      border-radius:22px;
-      overflow:hidden;
-      box-shadow:0 20px 60px rgba(0,0,0,0.06);
-      transition:all .35s ease;
-      display:flex;
-      flex-direction:column;
-    }
-
-    .blog-card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 30px 70px rgba(16,185,129,0.15);
-    }
-
-    .blog-card img{
-      width:100%;
-      height:190px;
-      object-fit:cover;
-      display:block;
-      transition:transform .5s ease;
-    }
-
-    @media(max-width:440px){
-      .blog-card img{
-        height:130px;
-      }
-    }
-
-    .blog-card:hover img{
-      transform:scale(1.05);
-    }
-
-    .blog-content{
-      padding:16px;
-      flex-grow:1;
-      display:flex;
-      flex-direction:column;
-    }
-
-    .blog-date{
-      font-size:11px;
-      color:var(--muted);
-      margin-bottom:6px;
-    }
-
-    .blog-content h2{
-      font-size:15px;
-      margin:0 0 8px;
-      line-height:1.4;
-      color:var(--dark);
-      flex-grow:1;
-    }
-
-    @media(max-width:440px){
-      .blog-content h2{
-        font-size:13px;
-      }
-    }
-
-    .blog-content p{
-      font-size:13px;
-      color:var(--muted);
-      margin-bottom:14px;
-      line-height:1.6;
-    }
-
-    .read-more{
-      font-size:13px;
-      font-weight:600;
-      color:var(--primary);
-      text-decoration:none;
-    }
-
-    .read-more:hover{
-      text-decoration:underline;
-    }
-
+    .delay-0 { animation-delay: 0.05s; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.25s; }
   </style>
 </head>
 
@@ -163,50 +370,162 @@
 <%- include('../partials/header') %>
 <%- include('../partials/ticker') %>
 
-<section class="blog-hero">
-  <h1>Radha Travels Blog</h1>
-  <p>Temple travel guides • Cab cost breakdowns • Route insights</p>
-</section>
+<header class="portal-hero">
+  
+  <div class="hero-slideshow">
+    <div class="slide slide-1"></div>
+    <div class="slide slide-2"></div>
+    <div class="slide slide-3"></div>
+  </div>
 
-<div class="blog-wrapper">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
 
-  <div class="blog-grid">
+  <div class="hero-content">
+    
+    <div class="hero-badge animate-up delay-0">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+      Travel Editorial
+    </div>
+    
+    <h1 class="hero-title animate-up delay-0">Travel Guides & Routes</h1>
+    <p class="hero-desc animate-up delay-1">Plan your perfect pilgrimage with our expert itineraries, cab fare breakdowns, and local temple tips.</p>
+    
+    <div class="hero-search-box animate-up delay-2">
+      <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+      <input type="text" id="liveSearchInput" placeholder="Search temples, routes, or guides..." aria-label="Search travel guides">
+      <button type="button" id="liveSearchBtn">Search</button>
+    </div>
 
-    <% posts.forEach(post => { %>
-      <article class="blog-card">
+  </div>
+</header>
 
-        <a href="/blog/<%= post.slug %>">
-          <img src="<%= post.image %>" alt="<%= post.title %>" loading="lazy">
+<main class="grid-container">
+  <div class="post-grid" id="blogGrid">
+
+    <% posts.forEach((post, index) => { %>
+      <article class="post-card animate-up delay-<%= (index % 3) %>" data-title="<%= post.title.toLowerCase() %>" data-excerpt="<%= post.excerpt.toLowerCase() %>">
+        
+        <div class="card-badge">Top Guide</div>
+
+        <a href="/blog/<%= post.slug %>" class="card-image" aria-label="Read <%= post.title %>">
+          <img src="<%= post.image %>" alt="<%= post.title %> cover image" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80'">
         </a>
 
-        <div class="blog-content">
-
-          <div class="blog-date">
-            Published on <%= post.date %>
-          </div>
-
+        <div class="card-body">
           <h2>
-            <a href="/blog/<%= post.slug %>" style="text-decoration:none;color:inherit;">
-              <%= post.title %>
-            </a>
+            <a href="/blog/<%= post.slug %>" class="card-title"><%= post.title %></a>
           </h2>
+          
+          <p class="card-excerpt"><%= post.excerpt %></p>
 
-          <p><%= post.excerpt %></p>
-
-          <a class="read-more" href="/blog/<%= post.slug %>">
-            Read Full Guide →
-          </a>
-
+          <div class="card-footer">
+            <time class="card-date" datetime="<%= post.date %>">
+              <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <%= post.date %>
+            </time>
+            
+            <a href="/blog/<%= post.slug %>" class="btn-read">
+              Read Guide
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </a>
+          </div>
         </div>
-
       </article>
     <% }) %>
 
-  </div>
+    <div class="no-results" id="noResultsMsg">
+      <h3>No guides found</h3>
+      <p>We couldn't find any articles matching your search. Try different keywords.</p>
+    </div>
 
-</div>
+  </div>
+</main>
 
 <%- include('../partials/footer') %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById('liveSearchInput');
+    const searchBtn = document.getElementById('liveSearchBtn');
+    const cards = document.querySelectorAll('.post-card');
+    const noResultsMsg = document.getElementById('noResultsMsg');
+
+    const filterCards = () => {
+      const query = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.getAttribute('data-title');
+        const excerpt = card.getAttribute('data-excerpt');
+
+        if (title.includes(query) || excerpt.includes(query)) {
+          card.style.display = 'flex';
+          visibleCount++;
+          
+          if (query !== '') {
+            card.style.animation = 'none';
+            card.offsetHeight; /* trigger reflow */
+            card.style.animation = 'cinematicReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+          }
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (visibleCount === 0) {
+        noResultsMsg.style.display = 'block';
+      } else {
+        noResultsMsg.style.display = 'none';
+      }
+    };
+
+    searchInput.addEventListener('input', filterCards);
+    searchBtn.addEventListener('click', filterCards);
+  });
+</script>
+
+<script type="application/ld+json">
+<%- JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://radhatravels.co.in/blog",
+      "url": "https://radhatravels.co.in/blog",
+      "name": "Travel Blog & Guides | Radha Travels",
+      "description": "Hyderabad travel guides, temple trip planning, cab cost breakdowns and route information by Radha Travels.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Radha Travels",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://radhatravels.co.in/images/logo.jpg"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://radhatravels.co.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://radhatravels.co.in/blog"
+        }
+      ]
+    }
+  ]
+}, null, 2) %>
+</script>
 
 </body>
 </html>

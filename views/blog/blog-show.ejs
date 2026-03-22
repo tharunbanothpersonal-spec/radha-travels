@@ -2,314 +2,573 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
+  <meta property="og:url" content="https://www.radhatravels.co.in/blog/<%= post.slug %>" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="<%= post.title %>" />
+<meta property="og:description" content="<%= post.excerpt %>" />
+<meta property="og:image" content="https://www.radhatravels.co.in<%= post.image %>" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <%- include('../partials/head', { 
-    title: post.title,
-    metaDescription: post.excerpt
+    title: (post.title || 'Travel Guide') + ' | Radha Travels',
+    metaDescription: post.excerpt || "Expert travel guides and route information."
   }) %>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    :root{
-  --primary:#10b981;
-  --primary-dark:#064e3b;
-  --bg:#f8fafc;
-  --text:#111827;
-  --muted:#6b7280;
-}
+    /* ==========================================
+       PERFECTED EDITORIAL DASHBOARD (BLUE THEME)
+    ========================================== */
+    :root {
+      --brand-primary: #2563eb; 
+      --brand-dark: #1e40af;    
+      --brand-light: #eff6ff;   
+      --accent-orange: #ea580c; 
+      --badge-ochre: rgba(186, 135, 89, 0.95); 
+      
+      --bg-body: #f8fafc; 
+      --bg-card: #ffffff;
+      --text-hero: #0f172a; 
+      --text-body: #334155; 
+      --text-muted1: #0649a6;
+      --border-line: #e2e8f0;
+      
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 8px 24px -4px rgba(15, 23, 42, 0.06);
+    }
 
-body{
-  margin:0;
-  margin-top: -50px;
-  font-family:'Poppins',sans-serif;
-  background:var(--bg);
-  color:var(--text);
-}
+    *, *::before, *::after { box-sizing: border-box; }
 
-/* ================= HERO ================= */
+    /* Premium Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-body); }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-.blog-hero{
-  background:linear-gradient(135deg,var(--primary-dark),var(--primary));
-  padding:90px 20px 70px;
-  color:white;
-  text-align:center;
-}
+    /* STRICT MOBILE VIEWPORT LOCKDOWN */
+    html, body { 
+      max-width: 100vw; 
+      overflow-x: hidden; 
+      margin: 0; 
+      padding: 0; 
+      background-color: var(--bg-body); 
+      color: var(--text-body); 
+      font-family: 'Plus Jakarta Sans', sans-serif; 
+      -webkit-font-smoothing: antialiased; 
+    }
+    
+    a { text-decoration: none; color: inherit; transition: all 0.2s ease; }
+    h1, h2, h3, p { margin: 0; }
+    svg { flex-shrink: 0; display: block; } 
 
-.blog-hero h1{
-  margin:0 auto 14px;
-  font-size:26px;
-  max-width:900px;
-  line-height:1.35;
-  font-weight:600;
-}
+    /* Reading Progress Bar */
+    #progressBar { position: fixed; top: 0; left: 0; height: 4px; background: var(--brand-primary); width: 0%; z-index: 9999; transition: width 0.1s; }
 
-.blog-meta{
-  font-size:14px;
-  opacity:.9;
-}
+    /* --- 1. HERO BANNER --- */
+    .portal-hero {
+      position: relative; width: 100%;
+      background-image: linear-gradient(
+  65deg, 
+  rgba(21, 25, 138, 0.5) 0%,    /* Starts Dark Blue */
+  rgba(21, 25, 138, 0) 40%,     /* Fades to transparent EXACTLY at 20% */
+  rgba(18, 49, 39, 0) 60%,      /* Stays completely transparent UNTIL 60% */
+  rgba(25, 109, 83, 0.6) 100%    /* Fades to Dark Green at 100% */
+), url('<%= post.image || "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80" %>');
+      background-size: cover; background-position: center; padding: 120px 0px 100px; color: #ffffff;margin-top: 100px;
+    }
+    .hero-container { max-width: 1140px; margin: 0 auto auto 15px; position: relative; z-index: 10; }
+    
+    .breadcrumbs { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #94a3b8; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .breadcrumbs a:hover { color: #ffffff; }
+    .breadcrumbs span { color: #cbd5e1; }
+    
+    .article-title { font-size: clamp(24px, 5vw, 44px); font-weight: 800; line-height: 1.25; letter-spacing: -0.5px; max-width: 850px; margin-bottom: 20px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); word-break: break-word; }
+    
+    .article-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13px; font-weight: 600; color: white; }
+    .meta-pill { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 100px; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.15); }
+    .meta-pill svg { color: #60a5fa; width: 14px; height: 14px; }
 
-@media(min-width:768px){
-  .blog-hero h1{ font-size:38px; }
-}
+    /* --- 2. HIGH-DENSITY DASHBOARD LAYOUT --- */
+    .dashboard-layout { max-width: 1140px; margin: -50px auto 80px; padding: 0 24px; display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 28px; position: relative; z-index: 20; align-items: start; }
+    .main-column { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
 
-/* ================= CONTENT WRAPPER ================= */
+    /* ==========================================
+       AUTHOR BLOCK 
+    ========================================== */
+    .author-block-wrapper {
+      background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-line);
+      box-shadow: var(--shadow-sm); padding: 16px 24px; 
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
+    .author-profile { display: flex; align-items: center; gap: 16px; flex-grow: 1; min-width: 0; }
+    .author-avatar-badge {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--brand-light); color: var(--brand-primary);
+      display: flex; justify-content: center; align-items: center; font-size: 20px; font-weight: 800; flex-shrink: 0;
+    }
+    .author-info-center { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .author-name { font-size: 16px; font-weight: 800; color: var(--text-hero); display: flex; align-items: center; gap: 6px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .author-name svg { color: var(--brand-primary); width: 16px; height: 16px; flex-shrink: 0; }
+    .author-subtitle { font-size: 13px; font-weight: 600; color: #0649a6; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
+    
+    .author-fact-check { text-align: right; border-left: 1px solid var(--border-line); padding-left: 20px; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; }
+    .fc-label { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 800; color: var(--text-hero); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+    .fc-label svg { color: var(--text-hero); width: 14px; height: 14px; }
+    .fc-value { font-size: 14px; font-weight: 600; color: var(--text-muted1); margin: 0; display: flex; align-items: center; gap: 4px; }
 
-.blog-wrapper{
-  max-width:850px;
-  margin:-50px auto 90px;
-  padding:0 20px;
-}
+    .fc-mobile-badge { display: none; }
 
-.blog-container{
-  background:white;
-  padding:40px;
-  border-radius:28px;
-  box-shadow:0 30px 80px rgba(0,0,0,0.06);
-}
+    /* Main Article Container */
+    .ui-card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-line); box-shadow: var(--shadow-card); padding: 36px; min-width: 0; }
 
-@media(max-width:440px){
-  body{
-  margin-top: -80px;
-}
-  .blog-container{
-    padding:22px;
-    border-radius:20px;
-  }
+    /* Quick Facts Bar */
+    .quick-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border-line); }
+    .fact-item { display: flex; flex-direction: column; gap: 4px; background: var(--bg-body); padding: 16px; border-radius: 12px; border: 1px solid var(--border-line); }
+    .fact-label { font-size: 11px; font-weight: 800; color: var(--text-muted1); text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; }
+    .fact-label svg { color: var(--accent-orange); width: 14px; height: 14px; }
+    .fact-value { font-size: 16px; font-weight: 800; color: var(--text-hero); }
 
-}
+    /* ==========================================
+       CMS CONTENT - DE-BULKED SCALING
+    ========================================== */
+    .cms-content { font-size: 16px; line-height: 1.7; color: var(--text-body); word-wrap: break-word; }
+    .cms-content > p:first-of-type { font-size: 17px; font-weight: 500; color: var(--text-hero); margin-bottom: 24px; }
+    
+    .cms-content h2 { font-size: 24px; font-weight: 800; color: var(--text-hero); margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border-line); scroll-margin-top: 100px; }
+    .cms-content h3 { font-size: 18px; font-weight: 700; color: var(--text-hero); margin: 24px 0 12px; }
+    .cms-content p { margin-bottom: 16px; }
+    .cms-content ul, .cms-content ol { background: var(--bg-body); padding: 16px 16px 16px 40px; border-radius: 12px; border: 1px solid var(--border-line); margin-bottom: 24px; }
+    .cms-content li { margin-bottom: 8px; font-weight: 500; color: var(--text-hero); }
+    .cms-content li::marker { color: var(--brand-primary); font-weight: 800; }
+    
+    .cms-content img { width: 100%; height: auto; border-radius: 12px; margin: 32px 0; border: 1px solid var(--border-line); box-shadow: var(--shadow-sm); }
+    .cms-content a { color: var(--brand-primary); font-weight: 700; text-decoration: underline; text-decoration-color: rgba(37, 99, 235, 0.3); text-underline-offset: 3px; transition: all 0.2s; }
+    .cms-content a:hover { color: var(--brand-dark); text-decoration-color: var(--brand-dark); }
+    
+    .table-wrapper { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 24px 0; border-radius: 12px; border: 1px solid var(--border-line); box-shadow: var(--shadow-sm); }
+    .cms-content table { width: 100%; min-width: 500px; border-collapse: collapse; font-size: 14px; }
+    .cms-content th { background: var(--bg-body); color: var(--text-hero); padding: 12px 16px; text-align: left; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border-line); }
+    .cms-content td { padding: 12px 16px; border-bottom: 1px solid var(--border-line); background: #ffffff; font-weight: 500; color: var(--text-body); }
 
-/* ================= TYPOGRAPHY ================= */
+    /* ==========================================
+       EXPERT NOTE 
+    ========================================== */
+    .cms-content .expert-note { 
+      margin: 32px 0; padding: 20px 24px; 
+      background: #f4f9ff; border-radius: 12px; 
+      border: 1px solid #cce4ff; 
+      display: flex; flex-direction: row !important; gap: 16px; align-items: flex-start; 
+    }
+    .cms-content .expert-note svg { 
+      color: var(--brand-primary); width: 24px !important; height: 24px !important; 
+      min-width: 24px !important; flex: 0 0 24px !important; margin-top: 2px; display: block; 
+    }
+    .cms-content .expert-note div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .cms-content .expert-note strong { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--brand-primary); }
+    .cms-content .expert-note p { margin: 0; font-size: 15px; font-weight: 500; color: var(--text-body); line-height: 1.6; }
 
-.blog-container h2{
-  font-size:21px;
-  margin-top:40px;
-  margin-bottom:12px;
-  font-weight:600;
-}
+    .cms-content blockquote { margin: 32px 0; padding: 16px 24px; background: #fff7ed; border-left: 4px solid var(--accent-orange); border-radius: 0 12px 12px 0; font-size: 16px; font-weight: 600; color: #9a3412; font-style: italic; }
 
-.blog-container h3{
-  font-size:17px;
-  margin-top:28px;
-  margin-bottom:8px;
-}
+    /* Footer & Share */
+    .article-footer { border-top: 1px solid var(--border-line); padding-top: 24px; margin-top: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .tags-container { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tag { font-size: 12px; font-weight: 700; color: var(--text-hero); background: var(--bg-body); padding: 6px 14px; border-radius: 100px; border: 1px solid var(--border-line); }
+    .share-buttons { display: flex; gap: 8px; align-items: center; font-size: 13px; font-weight: 800; color: var(--text-hero); text-transform: uppercase; }
+    .share-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-body); display: flex; justify-content: center; align-items: center; color: var(--text-hero); border: 1px solid var(--border-line); cursor: pointer; transition: 0.2s ease; }
+    .share-btn:hover { background: var(--brand-primary); color: #fff; border-color: var(--brand-primary); transform: translateY(-2px); }
 
-.blog-container p{
-  font-size:15px;
-  line-height:1.9;
-  color:#374151;
-  margin-bottom:18px;
-}
+    #copyToast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text-hero); color: #fff; padding: 10px 20px; border-radius: 100px; font-size: 13px; font-weight: 700; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 9999; }
+    #copyToast.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
 
-.blog-container ul{
-  padding-left:20px;
-  margin-bottom:22px;
-}
+    /* --- 4. RIGHT COLUMN WIDGETS --- */
+    .sidebar-column { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 120px; }
 
-.blog-container li{
-  margin-bottom:10px;
-  font-size:14px;
-  line-height:1.7;
-}
+    .booking-widget { background: var(--bg-card); border-radius: 16px; border: 2px solid var(--brand-primary); box-shadow: var(--shadow-card); padding: 32px 24px; text-align: center; position: relative;}
+    .booking-ribbon { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: var(--accent-orange); color: #fff; font-size: 11px; font-weight: 800; padding: 4px 14px; border-radius: 0 0 8px 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .booking-widget h3 { font-size: 20px; font-weight: 800; color: var(--text-hero); margin-bottom: 8px; margin-top: 4px; }
+    .booking-widget p { font-size: 14px; color: var(--text-muted1); margin-bottom: 20px; line-height: 1.5; }
+    
+    .cab-features { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; text-align: left; background: var(--bg-body); padding: 16px; border-radius: 12px; border: 1px solid var(--border-line); }
+    .cab-feature { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: var(--text-hero); }
+    .cab-feature svg { color: var(--brand-primary); width: 16px; height: 16px; }
 
-/* ================= INTERNAL LINKS SECTION ================= */
+    .btn-action { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; background: var(--accent-orange); color: #fff; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; border: none; cursor: pointer; transition: 0.2s ease; }
+    .btn-action:hover { background: #c2410c; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(234, 88, 12, 0.2); }
 
-.internal-links{
-  margin-top:45px;
-  padding:22px;
-  background:#f0fdf4;
-  border-radius:18px;
-  border:1px solid #bbf7d0;
-}
+    .toc-widget { padding: 24px; background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-line); box-shadow: var(--shadow-card); }
+    .toc-widget h4 { font-size: 14px; font-weight: 800; color: var(--text-hero); margin-bottom: 16px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+    .toc-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+    .toc-list li a { font-size: 14px; font-weight: 500; color: var(--text-muted1); display: flex; align-items: flex-start; gap: 8px; }
+    .toc-list li a::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #cbd5e1; margin-top: 8px; flex-shrink: 0; transition: background 0.2s ease;}
+    .toc-list li a:hover { color: var(--brand-primary); }
+    .toc-list li a:hover::before { background: var(--brand-primary); }
 
-.internal-links h2{
-  font-size:18px;
-  margin-top:0;
-}
+    /* ==========================================
+       5. RELATED GUIDES 
+    ========================================== */
+    .related-section { max-width: 1140px; margin: 0 auto 100px; padding: 0 24px; border-top: 1px solid var(--border-line); padding-top: 60px; }
+    .related-section h2 { font-size: 24px; font-weight: 800; color: var(--text-hero); text-align: center; margin-bottom: 32px; }
+    .post-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+    .post-card { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-line); box-shadow: var(--shadow-sm); display: flex; flex-direction: column; position: relative; overflow: hidden; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+    .post-card:hover { transform: translateY(-6px); box-shadow: 0 12px 24px -4px rgba(37, 99, 235, 0.15); border-color: rgba(37, 99, 235, 0.2); }
+    .card-badge { position: absolute; top: 12px; left: 12px; z-index: 10; background: var(--badge-ochre); color: #fff; font-size: 11px; font-weight: 800; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; letter-spacing: 0.5px; }
+    .card-image { width: 100%; aspect-ratio: 16/10; background: #e2e8f0; overflow: hidden; }
+    .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .post-card:hover .card-image img { transform: scale(1.05); }
+    .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+    .card-title { font-size: 16px; font-weight: 800; color: var(--text-hero); line-height: 1.35; margin-bottom: 8px; transition: color 0.2s ease;}
+    .post-card:hover .card-title { color: var(--brand-primary); }
+    .card-excerpt { font-size: 13px; color: var(--text-body); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-/* ================= INTERNAL LINKS ================= */
+    /* ==========================================
+       PREMIUM ANIMATION & REVEAL CLASSES
+    ========================================== */
+    .fade-up-initial { opacity: 0; transform: translateY(20px); animation: premiumFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.3s; }
+    
+    @keyframes premiumFadeUp { to { opacity: 1; transform: translateY(0); } }
 
-.blog-container a{
-  color:var(--primary);
-  font-weight:600;
-  text-decoration:none;
-}
+    /* Intersection Observer Classes */
+    .reveal-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+    .reveal-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+    
+    /* Staggered grid items */
+    .stagger-1 { transition-delay: 0.1s; }
+    .stagger-2 { transition-delay: 0.2s; }
+    .stagger-3 { transition-delay: 0.3s; }
 
-.blog-container a:hover{
-  text-decoration:underline;
-}
+    /* ==========================================
+       6. FLAWLESS 440px MOBILE VIEW (STRICT)
+    ========================================== */
+    .mobile-booking-bar { display: none; }
 
-/* ================= FEATURED IMAGE ================= */
+    @media(max-width: 992px) {
+      .dashboard-layout { grid-template-columns: 1fr; gap: 24px; margin-top: -30px; }
+      .sidebar-column { position: static; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+      .booking-widget { margin-top: 0; }
+    }
 
-.featured-image{
-  margin-bottom:30px;
-  border-radius:22px;
-  overflow:hidden;
-}
+    @media(max-width: 768px) {
+      .portal-hero { padding: 90px 16px 60px; min-height: auto; }
+      .article-title { font-size: 24px; margin-bottom: 12px; line-height: 1.3; }
+      
+      .dashboard-layout { padding: 0 16px; margin-top: -24px; margin-bottom: 120px; gap: 16px; } 
+      .sidebar-column { grid-template-columns: 1fr; }
+      
+      .author-block-wrapper { flex-direction: row; flex-wrap: nowrap; padding: 12px; gap: 12px; align-items: center; border-radius: 12px; margin-top: 0; box-shadow: var(--shadow-sm); }
+      .author-profile { gap: 10px; width: auto; flex-grow: 1; min-width: 0; }
+      .author-avatar-badge { width: 40px; height: 40px; font-size: 16px; margin: 0; }
+      .author-info-center { gap: 0; min-width: 0; }
+      .author-name { font-size: 14px; }
+      .author-subtitle { font-size: 12px; }
+      
+      .author-fact-check { display: none; } 
+      .fc-mobile-badge { display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800; background: var(--brand-light); color: var(--brand-primary); padding: 6px 12px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+      
+      .ui-card { padding: 16px; border-radius: 12px; }
+      
+      .quick-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-line); }
+      .fact-item { padding: 12px 4px; border-radius: 8px; align-items: center; text-align: center; }
+      .fact-label { font-size: 9px; justify-content: center; }
+      .fact-label svg { width: 12px; height: 12px; }
+      .fact-value { font-size: 13px; }
+      
+      .cms-content { font-size: 15px; line-height: 1.6; }
+      .cms-content > p:first-of-type { font-size: 15px; margin-bottom: 20px; }
+      .cms-content h2 { font-size: 20px; margin: 28px 0 12px; scroll-margin-top: 70px; }
+      .cms-content h3 { font-size: 17px; margin: 20px 0 10px; }
+      .cms-content ul, .cms-content ol { padding: 12px 12px 12px 32px; border-radius: 8px; margin-bottom: 20px; }
+      .cms-content li { margin-bottom: 8px; font-size: 14.5px; }
+      .cms-content img { border-radius: 8px; margin: 20px 0; }
+      
+      .cms-content .expert-note { flex-direction: row !important; padding: 16px; gap: 12px; border-radius: 8px; margin: 20px 0; } 
+      .cms-content .expert-note svg { width: 20px !important; height: 20px !important; min-width: 20px !important; margin-top: 0;}
+      .cms-content .expert-note strong { font-size: 13px; }
+      .cms-content .expert-note p { font-size: 14px; }
 
-.featured-image img{
-  width:100%;
-  height:380px;
-  object-fit:cover;
-}
+      .cms-content blockquote { font-size: 15px; padding: 12px 16px; margin: 20px 0; }
+      
+      .table-wrapper { width: 100%; overflow-x: auto; margin: 20px 0; border-radius: 8px; }
+      .cms-content table { min-width: 400px; font-size: 13px; }
+      .cms-content th, .cms-content td { padding: 10px 12px; }
 
-@media(max-width:440px){
-  .featured-image img{
-    height:200px;
-  }
-}
-
-/* ================= RELATED POSTS ================= */
-
-.related-section{
-  margin-top:65px;
-}
-
-.related-section h2{
-  font-size:20px;
-  margin-bottom:22px;
-}
-
-.related-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:18px;
-}
-
-@media(min-width:768px){
-  .related-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
-}
-
-.related-card{
-  background:white;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 15px 35px rgba(0,0,0,0.05);
-  transition:.3s ease;
-}
-
-.related-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 20px 60px rgba(16,185,129,0.15);
-}
-
-.related-card img{
-  width:100%;
-  height:160px;
-  object-fit:cover;
-}
-
-.related-card-content{
-  padding:16px;
-}
-
-.related-card h3{
-  font-size:14px;
-  margin:0 0 6px;
-}
-
-.related-card p{
-  font-size:12px;
-  color:var(--muted);
-  margin:0;
-}
-
-/* ================= FLOATING CTA ================= */
-
-.floating-cta{
-  position:fixed;
-  bottom:25px;
-  left:25px;
-  background:linear-gradient(135deg,#b91c1c,#7f1d1d);
-  color:white;
-  padding:14px 24px;
-  border-radius:50px;
-  font-size:14px;
-  font-weight:600;
-  text-decoration:none;
-  box-shadow:0 12px 35px rgba(185,28,28,.4);
-  transition:.3s ease;
-  z-index:999;
-}
-
-.floating-cta:hover{
-  transform:translateY(-4px);
-  box-shadow:0 18px 45px rgba(185,28,28,.6);
-}
-
-@media(max-width:440px){
-  .floating-cta{
-    bottom:45px;
-    left:18px;
-    font-size:13px;
-    padding:12px 18px;
-  }
-}
+      .article-footer { flex-direction: column; align-items: flex-start; gap: 16px; padding-top: 16px; margin-top: 24px; }
+      .tags-container { gap: 6px; }
+      .tag { font-size: 11px; padding: 6px 12px; }
+      
+      .related-section { padding: 40px 16px 0; }
+      .post-grid { grid-template-columns: 1fr; gap: 12px; }
+      .post-card { flex-direction: row; align-items: center; padding: 8px; gap: 12px; border-radius: 12px; }
+      .card-image { width: 80px; height: 80px; border-radius: 8px; flex-shrink: 0; }
+      .card-image img { border-radius: 8px; }
+      .card-badge { display: none; } 
+      .card-body { padding: 0; }
+      .card-title { font-size: 14px; margin-bottom: 4px; line-height: 1.3; }
+      .card-excerpt { font-size: 12px; -webkit-line-clamp: 2; }
+      
+      .mobile-booking-bar {
+        display: flex; justify-content: space-between; align-items: center;
+        position: fixed; bottom: 0; left: 0; right: 0; width: 100%; z-index: 999;
+        background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        padding: 12px 16px; border-top: 1px solid var(--border-line);
+        box-sizing: border-box; box-shadow: 0 -4px 15px rgba(0,0,0,0.05);
+      }
+      .mbb-price { display: flex; flex-direction: column; min-width: 0; }
+      .mbb-price span:first-child { font-size: 11px; color: var(--text-muted1); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;}
+      .mbb-price span:last-child { font-size: 15px; font-weight: 800; color: var(--text-hero); }
+      .mbb-btn { background: var(--accent-orange); color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 800; text-transform: uppercase; border: none; flex-shrink: 0;}
+      .social-dock{display: none !important;}
+    }
   </style>
 </head>
 
 <body>
 
+<div id="progressBar"></div>
+
 <%- include('../partials/header') %>
 <%- include('../partials/ticker') %>
 
-<!-- HERO -->
-<section class="blog-hero">
-  <h1><%= post.title %></h1>
-  <div class="blog-meta">
-    Published on <%= post.date %>
-  </div>
-</section>
+<header class="portal-hero">
+  <div class="hero-container">
+    
+    <nav class="breadcrumbs fade-up-initial">
+      <a href="/">Home</a> <span>/</span>
+      <a href="/blog">Travel Guides</a> <span>/</span>
+      <span style="color: #fff;"><%= post.title.substring(0, 20) %>...</span>
+    </nav>
 
-<!-- CONTENT -->
-<div class="blog-wrapper">
-  <div class="blog-container">
-
-    <% if(post.image){ %>
-      <div class="featured-image">
-        <img src="<%= post.image %>" alt="<%= post.title %>">
+    <h1 class="article-title fade-up-initial delay-1"><%= post.title %></h1>
+    
+    <div class="article-meta fade-up-initial delay-2">
+      <div class="meta-pill">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        Updated: <%= post.date %>
       </div>
-    <% } %>
+      <div class="meta-pill">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <%= post.readTime || '5 Min Read' %>
+      </div>
+    </div>
 
-    <%- post.content %>
-<div class="internal-links">
-  <h2>Book Reliable Cab Services in Hyderabad</h2>
-  <p>
-    Looking for trusted travel services? Explore our
-    <a href="/services/outstation">Outstation Cab Service</a>,
-    <a href="/services/airport-transfer">Airport Taxi Service</a>,
-    and <a href="/fleet">Tempo Traveller & SUV Rentals</a>.
-  </p>
-</div>
-    <% if (relatedPosts && relatedPosts.length) { %>
-      <div class="related-section">
-        <h2>Related Travel Guides</h2>
+  </div>
+</header>
 
-        <div class="related-grid">
-          <% relatedPosts.forEach(item => { %>
-            <div class="related-card">
-              <a href="/blog/<%= item.slug %>">
-                <img src="<%= item.image %>" alt="<%= item.title %>">
-                <div class="related-card-content">
-                  <h3><%= item.title %></h3>
-                  <p><%= item.excerpt %></p>
-                </div>
-              </a>
-            </div>
-          <% }) %>
+<main class="dashboard-layout">
+  
+  <div class="main-column">
+    
+    <div class="author-block-wrapper fade-up-initial delay-1">
+      <div class="author-profile">
+        <div class="author-avatar-badge">R</div>
+        <div class="author-info-center">
+          <h4 class="author-name">Radha Travels Experts <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg></h4>
+          <p class="author-subtitle">Route Specialists • Assisting 20+ Bookings Daily</p>
         </div>
       </div>
-    <% } %>
+      
+      <div class="author-fact-check">
+        <span class="fc-label">FACT CHECKED <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg></span>
+        <p class="fc-value">Verified Pricing & Timings</p>
+      </div>
+      
+      <div class="fc-mobile-badge"><svg width="12" height="12" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg> Verified</div>
+    </div>
+
+    <article class="ui-card cms-content reveal-on-scroll" id="mainArticleBody">
+      
+      <div class="quick-facts">
+        <div class="fact-item">
+          <div class="fact-label"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg> Distance</div>
+          <div class="fact-value">Approx. 450 km</div>
+        </div>
+        <div class="fact-item">
+          <div class="fact-label"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Time</div>
+          <div class="fact-value">8-9 Hours</div>
+        </div>
+        <div class="fact-item">
+          <div class="fact-label"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08-.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Starting Fare</div>
+          <div class="fact-value">₹12/km (SUV)</div>
+        </div>
+      </div>
+
+      <%- post.content.replace(/<table/g, '<div class="table-wrapper"><table').replace(/<\/table>/g, '</table></div>') %>
+
+      <div class="article-footer">
+        <div class="tags-container">
+          <span class="tag">#TravelGuide</span>
+          <span class="tag">#RoutePlanner</span>
+          <span class="tag">#CabFares</span>
+        </div>
+        <div class="share-buttons">
+          Share:
+          <a href="#" class="share-btn" id="shareWa" aria-label="Share on WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+          <a href="#" class="share-btn" id="shareFb" aria-label="Share on Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <button class="share-btn" id="copyLinkBtn" aria-label="Copy Link" style="border:1px solid var(--border-line); background:var(--bg-body); cursor:pointer;"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg></button>
+        </div>
+      </div>
+
+    </article>
 
   </div>
-</div>
-<!-- Sticky Bottom CTA (Mobile Only) -->
-  <a href="#" role="button" class="floating-cta open-booking"><i class="ri-24-hours-line"></i> Book this Trip</a>
 
+  <aside class="sidebar-column">
+    
+    <div class="booking-widget reveal-on-scroll">
+      <div class="booking-ribbon">Premium Partner</div>
+      <h3>Plan Your Journey</h3>
+      <p>Skip the driving hassle. Book a premium cab directly from Hyderabad.</p>
+      
+      <div class="cab-features">
+        <div class="cab-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> Verified Chauffeurs</div>
+        <div class="cab-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> Fixed Route Pricing</div>
+        <div class="cab-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg> Premium SUV Fleet</div>
+      </div>
+
+      <button onclick="window.location.href='/fleet'" class="btn-action">Check Cab Fares</button>
+    </div>
+
+    <nav class="toc-widget reveal-on-scroll" id="tocWidget" style="display: none;" aria-label="Table of Contents">
+      <h4><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"></path></svg> Guide Contents</h4>
+      <ul class="toc-list" id="tocList"></ul>
+    </nav>
+
+  </aside>
+
+</main>
+
+<% if (relatedPosts && relatedPosts.length) { %>
+  <section class="related-section reveal-on-scroll">
+    <h2>Continue Reading</h2>
+    <div class="post-grid">
+      <% relatedPosts.forEach((item, index) => { %>
+        <article class="post-card reveal-on-scroll <%= index === 0 ? 'stagger-1' : index === 1 ? 'stagger-2' : 'stagger-3' %>">
+          
+          <div class="card-badge">Top Guide</div>
+          
+          <a href="/blog/<%= item.slug %>" class="card-image" aria-label="Read <%= item.title %>">
+            <img src="<%= item.image %>" alt="<%= item.title %> cover image" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80'">
+          </a>
+          <div class="card-body">
+            <h3 class="card-title"><a href="/blog/<%= item.slug %>"><%= item.title %></a></h3>
+            <p class="card-excerpt"><%= item.excerpt %></p>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+<% } %>
+
+<div class="mobile-booking-bar">
+  <div class="mbb-price">
+    <span>Need a Cab?</span>
+    <span>Check Fares</span>
+  </div>
+  <button onclick="window.location.href='#'" class="mbb-btn open-booking">Book Now</button>
+</div>
+
+<div id="copyToast">Link copied to clipboard!</div>
 
 <%- include('../partials/footer') %>
 
-<!-- BlogPosting Schema -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    
+    // --- 1. DYNAMIC TABLE OF CONTENTS ---
+    const articleBody = document.getElementById('mainArticleBody');
+    const tocWidget = document.getElementById('tocWidget');
+    const tocList = document.getElementById('tocList');
+    
+    if (articleBody && tocList) {
+      const headings = articleBody.querySelectorAll('h2');
+      if (headings.length > 0) {
+        tocWidget.style.display = 'block'; 
+        
+        headings.forEach((heading, index) => {
+          const id = 'section-' + index;
+          heading.id = id;
+          
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#' + id;
+          a.innerText = heading.innerText;
+          
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.getElementById(id);
+            window.scrollTo({
+              top: target.offsetTop - 80, 
+              behavior: 'smooth'
+            });
+          });
+          
+          li.appendChild(a);
+          tocList.appendChild(li);
+        });
+      }
+    }
+
+    // --- 2. SOCIAL SHARE & COPY LINK ---
+    const currentUrl = encodeURIComponent(window.location.href);
+    const postTitle = encodeURIComponent("<%= post.title %>");
+    
+    const btnWa = document.getElementById('shareWa');
+    if(btnWa) btnWa.href = `https://api.whatsapp.com/send?text=${postTitle}%20${currentUrl}`;
+    
+    const btnFb = document.getElementById('shareFb');
+    if(btnFb) btnFb.href = `https://www.facebook.com/sharer/sharer.php?u=${currentUrl}`;
+    
+    const btnCopy = document.getElementById('copyLinkBtn');
+    const toast = document.getElementById('copyToast');
+    if(btnCopy) {
+      btnCopy.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          toast.classList.add('show');
+          setTimeout(() => { toast.classList.remove('show'); }, 3000);
+        });
+      });
+    }
+
+    // --- 3. READING PROGRESS BAR ---
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById("progressBar").style.width = scrolled + "%";
+    });
+
+    // --- 4. INTERSECTION OBSERVER (SCROLL REVEALS) ---
+    // This creates the premium "fade up as you scroll" effect
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    
+    // Check if browser supports IntersectionObserver
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            // Unobserve after revealing so it only animates once
+            observer.unobserve(entry.target); 
+          }
+        });
+      }, {
+        root: null,
+        rootMargin: "0px 0px -20px 0px", // Trigger slightly before it hits the bottom of viewport
+        threshold: 0.1
+      });
+      
+      revealElements.forEach(el => revealObserver.observe(el));
+    } else {
+      // Fallback for very old browsers: just show everything immediately
+      revealElements.forEach(el => el.classList.add('is-visible'));
+    }
+
+  });
+</script>
+
 <script type="application/ld+json">
 <%- JSON.stringify({
   "@context": "https://schema.org",
@@ -317,71 +576,19 @@ body{
   "headline": post.title,
   "description": post.excerpt,
   "image": post.image ? ["https://radhatravels.co.in" + post.image] : undefined,
-  "author": {
-    "@type": "Organization",
-    "name": "Radha Travels"
-  },
+  "author": { "@type": "Organization", "name": "Radha Travels" },
   "publisher": {
     "@type": "Organization",
     "name": "Radha Travels",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://radhatravels.co.in/images/logo.jpg"
-    }
+    "logo": { "@type": "ImageObject", "url": "https://radhatravels.co.in/images/logo.jpg" }
   },
   "datePublished": post.date,
   "dateModified": post.date,
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://radhatravels.co.in/blog/" + post.slug
-  },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://radhatravels.co.in/blog/" + post.slug },
   "articleSection": "Travel Guide",
   "inLanguage": "en-IN"
 }, null, 2) %>
 </script>
 
-<% if (faqs && faqs.length) { %>
-<script type="application/ld+json">
-<%- JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqs.map(f => ({
-    "@type": "Question",
-    "name": f.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": f.answer
-    }
-  }))
-}, null, 2) %>
-</script>
-<% } %>
-
-<script type="application/ld+json">
-<%- JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://radhatravels.co.in/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Blog",
-      "item": "https://radhatravels.co.in/blog"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": post.title,
-      "item": "https://radhatravels.co.in/blog/" + post.slug
-    }
-  ]
-}, null, 2) %>
-</script>
 </body>
 </html>
