@@ -12,6 +12,7 @@ const MAIL_FROM = process.env.MAIL_FROM;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const BRAND_NAME = process.env.BRAND_NAME || "Radha Travels";
 const SITE_URL = process.env.SITE_ORIGIN || "http://localhost:3000";
+console.log("MAIL_FROM VALUE:", MAIL_FROM);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -63,12 +64,14 @@ const sendEmail = async ({ to, subject, html, text }) => {
 
     console.log("📨 Mail sent:", subject, "→", to);
     return { ok: true, res: response.data };
+    console.log("MAIL_FROM:", process.env.MAIL_FROM);
 
   } catch (err) {
     console.error(
       "❌ sendEmail error:",
       err.response?.data || err.message
     );
+    console.log("MAIL_FROM:", process.env.MAIL_FROM);
     return { ok: false, error: err.message };
   }
 };
