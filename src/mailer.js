@@ -2,35 +2,16 @@ import fs from "fs";
 import ejs from "ejs";
 import path from "path";
 import { fileURLToPath } from "url";
-import nodemailer from "nodemailer"; // Swapped SendGrid for Nodemailer
 import dotenv from "dotenv";
+import axios from "axios";
 
 dotenv.config();
 
 // load config
-const BREVO_SMTP_LOGIN = process.env.BREVO_SMTP_LOGIN;
-const BREVO_SMTP_KEY = process.env.BREVO_SMTP_KEY;
 const MAIL_FROM = process.env.MAIL_FROM;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const BRAND_NAME = process.env.BRAND_NAME || "Radha Travels";
 const SITE_URL = process.env.SITE_ORIGIN || "http://localhost:3000";
-
-// init Brevo Transporter
-let transporter;
-if (!BREVO_SMTP_LOGIN || !BREVO_SMTP_KEY) {
-  console.error("❌ BREVO SMTP credentials missing");
-} else {
-  transporter = nodemailer.createTransport({
-    host: 'smtp-relay.brevo.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: BREVO_SMTP_LOGIN,
-      pass: BREVO_SMTP_KEY,
-    },
-  });
-  console.log("✅ Brevo mailer initialized");
-}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,25 +36,42 @@ async function renderTemplate(name, data = {}) {
   return await ejs.renderFile(file, data, { async: true });
 }
 
-// --- CORE SEND FUNCTION (Updated for Brevo) ---
-async function sendEmail({ to, subject, html, text }) {
+// --- CORE SEND FUNCTION ---
+const sendEmail = async ({ to, subject, html, text }) => {
   try {
-    const msg = {
-      from: `"${BRAND_NAME}" <${MAIL_FROM}>`,
-      to,
-      subject,
-      html,
-      text: text || "",
-    };
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: BRAND_NAME,
+          email: MAIL_FROM, // must be verified in Brevo
+        },
+        to: Array.isArray(to)
+          ? to.map(e => ({ email: e }))
+          : [{ email: to }],
+        subject,
+        htmlContent: html,
+        textContent: text || "",
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    const res = await transporter.sendMail(msg);
     console.log("📨 Mail sent:", subject, "→", to);
-    return { ok: true, res };
+    return { ok: true, res: response.data };
+
   } catch (err) {
-    console.error("❌ sendEmail error:", err);
-    return { ok: false, error: err.message || String(err) };
+    console.error(
+      "❌ sendEmail error:",
+      err.response?.data || err.message
+    );
+    return { ok: false, error: err.message };
   }
-}
+};
 
 
 
