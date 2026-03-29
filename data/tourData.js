@@ -77,15 +77,17 @@
       templeTimings: '5:00 AM to 9:30 PM',
       bestTimeToVisit: 'October to March (Karthika Deepam festival draws millions)',
       
-      galleryImage1: '/images/arunachalam-main.jpg',
-      galleryImage2: '/images/arunachalam-2.jpg',
-      galleryImage3: '/images/arunachalam-3.jpg',
+      galleryImage1: '/images/arunachalam/arunachalam-main.jpg',
+      galleryImage2: '/images/arunachalam/arunachalam-2.jpg',
+      galleryImage3: '/images/arunachalam/arunachalam-3.jpg',
+      galleryImage4: '/images/arunachalam/arunachalam-4.jpg',
+      galleryImage5: '/images/arunachalam/arunachalam-5.jpg',
       
       nearbyAttractions: [
-        { name: 'Sri Ramana Ashram', desc: 'The peaceful ashram of the revered sage Sri Ramana Maharshi.', img: '/images/ramana-ashram.jpg' },
-        { name: 'Girivalam Path', desc: 'The sacred 14km circumambulation path around the holy mountain.', img: '/images/girivalam.jpg' },
-        { name: 'Virupaksha Cave', desc: 'A deeply silent meditation cave on the slopes of the mountain.', img: '/images/virupaksha.jpg' },
-        { name: 'Skandashramam', desc: 'A beautiful, tree-shaded ashram located higher up the hill.', img: '/images/skandashramam.jpg' }
+        { name: 'Sri Ramana Ashram', desc: 'The peaceful ashram of the revered sage Sri Ramana Maharshi.', img: '/images/arunachalam/ramana-ashram.jpg' },
+        { name: 'Girivalam Path', desc: 'The sacred 14km circumambulation path around the holy mountain.', img: '/images/arunachalam/girivalam.jpg' },
+        { name: 'Virupaksha Cave', desc: 'A deeply silent meditation cave on the slopes of the mountain.', img: '/images/arunachalam/virupaksha.jpg' },
+        { name: 'Skandashramam', desc: 'A beautiful, tree-shaded ashram located higher up the hill.', img: '/images/arunachalam/skandashramam.jpg' }
       ],
 
       // --- MARKETING & TRUST ---
@@ -194,15 +196,17 @@
       templeTimings: '4:00 AM (Kakad Aarti) to 10:30 PM (Shej Aarti)',
       bestTimeToVisit: 'June to March (Thursdays and Guru Purnima are highly crowded)',
       
-      galleryImage1: '/images/shirdi-main.jpg',
-      galleryImage2: '/images/shirdi-2.jpg',
-      galleryImage3: '/images/shirdi-3.jpg',
+      galleryImage1: '/images/shiridi/shirdi-main.jpg',
+      galleryImage2: '/images/shiridi/shirdi-2.jpg',
+      galleryImage3: '/images/shiridi/shirdi-3.jpg',
+      galleryImage4: '/images/shiridi/shirdi-4.jpg',
+      galleryImage5: '/images/shiridi/shirdi-5.jpg',
       
       nearbyAttractions: [
-        { name: 'Shani Shingnapur', desc: 'The famous village where houses have no doors, dedicated to Lord Shani.', img: '/images/shani.jpg' },
-        { name: 'Dwarkamai', desc: 'The historic mosque where Sai Baba lived for 60 years.', img: '/images/dwarkamai.jpg' },
-        { name: 'Gurusthan', desc: 'The exact spot under the neem tree where Baba was first seen.', img: '/images/gurusthan.jpg' },
-        { name: 'Dixit Wada Museum', desc: 'A museum housing Baba’s personal belongings and rare photos.', img: '/images/museum.jpg' }
+        { name: 'Shani Shingnapur', desc: 'The famous village where houses have no doors, dedicated to Lord Shani.', img: '/images/shiridi/shani.jpg' },
+        { name: 'Dwarkamai', desc: 'The historic mosque where Sai Baba lived for 60 years.', img: '/images/shiridi/dwarkamai.jpg' },
+        { name: 'Gurusthan', desc: 'The exact spot under the neem tree where Baba was first seen.', img: '/images/shiridi/gurusthan.jpg' },
+        { name: 'Dixit Wada Museum', desc: 'A museum housing Baba’s personal belongings and rare photos.', img: '/images/shiridi/museum.jpg' }
       ],
 
       // --- MARKETING & TRUST ---
