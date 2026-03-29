@@ -943,7 +943,11 @@ for Home page special tour
   color: #fff;
   box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
 }
+.rt-sp-btn:hover>i{
 
+  transition: all 0.4s ease;
+  transform:translateX(15px);
+}
 /* ========================
    DESKTOP SCALING
 ======================== */
