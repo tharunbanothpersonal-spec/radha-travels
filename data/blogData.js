@@ -1,5 +1,206 @@
 export const blogPosts = [
   {
+    slug: 'hyderabad-to-arunachalam-toll-charges-route-guide',
+    title: '2026 Toll Charges & Route Guide: Hyderabad to Arunachalam',
+    excerpt: 'Plan your road trip perfectly with exact 2026 toll charges, highway route conditions, and best food stops from Hyderabad to Tiruvannamalai.',
+    image: '/images/blog/arunachalam-highway.jpg',
+    date: '2026-04-01',
+    content: `
+      <p>Driving from Hyderabad to the sacred Arunachalesvara Temple in Tiruvannamalai is a journey of over 620 kilometers. Because this route crosses from Telangana through Andhra Pradesh and deep into Tamil Nadu, knowing the exact road conditions, toll costs, and reliable rest stops is crucial for a smooth pilgrimage.</p>
+
+      <h2>The Best Highway Route for 2026</h2>
+      <p>While GPS might show you a few different options, experienced outstation chauffeurs almost exclusively stick to the <strong>Kurnool - Kadapa - Chittoor - Vellore</strong> route. It offers the best balance of multi-lane highways and roadside amenities.</p>
+      
+      <ul>
+        <li><strong>Leg 1 (Hyderabad to Kurnool):</strong> Approx 215 KM. This is the ultra-smooth NH44. You can easily cover this in 3 hours.</li>
+        <li><strong>Leg 2 (Kurnool to Kadapa):</strong> Approx 190 KM. Excellent 4-lane state highways.</li>
+        <li><strong>Leg 3 (Kadapa to Chittoor):</strong> Approx 170 KM. The road narrows to a 2-lane highway here. Traffic gets heavier, so expect your average speed to drop.</li>
+        <li><strong>Leg 4 (Chittoor via Vellore to Arunachalam):</strong> Approx 75 KM. You will cross the Tamil Nadu border. The roads are good, but local village traffic is dense.</li>
+      </ul>
+
+      <h2>Estimated Toll Charges (FASTag)</h2>
+      <p>Toll plazas are frequent on this route, especially on the NH44 stretch. Ensure your FASTag has a sufficient balance before leaving Hyderabad.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Stretch</th>
+            <th>Approximate Number of Tolls</th>
+            <th>Estimated One-Way Cost (Car/Jeep)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hyderabad ORR to Kurnool</td>
+            <td>3 to 4 Plazas (Raakalollapalli, Pullur, etc.)</td>
+            <td>₹350 - ₹400</td>
+          </tr>
+          <tr>
+            <td>Kurnool to Kadapa</td>
+            <td>2 Plazas</td>
+            <td>₹180 - ₹220</td>
+          </tr>
+          <tr>
+            <td>Kadapa to Chittoor</td>
+            <td>1 to 2 Plazas</td>
+            <td>₹100 - ₹150</td>
+          </tr>
+          <tr>
+            <td>Chittoor to Tiruvannamalai</td>
+            <td>1 Plaza (Near Vellore)</td>
+            <td>₹60 - ₹80</td>
+          </tr>
+          <tr>
+            <td><strong>Total Estimated Tolls</strong></td>
+            <td><strong>7 to 9 Plazas</strong></td>
+            <td><strong>₹690 - ₹850 (One-Way)</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>State Border Entry Tax (Crucial for Cabs)</strong>
+          <p>If you are booking a commercial cab (Yellow Board), the vehicle must pay state entry taxes when entering Andhra Pradesh and Tamil Nadu. When you book a package, always confirm with your operator if these inter-state taxes are included in your quote or if you need to pay them at the RTO check-posts.</p>
+        </div>
+      </div>
+
+      <h2>Best Food and Rest Stops</h2>
+      <p>A 12-hour journey requires strategic breaks. Here are the most reliable, family-friendly stops with clean washrooms:</p>
+      <ul>
+        <li><strong>Food Pyramid (Near Kothakota):</strong> About 2.5 hours from Hyderabad on NH44. An excellent, massive food court with incredibly clean washrooms. Perfect for breakfast.</li>
+        <li><strong>Suraj Grand (Kurnool):</strong> A great stop for a slightly early lunch before leaving the NH44.</li>
+        <li><strong>Highway Motels near Kadapa:</strong> There are several decent Dhabas and family restaurants on the Kadapa bypass for afternoon tea breaks.</li>
+      </ul>
+
+      <blockquote>
+        "An 11-hour road trip is a marathon, not a sprint. Knowing exactly where the tolls and clean washrooms are transforms a stressful drive into a predictable, comfortable journey."
+      </blockquote>
+
+      <p style="text-align: center; margin: 30px 0;">
+        <a href="/tours/arunachalam" class="btn btn-primary" style="padding: 12px 24px; background: #064e3b; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">Check 2026 Cab Prices for Arunachalam</a>
+      </p>
+
+      <h2>Why Let Radha Travels Handle the Drive?</h2>
+      <p>Navigating 9 toll plazas, 2 state borders, and 12 hours of highway traffic is exhausting. By booking an outstation SUV with us, you don't have to worry about FASTag balances, state permit queues at the Tamil Nadu border, or finding parking near the temple during Pournami. We handle it all.</p>
+
+      <p>Review our <a href="/blog/hyderabad-to-arunachalam-cab-cost">Complete Cab Cost Guide for Arunachalam</a> to find the perfect vehicle for your Girivalam trip.</p>
+    `,
+  },
+  {
+    slug: 'srisailam-ghat-road-timings-night-driving',
+    title: 'Srisailam Ghat Road Timings & Night Driving Safety (2026 Update)',
+    excerpt: 'Planning a trip to Mallikarjuna Swamy? Learn about the strict Nallamala forest check-post timings, ghat road safety, and why night driving is banned.',
+    image: '/images/blog/srisailam-ghat.jpg',
+    date: '2026-04-01',
+    content: `
+      <p>The journey to the sacred Mallikarjuna Jyotirlinga in Srisailam is uniquely breathtaking because it requires traversing the dense Amrabad Tiger Reserve within the Nallamala Forest. However, this 60-kilometer stretch of ghat (mountain) road is not your average highway. To protect both travelers and wildlife, the forest department strictly enforces <strong>Srisailam ghat road timings</strong>.</p>
+
+      <h2>The Strict Forest Check-Post Timings (2026)</h2>
+      <p>There are two primary check-posts controlling entry into the forest. If you are coming from Hyderabad, you will encounter the <strong>Munnanur Check-Post</strong>. If you are leaving Srisailam to return to Hyderabad, you will cross the <strong>Domalapenta Check-Post</strong>.</p>
+      
+      <ul>
+        <li><strong>Gates Open:</strong> 6:00 AM</li>
+        <li><strong>Gates Close:</strong> 9:00 PM Sharp</li>
+      </ul>
+
+      <p>Under absolutely no circumstances are civilian vehicles allowed to enter the forest between 9:00 PM and 6:00 AM. If you reach the gate at 9:05 PM, you will be forced to sleep in your car on the side of the highway until the gates open the next morning.</p>
+
+      <h2>Why is Night Driving Banned?</h2>
+      <p>The ban on night driving serves two critical purposes:</p>
+      <ol>
+        <li><strong>Wildlife Protection:</strong> The Nallamala Forest is a thriving sanctuary for tigers, leopards, deer, and bears. Animals frequently cross the roads at night, and high-speed highway traffic poses a lethal threat to them.</li>
+        <li><strong>Traveler Safety:</strong> The ghat road features dozens of blind hairpin bends and steep drop-offs into the Krishna River valley. There are no streetlights, no mobile network coverage, and no mechanic shops. A vehicle breakdown or accident at night in the core tiger reserve is incredibly dangerous.</li>
+      </ol>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>The "Golden Hour" of Driving</strong>
+          <p>The absolute best time to drive through the Srisailam forest is between 6:30 AM and 9:00 AM. The morning mist over the hills is spectacular, traffic is minimal, and you have the highest chance of safely spotting wildlife from your vehicle.</p>
+        </div>
+      </div>
+
+      <p style="text-align: center; margin: 30px 0;">
+        <a href="/tours/srisailam" class="btn btn-primary" style="padding: 12px 24px; background: #064e3b; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">Book a Safe SUV to Srisailam Today</a>
+      </p>
+
+      <h2>How to Plan Your Hyderabad Departure</h2>
+      <p>To ensure a stress-free journey without racing against the clock, follow this simple timeline:</p>
+      <ul>
+        <li><strong>For Same-Day Entry:</strong> You must leave Hyderabad no later than <strong>4:00 PM</strong>. The drive to the Munnanur check-post takes about 3.5 hours. Leaving at 4:00 PM gives you a comfortable buffer for Hyderabad city traffic and a quick tea break.</li>
+        <li><strong>For the Return Journey:</strong> You must leave the main Srisailam temple town by <strong>7:00 PM</strong> to safely cross the Domalapenta check-post before it locks down at 9:00 PM.</li>
+      </ul>
+
+      <blockquote>
+        "Racing through a tiger reserve to beat a closing gate defeats the purpose of a peaceful pilgrimage. Plan your timings, hire an expert driver, and let the journey be as serene as the destination."
+      </blockquote>
+
+      <h2>Why Choose Radha Travels for the Ghat Roads?</h2>
+      <p>Navigating the hairpin bends of the Nallamala forest requires immense concentration and experience. Our chauffeurs at Radha Travels drive this exact route multiple times a week. We know exactly when to depart Hyderabad to perfectly align with the forest timings.</p>
+
+      <p>Furthermore, our fleet of Innova Crystas and Ertigas undergo rigorous brake and tire inspections before every Srisailam trip, ensuring your family's absolute safety on the steep descents. Check our <a href="/blog/hyderabad-to-srisailam-cab-cost">Srisailam Cab Cost Guide</a> to view pricing and book your worry-free pilgrimage.</p>
+    `,
+  },
+  {
+    slug: 'traveling-to-shirdi-with-elderly-parents',
+    title: 'Traveling to Shirdi with Elderly Parents: A Complete 2026 Guide',
+    excerpt: 'Planning a Shirdi trip with senior citizens? Read our essential guide on wheelchair access, VIP darshan, and booking the most comfortable cab from Hyderabad.',
+    image: '/images/blog/shirdi-elderly.jpg',
+    date: '2026-04-01',
+    content: `
+      <p>Taking your elderly parents to seek the blessings of Sai Baba in Shirdi is a deeply fulfilling duty. However, the physical toll of a 600-kilometer road trip from Hyderabad, combined with the massive crowds at the Samadhi Mandir, can be overwhelming for senior citizens. With a few strategic decisions, you can transform a physically exhausting journey into a comfortable, peaceful pilgrimage.</p>
+
+      <h2>1. Choosing the Right Outstation Cab</h2>
+      <p>When traveling with seniors, the vehicle is the most important factor of the trip. The drive from Hyderabad to Shirdi takes between 11 to 13 hours. Budget sedans or cramped standard SUVs will lead to severe back pain and leg cramps.</p>
+
+      <ul>
+        <li><strong>The Innova Crysta Advantage:</strong> This is the gold standard for senior travel. The middle-row captain seats recline fully and offer dedicated armrests, allowing your parents to sleep comfortably through the night.</li>
+        <li><strong>Easy Ingress & Egress:</strong> The ride height of premium SUVs like the Innova or Fortuner makes it much easier for elderly passengers to slide in and out of the vehicle compared to low-slung sedans.</li>
+        <li><strong>Suspension:</strong> The Maharashtra highway stretches (especially around Omerga and Naldurg) can have rough patches. A premium SUV absorbs these bumps, preventing motion sickness and fatigue.</li>
+      </ul>
+
+      <h2>2. Managing the Temple Crowds & Darshan</h2>
+      <p>Standing in the regular Darshan queue for 3 to 5 hours is out of the question for most senior citizens. You must plan the temple visit meticulously.</p>
+
+      <ul>
+        <li><strong>Online VIP Passes:</strong> Booking the Paid Darshan passes online weeks in advance is mandatory. This bypasses the massive free-darshan halls and drastically reduces waiting time.</li>
+        <li><strong>Wheelchair Assistance:</strong> The Shri Saibaba Sansthan Trust provides free wheelchairs for elderly and physically challenged devotees. These are generally available near Gate No. 1 and Gate No. 2. You will need to deposit a valid ID card to avail this service.</li>
+        <li><strong>Avoid Thursdays:</strong> Thursdays and public holidays see the highest footfall. Plan your Darshan for a Tuesday or Wednesday afternoon when the temple is relatively quieter.</li>
+      </ul>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Medical Readiness on the Highway</strong>
+          <p>Always pack a dedicated medical kit containing your parents' daily prescriptions, pain relief sprays, and anti-nausea medication. Keep this kit in the cabin of the cab, not packed away in the boot luggage.</p>
+        </div>
+      </div>
+
+      <h2>3. Structuring the 12-Hour Journey</h2>
+      <p>Do not attempt to complete the Hyderabad to Shirdi drive in one continuous stretch.</p>
+      <ul>
+        <li><strong>Frequent Rest Stops:</strong> Instruct your driver to stop every 3 hours. Getting out of the car to stretch legs is vital for blood circulation in older adults.</li>
+        <li><strong>Hydration and Diet:</strong> Highway food can be heavy and acidic. Pack light, home-cooked snacks and ensure your parents drink plenty of water, utilizing the clean washrooms at major highway plazas like those near Solapur.</li>
+      </ul>
+
+      <blockquote>
+        "The ultimate goal is to see the joy on your parents' faces when they view Sai Baba. Ensuring they are not physically exhausted before they even reach the temple gates is the greatest service you can offer them."
+      </blockquote>
+
+      <p style="text-align: center; margin: 30px 0;">
+        <a href="/tours/shirdi" class="btn btn-primary" style="padding: 12px 24px; background: #064e3b; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">Check Premium SUV Pricing to Shirdi</a>
+      </p>
+
+      <h2>The Radha Travels Promise for Senior Citizens</h2>
+      <p>We take immense pride in how we handle trips involving elderly passengers. When you book a Shirdi package with Radha Travels, our dispatch team specifically assigns drivers who are known for their patient, smooth, and non-aggressive driving styles. They will happily assist with luggage, accommodate as many washroom breaks as needed, and ensure the AC climate is always comfortable for the seniors in the back seat.</p>
+
+      <p>Ensure your parents travel with the dignity and comfort they deserve. Review our <a href="/blog/hyderabad-to-shirdi-cab-cost">Shirdi Cab Cost Guide</a> and book a premium outstation vehicle today.</p>
+    `,
+  },
+
+  {
     slug: 'hyderabad-to-srisailam-cab-cost',
     title: 'Hyderabad to Srisailam Cab Cost 2026 – Price, Distance & Travel Guide',
     excerpt: 'Check latest Hyderabad to Srisailam cab cost, distance, travel time, vehicle options and booking tips for a smooth temple trip.',
