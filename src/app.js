@@ -99,6 +99,13 @@ app.use((req, res, next) => {
   next();
 });
 
+// =======================================================
+//  UPTIMEROBOT HEALTH CHECK (MUST BE ABOVE trackVisitor)
+// =======================================================
+app.get('/ping', (req, res) => {
+  res.status(200).send('awake');
+});
+
 //for IP visitor counter
 app.use(trackVisitor);
 
