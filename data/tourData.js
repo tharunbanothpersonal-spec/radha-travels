@@ -28,7 +28,7 @@
         { name: 'Pathala Ganga', desc: 'Take a ropeway down to the sacred Krishna river for a holy dip.', img: '/images/srisailam/pathala-ganga.jpg' },
         { name: 'Srisailam Dam', desc: 'One of the largest working dams in India with breathtaking views.', img: '/images/srisailam/srisailam-dam.jpg' },
         { name: 'Sakshi Ganapati', desc: 'The deity who keeps a record of all visiting pilgrims.', img: '/images/srisailam/sakshi-ganapati.jpg' },
-        { name: 'Akkamahadevi Caves', desc: 'Ancient naturally formed caves reachable by boat.', img: '/images/srisailam/akkamahadevi.jpg' }
+        { name: 'Akkamahadevi Caves', desc: 'Ancient naturally formed caves reachable by boat.', img: '/images/srisailam/akkamahadevi.jpg' },
       ],
 
       // --- MARKETING & TRUST ---
@@ -52,6 +52,28 @@
       ],
       whyExtra: 'We understand the spiritual value of the Srisailam Yatra, and we go the extra mile to ensure a journey that’s sacred, safe, and serene for every traveler.',
       officialWebsite: 'https://www.srisailadevasthanam.org/',
+
+      schema: {
+      "@context": "https://schema.org/",
+      "@type": "Service",
+      "serviceType": "Outstation Cab & Pilgrimage Tour",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Radha Travels"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Srisailam"
+      },
+      "description": "Premium outstation cab, SUV, and tempo traveller service from Hyderabad to Srisailam. Safe, sanitized, and reliable.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "INR",
+        "lowPrice": "3000", // Update with your actual starting price
+        "highPrice": "12000", // Update with your Tempo Traveller price
+        "offerCount": "4"
+      }
+    }
     },
   
     arunachalam: {
@@ -111,6 +133,28 @@
       ],
       whyExtra: 'At Radha Travels, we understand the spiritual importance of your Arunachalam yatra. Our goal is to provide not just a mode of transport—but a soulful travel experience that is safe, smooth, and full of devotion.',
       officialWebsite: 'https://arunachaleswarartemple.tnhrce.in/',
+
+      schema: {
+      "@context": "https://schema.org/",
+      "@type": "Service",
+      "serviceType": "Outstation Cab & Pilgrimage Tour",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Radha Travels"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Arunachalam" // You can also use "Tiruvannamalai" if that's what your customers search for more
+      },
+      "description": "Premium outstation cab and tempo traveller packages from Hyderabad to Arunachalam. Experience a comfortable and safe pilgrimage with our expert chauffeurs.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "INR",
+        "lowPrice": "8000", // Update with your actual starting price for a Sedan
+        "highPrice": "25000", // Update with your actual Tempo Traveller price
+        "offerCount": "4"
+      }
+    }
     },
   
     tirupati: {
@@ -171,6 +215,28 @@
       ],
       whyExtra: 'We value the sanctity and significance of your Tirupati trip, and our services are designed to ensure your journey is stress-free, relaxed, and spiritually fulfilling.',
       officialWebsite: 'https://tirupatibalaji.ap.gov.in/',
+
+      schema: {
+      "@context": "https://schema.org/",
+      "@type": "Service",
+      "serviceType": "Outstation Cab & Pilgrimage Tour",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Radha Travels"
+      },
+      "areaServed": [
+        { "@type": "City", "name": "Tirupati" },
+        { "@type": "City", "name": "Sri Kalahasthi" }
+      ],
+      "description": "Premium outstation cab packages from Hyderabad to Tirupati. Includes local sightseeing to Sri Kalahasthi, Padmavathi Temple, and Kapila Theertham.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "INR",
+        "lowPrice": "4000", // Update with your actual starting price
+        "highPrice": "15000",
+        "offerCount": "4"
+      }
+    }
     },
   
     shirdi: {
@@ -230,6 +296,28 @@
       ],
       whyExtra: 'With Radha Travels, your journey becomes more than just a ride—it becomes a part of your spiritual experience. We understand the importance of punctuality, discipline, and peace of mind, especially during religious tours.',
       officialWebsite: 'https://sai.org.in/',
+
+      schema: {
+      "@context": "https://schema.org/",
+      "@type": "Service",
+      "serviceType": "Outstation Cab & Pilgrimage Tour",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Radha Travels"
+      },
+      "areaServed": {
+        "@type": "City",
+        "name": "Shirdi"
+      },
+      "description": "Reliable and sanitized outstation cab service from Hyderabad to Shirdi. Choose from Sedans, SUVs, and premium Tempo Travellers for a peaceful darshan trip.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "INR",
+        "lowPrice": "7000", // Update with your actual starting price
+        "highPrice": "22000", // Update with your actual maximum price
+        "offerCount": "4"
+      }
+    }
     },
   };
 

@@ -303,6 +303,7 @@ app.get('/tours/:destination', (req, res) => {
       metaDescription: `Book a premium cab from Hyderabad to ${tour.name}. Safe, reliable, and sanitized vehicles. View pricing, itineraries, and secure your booking today.`, // 🚀 FIX: Dynamic SEO added
       currentPath: req.path, // 🚀 FIX: Canonical URL setup
       tour: tour,
+      pageSchema: JSON.stringify(tour.schema),
     });
   } else {
     res.status(404).render('pages/404', { title: 'Not Found' });
