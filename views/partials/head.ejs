@@ -1,7 +1,21 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <title><%= title %></title>
 <meta name="description" content="<%= metaDescription || 'Book reliable Hyderabad cab service with Radha Travels. Airport transfers, outstation trips and temple tours available 24/7.' %>">
+<link rel="canonical" href="https://radhatravels.co.in<%= locals.currentPath || '/' %>" />
+
+<meta property="og:title" content="<%= title %>" />
+<meta property="og:description" content="<%= metaDescription || 'Premium Cab Service in Hyderabad. Safe, sanitized, and on-time.' %>" />
+<meta property="og:image" content="<%= locals.ogImage || 'https://radhatravels.co.in/images/logo_new.png' %>" />
+<meta property="og:url" content="https://radhatravels.co.in<%= locals.currentPath || '/' %>" />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -11,7 +25,7 @@
   "image": "https://radhatravels.co.in/images/logo.png",
   "url": "https://radhatravels.co.in/",
   "telephone": "+918332958915",
-  "priceRange": "₹₹",
+  "priceRange": "₹₹", 
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "402, Moosapet",
@@ -19,6 +33,11 @@
     "addressRegion": "Telangana",
     "postalCode": "500018",
     "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "17.4649", 
+    "longitude": "78.4354" 
   },
   "areaServed": {
     "@type": "City",
@@ -32,23 +51,19 @@
 }
 </script>
 
+<% if (locals.pageSchema) { %>
+<script type="application/ld+json">
+  <%- pageSchema %>
+</script>
+<% } %>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-
-<!-- Styles -->
 <link rel="stylesheet" href="/css/styles.css">
-
-<!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-xh6o1HSTZQpU4TQzHKf3v7Z+gZQ3WZhiO6ZnWGPQBRqJzZlfFj5v1h7jZcWq8b7gVr9RZVvH1ZBt9EoX9T+Jw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<!-- FAVICON SETUP -->
 <link rel="icon" href="/favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
 <link rel="manifest" href="/favicon/site.webmanifest">
-
 <meta name="theme-color" content="#064e3b">
 <meta name="msapplication-TileColor" content="#064e3b">

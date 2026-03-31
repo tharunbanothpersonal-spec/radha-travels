@@ -9,6 +9,8 @@ import net from 'net';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { fileURLToPath } from 'url';
+import rateLimit from 'express-rate-limit'; // 🚀 FIX: Imported rate limiter for security
+
 import blogPosts from "../data/blogData.js";
 import tourData from "../data/tourData.js";
 
@@ -64,13 +66,20 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
 
+// 🚀 FIX: Hardened session cookies to prevent hijacking
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'radha_travels_secret',
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production', // Requires HTTPS in production
+      httpOnly: true, // Prevents JavaScript from reading the cookie
+      maxAge: 1000 * 60 * 60 * 24 // 1 day expiration
+    }
   })
 );
+
 // Make admin session available in all views
 app.use((req, res, next) => {
   res.locals.adminUser = req.session?.admin || null;
@@ -82,7 +91,8 @@ app.use((req, res, next) => {
   console.log('REQ ->', req.method, req.url);
   next();
 });
-// for metaDescription
+
+// Global SEO fallback
 app.use((req, res, next) => {
   res.locals.metaDescription =
     'Book reliable Hyderabad cab service with Radha Travels. Airport transfers, outstation trips and temple tours available 24/7.';
@@ -100,7 +110,7 @@ app.set('views', path.join(__dirname, '..', 'views'));
 app.set('view engine', 'ejs');
 
 // =======================================================
-//  TICKER
+//  TICKER & CACHED DATA
 // =======================================================
 
 const TICKER = [
@@ -115,6 +125,9 @@ app.use((_, res, next) => {
   res.locals.ticker = TICKER;
   next();
 });
+
+// 🚀 FIX: Read the image directory ONCE when the server starts, not on every page load
+const cachedHeroSlides = loadHeroSlides();
 
 // =======================================================
 //  ADMIN (NEW CLEAN SETUP)
@@ -149,11 +162,10 @@ app.use(async (req, res, next) => {
 // BLOG ROUTES
 // =========================
 
-
-console.log('Total blogs:', blogPosts.length);
 app.get('/blog', (req, res) => {
   res.render('blog/blog-index', {
-    title: 'Travel Blog | Radha Travels',
+    title: 'Travel Blog & Pilgramage Guides | Radha Travels',
+    currentPath: req.path, // 🚀 FIX: Added currentPath for Canonical Tag
     posts: blogPosts,
   });
 });
@@ -165,42 +177,34 @@ app.get('/blog/:slug', (req, res) => {
     return res.status(404).render('pages/404', { title: 'Not Found' });
   }
 
-  // Auto related posts (exclude current)
   const relatedPosts = blogPosts
     .filter((p) => p.slug !== post.slug)
     .slice(0, 3);
 
   res.render('blog/blog-show', {
-    title: post.title,
+    title: `${post.title} | Radha Travels`,
+    metaDescription: `Read our comprehensive guide: ${post.title}. Discover the best travel tips, temple timings, and cab booking options from Hyderabad.`, // 🚀 FIX: Dynamic SEO Description
+    currentPath: req.path, // 🚀 FIX: Added currentPath for Canonical Tag
     post,
     relatedPosts,
     faqs: extractFaqs(post.content),
   });
 });
 
-// ip counter
-
+// API Routes
 app.get("/api/live-visitors", async (req, res) => {
-
   try {
-
     const result = await db.execute(`
       SELECT COUNT(DISTINCT ip) as total
       FROM visitors
       WHERE last_seen >= datetime('now','+5 hours','+30 minutes','-5 minutes')
     `);
-
     res.json({ total: result.rows[0]?.total || 0 });
-
   } catch (err) {
-
     console.error("Live visitor error:", err);
     res.json({ total: 0 });
-
   }
-
 });
-
 
 app.get('/api/state-visitors', async (req, res) => {
   try {
@@ -213,7 +217,6 @@ app.get('/api/state-visitors', async (req, res) => {
       ORDER BY total DESC
       LIMIT 6
     `);
-
     res.json(result.rows);
   } catch (err) {
     console.error(err);
@@ -221,125 +224,88 @@ app.get('/api/state-visitors', async (req, res) => {
   }
 });
 
-
-
 // =======================================================
 //  PUBLIC ROUTES
 // =======================================================
 
-// Home (Converted to Async Turso)
 app.get('/', async (req, res) => {
-  let featuredGallery = [];
+  // 🚀 FIX: Wrapped entire DB block in try/catch to prevent server crash if Turso goes down
   try {
-    const galleryRes = await db.execute(`
-      SELECT * FROM gallery
-      ORDER BY created_at DESC
-      LIMIT 6
-    `);
-    featuredGallery = galleryRes.rows;
-  } catch (err) {
-    console.error('Featured gallery error:', err.message);
-  }
-  
-  const fleetRes = await db.execute('SELECT * FROM fleet WHERE is_active = 1 ORDER BY id DESC LIMIT 4');
-  const featuredFleet = fleetRes.rows;
-  
-  const randomTestRes = await db.execute(`
-    SELECT * FROM testimonials
-    WHERE status='approved'
-    ORDER BY RANDOM()
-    LIMIT 4
-  `);
-  const randomTestimonials = randomTestRes.rows;
-  
-  const testimonialsRes = await db.execute(`
-    SELECT * FROM testimonials 
-    WHERE status='approved'
-  `);
-  const testimonials = testimonialsRes.rows;
+    const galleryRes = await db.execute(`SELECT * FROM gallery ORDER BY created_at DESC LIMIT 6`);
+    const featuredGallery = galleryRes.rows;
+    
+    const fleetRes = await db.execute('SELECT * FROM fleet WHERE is_active = 1 ORDER BY id DESC LIMIT 4');
+    const featuredFleet = fleetRes.rows;
+    
+    const randomTestRes = await db.execute(`SELECT * FROM testimonials WHERE status='approved' ORDER BY RANDOM() LIMIT 4`);
+    const randomTestimonials = randomTestRes.rows;
+    
+    const testimonialsRes = await db.execute(`SELECT * FROM testimonials WHERE status='approved'`);
+    const testimonials = testimonialsRes.rows;
 
-  const avgRating = testimonials.length
-    ? (
-        testimonials.reduce((a, b) => a + b.rating, 0) / testimonials.length
-      ).toFixed(1)
-    : 0;
+    const avgRating = testimonials.length ? (testimonials.reduce((a, b) => a + b.rating, 0) / testimonials.length).toFixed(1) : 0;
+    const totalReviews = testimonials.length;
 
-  const ratingPercentages = {};
-  for (let i = 1; i <= 5; i++) {
-    const count = testimonials.filter((t) => t.rating === i).length;
-    ratingPercentages[i] = testimonials.length
-      ? (count / testimonials.length) * 100
-      : 0;
-  }
-  const totalReviews = testimonials.length;
+    const ratingPercentages = {};
+    for (let i = 1; i <= 5; i++) {
+      const count = testimonials.filter((t) => t.rating === i).length;
+      ratingPercentages[i] = testimonials.length ? (count / testimonials.length) * 100 : 0;
+    }
 
-  const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
+    const todayVisRes = await db.execute({ sql: `SELECT COUNT(DISTINCT ip) as total FROM visitors WHERE visit_date = ?`, args: [today] });
+    const todayVisitors = todayVisRes.rows[0].total;
 
-  let totalVisitors = 0;
-  let todayVisitors = 0;
-
-  try {
-    const totalVisRes = await db.execute(`
-      SELECT COUNT(DISTINCT ip) as total
-      FROM visitors
-    `);
-    totalVisitors = totalVisRes.rows[0].total;
-
-    const todayVisRes = await db.execute({
-      sql: `SELECT COUNT(DISTINCT ip) as total FROM visitors WHERE visit_date = ?`,
-      args: [today]
+    res.render('index', {
+      title: 'Hyderabad Cab Service | Outstation, Airport & Tempo Traveller | Radha Travels',
+      currentPath: req.path,
+      heroSlides: cachedHeroSlides, // 🚀 FIX: Using the cached array here for blazing fast load times
+      featuredGallery,
+      featuredFleet,
+      testimonials,
+      avgRating,
+      totalReviews,
+      ratingPercentages,
+      randomTestimonials,
+      totalVisitors: res.locals.totalVisitors,
+      todayVisitors,
+      latestPosts: blogPosts
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .slice(0, 3)
+        .map((post) => ({
+          ...post,
+          readTime: Math.ceil(post.content.split(' ').length / 200),
+        })),
     });
-    todayVisitors = todayVisRes.rows[0].total;
+
   } catch (err) {
-    console.log('Visitor stats error', err.message);
+    console.error('Home page database error:', err.message);
+    // Render the homepage even if DB fails, providing empty arrays so it doesn't crash
+    res.render('index', {
+      title: 'Hyderabad Cab Service | Radha Travels',
+      currentPath: req.path,
+      heroSlides: cachedHeroSlides,
+      featuredGallery: [], featuredFleet: [], testimonials: [], randomTestimonials: [],
+      avgRating: 0, totalReviews: 0, ratingPercentages: {1:0, 2:0, 3:0, 4:0, 5:0},
+      totalVisitors: 0, todayVisitors: 0, latestPosts: []
+    });
   }
-
-  res.render('index', {
-    title:
-      'Hyderabad Cab Service | Outstation, Airport & Tempo Traveller | Radha Travels',
-    heroSlides: loadHeroSlides(),
-    featuredGallery,
-    featuredFleet,
-    testimonials,
-    avgRating,
-    totalReviews,
-    ratingPercentages,
-    randomTestimonials,
-    totalVisitors,
-    todayVisitors,
-    latestPosts: blogPosts
-      .sort((a, b) => new Date(b.date) - new Date(a.date))
-      .slice(0, 3)
-      .map((post) => ({
-        ...post,
-        readTime: Math.ceil(post.content.split(' ').length / 200),
-      })),
-  });
 });
-
-// =========================
-// Home special tour package
-//==========================
 
 // Dynamic Route for Special Tour Packages
 app.get('/tours/:destination', (req, res) => {
-  // Grab the destination from the URL (e.g., "srisailam")
   const destId = req.params.destination.toLowerCase();
-
-
-
-  // Check if the clicked tour exists in our data
   const tour = tourData[destId];
 
   if (tour) {
-    // If it exists, render the details page and pass the data
     res.render('tour-detail', {
       title: `Hyderabad to ${tour.name} Cab Service | Temple Trip Package | Radha Travels`,
+      metaDescription: `Book a premium cab from Hyderabad to ${tour.name}. Safe, reliable, and sanitized vehicles. View pricing, itineraries, and secure your booking today.`, // 🚀 FIX: Dynamic SEO added
+      currentPath: req.path, // 🚀 FIX: Canonical URL setup
       tour: tour,
     });
   } else {
-    // If someone types a random URL like /tours/fakeplace
-    res.status(404).send('Tour not found. Please return to the homepage.');
+    res.status(404).render('pages/404', { title: 'Not Found' });
   }
 });
 
@@ -351,13 +317,13 @@ app.get('/services', (req, res) => {
   }));
 
   res.render('services/index', {
-    title:
-      'Cab Services in Hyderabad | Airport, Outstation & Local Rentals | Radha Travels',
+    title: 'Cab Services in Hyderabad | Airport, Outstation & Local Rentals | Radha Travels',
+    currentPath: req.path,
     services: servicesWithFrom,
   });
 });
 
-// Service detail (Converted to Async Turso)
+// Service detail
 app.get('/services/:slug', async (req, res) => {
   const service = SERVICES.find((s) => s.slug === req.params.slug);
 
@@ -366,58 +332,31 @@ app.get('/services/:slug', async (req, res) => {
   }
 
   try {
-    // ---- Load pricing from DB ----
     const pricingRes = await db.execute(`SELECT * FROM pricing`);
-    const pricingRows = pricingRes.rows;
-
-    // ---- Convert DB pricing to object ----
     const pricingMap = {};
 
-    pricingRows.forEach((row) => {
+    pricingRes.rows.forEach((row) => {
       if (!pricingMap[row.vehicle]) pricingMap[row.vehicle] = {};
       pricingMap[row.vehicle][row.service] = row;
     });
 
-    // ---- Apply DB pricing to segments ----
     const segments = SEGMENTS.map((seg) => {
       const dbVehicle = pricingMap[seg.label];
       if (!dbVehicle) return seg;
-
       return {
         ...seg,
         pricing: {
-          local: dbVehicle.Local
-            ? {
-                pack: '8Hrs / 80KM',
-                base: dbVehicle.Local.base_price,
-                extra_km: dbVehicle.Local.per_km,
-                extra_hr: dbVehicle.Local.extra_per_hour,
-                driver: 0,
-              }
-            : seg.pricing.local,
-
-          outstation: dbVehicle.Outstation
-            ? {
-                per_km: dbVehicle.Outstation.per_km,
-                min_km_day: dbVehicle.Outstation.min_km_per_day,
-                driver: dbVehicle.Outstation.driver_allowance,
-                night: dbVehicle.Outstation.driver_allowance,
-              }
-            : seg.pricing.outstation,
-
-          airport: dbVehicle.Airport
-            ? {
-                pickup: dbVehicle.Airport.flat_price,
-                drop: dbVehicle.Airport.flat_price,
-                waiting_per_hr: 200,
-              }
-            : seg.pricing.airport,
+          local: dbVehicle.Local ? { pack: '8Hrs / 80KM', base: dbVehicle.Local.base_price, extra_km: dbVehicle.Local.per_km, extra_hr: dbVehicle.Local.extra_per_hour, driver: 0 } : seg.pricing.local,
+          outstation: dbVehicle.Outstation ? { per_km: dbVehicle.Outstation.per_km, min_km_day: dbVehicle.Outstation.min_km_per_day, driver: dbVehicle.Outstation.driver_allowance, night: dbVehicle.Outstation.driver_allowance } : seg.pricing.outstation,
+          airport: dbVehicle.Airport ? { pickup: dbVehicle.Airport.flat_price, drop: dbVehicle.Airport.flat_price, waiting_per_hr: 200 } : seg.pricing.airport,
         },
       };
     });
 
     res.render('services/show', {
-      title: `${service.title} | Radha Travels`,
+      title: `${service.title} in Hyderabad | Radha Travels`,
+      metaDescription: `Reliable and affordable ${service.title.toLowerCase()} in Hyderabad. Book Sedans, SUVs, and Tempo Travellers securely with Radha Travels.`, // 🚀 FIX: Dynamic SEO
+      currentPath: req.path,
       service,
       segments,
     });
@@ -428,39 +367,35 @@ app.get('/services/:slug', async (req, res) => {
 });
 
 // =======================================================
-//  BOOKINGS API
+//  BOOKINGS API (SECURITY UPGRADED)
 // =======================================================
 
-app.use('/api/bookings', bookingsRouter);
-
-// =======================================================
-//  ADMIN PAGES (EXTRA)
-// =======================================================
-
-// Assign driver page (admin-only)
-app.get('/admin/assign-driver', requireAdmin, (req, res) => {
-  res.render('admin/assign-driver');
+// 🚀 FIX: Rate limiter prevents spam bots from crashing your database or submitting fake bookings
+const bookingLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes window
+  max: 10, // Limit each IP to 10 requests per window
+  message: { error: 'Too many booking requests from this IP, please try again after 15 minutes.' },
+  standardHeaders: true, 
+  legacyHeaders: false, 
 });
 
-// Allotted bookings page (admin-only)
-app.get('/admin/allotted-bookings', requireAdmin, (req, res) => {
-  res.render('admin/allotted-bookings');
-});
+app.use('/api/bookings', bookingLimiter, bookingsRouter);
 
-//FLEET SECTION ROUTE (Converted to Async Turso)
+// =======================================================
+//  ADMIN PAGES
+// =======================================================
+
+app.get('/admin/assign-driver', requireAdmin, (req, res) => res.render('admin/assign-driver'));
+app.get('/admin/allotted-bookings', requireAdmin, (req, res) => res.render('admin/allotted-bookings'));
+
+//FLEET SECTION ROUTE
 app.get('/fleet', async (req, res) => {
   try {
-    const fleetRes = await db.execute(`
-      SELECT * FROM fleet
-      WHERE is_active = 1
-      ORDER BY category ASC, sort_order ASC
-    `);
-    const vehicles = fleetRes.rows;
-
+    const fleetRes = await db.execute(`SELECT * FROM fleet WHERE is_active = 1 ORDER BY category ASC, sort_order ASC`);
     res.render('fleet', {
-      title:
-        'Tempo Traveller & Cab Rental in Hyderabad | SUV, Sedan & Bus | Radha Travels',
-      vehicles,
+      title: 'Tempo Traveller & Cab Rental in Hyderabad | SUV, Sedan & Bus | Radha Travels',
+      currentPath: req.path,
+      vehicles: fleetRes.rows,
     });
   } catch (err) {
     console.error('Fleet page error:', err);
@@ -468,90 +403,139 @@ app.get('/fleet', async (req, res) => {
   }
 });
 
-/* =========================
-   BOOKING TRACKING ROUTES
-========================= */
-
-// Show tracking page
+// TRACKING ROUTES
 app.get('/track-booking', (req, res) => {
   res.render('track-booking', {
     title: 'Track Your Cab Booking Online | Radha Travels Hyderabad',
+    currentPath: req.path,
     booking: null,
     error: null,
   });
 });
 
-// Handle tracking form submission (Converted to Async Turso)
 app.post('/track-booking', async (req, res) => {
   const { bookingId } = req.body;
-
   try {
-    const bookingRes = await db.execute({
-      sql: 'SELECT * FROM bookings WHERE booking_id = ?',
-      args: [bookingId]
-    });
+    const bookingRes = await db.execute({ sql: 'SELECT * FROM bookings WHERE booking_id = ?', args: [bookingId] });
     const booking = bookingRes.rows[0];
 
     if (!booking) {
       return res.render('track-booking', {
         title: 'Track Your Cab Booking Online | Radha Travels Hyderabad',
+        currentPath: req.path,
         booking: null,
         error: 'Booking not found. Please check your ID.',
       });
     }
 
-    res.render('track-booking', {
-      title: 'Track Booking | Radha Travels',
-      booking,
-      error: null,
-    });
+    res.render('track-booking', { title: 'Track Booking | Radha Travels', currentPath: req.path, booking, error: null });
   } catch (err) {
     console.error('Track booking error:', err);
     res.status(500).send('Database Error');
   }
 });
 
-// =======================================================
-//  GALLERY (PUBLIC)
-// =======================================================
-
+// OTHER PUBLIC ROUTES
 app.use('/gallery', galleryRoutes);
-
-// =======================================================
-//  FLEET PUBLIC
-// =======================================================
-
 app.use('/fleet', fleetRoutes);
-
-// =======================================================
-//  TESTIMONIAL PUBLIC
-// =======================================================
 app.use(testimonialsRoutes);
 
-// =======================================================
-//  SMTP CHECK (UTILITY)
-// =======================================================
+// ABOUT US PAGE
+app.get("/about", (req, res) => {
+  res.render("about", {
+    title: "About Us | Radha Travels Hyderabad",
+    currentPath: req.path
+  });
+});
 
+// =======================================================
+//  DYNAMIC XML SITEMAP (SEO)
+// =======================================================
+app.get('/sitemap.xml', (req, res) => {
+  res.header('Content-Type', 'application/xml');
+
+  const baseUrl = 'https://radhatravels.co.in';
+  const today = new Date().toISOString().split('T')[0];
+
+  // 1. Core Static Pages
+  const staticPages = [
+    '',
+    '/about',
+    '/services',
+    '/fleet',
+    '/blog',
+    '/gallery',
+    '/track-booking'
+  ];
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+  // Generate URLs for Static Pages
+  staticPages.forEach(page => {
+    xml += `  <url>\n`;
+    xml += `    <loc>${baseUrl}${page}</loc>\n`;
+    xml += `    <lastmod>${today}</lastmod>\n`;
+    xml += `    <changefreq>weekly</changefreq>\n`;
+    xml += `    <priority>${page === '' ? '1.0' : '0.8'}</priority>\n`;
+    xml += `  </url>\n`;
+  });
+
+  // Generate URLs for Dynamic Services
+  if (typeof SERVICES !== 'undefined') {
+    SERVICES.forEach(service => {
+      xml += `  <url>\n`;
+      xml += `    <loc>${baseUrl}/services/${service.slug}</loc>\n`;
+      xml += `    <lastmod>${today}</lastmod>\n`;
+      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <priority>0.9</priority>\n`;
+      xml += `  </url>\n`;
+    });
+  }
+
+  // Generate URLs for Dynamic Tours (Srisailam, Tirupati, etc.)
+  if (typeof tourData !== 'undefined') {
+    Object.keys(tourData).forEach(dest => {
+      xml += `  <url>\n`;
+      xml += `    <loc>${baseUrl}/tours/${dest}</loc>\n`;
+      xml += `    <lastmod>${today}</lastmod>\n`;
+      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <priority>0.9</priority>\n`;
+      xml += `  </url>\n`;
+    });
+  }
+
+  // Generate URLs for Dynamic Blog Posts
+  if (typeof blogPosts !== 'undefined') {
+    blogPosts.forEach(post => {
+      xml += `  <url>\n`;
+      xml += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
+      // Use the blog post's actual date if it exists, otherwise use today's date
+      const postDate = post.date ? new Date(post.date).toISOString().split('T')[0] : today;
+      xml += `    <lastmod>${postDate}</lastmod>\n`;
+      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <priority>0.7</priority>\n`;
+      xml += `  </url>\n`;
+    });
+  }
+
+  xml += `</urlset>`;
+
+  res.send(xml);
+});
+
+
+// UTILITY
 app.get('/internal/smtp-check', async (req, res) => {
   const host = process.env.MAIL_HOST || 'smtp.gmail.com';
   const port = Number(process.env.MAIL_PORT || 587);
-
   const socket = new net.Socket();
   socket.setTimeout(10000);
-
-  socket.on('connect', () => {
-    socket.destroy();
-    res.json({ ok: true, host, port });
-  });
-
-  socket.on('error', (err) => {
-    res.status(500).json({ ok: false, error: err.message });
-  });
-
+  socket.on('connect', () => { socket.destroy(); res.json({ ok: true, host, port }); });
+  socket.on('error', (err) => { res.status(500).json({ ok: false, error: err.message }); });
   socket.connect(port, host);
 });
 
-// pricing API (Converted to Async Turso)
 app.get('/api/pricing', async (req, res) => {
   try {
     const pricingRes = await db.execute(`SELECT * FROM pricing`);
@@ -561,7 +545,7 @@ app.get('/api/pricing', async (req, res) => {
     res.status(500).json({ error: 'Failed to load pricing' });
   }
 });
-//temporary
+
 app.get("/cloudinary-test", async (req, res) => {
   try {
     const result = await cloudinary.api.ping();
@@ -572,20 +556,12 @@ app.get("/cloudinary-test", async (req, res) => {
 });
 
 // =======================================================
-//  ABOUT US PAGE
-// =======================================================
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-
-// =======================================================
-//  404
+//  404 & ERROR HANDLING
 // =======================================================
 
 app.use((req, res) => {
   res.status(404).render('pages/404', { title: 'Not Found' });
 });
-
 
 process.on("unhandledRejection", (err) => {
   console.error("UNHANDLED PROMISE REJECTION:");
@@ -603,10 +579,10 @@ app.listen(PORT, () => {
 // =======================================================
 //  HELPERS
 // =======================================================
-// Helper 1
+
 function loadHeroSlides() {
-  const heroDir = path.join(__dirname, '..', 'public', 'images', 'hero');
   try {
+    const heroDir = path.join(__dirname, '..', 'public', 'images', 'hero');
     const files = fs
       .readdirSync(heroDir)
       .filter((f) => /\.(jpg|jpeg|png|webp)$/i.test(f));
@@ -622,35 +598,24 @@ function loadHeroSlides() {
 
 function serviceFromPrice(serviceSlug, segments) {
   const prices = [];
-
   for (const seg of segments) {
     const p = seg.pricing || {};
-    if (serviceSlug === 'airport-transfer' && p.airport?.pickup)
-      prices.push(p.airport.pickup);
-    if (serviceSlug === 'local-tour' && p.local?.base)
-      prices.push(p.local.base);
-    if (
-      serviceSlug === 'outstation' &&
-      p.outstation?.per_km &&
-      p.outstation?.min_km_day
-    )
-      prices.push(p.outstation.per_km * p.outstation.min_km_day);
+    if (serviceSlug === 'airport-transfer' && p.airport?.pickup) prices.push(p.airport.pickup);
+    if (serviceSlug === 'local-tour' && p.local?.base) prices.push(p.local.base);
+    if (serviceSlug === 'outstation' && p.outstation?.per_km && p.outstation?.min_km_day) prices.push(p.outstation.per_km * p.outstation.min_km_day);
   }
-
   return prices.length ? Math.min(...prices) : null;
 }
-// Helper 2
+
 function extractFaqs(htmlContent) {
   const faqRegex = /<h3>(.*?)<\/h3>\s*<p>(.*?)<\/p>/g;
   const faqs = [];
   let match;
-
   while ((match = faqRegex.exec(htmlContent)) !== null) {
     faqs.push({
       question: match[1].replace(/<[^>]+>/g, ''),
       answer: match[2].replace(/<[^>]+>/g, ''),
     });
   }
-
   return faqs;
 }
