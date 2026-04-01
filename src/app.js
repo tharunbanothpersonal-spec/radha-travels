@@ -50,18 +50,93 @@ const PORT = process.env.PORT || 3000;
 // =======================================================
 //  MIDDLEWARE
 // =======================================================
+// =======================================================
+//  DYNAMIC XML SITEMAP (SEO)
+// =======================================================
+app.get('/sitemap.xml', (req, res) => {
+  res.header('Content-Type', 'application/xml');
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
+  const baseUrl = 'https://radhatravels.co.in';
+  const today = new Date().toISOString().split('T')[0];
+
+  // 1. Core Static Pages
+  const staticPages = [
+    '',
+    '/about',
+    '/services',
+    '/fleet',
+    '/blog',
+    '/gallery',
+    '/track-booking'
+  ];
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+  // Generate URLs for Static Pages
+  staticPages.forEach(page => {
+    xml += `  <url>\n`;
+    xml += `    <loc>${baseUrl}${page}</loc>\n`;
+    xml += `    <lastmod>${today}</lastmod>\n`;
+    xml += `    <changefreq>weekly</changefreq>\n`;
+    xml += `    <priority>${page === '' ? '1.0' : '0.8'}</priority>\n`;
+    xml += `  </url>\n`;
+  });
+
+  // Generate URLs for Dynamic Services
+  if (typeof SERVICES !== 'undefined') {
+    SERVICES.forEach(service => {
+      xml += `  <url>\n`;
+      xml += `    <loc>${baseUrl}/services/${service.slug}</loc>\n`;
+      xml += `    <lastmod>${today}</lastmod>\n`;
+      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <priority>0.9</priority>\n`;
+      xml += `  </url>\n`;
+    });
+  }
+
+  // Generate URLs for Dynamic Tours (Srisailam, Tirupati, etc.)
+  if (typeof tourData !== 'undefined') {
+    Object.keys(tourData).forEach(dest => {
+      xml += `  <url>\n`;
+      xml += `    <loc>${baseUrl}/tours/${dest}</loc>\n`;
+      xml += `    <lastmod>${today}</lastmod>\n`;
+      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <priority>0.9</priority>\n`;
+      xml += `  </url>\n`;
+    });
+  }
+
+  // Generate URLs for Dynamic Blog Posts
+  if (typeof blogPosts !== 'undefined') {
+    blogPosts.forEach(post => {
+      xml += `  <url>\n`;
+      xml += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
+      // Use the blog post's actual date if it exists, otherwise use today's date
+      const postDate = post.date ? new Date(post.date).toISOString().split('T')[0] : today;
+      xml += `    <lastmod>${postDate}</lastmod>\n`;
+      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <priority>0.7</priority>\n`;
+      xml += `  </url>\n`;
+    });
+  }
+
+  xml += `</urlset>`;
+
+  res.send(xml);
+});
+
+// 2. Dynamic Robots.txt (MOVED UP)
 app.get('/robots.txt', (req, res) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
   res.status(200).send(
-    `User-agent: *
-Allow: /
-
-Sitemap: https://radhatravels.co.in/sitemap.xml`
+    `User-agent: *\nAllow: /\n\nSitemap: https://radhatravels.co.in/sitemap.xml`
   );
 });
+
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(cookieParser());
@@ -456,81 +531,7 @@ app.get("/about", (req, res) => {
   });
 });
 
-// =======================================================
-//  DYNAMIC XML SITEMAP (SEO)
-// =======================================================
-app.get('/sitemap.xml', (req, res) => {
-  res.header('Content-Type', 'application/xml');
 
-  const baseUrl = 'https://radhatravels.co.in';
-  const today = new Date().toISOString().split('T')[0];
-
-  // 1. Core Static Pages
-  const staticPages = [
-    '',
-    '/about',
-    '/services',
-    '/fleet',
-    '/blog',
-    '/gallery',
-    '/track-booking'
-  ];
-
-  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-
-  // Generate URLs for Static Pages
-  staticPages.forEach(page => {
-    xml += `  <url>\n`;
-    xml += `    <loc>${baseUrl}${page}</loc>\n`;
-    xml += `    <lastmod>${today}</lastmod>\n`;
-    xml += `    <changefreq>weekly</changefreq>\n`;
-    xml += `    <priority>${page === '' ? '1.0' : '0.8'}</priority>\n`;
-    xml += `  </url>\n`;
-  });
-
-  // Generate URLs for Dynamic Services
-  if (typeof SERVICES !== 'undefined') {
-    SERVICES.forEach(service => {
-      xml += `  <url>\n`;
-      xml += `    <loc>${baseUrl}/services/${service.slug}</loc>\n`;
-      xml += `    <lastmod>${today}</lastmod>\n`;
-      xml += `    <changefreq>monthly</changefreq>\n`;
-      xml += `    <priority>0.9</priority>\n`;
-      xml += `  </url>\n`;
-    });
-  }
-
-  // Generate URLs for Dynamic Tours (Srisailam, Tirupati, etc.)
-  if (typeof tourData !== 'undefined') {
-    Object.keys(tourData).forEach(dest => {
-      xml += `  <url>\n`;
-      xml += `    <loc>${baseUrl}/tours/${dest}</loc>\n`;
-      xml += `    <lastmod>${today}</lastmod>\n`;
-      xml += `    <changefreq>monthly</changefreq>\n`;
-      xml += `    <priority>0.9</priority>\n`;
-      xml += `  </url>\n`;
-    });
-  }
-
-  // Generate URLs for Dynamic Blog Posts
-  if (typeof blogPosts !== 'undefined') {
-    blogPosts.forEach(post => {
-      xml += `  <url>\n`;
-      xml += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
-      // Use the blog post's actual date if it exists, otherwise use today's date
-      const postDate = post.date ? new Date(post.date).toISOString().split('T')[0] : today;
-      xml += `    <lastmod>${postDate}</lastmod>\n`;
-      xml += `    <changefreq>monthly</changefreq>\n`;
-      xml += `    <priority>0.7</priority>\n`;
-      xml += `  </url>\n`;
-    });
-  }
-
-  xml += `</urlset>`;
-
-  res.send(xml);
-});
 
 
 // UTILITY
