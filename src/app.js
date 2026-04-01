@@ -215,6 +215,11 @@ const cachedHeroSlides = loadHeroSlides();
 //  ADMIN (NEW CLEAN SETUP)
 // =======================================================
 app.use('/admin', (req, res, next) => {
+  // 🚀 FIX: Prevent browser from caching admin pages on "Back" button
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+
   const path = req.path.split('/')[1] || 'dashboard';
   res.locals.active = path;
   next();
