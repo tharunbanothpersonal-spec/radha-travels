@@ -471,46 +471,58 @@
 </div>
 </main>
 <!-- Home Special tour package -->
-<section class="rt-special-packages reveal-group">
-  <div class="rt-container">
-    <h2 class="rt-sp-title reveal-item reveal-slide-left">Special tour packages</h2>
-    <div class="rt-sp-grid">
-      <a href="/tours/srisailam" class="rt-sp-card reveal-item reveal-slide-up">
-        <div class="rt-sp-img"><img src="/images/srisailam.jpg" alt="Srisailam Temple" loading="lazy"></div>
-        <div class="rt-sp-content">
-          <span class="rt-sp-tag">SRISAILAM</span>
-          <h3>Hyderabad to Srisailam</h3>
-          <span class="rt-sp-arrow">↗</span>
-        </div>
-      </a>
-      <a href="/tours/arunachalam" class="rt-sp-card reveal-item reveal-slide-up">
-        <div class="rt-sp-img"><img src="/images/arunachalam.jpg" alt="Arunachalam Temple" loading="lazy"></div>
-        <div class="rt-sp-content">
-          <span class="rt-sp-tag">ARUNACHALAM</span>
-          <h3>Hyderabad to Arunachalam</h3>
-          <span class="rt-sp-arrow">↗</span>
-        </div>
-      </a>
-      <a href="/tours/tirupati" class="rt-sp-card reveal-item reveal-slide-up">
-        <div class="rt-sp-img"><img src="/images/tirupati.jpg" alt="Tirupati Temple" loading="lazy"></div>
-        <div class="rt-sp-content">
-          <span class="rt-sp-tag">TIRUPATI</span>
-          <h3>Hyderabad to Tirupati</h3>
-          <span class="rt-sp-arrow">↗</span>
-        </div>
-      </a>
-      <a href="/tours/shirdi" class="rt-sp-card reveal-item reveal-slide-up">
-        <div class="rt-sp-img"><img src="/images/shirdi.jpg" alt="Shirdi Temple" loading="lazy"></div>
-        <div class="rt-sp-content">
-          <span class="rt-sp-tag">SHIRDI</span>
-          <h3>Hyderabad to Shiridi</h3>
-          <span class="rt-sp-arrow">↗</span>
-        </div>
+<section class="rt-cinematic-tours reveal-group">
+  <div class="container">
+    
+    <div class="ct-header-luxury reveal-item reveal-slide-up">
+      <!-- <span class="ct-eyebrow-luxury">Curated Experiences</span>
+      <div class="ct-divider-luxury"></div> -->
+      <h2><span>Special Tour</span> Packages</h2>
+    </div>
+
+    <div class="ct-grid">
+      <% 
+        const signatureKeys = Object.keys(tours).slice(0, 4);
+        signatureKeys.forEach(function(key) { 
+          const tour = tours[key];
+          
+          let badgeText = "Pilgrimage";
+          if(key === 'hyderabadLocal') badgeText = "City Tour";
+          if(key === 'ramoji') badgeText = "Entertainment";
+      %>
+        <a href="/tours/<%= key %>" class="ct-card reveal-item reveal-slide-up">
+          
+          <div class="ct-image-layer">
+            <img src="<%= tour.heroImage %>" alt="<%= tour.name %>" loading="lazy">
+            <div class="ct-gradient-overlay"></div>
+          </div>
+          
+          <div class="ct-content-layer">
+            <span class="ct-badge"><%= badgeText %></span>
+            
+            <div class="ct-text-bottom">
+              <h3><%= key === 'hyderabadLocal' ? 'Hyderabad City' : tour.name %></h3>
+              <p class="ct-desc"><%= tour.intro.substring(0, 75) %>...</p>
+              
+              <div class="ct-action-row">
+                <span class="ct-explore-text">Explore Tour</span>
+                <div class="ct-arrow-circle">
+                  <i class="fa-solid fa-arrow-right"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </a>
+      <% }); %>
+    </div>
+    
+    <div class="ct-mobile-footer mobile-only reveal-item reveal-slide-up">
+      <a href="/services" class="ct-view-all-btn">
+        Explore All Destinations <i class="fa-solid fa-arrow-right"></i>
       </a>
     </div>
-    <div class="rt-sp-footer reveal-item reveal-slide-up">
-      <a href="/services" class="rt-sp-btn">Click here for more services<i class="fa-solid fa-arrow-right"></i></a>
-    </div>
+
   </div>
 </section>
 <!--home blog-preview -->

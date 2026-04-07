@@ -3,7 +3,7 @@ export const blogPosts = [
     slug: 'hyderabad-to-arunachalam-toll-charges-route-guide',
     title: '2026 Toll Charges & Route Guide: Hyderabad to Arunachalam',
     excerpt: 'Plan your road trip perfectly with exact 2026 toll charges, highway route conditions, and best food stops from Hyderabad to Tiruvannamalai.',
-    image: '/images/blog/arunachalam-highway.jpg',
+    image: '/images/blog/toll_gate.webp',
     date: '2026-04-01',
     content: `
       <p>Driving from Hyderabad to the sacred Arunachalesvara Temple in Tiruvannamalai is a journey of over 620 kilometers. Because this route crosses from Telangana through Andhra Pradesh and deep into Tamil Nadu, knowing the exact road conditions, toll costs, and reliable rest stops is crucial for a smooth pilgrimage.</p>
@@ -92,7 +92,7 @@ export const blogPosts = [
     slug: 'srisailam-ghat-road-timings-night-driving',
     title: 'Srisailam Ghat Road Timings & Night Driving Safety (2026 Update)',
     excerpt: 'Planning a trip to Mallikarjuna Swamy? Learn about the strict Nallamala forest check-post timings, ghat road safety, and why night driving is banned.',
-    image: '/images/blog/srisailam-ghat.jpg',
+    image: '/images/blog/srisailam-ghat.webp',
     date: '2026-04-01',
     content: `
       <p>The journey to the sacred Mallikarjuna Jyotirlinga in Srisailam is uniquely breathtaking because it requires traversing the dense Amrabad Tiger Reserve within the Nallamala Forest. However, this 60-kilometer stretch of ghat (mountain) road is not your average highway. To protect both travelers and wildlife, the forest department strictly enforces <strong>Srisailam ghat road timings</strong>.</p>
@@ -147,7 +147,7 @@ export const blogPosts = [
     slug: 'traveling-to-shirdi-with-elderly-parents',
     title: 'Traveling to Shirdi with Elderly Parents: A Complete 2026 Guide',
     excerpt: 'Planning a Shirdi trip with senior citizens? Read our essential guide on wheelchair access, VIP darshan, and booking the most comfortable cab from Hyderabad.',
-    image: '/images/blog/shirdi-elderly.jpg',
+    image: '/images/blog/shirdi.jpg',
     date: '2026-04-01',
     content: `
       <p>Taking your elderly parents to seek the blessings of Sai Baba in Shirdi is a deeply fulfilling duty. However, the physical toll of a 600-kilometer road trip from Hyderabad, combined with the massive crowds at the Samadhi Mandir, can be overwhelming for senior citizens. With a few strategic decisions, you can transform a physically exhausting journey into a comfortable, peaceful pilgrimage.</p>
@@ -204,7 +204,7 @@ export const blogPosts = [
     slug: 'hyderabad-to-srisailam-cab-cost',
     title: 'Hyderabad to Srisailam Cab Cost 2026 – Price, Distance & Travel Guide',
     excerpt: 'Check latest Hyderabad to Srisailam cab cost, distance, travel time, vehicle options and booking tips for a smooth temple trip.',
-    image: '/images/blog/tirupati.jpg',
+    image: '/images/blog/srisailam.jpg',
     date: '2026-02-25',
     content: `
       <p>Srisailam, home to the revered Mallikarjuna Jyotirlinga and Bhramaramba Shakti Peetham, is one of the most spiritually significant and visually breathtaking destinations you can drive to from Hyderabad. Nestled deep within the Nallamala Forest, the journey is as mesmerizing as the destination itself. Whether you are planning a rapid same-day return trip or a relaxed 2-day temple stay, understanding the exact Hyderabad to Srisailam cab cost, route conditions, and forest timings will ensure your pilgrimage is perfectly smooth.</p>

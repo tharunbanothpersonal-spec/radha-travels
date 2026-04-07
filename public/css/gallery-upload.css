@@ -801,161 +801,328 @@ body.rt-emerald-theme {
   .cyber-emerald-mode .hg-overlay span { font-size: 14px; }
 }
 
-
-/* ==========================
-for Home page special tour
-=============================*/
-
-/* ========================
-   SPECIAL TOUR PACKAGES (MOBILE FIRST 440px)
-======================== */
-.rt-special-packages {
-  /* Dark contrasting background to separate from other sections */
-  background: #01110a; 
-  padding: 60px 15px;
-  border-top: 1px solid rgba(16, 185, 129, 0.2);
-  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+/* ==========================================================================
+   CINEMATIC DESTINATIONS GRID (Ultra-Premium UI)
+   ========================================================================== */
+.rt-cinematic-tours {
+  padding: 1rem 1rem;
+  background-color: #ffffff;
 }
-
-.rt-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Section Title */
-.rt-sp-title {
-  text-align: center;
-  color: #fff;
-  font-size: 26px;
-  font-weight: 300;
-  margin-bottom: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 15px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-}
-
-/* 4-Card Grid */
-.rt-sp-grid {
-  display: grid;
-  grid-template-columns: 1fr; /* 1 column on 440px */
-  gap: 20px;
-  margin-bottom: 40px;
-}
-
-/* The Bright White Cards */
-.rt-sp-card {
+/* ==========================================================================
+   MINIMALIST LUXURY HEADER (Short & Premium)
+   ========================================================================== */
+.ct-header-luxury {
   display: flex;
   flex-direction: column;
-  background: #ffffff; /* Bright white like reference */
-  border-radius: 12px;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 2.5rem; /* Drastically reduced vertical space */
+}
+
+/* Elegant, wide-tracked overline */
+.ct-eyebrow-luxury {
+  color: #6b7280; /* Sophisticated muted gray */
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.35em; /* Ultra-wide luxury tracking */
+  margin-bottom: 0.85rem;
+}
+
+/* Razor-thin brand accent */
+.ct-divider-luxury {
+  width: 40px;
+  height: 1px;
+  background-color: #059669; /* Brand green */
+  margin-bottom: 0.85rem;
+}
+
+/* Sharp, refined main title */
+.ct-header-luxury h2 {
+  font-size: 1.8rem;
+  color: #111827;
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.ct-header-luxury h2 span{
+  color: var(--emerald-primary);
+  
+}
+
+/* Restrained Desktop Scaling */
+@media (min-width: 768px) {
+  .ct-header-luxury {
+    margin-bottom: 3.5rem; 
+  }
+  .ct-header-luxury h2 {
+    font-size: 2.75rem; 
+  }
+}
+
+/* --- THE GRID (Mobile First) --- */
+.ct-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem; 
+}
+
+/* --- THE CARD --- */
+.ct-card {
+  position: relative;
+  display: block;
+  border-radius: 16px;
   overflow: hidden;
   text-decoration: none;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  aspect-ratio: 4/5; 
+  background: #111827;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(255,255,255,0.1);
+  transform: translateZ(0); 
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
 }
 
-.rt-sp-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3); /* Emerald glow on hover */
+.ct-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(5, 150, 105, 0.2), inset 0 0 0 1px rgba(16, 185, 129, 0.3);
 }
 
-/* Image Setup */
-.rt-sp-img {
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-}
-
-.rt-sp-img img {
+/* --- IMAGE & OVERLAY --- */
+.ct-image-layer, 
+.ct-image-layer img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.rt-sp-card:hover .rt-sp-img img {
-  transform: scale(1.08); /* Cinematic zoom */
+.ct-card:hover .ct-image-layer img {
+  transform: scale(1.1); 
 }
 
-/* Card Content & Typography */
-.rt-sp-content {
-  padding: 20px;
-  position: relative;
-}
-
-.rt-sp-tag {
-  display: inline-block;
-  background: #ecfdf5; /* Pale mint background */
-  color: #10b981; /* Emerald text */
-  font-size: 10px;
-  font-weight: 800;
-  padding: 4px 8px;
-  border-radius: 4px;
-  margin-bottom: 12px;
-  letter-spacing: 1px;
-}
-
-.rt-sp-content h3 {
-  color: #111827; /* Dark black text */
-  font-size: 18px;
-  margin: 0 0 10px 0;
-  font-weight: 700;
-  padding-right: 30px; /* Leaves room for the arrow */
-}
-
-/* The Orange Action Arrow */
-.rt-sp-arrow {
+.ct-gradient-overlay {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  color: #f97316; /* Orange color from reference */
-  font-size: 20px;
-  font-weight: bold;
-  transition: transform 0.3s ease;
+  inset: 0;
+  background: linear-gradient(
+    to bottom, 
+    rgba(0,0,0,0.4) 0%, 
+    rgba(0,0,0,0) 30%, 
+    rgba(0,0,0,0.6) 65%, 
+    rgba(0,0,0,0.95) 100%
+  );
+  transition: opacity 0.6s ease;
 }
 
-.rt-sp-card:hover .rt-sp-arrow {
-  transform: translate(4px, -4px); /* Moves up and right on hover */
+.ct-card:hover .ct-gradient-overlay {
+  opacity: 0.95;
 }
 
-/* Bottom Services Button */
-.rt-sp-footer {
-  text-align: center;
+/* --- CONTENT LAYER --- */
+.ct-content-layer {
+  position: absolute;
+  inset: 0;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
 }
 
-.rt-sp-btn {
-  display: inline-block;
-  color: #fff;
-  border: 1px solid #10b981;
-  padding: 14px 30px;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  text-decoration: none;
+/* Premium Frosted Badge */
+.ct-badge {
+  align-self: flex-start;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  padding: 0.4rem 0.85rem;
   border-radius: 8px;
-  transition: all 0.3s ease;
-  background: rgba(16, 185, 129, 0.1);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-.rt-sp-btn:hover {
+/* Base Mobile Text Bottom */
+.ct-text-bottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.ct-text-bottom h3 {
+  color: #ffffff;
+  font-size: 0.85rem; 
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.2;
+  transition: color 0.4s ease;
+}
+
+.ct-desc {
+  display: none; /* Hidden on mobile to save space */
+}
+
+/* Action Row */
+.ct-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.ct-explore-text {
+  color: #ffffff;
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: color 0.4s ease;
+}
+
+.ct-arrow-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 0.55rem;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --- MOBILE HOVER ANIMATIONS --- */
+.ct-card:hover .ct-arrow-circle {
   background: #10b981;
-  color: #fff;
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+  color: #ffffff;
+  transform: translateX(4px) rotate(-45deg);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
 }
-.rt-sp-btn:hover>i{
 
-  transition: all 0.4s ease;
-  transform:translateX(15px);
+.ct-card:hover .ct-explore-text {
+  color: #a7f3d0;
 }
-/* ========================
-   DESKTOP SCALING
-======================== */
+
+.ct-card:hover .ct-text-bottom h3 {
+  color: #a7f3d0; 
+}
+
+/* --- DESKTOP ENHANCEMENTS & KINETIC REVEAL --- */
 @media (min-width: 768px) {
-  .rt-sp-grid { grid-template-columns: repeat(2, 1fr); }
+  .ct-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  
+  .ct-card {
+    aspect-ratio: 3/4; /* Slightly taller on desktop */
+  }
+  
+  .ct-content-layer { padding: 1.5rem; }
+  .ct-header h2 { font-size: 2.75rem; }
+  
+  .ct-arrow-circle { width: 34px; height: 34px; font-size: 0.85rem; }
+  .ct-explore-text { font-size: 0.75rem; }
+  
+  .ct-text-bottom h3 { 
+    font-size: 1.5rem; 
+    margin-bottom: 0.25rem; 
+  }
+  
+  /* The Magic "Max-Height" Reveal ensures text doesn't push the button out */
+  .ct-desc {
+    display: block;
+    color: #d1d5db;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    
+    /* Hidden state */
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    overflow: hidden;
+    
+    /* Smooth physical expansion */
+    transition: max-height 1s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 1s ease,
+                margin 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* The Hover Trigger */
+  .ct-card:hover .ct-desc {
+    max-height: 120px; 
+    opacity: 1;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+  }
 }
 
 @media (min-width: 1024px) {
-  .rt-sp-grid { grid-template-columns: repeat(4, 1fr); }
-  .rt-sp-title { width: 50%; margin: 0 auto 40px auto; }
+  .ct-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* --- UTILITIES & MOBILE BUTTON --- */
+.desktop-only { display: none; }
+.mobile-only { display: block; margin-top: 1.5rem; }
+
+@media (min-width: 768px) {
+  .desktop-only { display: flex; }
+  /* .mobile-only { display: none; } */
+}
+
+.ct-mobile-footer {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+/* Refined Premium View All Button */
+.ct-view-all-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.5);
+  padding: 14px 32px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.05);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.ct-view-all-btn i {
+  margin-left: -10px; 
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ct-view-all-btn:hover {
+  transform: translateY(-3px);
+  background: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+  box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+}
+
+.ct-view-all-btn:hover i {
+  opacity: 1;
+  margin-left: 10px; 
+  transform: translateX(0);
 }

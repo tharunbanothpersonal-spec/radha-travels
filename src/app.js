@@ -347,6 +347,7 @@ app.get('/', async (req, res) => {
       title: 'Hyderabad Cab Service | Outstation, Airport & Tempo Traveller | Radha Travels',
       currentPath: req.path,
       heroSlides: cachedHeroSlides, // 🚀 FIX: Using the cached array here for blazing fast load times
+      tours: tourData,
       featuredGallery,
       featuredFleet,
       testimonials,
@@ -381,16 +382,26 @@ app.get('/', async (req, res) => {
 
 // Dynamic Route for Special Tour Packages
 app.get('/tours/:destination', (req, res) => {
-  const destId = req.params.destination.toLowerCase();
-  const tour = tourData[destId];
+  // 1. Grab the URL parameter and lowercase it for safe searching
+  const requestedDest = req.params.destination.toLowerCase();
+  
+  // 2. Safely find the matching case-sensitive key from tourData
+  const actualKey = Object.keys(tourData).find(key => key.toLowerCase() === requestedDest);
+  
+  // 3. Grab the data using the correct key
+  const tour = tourData[actualKey];
 
   if (tour) {
     res.render('tour-detail', {
-      title: `Hyderabad to ${tour.name} Cab Service | Temple Trip Package | Radha Travels`,
-      metaDescription: `Book a premium cab from Hyderabad to ${tour.name}. Safe, reliable, and sanitized vehicles. View pricing, itineraries, and secure your booking today.`, // 🚀 FIX: Dynamic SEO added
-      currentPath: req.path, // 🚀 FIX: Canonical URL setup
+      // Quick tweak: Hyderabad Local is just a city tour, not "Hyderabad to Hyderabad"
+      title: actualKey === 'hyderabadLocal' 
+        ? 'Hyderabad Local Sightseeing Cab Service | Radha Travels'
+        : `Hyderabad to ${tour.name} Cab Service | Temple Trip Package | Radha Travels`,
+      
+      metaDescription: `Book a premium cab for ${tour.name}. Safe, reliable, and sanitized vehicles. View pricing, itineraries, and secure your booking today.`, 
+      currentPath: req.path, 
       tour: tour,
-      pageSchema: JSON.stringify(tour.schema),
+      pageSchema: JSON.stringify(tour.schema || {}), // Fallback to empty object if schema is missing
     });
   } else {
     res.status(404).render('pages/404', { title: 'Not Found' });

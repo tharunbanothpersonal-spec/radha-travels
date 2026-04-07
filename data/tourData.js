@@ -1,4 +1,93 @@
  export const tourData = {
+
+    hyderabadLocal: {
+    name: 'Hyderabad City',
+    heroImage: '/images/hyderabad-local.jpg',
+    intro: 'Explore the royal heritage of the City of Pearls. Let Radha Travels take you on a comfortable tour of Hyderabad’s most iconic landmarks.',
+    introTitle: 'Local Sightseeing Route & Info',
+    distanceInfo: 'Our full-day local package covers approximately 80 km within city limits over 8 hours.',
+    routesTitle: 'Key Landmarks Covered:',
+    routes: [
+      'Charminar & Laad Bazaar',
+      'Golconda Fort & Qutb Shahi Tombs',
+      'Salar Jung Museum',
+      'Hussain Sagar Lake & Birla Mandir'
+    ],
+    routeExtra: 'Enjoy a hassle-free day as our drivers navigate the busy city traffic. Custom drop-offs to famous Biryani restaurants are highly recommended!',
+    longDescription: `Experience the magic of the Old City and the modern pulse of Cyberabad. <strong>Hyderabad</strong> is a unique blend of centuries-old Islamic architecture and vibrant, bustling bazaars.`,
+    templeLegend: 'Built in 1591 by Muhammad Quli Qutb Shah, the Charminar is the definitive symbol of the city. Nearby, the impenetrable Golconda Fort echoes with tales of the legendary Koh-i-Noor diamond.',
+    templeArchitecture: 'From the Indo-Islamic grandeur of the Qutb Shahi dynasty to the white marble elegance of the modern Birla Mandir, the city offers a visual feast for architecture lovers.',
+    templeTimings: 'Tours typically run from 9:00 AM to 6:00 PM',
+    bestTimeToVisit: 'October to March (Winter months are ideal for walking tours)',
+    galleryImage1: '/images/hyd/charminar.jpg',
+    galleryImage2: '/images/hyd/golconda.jpg',
+    galleryImage3: '/images/hyd/salarjung.jpg',
+    galleryImage4: '/images/hyd/hussain-sagar.jpg',
+    galleryImage5: '/images/hyd/birla.jpg',
+    nearbyAttractions: [
+      { name: 'Chowmahalla Palace', desc: 'The magnificent palace of the Nizams.', img: '/images/hyd/chowmahalla.jpg' },
+      { name: 'Lumbini Park', desc: 'Evening boat rides and laser shows.', img: '/images/hyd/lumbini.jpg' }
+    ],
+    idealFor: ['Family Weekend Outings', 'Tourists visiting Hyderabad', 'Corporate Day Trips'],
+    whyChoose: ['Knowledgeable Local Drivers', 'Comfortable AC Vehicles', 'Flexible Itineraries'],
+    officialWebsite: 'https://telanganatourism.gov.in/',
+    schema: { /* Add matching schema object here */ }
+  },
+
+  ramoji: {
+    name: 'Ramoji Film City',
+    heroImage: '/images/ramoji-main.jpg',
+    intro: 'Step into the magic of cinema. Radha Travels offers dedicated full-day packages to the world’s largest integrated film studio complex.',
+    introTitle: 'Travel to Ramoji Film City',
+    distanceInfo: 'Located about 30-40 km from the city center, the drive takes roughly 1 hour via the Vijayawada Highway.',
+    routesTitle: 'Tour Highlights:',
+    routes: ['Film City Studio Tour', 'Fundustan (Kids Park)', 'Eco Zone & Bird Park', 'Live Action Stunt Shows'],
+    routeExtra: 'Since Ramoji requires a full day of walking and exploring, having a dedicated cab waiting for your return ensures a relaxing end to an exhausting day.',
+    longDescription: `<strong>Ramoji Film City</strong> is a sprawling wonderland of themed sets, amusement rides, and cinematic experiences. It holds the Guinness World Record for the largest film studio complex.`,
+    templeLegend: 'N/A - Entertainment Destination',
+    templeArchitecture: 'Features diverse architectural replicas including London streets, Japanese gardens, and mock airports used in blockbuster films like Baahubali.',
+    templeTimings: '9:00 AM to 5:30 PM',
+    bestTimeToVisit: 'Year-round, but winters and festive carnivals (Diwali/Dussehra) are highly vibrant.',
+    galleryImage1: '/images/ramoji/studio.jpg',
+    galleryImage2: '/images/ramoji/fundustan.jpg',
+    galleryImage3: '/images/ramoji/shows.jpg',
+    galleryImage4: '/images/ramoji/gardens.jpg',
+    galleryImage5: '/images/ramoji/baahubali.jpg',
+    nearbyAttractions: [],
+    idealFor: ['Family Vacations', 'School/College Picnics', 'Corporate Outings'],
+    whyChoose: ['Spacious SUVs for Large Families', 'On-Time Morning Pickups', 'Safe Late-Evening Returns'],
+    officialWebsite: 'https://www.ramojifilmcity.com/',
+    schema: { /* Add matching schema object here */ }
+  },
+
+  yadagirigutta: {
+    name: 'Yadagirigutta',
+    heroImage: '/images/yadagirigutta-main.jpg',
+    intro: 'Seek the blessings of Lord Narasimha Swamy at the newly renovated, magnificent Yadadri Temple.',
+    introTitle: 'Hyderabad to Yadagirigutta',
+    distanceInfo: 'Located approximately 65 km from Hyderabad, the journey takes about 1.5 to 2 hours via the Warangal Highway (NH 163).',
+    routesTitle: 'Recommended Route:',
+    routes: ['Hyderabad – Uppal – Bhongir – Yadagirigutta'],
+    routeExtra: 'We offer flexible packages that can include a stopover at the historic Bhongir Fort on the way back.',
+    longDescription: `<strong>Sri Lakshmi Narasimha Swamy Temple</strong> at Yadagirigutta is a highly revered cave temple. It has recently been transformed into a sprawling architectural marvel known as Yadadri.`,
+    templeLegend: 'It is believed that sage Yadarishi performed severe penance inside the cave here, pleasing Lord Narasimha who manifested in five different forms (Jwala, Yogananda, Gandabherunda, Ugra, and Lakshminarasimha).',
+    templeArchitecture: 'The renovated temple is a stunning example of Dravidian architecture, built entirely from black granite (Krushna Shila) without the use of cement, strictly following ancient Agama Shastras.',
+    templeTimings: '4:00 AM to 9:30 PM',
+    bestTimeToVisit: 'Throughout the year (Brahmotsavams in Feb/March are highly auspicious).',
+    galleryImage1: '/images/yadadri/temple-view.jpg',
+    galleryImage2: '/images/yadadri/gopuram.jpg',
+    galleryImage3: '/images/yadadri/cave.jpg',
+    galleryImage4: '/images/yadadri/night-view.jpg',
+    galleryImage5: '/images/yadadri/bhongir.jpg',
+    nearbyAttractions: [
+      { name: 'Bhongir Fort', desc: 'An 11th-century fort built on a massive monolithic rock.', img: '/images/yadadri/bhongir-fort.jpg' }
+    ],
+    idealFor: ['Family Temple Visits', 'New Vehicle Pooja Trips', 'Senior Citizen Yatras'],
+    whyChoose: ['Smooth Highway Driving', 'Wheelchair Friendly Vehicle Assistance', 'Wait & Return Service'],
+    officialWebsite: 'https://yadadritemple.telangana.gov.in/',
+    schema: { /* Add matching schema object here */ }
+  },
+
     srisailam: {
       name: 'Srisailam',
       heroImage: '/images/srisailam.jpg',
