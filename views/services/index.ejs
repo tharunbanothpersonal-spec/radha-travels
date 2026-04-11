@@ -8,153 +8,487 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-        crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/styles.css" />
+  
   <style>
-/* Import a fun, rounded font just for this section (optional, but highly recommended!) */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+    /* ==========================================================================
+       NATIVE SMOOTH SCROLLING (Ensures butter-smooth anchor navigation)
+       ========================================================================== */
+    html {
+      scroll-behavior: smooth;
+    }
 
-.section-head-playful {
-  font-family: 'Nunito', sans-serif;
-  text-align: center;
-  /* REDUCED PADDING: Brought down from 3.5rem to 2rem to instantly shrink height */
-  padding: 2rem 1.5rem; 
-  position: relative;
-  background: linear-gradient(135deg, #e0f2fe 0%, #dcfce7 100%); 
-  /* REDUCED BORDER RADIUS: slightly smaller to match the compact size */
-  border-radius: 20px; 
-  margin: 0 auto 2rem auto;
-  max-width: 900px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(34, 197, 94, 0.2); 
-}
+    /* ==========================================================================
+       GLOBAL ANIMATIONS & REVEAL SYSTEM
+       ========================================================================== */
+    @keyframes fadeUpEntrance {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shineSweep {
+      0% { left: -100%; }
+      100% { left: 200%; }
+    }
 
-.svc-heading-playful {
-  /* REDUCED FONT SIZE: 3.2rem -> 2.6rem */
-  font-size: 2.6rem;
-  font-weight: 900;
-  color: #15803d; 
-  /* REDUCED MARGIN: 1rem -> 0.3rem to pull the subheading up closer */
-  margin-top: 0;
-  margin-bottom: 0.3rem; 
-  position: relative;
-  z-index: 2;
-  text-shadow: 3px 3px 0px #bbf7d0, 6px 6px 0px rgba(0,0,0,0.05); 
-}
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
-.svc-subheading-playful {
-  /* REDUCED FONT SIZE: 1.25rem -> 1.05rem */
-  font-size: 1.05rem;
-  color: #166534;
-  font-weight: 700;
-  position: relative;
-  z-index: 2;
-  margin: 0; /* Removes default paragraph spacing */
-}
+    /* ==========================================================================
+       1. RICH & BOLD HERO SECTION
+       ========================================================================== */
+    .svc-rich-hero {
+      position: relative;
+      text-align: center;
+      min-height: 90vh; /* Increased height to accommodate the scroll indicator */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 100%), url('/images/hero/services-bg.webp') center/cover no-repeat fixed;
+      color: #ffffff;
+      animation: fadeUpEntrance 1s ease-out forwards;
+      border-bottom: 4px solid #10b981;
+      margin-top: -48px;
+    }
 
-/* --- The Energetic Animations --- */
-.floating-icon {
-  position: absolute;
-  /* REDUCED DEFAULT ICON SIZE */
-  font-size: 2rem;
-  z-index: 1;
-  opacity: 0.9;
-  animation: float 3s ease-in-out infinite; 
-}
+    .hero-badge-rich {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      padding: 8px 24px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
 
-/* Adjusted positions to fit the newly compacted box perfectly */
-.icon-1 { top: 25%; left: 8%; animation-delay: 0s; }
-.icon-2 { bottom: 15%; right: 8%; animation-delay: 1.5s; font-size: 2.5rem; }
+    .hero-title-rich {
+      font-size: clamp(2.5rem, 7vw, 4.8rem);
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.03em;
+      margin: 0 0 1.25rem 0;
+      line-height: 1.1;
+      text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+    .hero-title-rich span { color: #10b981; }
 
-@keyframes float {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-30px) rotate(20deg); } /* Shortened the bob distance */
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-.svc-grid-premium {
-  margin: 0 80px;
-}
+    .hero-subtitle-rich {
+      color: #cbd5e1;
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      line-height: 1.7;
+      max-width: 700px;
+      margin: 0 auto 2rem auto;
+      font-weight: 400;
+    }
 
-/* Mobile adjustments so it stays cute on phones */
-@media (max-width: 768px) {
-  .section-head-playful {
-    padding: 1.5rem 1rem; /* Even tighter for phones */
-  }
-  .svc-heading-playful { font-size: 2rem; }
-  .svc-subheading-playful { font-size: 0.95rem; }
-  .icon-1, .icon-2 { font-size: 1.5rem; }
-  .svc-grid-premium { margin: 0; }
-  .svc-grid-premium {
-  margin: 0;
-}
-}
+    /* ==========================================================================
+       THE ELEGANT GLASSMORPHIC SCROLL ARROW
+       ========================================================================== */
+    .hero-scroll-btn {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      z-index: 10;
+    }
 
+    .hero-scroll-btn .scroll-txt {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      transition: color 0.4s ease;
+    }
 
+    .hero-scroll-btn:hover .scroll-txt {
+      color: #ffffff;
+    }
+
+    .scroll-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-scroll-btn:hover .scroll-circle {
+      background: rgba(16, 185, 129, 0.15); /* Subtle Emerald tint on hover */
+      border-color: rgba(16, 185, 129, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(16, 185, 129, 0.3);
+    }
+
+    /* Cinematic Dropping Arrow Animation */
+    .scroll-circle i {
+      color: #ffffff;
+      font-size: 1.1rem;
+      animation: elegantArrowDrop 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes elegantArrowDrop {
+      0% { transform: translateY(-25px); opacity: 0; }
+      25% { transform: translateY(-5px); opacity: 1; }
+      75% { transform: translateY(5px); opacity: 1; }
+      100% { transform: translateY(25px); opacity: 0; }
+    }
+
+    /* ==========================================================================
+       2. ENHANCED SECTION TITLES
+       ========================================================================== */
+    .section-header-rich {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .section-eyebrow-rich {
+      display: inline-block;
+      background: #0f172a;
+      color: #34d399;
+      padding: 6px 18px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .section-title-rich {
+      font-size: clamp(1.8rem, 5vw, 3.5rem); 
+      color: #0f172a; 
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .section-divider-rich {
+      width: 150px;
+      height: 5px;
+      background: #10b981;
+      margin-top: 1.25rem;
+      border-radius: 5px;
+    }
+
+    /* ==========================================================================
+       3. SIGNATURE DESTINATIONS (Cinematic Grid)
+       ========================================================================== */
+    .rt-cinematic-tours {
+      padding: 2rem 1rem;
+      background-color: #f8fafc;
+    }
+    .ct-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(0.75rem, 2vw, 1.5rem); 
+      max-width: 1250px;
+      margin: 0 auto;
+    }
+    @media (min-width: 1024px) { .ct-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .ct-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      border-radius: clamp(12px, 2vw, 24px); 
+      overflow: hidden;
+      text-decoration: none;
+      aspect-ratio: 3/4; 
+      background: #0f172a; 
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.08);
+      transform: translateZ(0); 
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ct-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%; 
+      width: 50%; height: 100%;
+      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-25deg);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .ct-card:hover {
+      transform: translateY(-8px) scale(1.01); 
+      box-shadow: 0 25px 50px -15px rgba(16, 185, 129, 0.3), inset 0 0 0 1px rgba(16, 185, 129, 0.5);
+    }
+    .ct-card:hover::after { animation: shineSweep 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    .ct-image-layer, .ct-image-layer img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+    }
+    .ct-card:hover .ct-image-layer img { transform: scale(1.1) translate3d(0, 2%, 0); filter: brightness(1.1); }
+
+    .ct-gradient-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(15,23,42,0.3) 0%, rgba(15,23,42,0) 25%, rgba(15,23,42,0.6) 65%, rgba(15,23,42,0.95) 100%);
+      transition: opacity 0.6s ease;
+    }
+    .ct-card:hover .ct-gradient-overlay { opacity: 0.85; }
+
+    .ct-content-layer {
+      position: absolute;
+      inset: 0;
+      padding: clamp(0.85rem, 2.5vw, 1.75rem); 
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      z-index: 4;
+    }
+    .ct-badge {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      color: #ffffff;
+      padding: clamp(4px, 1vw, 6px) clamp(8px, 2vw, 14px);
+      border-radius: 50px; 
+      font-size: clamp(0.55rem, 1.5vw, 0.65rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .ct-text-bottom h3 {
+      color: #ffffff;
+      font-size: clamp(1.05rem, 3.5vw, 1.75rem); 
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem 0;
+      line-height: 1.1;
+      word-wrap: break-word; 
+      transition: color 0.4s ease;
+    }
+
+    .ct-desc { display: none; }
+
+    .ct-action-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      padding-top: clamp(0.5rem, 1.5vw, 1rem);
+      margin-top: 0.25rem;
+    }
+    .ct-explore-text {
+      color: #cbd5e1;
+      font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .ct-arrow-circle {
+      width: clamp(26px, 5vw, 36px); 
+      height: clamp(26px, 5vw, 36px);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: #ffffff; 
+      font-size: clamp(0.6rem, 1.5vw, 0.85rem);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ct-card:hover .ct-arrow-circle {
+      background: #10b981; 
+      color: #ffffff;
+      transform: translateX(4px); 
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    }
+
+    @media (min-width: 1024px) {
+      .ct-desc {
+        display: block; color: #cbd5e1; font-size: 0.85rem; line-height: 1.6;
+        max-height: 0; opacity: 0; margin: 0; overflow: hidden;
+        transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+      }
+      .ct-card:hover .ct-desc { max-height: 120px; opacity: 1; margin-bottom: 1rem; margin-top: 0.5rem; }
+    }
+    
+    /* ==========================================================================
+       4. EVERYDAY SERVICES
+       ========================================================================== */
+    .services-regular-section {
+      padding: 2rem 1rem;
+      background-color: #ffffff;
+    }
+    .svc-grid-premium { margin: 0 auto; }
+    @media (max-width: 768px) { .svc-grid-premium { margin: 0; } }
   </style>
 </head>
 <body>
   <%- include('../partials/header') %>
   <%- include('../partials/ticker') %>
 
-  <main class="container section">
-    <header class="section-head-playful mb-4">
-  <div class="floating-icon icon-1">🌴</div>
-  <div class="floating-icon icon-2">🚕</div>
-  
-  <h1 class="svc-heading-playful">Our Services ✨</h1>
-  <p class="svc-subheading-playful">Choose comfort, class, and reliability — wherever your journey takes you!</p>
-</header>
+  <main>
+    
+    <header class="svc-rich-hero">
+      <div class="hero-badge-rich">
+        <i class="fa-solid fa-star"></i> Radha Travels Exclusive
+      </div>
+      <h1 class="hero-title-rich">Elevate Your <span>Journey</span></h1>
+      <p class="hero-subtitle-rich">Experience unparalleled comfort and reliability. Hand-picked destinations and everyday travel solutions tailored perfectly for you.</p>
+      
+      <a href="#signature-tours" class="hero-scroll-btn" style="transition-delay: 0.8s;">
+        <span class="scroll-txt">Scroll to Explore</span>
+        <div class="scroll-circle">
+          <i class="fa-solid fa-arrow-down-long"></i>
+        </div>
+      </a>
+    </header>
 
-    <div class="svc-grid-premium" role="list">
-      <% services.forEach(function(s, idx){ 
-          let img = "/images/services/default.jpg";
-          if (s.image && typeof s.image === "string") img = "/images/services/" + s.image;
-          else if (s.image && s.image.src) img = s.image.src;
-      %>
-
-      <article class="svc-card-premium" data-idx="<%= idx %>" tabindex="0">
-        <div class="svc-img-wrap">
-          <img src="<%= img %>" alt="<%= s.title %> image" class="svc-img" loading="lazy">
-          <% if (s.from) { %>
-            <span class="svc-badge">From ₹<%= s.from %></span>
-          <% } %>
+    <% if (typeof tours !== 'undefined') { %>
+      <section id="signature-tours" class="rt-cinematic-tours">
+        <div class="section-header-rich reveal-on-scroll">
+          <span class="section-eyebrow-rich">Curated Experiences</span>
+          <h2 class="section-title-rich">Signature Destinations</h2>
+          <div class="section-divider-rich"></div>
         </div>
 
-        <div class="svc-body">
-          <div class="svc-head-inline">
-  <div class="svc-icon">
-    <% if (s.icon && s.icon.startsWith('ri-')) { %>
-      <i class="<%= s.icon %>"></i>
-    <% } else { %>
-      <i class="fa-solid fa-car"></i>
+        <div class="ct-grid">
+          <% 
+            const allKeys = Object.keys(tours);
+            allKeys.forEach(function(key, index) { 
+              const tour = tours[key];
+              let badgeText = "Pilgrimage";
+              if(key === 'hyderabadLocal') badgeText = "City Tour";
+              if(key === 'ramoji') badgeText = "Entertainment";
+          %>
+            <a href="/tours/<%= key %>" class="ct-card reveal-on-scroll" style="transition-delay: <%= (index % 4) * 0.1 %>s">
+              <div class="ct-image-layer">
+                <img src="<%= tour.heroImage %>" alt="<%= tour.name %>" loading="lazy">
+                <div class="ct-gradient-overlay"></div>
+              </div>
+              <div class="ct-content-layer">
+                <span class="ct-badge"><%= badgeText %></span>
+                <div class="ct-text-bottom">
+                  <h3><%= key === 'hyderabadLocal' ? 'Hyderabad City' : tour.name %></h3>
+                  <p class="ct-desc"><%= tour.intro.substring(0, 75) %>...</p>
+                  <div class="ct-action-row">
+                    <span class="ct-explore-text">Explore Tour</span>
+                    <div class="ct-arrow-circle">
+                      <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          <% }); %>
+        </div>
+      </section>
     <% } %>
-  </div>
-  <h3 class="svc-title"><%= s.title %></h3>
-</div>
-<p class="svc-desc"><%= s.blurb %></p>
 
-
-          <div class="svc-btn-group">
-            <a href="/services/<%= s.slug %>" class="svc-btn svc-btn-main">
-              View Details <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-            <a href="#" role="button" class="svc-btn svc-btn-alt open-booking">
-              Book Now
-            </a>
+    <section class="services-regular-section">
+      <div class="section-header-rich reveal-on-scroll">
+        <span class="section-eyebrow-rich">Reliable Fleet</span>
+        <h2 class="section-title-rich">Everyday Travel Solutions</h2>
+        <div class="section-divider-rich"></div>
+      </div>
+      
+      <div class="svc-grid-premium" role="list">
+        <% services.forEach(function(s, idx){ 
+            let img = "/images/services/default.jpg";
+            if (s.image && typeof s.image === "string") img = "/images/services/" + s.image;
+            else if (s.image && s.image.src) img = s.image.src;
+        %>
+        <article class="svc-card-premium reveal-on-scroll" data-idx="<%= idx %>" tabindex="0" style="transition-delay: <%= (idx % 3) * 0.1 %>s">
+          <div class="svc-img-wrap">
+            <img src="<%= img %>" alt="<%= s.title %> image" class="svc-img" loading="lazy">
+            <% if (s.from) { %>
+              <span class="svc-badge">From ₹<%= s.from %></span>
+            <% } %>
           </div>
-        </div>
-      </article>
 
-      <% }); %>
-    </div>
+          <div class="svc-body">
+            <div class="svc-head-inline">
+              <div class="svc-icon">
+                <% if (s.icon && s.icon.startsWith('ri-')) { %>
+                  <i class="<%= s.icon %>"></i>
+                <% } else { %>
+                  <i class="fa-solid fa-car"></i>
+                <% } %>
+              </div>
+              <h3 class="svc-title"><%= s.title %></h3>
+            </div>
+            <p class="svc-desc"><%= s.blurb %></p>
+
+            <div class="svc-btn-group">
+              <a href="/services/<%= s.slug %>" class="svc-btn svc-btn-main">
+                View Details <i class="fa-solid fa-arrow-right-long"></i>
+              </a>
+              <a href="#" role="button" class="svc-btn svc-btn-alt open-booking">
+                Book Now
+              </a>
+            </div>
+          </div>
+        </article>
+        <% }); %>
+      </div>
+    </section>
+
   </main>
 
   <%- include('../partials/footer') %>
+  
+  <script>
+    const reveal = () => {
+      const reveals = document.querySelectorAll('.reveal-on-scroll');
+      const windowHeight = window.innerHeight;
+      const revealPoint = 100;
+
+      reveals.forEach(el => {
+        const revealTop = el.getBoundingClientRect().top;
+        if (revealTop < windowHeight - revealPoint) {
+          el.classList.add('active');
+        }
+      });
+    };
+
+    window.addEventListener('scroll', reveal);
+    window.addEventListener('load', reveal);
+  </script>
+  
   <script src="/js/main.js"></script>
 </body>
 </html>

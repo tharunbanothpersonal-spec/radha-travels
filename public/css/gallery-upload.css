@@ -802,89 +802,98 @@ body.rt-emerald-theme {
 }
 
 /* ==========================================================================
-   CINEMATIC DESTINATIONS GRID (Ultra-Premium UI)
+   SPECIAL TOURS SECTION (2-Column Mobile & Fluid Typography)
    ========================================================================== */
 .rt-cinematic-tours {
-  padding: 1rem 1rem;
+  padding: 2rem 1rem; /* Scales section padding */
   background-color: #ffffff;
 }
-/* ==========================================================================
-   MINIMALIST LUXURY HEADER (Short & Premium)
-   ========================================================================== */
+
+/* --- THE HEADER --- */
 .ct-header-luxury {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 2.5rem; /* Drastically reduced vertical space */
+  margin-bottom: clamp(2rem, 5vw, 3rem);
 }
 
-/* Elegant, wide-tracked overline */
-.ct-eyebrow-luxury {
-  color: #6b7280; /* Sophisticated muted gray */
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.35em; /* Ultra-wide luxury tracking */
-  margin-bottom: 0.85rem;
-}
-
-/* Razor-thin brand accent */
-.ct-divider-luxury {
-  width: 40px;
-  height: 1px;
-  background-color: #059669; /* Brand green */
-  margin-bottom: 0.85rem;
-}
-
-/* Sharp, refined main title */
 .ct-header-luxury h2 {
-  font-size: 1.8rem;
-  color: #111827;
+  /* Fluid sizing: Starts at 1.75rem on mobile, caps at 3rem on desktop */
+  font-size: clamp(1.75rem, 6vw, 3rem); 
+  color: #111827; 
   margin: 0;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   line-height: 1.2;
 }
-.ct-header-luxury h2 span{
-  color: var(--emerald-primary);
-  
+
+.ct-header-luxury h2 span {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Restrained Desktop Scaling */
-@media (min-width: 768px) {
-  .ct-header-luxury {
-    margin-bottom: 3.5rem; 
-  }
-  .ct-header-luxury h2 {
-    font-size: 2.75rem; 
-  }
-}
-
-/* --- THE GRID (Mobile First) --- */
+/* --- THE RESPONSIVE GRID --- */
 .ct-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem; 
+  /* 2 Columns on Mobile by default */
+  grid-template-columns: repeat(2, 1fr); 
+  /* Smaller gap on mobile to maximize card width */
+  gap: clamp(0.5rem, 2vw, 1.5rem); 
 }
+
+/* DESKTOP: 4 Columns */
+@media (min-width: 1024px) {
+  .ct-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.section-divider-rich {
+      width: 150px;
+      height: 5px;
+      background: #10b981;
+      margin-top: 1.25rem;
+      border-radius: 5px;
+    }
 
 /* --- THE CARD --- */
 .ct-card {
   position: relative;
   display: block;
-  border-radius: 16px;
+  border-radius: clamp(10px, 2vw, 16px);
   overflow: hidden;
   text-decoration: none;
-  aspect-ratio: 4/5; 
+  aspect-ratio: 3/4; /* Taller ratio helps 2-column mobile layouts */
   background: #111827;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(255,255,255,0.1);
   transform: translateZ(0); 
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
 }
 
+.ct-card::after {
+  content: '';
+  position: absolute;
+  top: 0; 
+  left: -150%; 
+  width: 50%; 
+  height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-25deg);
+  z-index: 3;
+  pointer-events: none;
+  transition: none; 
+}
+
 .ct-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 25px 50px rgba(5, 150, 105, 0.2), inset 0 0 0 1px rgba(16, 185, 129, 0.3);
+}
+
+.ct-card:hover::after {
+  left: 200%;
+  transition: left 0.8s ease-in-out; 
 }
 
 /* --- IMAGE & OVERLAY --- */
@@ -895,11 +904,12 @@ body.rt-emerald-theme {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1), filter 0.6s ease;
 }
 
 .ct-card:hover .ct-image-layer img {
-  transform: scale(1.1); 
+  transform: scale(1.08) translate3d(0, -2%, 0); 
+  filter: brightness(1.05); 
 }
 
 .ct-gradient-overlay {
@@ -907,47 +917,46 @@ body.rt-emerald-theme {
   inset: 0;
   background: linear-gradient(
     to bottom, 
-    rgba(0,0,0,0.4) 0%, 
-    rgba(0,0,0,0) 30%, 
-    rgba(0,0,0,0.6) 65%, 
-    rgba(0,0,0,0.95) 100%
+    rgba(0,0,0,0.4) 0%,    
+    rgba(0,0,0,0) 30%,     
+    rgba(0,0,0,0.3) 60%,   
+    rgba(0,0,0,0.95) 100%  
   );
   transition: opacity 0.6s ease;
 }
 
-.ct-card:hover .ct-gradient-overlay {
-  opacity: 0.95;
-}
+.ct-card:hover .ct-gradient-overlay { opacity: 0.95; }
 
 /* --- CONTENT LAYER --- */
 .ct-content-layer {
   position: absolute;
   inset: 0;
-  padding: 1.25rem;
+  /* Fluid padding: less space taken up on mobile, expands on desktop */
+  padding: clamp(0.75rem, 3vw, 1.5rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  z-index: 2;
+  z-index: 4;
 }
 
-/* Premium Frosted Badge */
+/* Badge */
 .ct-badge {
   align-self: flex-start;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(17, 24, 39, 0.4);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   color: #ffffff;
-  padding: 0.4rem 0.85rem;
+  /* Fluid font and padding for badge */
+  padding: clamp(0.25rem, 1vw, 0.4rem) clamp(0.5rem, 2vw, 0.85rem);
   border-radius: 8px;
-  font-size: 0.65rem;
+  font-size: clamp(0.5rem, 1.5vw, 0.65rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
-/* Base Mobile Text Bottom */
+/* Mobile Text Layout */
 .ct-text-bottom {
   display: flex;
   flex-direction: column;
@@ -955,16 +964,17 @@ body.rt-emerald-theme {
 
 .ct-text-bottom h3 {
   color: #ffffff;
-  font-size: 0.85rem; 
+  /* Fluid Title: Prevents long names from breaking onto 3 lines on mobile */
+  font-size: clamp(1rem, 3.5vw, 1.5rem);
   font-weight: 800;
   letter-spacing: -0.02em;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 clamp(0.25rem, 1vw, 0.5rem) 0;
   line-height: 1.2;
   transition: color 0.4s ease;
 }
 
 .ct-desc {
-  display: none; /* Hidden on mobile to save space */
+  display: none; 
 }
 
 /* Action Row */
@@ -973,13 +983,14 @@ body.rt-emerald-theme {
   align-items: center;
   justify-content: space-between;
   border-top: 1px solid rgba(255,255,255,0.15);
-  padding-top: 0.85rem;
+  padding-top: clamp(0.5rem, 2vw, 0.85rem);
   margin-top: 0.25rem;
 }
 
 .ct-explore-text {
   color: #ffffff;
-  font-size: 0.55rem;
+  /* Very small on mobile so it fits next to the arrow */
+  font-size: clamp(0.55rem, 1.8vw, 0.75rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -987,76 +998,47 @@ body.rt-emerald-theme {
 }
 
 .ct-arrow-circle {
-  width: 28px;
-  height: 28px;
+  /* Fluid arrow size */
+  width: clamp(22px, 5vw, 32px);
+  height: clamp(22px, 5vw, 32px);
   border-radius: 50%;
   background: rgba(255,255,255,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: 0.55rem;
+  font-size: clamp(0.6rem, 1.5vw, 0.75rem);
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- MOBILE HOVER ANIMATIONS --- */
+/* Mobile Hover Animations */
 .ct-card:hover .ct-arrow-circle {
   background: #10b981;
   color: #ffffff;
   transform: translateX(4px) rotate(-45deg);
   box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
 }
+.ct-card:hover .ct-explore-text { color: #a7f3d0; }
+.ct-card:hover .ct-text-bottom h3 { color: #a7f3d0; }
 
-.ct-card:hover .ct-explore-text {
-  color: #a7f3d0;
-}
-
-.ct-card:hover .ct-text-bottom h3 {
-  color: #a7f3d0; 
-}
-
-/* --- DESKTOP ENHANCEMENTS & KINETIC REVEAL --- */
-@media (min-width: 768px) {
-  .ct-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-  
-  .ct-card {
-    aspect-ratio: 3/4; /* Slightly taller on desktop */
-  }
-  
-  .ct-content-layer { padding: 1.5rem; }
-  .ct-header h2 { font-size: 2.75rem; }
-  
-  .ct-arrow-circle { width: 34px; height: 34px; font-size: 0.85rem; }
-  .ct-explore-text { font-size: 0.75rem; }
-  
-  .ct-text-bottom h3 { 
-    font-size: 1.5rem; 
-    margin-bottom: 0.25rem; 
-  }
-  
-  /* The Magic "Max-Height" Reveal ensures text doesn't push the button out */
+/* --- DESKTOP ENHANCEMENTS (Kinetic Hover Reveal) --- */
+@media (min-width: 1024px) {
   .ct-desc {
     display: block;
     color: #d1d5db;
     font-size: 0.85rem;
     line-height: 1.5;
     
-    /* Hidden state */
     max-height: 0;
     opacity: 0;
     margin: 0;
     overflow: hidden;
     
-    /* Smooth physical expansion */
-    transition: max-height 1s cubic-bezier(0.16, 1, 0.3, 1),
-                opacity 1s ease,
-                margin 1s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.4s ease,
+                margin 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* The Hover Trigger */
   .ct-card:hover .ct-desc {
     max-height: 120px; 
     opacity: 1;
@@ -1065,36 +1047,23 @@ body.rt-emerald-theme {
   }
 }
 
-@media (min-width: 1024px) {
-  .ct-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-  }
-}
-
 /* --- UTILITIES & MOBILE BUTTON --- */
-.desktop-only { display: none; }
-.mobile-only { display: block; margin-top: 1.5rem; }
-
-@media (min-width: 768px) {
-  .desktop-only { display: flex; }
-  /* .mobile-only { display: none; } */
-}
+.mobile-only { display: block; }
 
 .ct-mobile-footer {
   text-align: center;
-  margin-top: 2rem;
+  margin-top: clamp(2rem, 5vw, 3.5rem); 
 }
 
-/* Refined Premium View All Button */
+/* Premium Magnetic Button Glow */
 .ct-view-all-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.5);
-  padding: 14px 32px;
-  font-size: 0.85rem;
+  color: #059669; 
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: clamp(12px, 3vw, 16px) clamp(24px, 5vw, 40px); 
+  font-size: clamp(0.75rem, 2vw, 0.85rem);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -1102,8 +1071,6 @@ body.rt-emerald-theme {
   border-radius: 8px;
   background: rgba(16, 185, 129, 0.05);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  overflow: hidden;
 }
 
 .ct-view-all-btn i {
@@ -1118,7 +1085,10 @@ body.rt-emerald-theme {
   background: #10b981;
   color: #ffffff;
   border-color: #10b981;
-  box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+  box-shadow: 
+    0 10px 25px -5px rgba(16, 185, 129, 0.4),
+    0 0 15px rgba(16, 185, 129, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 .ct-view-all-btn:hover i {

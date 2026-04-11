@@ -408,18 +408,41 @@ app.get('/tours/:destination', (req, res) => {
   }
 });
 
-// Services
-app.get('/services', (req, res) => {
-  const servicesWithFrom = SERVICES.map((s) => ({
-    ...s,
-    from: serviceFromPrice(s.slug, SEGMENTS),
-  }));
+// =======================================================
+//  SERVICES PAGE ROUTE (Bulletproofed)
+// =======================================================
+app.get('/services', (req, res, next) => {
+  try {
+    // 1. Safety Check: Ensure SERVICES is an array before trying to map it
+    const safeServices = Array.isArray(SERVICES) ? SERVICES : [];
+    const safeSegments = Array.isArray(SEGMENTS) ? SEGMENTS : [];
 
-  res.render('services/index', {
-    title: 'Cab Services in Hyderabad | Airport, Outstation & Local Rentals | Radha Travels',
-    currentPath: req.path,
-    services: servicesWithFrom,
-  });
+    // 2. Map pricing safely
+    const servicesWithFrom = safeServices.map((s) => ({
+      ...s,
+      from: serviceFromPrice(s.slug, safeSegments),
+    }));
+
+    // 3. Render the page safely
+    res.render('services/index', {
+      title: 'Cab Services in Hyderabad | Airport, Outstation & Local Rentals | Radha Travels',
+      currentPath: req.path,
+      services: servicesWithFrom, // Passes your actual services
+      tours: typeof tourData !== 'undefined' ? tourData : {} // Fallback if tourData is missing
+    }, (err, html) => {
+      // 4. Catch EJS rendering errors specifically
+      if (err) {
+        console.error("🔥 EJS RENDER CRASH:", err.message);
+        return res.status(500).send(`<h2>Template Error</h2><p>${err.message}</p>`);
+      }
+      res.send(html);
+    });
+
+  } catch (err) {
+    console.error("🔥 SERVER CRASH ON SERVICES ROUTE:", err);
+    // Passes the error to Express instead of hanging on a white screen
+    next(err); 
+  }
 });
 
 // Service detail

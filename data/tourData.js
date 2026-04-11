@@ -1,36 +1,80 @@
  export const tourData = {
 
-    hyderabadLocal: {
+hyderabadLocal: {
     name: 'Hyderabad City',
-    heroImage: '/images/hyderabad-local.jpg',
-    intro: 'Explore the royal heritage of the City of Pearls. Let Radha Travels take you on a comfortable tour of Hyderabad’s most iconic landmarks.',
+    heroImage: '/images/hyderabad-local/hyderabad-local.webp',
+    intro: 'Explore the royal heritage of the City of Pearls. Let Radha Travels take you on a comfortable tour of Hyderabad’s most iconic landmarks, museums, and serene lakes.',
     introTitle: 'Local Sightseeing Route & Info',
-    distanceInfo: 'Our full-day local package covers approximately 80 km within city limits over 8 hours.',
+    distanceInfo: 'Our full-day local package covers approximately 80 km within city limits over 8-10 hours, giving you plenty of time at each stop.',
     routesTitle: 'Key Landmarks Covered:',
     routes: [
-      'Charminar & Laad Bazaar',
-      'Golconda Fort & Qutb Shahi Tombs',
-      'Salar Jung Museum',
-      'Hussain Sagar Lake & Birla Mandir'
+      'Birla Mandir (Panoramic City Views)',
+      'Salar Jung Museum (World-Class Antiques)',
+      'Charminar & Laad Bazaar (Old City Heritage)',
+      'Chowmahalla Palace (Seat of the Nizams)',
+      'Golconda Fort (Historic Citadel)',
+      'Tank Bund & Hussain Sagar Lake (Evening Views)'
     ],
-    routeExtra: 'Enjoy a hassle-free day as our drivers navigate the busy city traffic. Custom drop-offs to famous Biryani restaurants are highly recommended!',
-    longDescription: `Experience the magic of the Old City and the modern pulse of Cyberabad. <strong>Hyderabad</strong> is a unique blend of centuries-old Islamic architecture and vibrant, bustling bazaars.`,
-    templeLegend: 'Built in 1591 by Muhammad Quli Qutb Shah, the Charminar is the definitive symbol of the city. Nearby, the impenetrable Golconda Fort echoes with tales of the legendary Koh-i-Noor diamond.',
-    templeArchitecture: 'From the Indo-Islamic grandeur of the Qutb Shahi dynasty to the white marble elegance of the modern Birla Mandir, the city offers a visual feast for architecture lovers.',
-    templeTimings: 'Tours typically run from 9:00 AM to 6:00 PM',
-    bestTimeToVisit: 'October to March (Winter months are ideal for walking tours)',
-    galleryImage1: '/images/hyd/charminar.jpg',
-    galleryImage2: '/images/hyd/golconda.jpg',
-    galleryImage3: '/images/hyd/salarjung.jpg',
-    galleryImage4: '/images/hyd/hussain-sagar.jpg',
-    galleryImage5: '/images/hyd/birla.jpg',
+    routeExtra: 'Enjoy a hassle-free day as our experienced drivers navigate the bustling city traffic. We highly recommend asking your driver for a custom drop-off at a famous local Biryani restaurant for lunch!',
+    longDescription: `Experience the magic of the Old City and the modern pulse of Cyberabad. <strong>Hyderabad</strong> is a unique blend of centuries-old Islamic architecture, world-renowned museums, and vibrant bazaars. This comprehensive full-day tour is designed to give you the ultimate Hyderabadi experience without the stress of navigating public transport.`,
+    templeLegend: 'Built in 1591 by Muhammad Quli Qutb Shah, the Charminar is the definitive symbol of the city. Just a short drive away, the impenetrable Golconda Fort echoes with tales of the legendary Koh-i-Noor diamond and brilliant ancient acoustics.',
+    templeArchitecture: 'The city offers a visual feast for architecture and history lovers. Marvel at the pristine, 2000-ton white marble structure of Birla Mandir, the Indo-Islamic grandeur of Chowmahalla Palace, and the sprawling art collections housed within the Salar Jung Museum.',
+    templeTimings: 'Tours typically run from 9:00 AM to 6:00 PM. (Note: Salar Jung Museum is closed on Fridays).',
+    bestTimeToVisit: 'October to March is ideal for comfortable walking tours and breezy evenings at Tank Bund.',
+    galleryImage1: '/images/hyderabad-local/Hyderabad-secretariat.webp',
+    galleryImage2: '/images/hyderabad-local/Birla-Mandir-Hyderabad-Darshan.webp',
+    galleryImage3: '/images/hyderabad-local/new-hyderabad.webp',
+    galleryImage4: '/images/hyderabad-local/chowmahalla_Palace_Hyderabad.webp',
+    galleryImage5: '/images/hyderabad-local/charminar.webp',
     nearbyAttractions: [
-      { name: 'Chowmahalla Palace', desc: 'The magnificent palace of the Nizams.', img: '/images/hyd/chowmahalla.jpg' },
-      { name: 'Lumbini Park', desc: 'Evening boat rides and laser shows.', img: '/images/hyd/lumbini.jpg' }
+      { name: 'Lumbini Park', desc: 'Located right next to Tank Bund, perfect for an evening boat ride to the Buddha Statue.', img: '/images/tours/hyd-lumbini.jpg' },
+      { name: 'NTR Gardens', desc: 'A beautiful urban park near Hussain Sagar, great for families and kids.', img: '/images/tours/hyd-ntr-gardens.jpg' }
     ],
-    idealFor: ['Family Weekend Outings', 'Tourists visiting Hyderabad', 'Corporate Day Trips'],
-    whyChoose: ['Knowledgeable Local Drivers', 'Comfortable AC Vehicles', 'Flexible Itineraries'],
+    idealFor: ['Family Weekend Outings', 'First-Time Tourists', 'Corporate Day Trips'],
+    whyChoose: ['Knowledgeable Local Drivers', 'Comfortable AC Vehicles', 'Zero Parking Hassles'],
     officialWebsite: 'https://telanganatourism.gov.in/',
+    schema: { 
+      "@context": "https://schema.org",
+      "@type": "TouristTrip",
+      "name": "Hyderabad City Local Tour",
+      "description": "Full day local sightseeing tour of Hyderabad including Charminar, Salarjung Museum, Birla Mandir, and Tank Bund.",
+      "provider": {
+        "@type": "TravelAgency",
+        "name": "Radha Travels"
+      }
+    }
+  },
+  statueOfEquity: {
+    name: 'Statue of Equity',
+    heroImage: '/images/statue-equality/statue-of-equality.webp',
+    intro: 'Experience the spiritual grandeur of the majestic 216-foot Statue of Equity in Muchintal. A peaceful half-day getaway from Hyderabad celebrating equality and devotion.',
+    introTitle: 'Statue of Equity Route & Info',
+    distanceInfo: 'Located in Muchintal, approximately 40 km from the heart of Hyderabad. Our half-day package covers the smooth round-trip highway drive and ample waiting time.',
+    routesTitle: 'Key Highlights Covered:',
+    routes: [
+      'The 216-foot Ramanuja Statue',
+      '108 Divya Desams (Ornate Model Temples)',
+      'Evening Musical Fountain & Laser Show',
+      'Bhadradevi Temple & Food Courts'
+    ],
+    routeExtra: 'Enjoy a relaxing, traffic-free drive via the Outer Ring Road (ORR). Our drivers provide generous waiting time so you can experience the spectacular evening laser show without rushing.',
+    longDescription: `Dedicated to the 11th-century Vaishnavaite saint Bhagavad Ramanujacharya, the <strong>Statue of Equity</strong> promotes the idea of equality in all aspects of living. The sprawling 45-acre ashram is an architectural marvel and a serene spiritual retreat just outside the bustling city.`,
+    templeLegend: 'Sri Ramanujacharya spent his life advocating for equality and social justice across India. He famously reformed temple rituals and fought to bring people of all castes and backgrounds into the spiritual fold.',
+    templeArchitecture: 'Made of "panchaloha" (an alloy of gold, silver, copper, brass, and zinc), it is one of the tallest metallic statues in a sitting position in the world. Its base is surrounded by 108 intricately carved stone temples.',
+    templeTimings: '11:00 AM to 8:00 PM (Closed on Wednesdays)',
+    bestTimeToVisit: 'Arrive around 3:30 PM to explore the temple architecture in daylight, and stay until 7:00 PM for the breathtaking dynamic laser and water show.',
+    galleryImage1: '/images/equity/main-statue.jpg',
+    galleryImage2: '/images/equity/divya-desams.jpg',
+    galleryImage3: '/images/equity/fountain-show.jpg',
+    galleryImage4: '/images/equity/night-view.jpg',
+    galleryImage5: '/images/equity/temple-complex.jpg',
+    nearbyAttractions: [
+      { name: 'Chilkur Balaji Temple', desc: 'The famous "Visa Balaji" temple, located a short scenic drive away.', img: '/images/equity/chilkur.jpg' },
+      { name: 'Swarnagiri Temple', desc: 'A beautiful and newly constructed Yadadri-style temple nearby.', img: '/images/equity/swarnagiri.jpg' }
+    ],
+    idealFor: ['Family Devotional Trips', 'Senior Citizens', 'Peaceful Half-Day Getaways'],
+    whyChoose: ['Smooth Highway Driving', 'Generous Waiting Time', 'Clean and Comfortable AC Cabs'],
+    officialWebsite: 'https://statueofequality.org/',
     schema: { /* Add matching schema object here */ }
   },
 

@@ -478,11 +478,20 @@
       <!-- <span class="ct-eyebrow-luxury">Curated Experiences</span>
       <div class="ct-divider-luxury"></div> -->
       <h2><span>Special Tour</span> Packages</h2>
+      <div class="section-divider-rich"></div>
     </div>
 
     <div class="ct-grid">
       <% 
-        const signatureKeys = Object.keys(tours).slice(0, 4);
+        // 1. Grab all the keys from your tourData
+        const allKeys = Object.keys(tours);
+        
+        // 2. Shuffle the array randomly
+        const shuffledKeys = allKeys.sort(() => 0.5 - Math.random());
+        
+        // 3. Slice the first 4 from the newly shuffled list
+        const signatureKeys = shuffledKeys.slice(0, 4);
+        
         signatureKeys.forEach(function(key) { 
           const tour = tours[key];
           
