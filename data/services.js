@@ -6,10 +6,10 @@ export const SEGMENTS = [
     label: "Hatchback",
     desc: "Compact, easy to maneuver, perfect for city trips.",
     cars: [
-      { name: "Maruti Suzuki Swift", img: "/images/fleet/hatchback/swift.png" },
-      { name: "Tata Tiago",           img: "/images/fleet/hatchback/tiago.png" },
-      { name: "Maruti Suzuki Baleno", img: "/images/fleet/hatchback/baleno.png" },
-      { name: "Hyundai i20",          img: "/images/fleet/hatchback/i20.png" }
+      { name: "Maruti Suzuki Swift", img: "/images/fleet/hatchback/swift.webp" },
+      { name: "Tata Tiago",           img: "/images/fleet/hatchback/tiago.webp" },
+      { name: "Maruti Suzuki Baleno", img: "/images/fleet/hatchback/baleno.webp" },
+      { name: "Hyundai i20",          img: "/images/fleet/hatchback/i20.webp" }
     ],
     pricing: {
       local:      { pack: "8Hrs / 80KM", base: 2200, extra_km: 12,  extra_hr: 150, driver: 0 },
@@ -24,10 +24,10 @@ export const SEGMENTS = [
     label: "Sedan",
     desc: "Comfortable family sedan with separate boot.",
     cars: [
-      { name: "Honda City",        img: "/images/fleet/sedan/city.png" },
-      { name: "Hyundai Verna",     img: "/images/fleet/sedan/verna.png" },
-      { name: "Skoda Slavia",      img: "/images/fleet/sedan/slavia.png" },
-      { name: "Volkswagen Virtus", img: "/images/fleet/sedan/virtus.png" }
+      { name: "Honda City",        img: "/images/fleet/sedan/city.webp" },
+      { name: "Hyundai Verna",     img: "/images/fleet/sedan/verna.webp" },
+      { name: "Skoda Slavia",      img: "/images/fleet/sedan/slavia.webp" },
+      { name: "Volkswagen Virtus", img: "/images/fleet/sedan/virtus.webp" }
     ],
     pricing: {
       local:      { pack: "8Hrs / 80KM", base: 2199, extra_km: 14,  extra_hr: 200, driver: 0 },
@@ -42,9 +42,9 @@ export const SEGMENTS = [
     label: "premium Sedan",
     desc: "Premium trims for executive comfort and features.",
     cars: [
-      { name: "Honda City ZX",        img: "/images/fleet/prime-sedan/city.png" },
-      { name: "Hyundai Verna SX(O)",  img: "/images/fleet/prime-sedan/verna.png" },
-      { name: "Maruti Suzuki Ciaz",   img: "/images/fleet/prime-sedan/ciaz.png" }
+      { name: "Honda City ZX",        img: "/images/fleet/prime-sedan/city.webp" },
+      { name: "Hyundai Verna SX(O)",  img: "/images/fleet/prime-sedan/verna.webp" },
+      { name: "Maruti Suzuki Ciaz",   img: "/images/fleet/prime-sedan/ciaz.webp" }
     ],
     pricing: {
       local:      { pack: "8Hrs / 80KM", base: 2599, extra_km: 16,  extra_hr: 250, driver: 0 },
@@ -59,10 +59,10 @@ export const SEGMENTS = [
     label: "SUV",
     desc: "Higher ground clearance—great for rough roads & long trips.",
     cars: [
-      { name: "Hyundai Creta",          img: "/images/fleet/suv/creta.png" },
-      { name: "Kia Seltos",             img: "/images/fleet/suv/seltos.png" },
-      { name: "Maruti Suzuki Brezza",   img: "/images/fleet/suv/brezza.png" },
-      { name: "Maruti Ertiga",          img: "/images/fleet/suv/ertiga.png" }
+      { name: "Hyundai Creta",          img: "/images/fleet/suv/creta.webp" },
+      { name: "Kia Seltos",             img: "/images/fleet/suv/seltos.webp" },
+      { name: "Maruti Suzuki Brezza",   img: "/images/fleet/suv/brezza.webp" },
+      { name: "Maruti Ertiga",          img: "/images/fleet/suv/ertiga.webp" }
     ],
     pricing: {
       local:      { pack: "8Hrs / 80KM", base: 2799, extra_km: 18,  extra_hr: 300, driver: 0 },
@@ -77,10 +77,10 @@ export const SEGMENTS = [
     label: "premium SUV",
     desc: "Spacious & luxurious SUVs with advanced features.",
     cars: [
-      { name: "Toyota Innova Hycross", img: "/images/fleet/prime-suv/hycross.png" },
-      { name: "Toyota Innova Crysta",  img: "/images/fleet/prime-suv/crysta.png" },
-      { name: "Toyota Fortuner",       img: "/images/fleet/prime-suv/fortuner.png" },
-      { name: "Kia Carens",            img: "/images/fleet/prime-suv/carens.png" }
+      { name: "Toyota Innova Hycross", img: "/images/fleet/prime-suv/hycross.webp" },
+      { name: "Toyota Innova Crysta",  img: "/images/fleet/prime-suv/crysta.webp" },
+      { name: "Toyota Fortuner",       img: "/images/fleet/prime-suv/fortuner.webp" },
+      { name: "Kia Carens",            img: "/images/fleet/prime-suv/carens.webp" }
     ],
     pricing: {
       local:      { pack: "8Hrs / 80KM", base: 3599, extra_km: 22,  extra_hr: 400, driver: 0 },

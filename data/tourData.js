@@ -27,8 +27,9 @@ hyderabadLocal: {
     galleryImage4: '/images/hyderabad-local/chowmahalla_Palace_Hyderabad.webp',
     galleryImage5: '/images/hyderabad-local/charminar.webp',
     nearbyAttractions: [
-      { name: 'Lumbini Park', desc: 'Located right next to Tank Bund, perfect for an evening boat ride to the Buddha Statue.', img: '/images/tours/hyd-lumbini.jpg' },
-      { name: 'NTR Gardens', desc: 'A beautiful urban park near Hussain Sagar, great for families and kids.', img: '/images/tours/hyd-ntr-gardens.jpg' }
+      {         name: 'Lumbini Park',         desc: 'Located right next to Tank Bund, perfect for an evening boat ride to the Buddha Statue.',         img: '/images/hyderabad-local/Lumbini-Park-Hyderabad.webp'   },
+      {         name: 'NTR Gardens',         desc: 'A beautiful urban park near Hussain Sagar, great for families and kids.',         img: '/images/hyderabad-local/ntr-park-hyderabad.webp'       },
+      {         name: 'Golconda Fort',         desc: 'A magnificent historic citadel famous for its brilliant acoustics, royal palaces, and sunset views.',         img: '/images/hyderabad-local/golconda-fort-hyderabad.webp'       }
     ],
     idealFor: ['Family Weekend Outings', 'First-Time Tourists', 'Corporate Day Trips'],
     whyChoose: ['Knowledgeable Local Drivers', 'Comfortable AC Vehicles', 'Zero Parking Hassles'],
@@ -63,14 +64,14 @@ hyderabadLocal: {
     templeArchitecture: 'Made of "panchaloha" (an alloy of gold, silver, copper, brass, and zinc), it is one of the tallest metallic statues in a sitting position in the world. Its base is surrounded by 108 intricately carved stone temples.',
     templeTimings: '11:00 AM to 8:00 PM (Closed on Wednesdays)',
     bestTimeToVisit: 'Arrive around 3:30 PM to explore the temple architecture in daylight, and stay until 7:00 PM for the breathtaking dynamic laser and water show.',
-    galleryImage1: '/images/equity/main-statue.jpg',
-    galleryImage2: '/images/equity/divya-desams.jpg',
-    galleryImage3: '/images/equity/fountain-show.jpg',
-    galleryImage4: '/images/equity/night-view.jpg',
-    galleryImage5: '/images/equity/temple-complex.jpg',
+    galleryImage1: '/images/statue-equality/main-statue.webp',
+    galleryImage2: '/images/statue-equality/divya-desams.webp',
+    galleryImage3: '/images/statue-equality/fountain-show.webp',
+    galleryImage4: '/images/statue-equality/night-view.webp',
+    galleryImage5: '/images/statue-equality/temple-complex.webp',
     nearbyAttractions: [
-      { name: 'Chilkur Balaji Temple', desc: 'The famous "Visa Balaji" temple, located a short scenic drive away.', img: '/images/equity/chilkur.jpg' },
-      { name: 'Swarnagiri Temple', desc: 'A beautiful and newly constructed Yadadri-style temple nearby.', img: '/images/equity/swarnagiri.jpg' }
+      { name: 'Chilkur Balaji Temple', desc: 'The famous "Visa Balaji" temple, located a short scenic drive away.', img: '/images/statue-equality/chilkur.webp' },
+      { name: 'Swarnagiri Temple', desc: 'A beautiful and newly constructed Yadadri-style temple nearby.', img: '/images/statue-equality/swarnagiri.webp' }
     ],
     idealFor: ['Family Devotional Trips', 'Senior Citizens', 'Peaceful Half-Day Getaways'],
     whyChoose: ['Smooth Highway Driving', 'Generous Waiting Time', 'Clean and Comfortable AC Cabs'],
@@ -80,7 +81,7 @@ hyderabadLocal: {
 
   ramoji: {
     name: 'Ramoji Film City',
-    heroImage: '/images/ramoji-main.jpg',
+    heroImage: '/images/ramoji-filmcity/ramoji-film-city-main.webp',
     intro: 'Step into the magic of cinema. Radha Travels offers dedicated full-day packages to the world’s largest integrated film studio complex.',
     introTitle: 'Travel to Ramoji Film City',
     distanceInfo: 'Located about 30-40 km from the city center, the drive takes roughly 1 hour via the Vijayawada Highway.',
@@ -92,11 +93,11 @@ hyderabadLocal: {
     templeArchitecture: 'Features diverse architectural replicas including London streets, Japanese gardens, and mock airports used in blockbuster films like Baahubali.',
     templeTimings: '9:00 AM to 5:30 PM',
     bestTimeToVisit: 'Year-round, but winters and festive carnivals (Diwali/Dussehra) are highly vibrant.',
-    galleryImage1: '/images/ramoji/studio.jpg',
-    galleryImage2: '/images/ramoji/fundustan.jpg',
-    galleryImage3: '/images/ramoji/shows.jpg',
-    galleryImage4: '/images/ramoji/gardens.jpg',
-    galleryImage5: '/images/ramoji/baahubali.jpg',
+    galleryImage1: '/images/ramoji-filmcity/ramoji-film-city-studio.webp',
+    galleryImage2: '/images/ramoji-filmcity/ramoji-film-city-fundustan.webp',
+    galleryImage3: '/images/ramoji-filmcity/ramoji-film-city-shows.webp',
+    galleryImage4: '/images/ramoji-filmcity/ramoji-film-city-garden.webp',
+    galleryImage5: '/images/ramoji-filmcity/baahubali.webp',
     nearbyAttractions: [],
     idealFor: ['Family Vacations', 'School/College Picnics', 'Corporate Outings'],
     whyChoose: ['Spacious SUVs for Large Families', 'On-Time Morning Pickups', 'Safe Late-Evening Returns'],
@@ -106,7 +107,7 @@ hyderabadLocal: {
 
   yadagirigutta: {
     name: 'Yadagirigutta',
-    heroImage: '/images/yadagirigutta-main.jpg',
+    heroImage: '/images/yadadri-temple/yadadri-main.webp',
     intro: 'Seek the blessings of Lord Narasimha Swamy at the newly renovated, magnificent Yadadri Temple.',
     introTitle: 'Hyderabad to Yadagirigutta',
     distanceInfo: 'Located approximately 65 km from Hyderabad, the journey takes about 1.5 to 2 hours via the Warangal Highway (NH 163).',
@@ -118,13 +119,15 @@ hyderabadLocal: {
     templeArchitecture: 'The renovated temple is a stunning example of Dravidian architecture, built entirely from black granite (Krushna Shila) without the use of cement, strictly following ancient Agama Shastras.',
     templeTimings: '4:00 AM to 9:30 PM',
     bestTimeToVisit: 'Throughout the year (Brahmotsavams in Feb/March are highly auspicious).',
-    galleryImage1: '/images/yadadri/temple-view.jpg',
-    galleryImage2: '/images/yadadri/gopuram.jpg',
-    galleryImage3: '/images/yadadri/cave.jpg',
-    galleryImage4: '/images/yadadri/night-view.jpg',
-    galleryImage5: '/images/yadadri/bhongir.jpg',
+    galleryImage1: '/images/yadadri-temple/yadadri-temple-view.webp',
+    galleryImage2: '/images/yadadri-temple/Yadadri-gopuram.webp',
+    galleryImage3: '/images/yadadri-temple/yadadri-cave.webp',
+    galleryImage4: '/images/yadadri-temple/yadadri-temple-nightview.webp',
+    galleryImage5: '/images/yadadri-temple/Bhongir-Fort-hill.webp',
     nearbyAttractions: [
-      { name: 'Bhongir Fort', desc: 'An 11th-century fort built on a massive monolithic rock.', img: '/images/yadadri/bhongir-fort.jpg' }
+      { name: 'Bhongir Fort', desc: 'An 11th-century fort built on a massive monolithic rock.', img: '/images/yadadri-temple/Bhongir-Fort.webp' },
+      { name: 'Swarnagiri Temple', desc: 'A beautiful and newly constructed Yadadri-style temple nearby.', img: '/images/statue-equality/swarnagiri.webp' }
+    
     ],
     idealFor: ['Family Temple Visits', 'New Vehicle Pooja Trips', 'Senior Citizen Yatras'],
     whyChoose: ['Smooth Highway Driving', 'Wheelchair Friendly Vehicle Assistance', 'Wait & Return Service'],
