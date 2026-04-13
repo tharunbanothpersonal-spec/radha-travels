@@ -1,481 +1,605 @@
 <!doctype html>
 <html lang="en">
+<% 
+  // --- 1. DYNAMIC DATA INITIALIZATION (Safe parsing) ---
+  const D = (typeof details !== 'undefined' && details) || (typeof service !== 'undefined' && service && service.details) || { intro: '', highlights: [], terms: {}, routes: [], faqs: [] };
+  const seo = (typeof service !== 'undefined' && service && service.seo) ? service.seo : {};
+
+  const _slug     = (typeof service !== 'undefined' && service && (service.slug || service.id)) ? String(service.slug || service.id).toLowerCase() : '';
+  const isLocal   = _slug === 'local-tour';
+  const isOut     = _slug === 'outstation';
+  const isAirport = _slug === 'airport-transfer';
+
+  // Hero Image resolution
+  let heroImg = "/images/services/default.jpg";
+  if (typeof service !== 'undefined' && service) {
+    if (service.image && typeof service.image === "string") heroImg = "/images/services/" + service.image;
+    else if (service.image && service.image.src) heroImg = service.image.src;
+    else if (service.slug) heroImg = "/images/services/" + service.slug + ".jpg";
+  }
+
+  const pageTitle = seo.metaTitle || (typeof title !== 'undefined' ? title : (service ? service.title : 'Service Details'));
+%>
 <head>
-  <%- include('../partials/head', { title }) %>
+  <%- include('../partials/head', { title: pageTitle }) %>
+  
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Scoped inline CSS for service detail hero layout -->
   <style>
-/* Importing the rounded, friendly font */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap');
-
-/* 1. The Compact Gradient Container */
-.svc-hero-overlay {
-  font-family: 'Nunito', sans-serif;
-  position: relative;
-  
-  /* Compact sizing */
-  width: fit-content;
-  max-width: 1000px;
-  margin: -2rem auto 2rem auto;
-  padding: 2.5rem 3.5rem; /* Keeps height compact while giving horizontal breathing room */
-  text-align: center;
-  
-  /* The soft blue-to-mint background gradient from the image */
-  background: linear-gradient(135deg, rgba(224, 242, 254, 0.6) 0%, rgba(220, 252, 231, 0.6) 100%);
-  border-radius: 35px; /* Deep, soft rounded corners */
-  box-shadow: 0 10px 30px rgba(21, 128, 61, 0.1);
-  overflow: hidden; /* Keeps the icons cleanly inside the box */
-}
-
-/* 2. The Title with the Light Green Text Shadow */
-.svc-hero-title {
-  font-size: 3.2rem;
-  font-weight: 900;
-  color: #166534; /* Deep emerald green to anchor the design */
-  margin: 0 0 0.8rem 0;
-  line-height: 1.2;
-  position: relative;
-  z-index: 2;
-  
-  /* The exact crisp, light-mint text shadow from your image */
-  text-shadow: 3px 3px 0px #bbf7d0, 6px 6px 0px rgba(0,0,0,0.04);
-}
-
-/* 3. The Subtitle */
-.svc-brief-intro {
-  font-size: 1.2rem;
-  color: #14532d;
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.5;
-  position: relative;
-  z-index: 2;
-  max-width: 1000px;
-}
-
-/* 4. The Floating Icons */
-.decor-icon {
-  position: absolute;
-  font-size: 2.5rem;
-  z-index: 1;
-  user-select: none; /* Prevents users from highlighting the emojis */
-  animation: float 3s ease-in-out infinite;
-}
-
-/* Positioning them exactly like the image */
-.icon-palm { top: 15%; left: 8%; transform: rotate(-10deg); }
-.icon-sparkle { top: 20%; right: 12%; font-size: 2rem; }
-.icon-taxi { bottom: 15%; right: 5%; transform: rotate(10deg); }
-
-/* --- Tablet Adjustments --- */
-@media (max-width: 768px) {
-  .svc-hero-overlay {
-    padding: 2rem 2rem;
-    border-radius: 25px;
-    width: 90%;
-  }
-  .svc-hero-title { font-size: 2.6rem; }
-  .decor-icon { font-size: 2rem; }
-  /* 2. The Title with the Light Green Text Shadow */
-.svc-hero-title {
-  font-size: 1.8rem;
-}
-
-/* 3. The Subtitle */
-.svc-brief-intro {
-  font-size: 0.8rem;
-
-}
-}
-
-/* --- SPECIFIC MOBILE VIEW (440px and below) --- */
-@media (max-width: 440px) {
-  .svc-hero-overlay {
-    padding: 1.5rem 1.2rem;
-    border-radius: 20px;
-    margin: 1.5rem auto;
-  }
-  
-  .svc-hero-title {
-    font-size: 2rem; /* Drastically reduced font size for small screens */
-    margin-bottom: 0.6rem;
-    
-    /* Scaled-down text shadow so it stays crisp on small text */
-    text-shadow: 2px 2px 0px #bbf7d0, 4px 4px 0px rgba(0,0,0,0.04); 
-  }
-  
-  .svc-brief-intro {
-    font-size: 1rem;
-  }
-  
-  /* Adjust icon sizes and positions so they don't overlap the text on tiny phones */
-  .icon-palm { top: 8%; left: 3%; font-size: 1.4rem; }
-  .icon-sparkle { top: 12%; right: 5%; font-size: 1.4rem; }
-  .icon-taxi { bottom: 8%; right: 3%; font-size: 1.5rem; }
-}
-@keyframes float {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-30px) rotate(20deg); } /* Shortened the bob distance */
-  100% { transform: translateY(0px) rotate(0deg); }
-}
-  </style>
-</head>
-<body>
-
-  <%- include('../partials/header') %>
-
-  <% 
-    // safe details proxy (uses service.details if details not passed)
-    const D = (typeof details !== 'undefined' && details) || (service && service.details) || { intro: '', routes: [] };
-
-    // ---- Service flags (control which pricing blocks appear) ----
-    const _slug     = String(service.slug || service.id || '').toLowerCase();
-    const isLocal   = _slug === 'local-tour';
-    const isOut     = _slug === 'outstation';
-    const isAirport = _slug === 'airport-transfer';
-    const isCorp    = _slug === 'corporate';
-    const isCustom  = _slug === 'custom';
-
-    // Resolve hero image
-    let heroImg = "/images/services/default.jpg";
-    if (service) {
-      if (service.image && typeof service.image === "string") heroImg = "/images/services/" + service.image;
-      else if (service.image && service.image.src) heroImg = service.image.src;
-      else if (service.slug) heroImg = "/images/services/" + service.slug + ".jpg";
+    /* ==========================================================================
+       RADHA TRAVELS: VIBRANT PREMIUM LAYOUT (Final Polish)
+       Prefix: .rt-vibe-
+       ========================================================================== */
+    :root {
+      --vibe-primary: #2563EB; /* Rich Blue */
+      --vibe-secondary: #4F46E5; /* Indigo */
+      --vibe-accent: #10B981; /* Emerald */
+      --vibe-bg: #F8FAFC;
+      --vibe-surface: #FFFFFF;
+      --vibe-text-main: #0F172A;
+      --vibe-text-muted: #64748B;
     }
 
-    // hero blurb fallback
-    const heroBlurb = (service && service.blurb) ? service.blurb : (D && D.intro ? D.intro : '');
-  %>
+    html { scroll-behavior: smooth; }
+    
+    .rt-vibe-body {
+      background-color: var(--vibe-bg);
+      font-family: 'Poppins', sans-serif;
+      color: var(--vibe-text-main);
+      overflow-x: hidden;
+      padding-bottom: 0; /* Removed bottom padding since sticky action bar is gone */
+    }
 
-  <main id="page-main" class="section">
+    /* --- Animations --- */
+    .rt-vibe-reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: all 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .rt-vibe-reveal.active { opacity: 1; transform: translateY(0); }
 
-    <!-- ======= HERO: background image + centered title + brief (keeps routes below unchanged) ======= -->
-<section class="svc-hero-full" aria-label="Service hero">
-  <div class="svc-hero-bg" id="svcHeroBg" style="background-image: url('<%= heroImg %>')">
+    /* ==========================================================================
+       1. HERO (Elevated to match Service Index)
+       ========================================================================== */
+    .rt-vibe-hero {
+      position: relative; width: 100%; height: 85vh; min-height: 400px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 0 1.5rem 100px 1.5rem; /* Padding replaces negative margins to keep text centered above the scroll button */
+      overflow: hidden;
+    }
 
-    <!-- redesigned back pill (All services) -->
-    <a href="/services" class="svc-hero-back" id="svcHeroBack" aria-label="Back to all services">
-      <i class="ri-arrow-left-line" aria-hidden="true"></i>
-      <span>All services</span>
-    </a>
+    /* Cinematic Parallax Background */
+    .rt-vibe-hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: url('<%= heroImg %>');
+      background-size: cover; background-position: center;
+      background-attachment: fixed;
+      animation: vibeHeroZoom 20s linear infinite alternate;
+    }
+    @keyframes vibeHeroZoom {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
 
-    <!-- center stack: title + brief (green overlay) -->
-    <div class="svc-hero-center" role="banner" aria-label="Service title and brief">
-      <div class="svc-hero-overlay" id="svcHeroOverlay" aria-hidden="false">
-  <span class="decor-icon icon-palm">🌴</span>
-  <span class="decor-icon icon-taxi">🚕</span>
+    /* Rich gradient overlay */
+    .rt-vibe-hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(15,23,42,0.85) 0%, rgba(37,99,235,0.4) 50%, rgba(15,23,42,0.95) 100%);
+      z-index: 1;
+    }
 
-  <h1 class="svc-hero-title" id="svcHeroTitle"><%= service && service.title ? service.title : 'Service' %><span>✨</span></h1>
+    .rt-vibe-hero-content {
+      position: relative; z-index: 2; width: 100%; max-width: 800px;
+    }
 
-  <% if (D.intro) { %>
-    <p class="svc-brief-intro"><%= D.intro %></p>
-  <% } %>
-</div>
-    </div>
+    .rt-vibe-breadcrumbs {
+      display: inline-flex; gap: 8px; align-items: center;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(8px);
+      padding: 6px 16px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.75rem; font-weight: 500; color: #E2E8F0; text-transform: uppercase; letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+    .rt-vibe-breadcrumbs a { color: #ffffff; text-decoration: none; transition: color 0.2s; }
+    .rt-vibe-breadcrumbs a:hover { color: #FDE68A; } /* Switched hover to gold to match title */
 
-    <!-- soft fade at bottom so overlapping brief below blends nicely -->
-    <div class="svc-hero-bottom-fade" aria-hidden="true"></div>
-  </div>
-</section>
+    /* Top-Class Shimmering Metallic Title */
+    @keyframes heroTextShimmer {
+      to { background-position: 200% center; }
+    }
+    .rt-vibe-title {
+      font-size: clamp(1.8rem, 6vw, 3.8rem); font-weight: 800;
+      margin: 0 0 1rem 0; line-height: 1.15; letter-spacing: -0.02em;
+      
+      /* The Premium Gold Gradient */
+      background: linear-gradient(90deg, #FDE68A 0%, #D4AF37 25%, #FFFFFF 50%, #D4AF37 75%, #FDE68A 100%);
+      background-size: 200% auto;
+      color: #FDE68A; /* Fallback */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: heroTextShimmer 6s linear infinite;
+      
+      /* Drop shadow works better with transparent clipped text than text-shadow */
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    }
+    
+    .rt-vibe-intro {
+      font-size: clamp(0.85rem, 2vw, 1.1rem); color: #E2E8F0; line-height: 1.7;
+      margin: 0 auto; max-width: 650px; font-weight: 400; text-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
 
+    /* ENHANCED SCROLL DOWN INDICATOR (.rt-vibe-) */
+    @keyframes vibeScrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
 
-    <!-- BRIEF CARD: overlapping hero bottom -->
-    <section class="svc-brief-overlap container" aria-label="Brief and famous routes">
-      <div class="svc-brief-card" id="svcBriefCard">
-        <div class="svc-brief-card-title"><h3>Famous routes</h3></div>
-        <% if (Array.isArray(D.routes) && D.routes.length) { %>
-          <div class="routes-grid overlap-routes">
-            <% D.routes.forEach(function(r){ %>
-              <article class="route-mini">
-                <p class="route-mini-title"><i class="ri-route-line"></i> <%= r.from %> → <%= r.to %></p>
-                <div class="route-mini-meta">
-                  <% if (r.km) { %><span class="badge"><i class="ri-road-map-line"></i> <%= r.km %> km</span><% } %>
-                  <% if (r.time) { %><span class="badge"><i class="ri-time-line"></i> <%= r.time %></span><% } %>
-                </div>
-              </article>
-            <% }) %>
-          </div>
-        <% } %>
-      </div>
-    </section>
+    .rt-vibe-scroll-down {
+      position: absolute; bottom: 40px; text-align: center; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      text-decoration: none; cursor: pointer;
+    }
 
-    <div class="container">
-      <p class="muted" style="margin:.25rem 0 1rem;">
-        <% if (isOut)     { %>Outstation per-km pricing shown below.<% } %>
-        <% if (isLocal)   { %>Local 8hr/80km package pricing shown below.<% } %>
-        <% if (isAirport) { %>Airport pickup/drop pricing shown below.<% } %>
-      </p>
+    .rt-vibe-scroll-text {
+      font-size: 0.65rem; font-weight: 600; color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase; letter-spacing: 0.2em;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
 
-      <!-- Sticky segment filter -->
-      <nav class="seg-tabs" id="segTabs">
-        <button class="active" data-target="all">All</button>
-        <% segments.forEach(seg => { %>
-          <button data-target="seg-<%= seg.id %>"><%= seg.label %></button>
-        <% }) %>
-      </nav>
+    .rt-vibe-scroll-circle {
+      width: 46px; height: 46px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: vibeScrollBounce 2.5s infinite ease-in-out;
+    }
 
-      <!-- Segments -->
-      <% segments.forEach((seg, si) => { %>
-        <article class="card seg-card" id="seg-<%= seg.id %>" data-seg="<%= seg.id %>" style="margin-bottom:18px;padding:18px;border-radius:18px">
-          <header class="seg-head">
-            <h2 style="margin:0;font-size:1.35rem;font-weight:800"><%= seg.label %></h2>
-            <span class="seg-badge"><%= seg.cars.length %> Cars</span>
-          </header>
+    .rt-vibe-scroll-circle i {
+      color: #ffffff; font-size: 1.4rem; transition: transform 0.3s ease, color 0.3s ease;
+    }
 
-          <!-- Cars -->
-          <div class="seg-car-grid">
-  <% seg.cars.forEach((car, ci) => { 
-       // Build correct image path
-       let imgName = car.img || '';
-       const imgSrc = imgName.startsWith('/') 
-         ? imgName 
-         : '/images/cars/' + imgName; 
-  %>
-    <div class="car-tile">
-      <img class="car-img"
-           src="<%= imgSrc %>"
-           alt="<%= car.name %>"
-           loading="lazy"
-           data-si="<%= si %>" 
-           data-ci="<%= ci %>">
-      <div class="car-meta">
-        <p class="car-name"><%= car.name %></p>
-        <p class="car-sub"><%= car.features || 'Comfortable AC • 4 seater' %></p>
-      </div>
-    </div>
-  <% }) %>
-</div>
+    .rt-vibe-scroll-down:hover .rt-vibe-scroll-text { color: #ffffff; transform: translateY(-2px); }
+    .rt-vibe-scroll-down:hover .rt-vibe-scroll-circle {
+      background: rgba(212, 175, 55, 0.15); border-color: #D4AF37; /* Switched to gold hover */
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3); animation-play-state: paused;
+    }
+    .rt-vibe-scroll-down:hover .rt-vibe-scroll-circle i { color: #D4AF37; transform: translateY(4px); }
 
+    /* ==========================================================================
+       2. TYPOGRAPHY & LAYOUT GAPS (User Definitions)
+       ========================================================================== */
+    .rt-vibe-container { margin: 0 auto; padding: 1rem 1.5rem; max-width: 1150px; }
+    
+    .rt-vibe-section { margin-bottom: 2rem; }
+    
+    .rt-vibe-section-head { margin-bottom: 2rem; display: flex; flex-direction: column; gap: 6px; text-align: center; }
+    .rt-vibe-eyebrow {
+      color: var(--vibe-primary); font-size: 0.8rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: 0.15em;
+    }
+    .rt-vibe-section-title {
+      font-size: clamp(1.6rem, 5vw, 2.5rem); font-weight: 800; color: var(--vibe-text-main); margin: 0; line-height: 1.2; letter-spacing: -0.02em;
+    }
 
+    /* ==========================================================================
+       3. ROUTES (User's Custom Mobile Grid)
+       ========================================================================== */
+    .rt-vibe-routes-wrap {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding-bottom: 10px;
+    }
 
-      <!-- Pricing + Segment Brief (Final Enhanced) -->
-<section class="pricing-brief-wrap">
-  <div class="pricing-two-col">
+    .rt-vibe-route-card {
+      background: var(--vibe-surface); border-radius: 16px; padding: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #E2E8F0;
+      display: flex; align-items: center; gap: 12px; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .rt-vibe-route-card:hover { transform: translateY(-2px); border-color: var(--vibe-primary); box-shadow: 0 8px 20px rgba(37,99,235,0.1); }
+    
+    .rt-vibe-route-icon {
+      width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; background: #EFF6FF; color: var(--vibe-primary);
+      display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+    }
+    .rt-vibe-route-info { display: flex; flex-direction: column; justify-content: center; }
+    .rt-vibe-route-path { font-size: 0.7rem; font-weight: 700; color: var(--vibe-text-main); margin: 0; line-height: 1.2; }
+    .rt-vibe-route-stats { font-size: 0.55rem; color: var(--vibe-text-muted); font-weight: 500; margin: 0; display: flex; gap: 6px; flex-wrap: wrap; }
 
-    <!-- LEFT: Pricing Card -->
-    <div class="pricing-card">
-      <div class="pricing-card-head">
-        <h4><%= seg.label || service.title %></h4>
-        <% if (isLocal && seg.pricing.local.pack) { %>
-          <div class="pricing-sub"><%= seg.pricing.local.pack %></div>
-        <% } else if (isOut && seg.pricing.outstation) { %>
-          <div class="pricing-sub">Per km</div>
-        <% } else if (isAirport && seg.pricing.airport) { %>
-          <div class="pricing-sub">Pickup / Drop</div>
-        <% } %>
-      </div>
+    @media (min-width: 768px) {
+      .rt-vibe-routes-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin: 0; }
+      .rt-vibe-route-card { flex: 1 1 auto; max-width: max-content; padding: 12px 20px 12px 12px; border-radius: 50px; }
+      .rt-vibe-route-path { font-size: 0.9rem; }
+    }
 
-      <dl class="kv-list">
-        <% if (isLocal && seg.pricing.local) { %>
-          <div class="kv-row"><dt>Base fare</dt><dd>₹<%= seg.pricing.local.base.toLocaleString('en-IN') %></dd></div>
-          <div class="kv-row"><dt>Extra / km</dt><dd>₹<%= seg.pricing.local.extra_km %></dd></div>
-          <div class="kv-row"><dt>Extra / hr</dt><dd>₹<%= seg.pricing.local.extra_hr %></dd></div>
-        <% } %>
+    /* ==========================================================================
+       4. RICH & COLORFUL FLEET SECTION
+       ========================================================================== */
+    .rt-vibe-filter-wrap {
+      position: sticky; top: 100px; z-index: 40;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      padding: 5px 0; margin-bottom: 1rem; display: flex; justify-content: center; border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    
+    .rt-vibe-filter-track {
+      display: inline-flex; gap: 4px; padding: 4px; border-radius: 50px; background: #E2E8F0;
+      -ms-overflow-style: none; scrollbar-width: none; max-width: 100%; flex-wrap: nowrap; overflow-x: auto;
+    }
+    .rt-vibe-filter-track::-webkit-scrollbar { display: none; }
+    
+    .rt-vibe-filter-btn {
+      white-space: nowrap; background: transparent; border: none; color: var(--vibe-text-muted);
+      padding: 8px 16px; border-radius: 100px; font-family: 'Poppins', sans-serif; font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; transition: all 0.3s ease;
+    }
+    .rt-vibe-filter-btn.active {
+      background: var(--vibe-surface); color: var(--vibe-primary); box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-        <% if (isOut && seg.pricing.outstation) { %>
-          <div class="kv-row"><dt>Per km</dt><dd>₹<%= seg.pricing.outstation.per_km %></dd></div>
-          <div class="kv-row"><dt>Min / day</dt><dd><%= seg.pricing.outstation.min_km_day %> km</dd></div>
-          <div class="kv-row"><dt>Driver</dt><dd>₹<%= seg.pricing.outstation.driver %></dd></div>
-          <div class="kv-row"><dt>Night</dt><dd>₹<%= seg.pricing.outstation.night %></dd></div>
-        <% } %>
+    .rt-vibe-seg-card {
+      background: var(--vibe-surface); border-radius: 20px; margin-bottom: 0.85rem;
+      border: 1px solid #E2E8F0; box-shadow: 0 10px 30px rgba(15,23,42,0.05); overflow: hidden;
+    }
+    
+    .rt-vibe-seg-head {
+      background: linear-gradient(135deg, var(--vibe-primary), var(--vibe-secondary));
+      color: #ffffff; padding: 1.5rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .rt-vibe-seg-head h3 { margin: 0; font-size: clamp(1.2rem, 4vw, 1.6rem); font-weight: 800; letter-spacing: -0.01em; }
+    .rt-vibe-seg-badge { background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); color: #ffffff; padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.3); }
 
-        <% if (isAirport && seg.pricing.airport) { %>
-          <div class="kv-row"><dt>Pickup</dt><dd>₹<%= seg.pricing.airport.pickup %></dd></div>
-          <div class="kv-row"><dt>Drop</dt><dd>₹<%= seg.pricing.airport.drop %></dd></div>
-          <div class="kv-row"><dt>Waiting / hr</dt><dd>₹<%= seg.pricing.airport.waiting_per_hr %></dd></div>
-        <% } %>
-      </dl>
-    </div>
+    .rt-vibe-seg-body { padding: 1.25rem; }
+    @media (min-width: 768px) { .rt-vibe-seg-head{padding: 1rem 3rem;}}
+    @media (min-width: 992px) { .rt-vibe-seg-body { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; align-items: start; padding: 2rem; } }
 
-    <!-- RIGHT: Segment Brief -->
-    <div class="segment-brief">
-      <% if (seg.description || seg.cars?.length) { %>
-        <div class="segment-brief-header">
-          <i class="ri-information-line"></i>
-          <h5>About this segment</h5>
+    /* User's Mobile First 2-Column Cars Grid */
+    .rt-vibe-cars-grid { 
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 10px; margin-bottom: 1.5rem; 
+    }
+    @media (min-width: 768px) { .rt-vibe-cars-grid { grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; } }
+
+    .rt-vibe-car-box {
+      background: linear-gradient(to bottom, #ffffff, #EFF6FF); 
+      border: 1px solid #DBEAFE; border-radius: 12px; padding: 1rem 0.5rem; text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .rt-vibe-car-box:hover { transform: translateY(-4px); border-color: var(--vibe-primary); box-shadow: 0 10px 25px rgba(37,99,235,0.1); }
+    .rt-vibe-car-box img { width: 100%; max-height: 50px; object-fit: contain; mix-blend-mode: multiply; margin-bottom: 0.75rem; transition: transform 0.3s ease; }
+    .rt-vibe-car-box:hover img { transform: scale(1.05); }
+    .rt-vibe-car-box h4 { margin: 0; font-size: 0.8rem; font-weight: 800; color: var(--vibe-text-main); line-height: 1.2;}
+    .rt-vibe-car-box p { margin: 4px 0 0 0; font-size: 0.65rem; color: var(--vibe-text-muted); font-weight: 500; }
+
+    .rt-vibe-ledger { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.25rem; }
+    .rt-vibe-ledger-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px;
+    }
+    .rt-vibe-ledger-label { color: var(--vibe-text-main); font-size: 0.8rem; font-weight: 600; }
+    .rt-vibe-ledger-val { color: var(--vibe-text-main); font-size: 0.9rem; font-weight: 800; }
+    
+    .rt-vibe-ledger-val.highlight {
+      color: #ffffff; background: var(--vibe-accent);
+      padding: 4px 10px; border-radius: 6px; font-size: 0.95rem;
+      box-shadow: 0 4px 10px rgba(16,185,129,0.3);
+    }
+
+    .rt-vibe-terms { background: #F1F5F9; padding: 1rem; border-radius: 10px; font-size: 0.75rem; border: 1px dashed #CBD5E1; margin-bottom: 1.5rem; }
+    .rt-vibe-terms p { margin: 0 0 6px 0; color: var(--vibe-text-muted); line-height: 1.5; }
+    .rt-vibe-terms p:last-child { margin: 0; }
+    .rt-vibe-terms i.inc { color: var(--vibe-accent); margin-right: 6px; font-size: 0.95rem; vertical-align: middle; }
+    .rt-vibe-terms i.exc { color: #EF4444; margin-right: 6px; font-size: 0.95rem; vertical-align: middle; }
+
+    /* Actions */
+    .rt-vibe-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 1.5rem;}
+    .rt-vibe-desk-btn {
+      flex: 1; min-width: 120px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      padding: 12px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 700; cursor: pointer; border: none; text-decoration: none; transition: all 0.3s ease;
+    }
+    .rt-vibe-desk-btn:active { transform: scale(0.97); }
+    .rt-vibe-desk-btn-wa { background: #ffffff; color: var(--vibe-primary); border: 2px solid var(--vibe-primary); }
+    .rt-vibe-desk-btn-wa:hover { background: #EFF6FF; }
+    .rt-vibe-desk-btn-book { background: var(--vibe-accent); color: #ffffff; box-shadow: 0 4px 15px rgba(16,185,129,0.2); }
+    .rt-vibe-desk-btn-book:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16,185,129,0.3); }
+
+    /* ==========================================================================
+       6. FAQS
+       ========================================================================== */
+    .rt-vibe-faq-wrap { max-width: 800px; margin: 0 auto; }
+    .rt-vibe-faq-item {
+      background: var(--vibe-surface); border: 1px solid #E2E8F0; border-radius: 16px; margin-bottom: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.02); transition: box-shadow 0.3s ease;
+    }
+    .rt-vibe-faq-item:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+    .rt-vibe-faq-item summary {
+      padding: 1.25rem 1.5rem; font-size: 0.9rem; font-weight: 700; color: var(--vibe-text-main);
+      cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; outline: none;
+    }
+    .rt-vibe-faq-item summary::-webkit-details-marker { display: none; }
+    .rt-vibe-faq-item summary i { color: var(--vibe-primary); transition: transform 0.3s; font-size: 1.2rem; background: #EFF6FF; padding: 6px; border-radius: 50%; }
+    .rt-vibe-faq-item details[open] summary i { transform: rotate(180deg); background: var(--vibe-primary); color: #fff; }
+    .rt-vibe-faq-content { padding: 0 1.25rem 1.25rem 1.25rem; font-size: 0.85rem; color: var(--vibe-text-muted); line-height: 1.7; }
+
+    /* Desktop Adjustments */
+    @media (min-width: 768px) {
+      .rt-vibe-filter-wrap { top: 90px; padding: 20px 0 10px 0 ; }
+      .rt-vibe-filter-track { flex-wrap: nowrap; overflow-x: auto; gap: 8px; padding: 6px; border-radius: 100px; }
+      .rt-vibe-filter-btn { padding: 10px 24px; font-size: 0.9rem; }
+      
+      .rt-vibe-actions { margin-top: 2rem; } 
+      .rt-vibe-desk-btn { padding: 14px 24px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body class="rt-vibe-body">
+
+  <%- include('../partials/header') %>
+  <%- include('../partials/ticker') %>
+
+  <main>
+    <header class="rt-vibe-hero">
+      <div class="rt-vibe-hero-bg"></div>
+      
+      <a href="/services" style="position:absolute; top:25px; left:25px; display:flex; align-items:center; justify-content:center; width:45px; height:45px; border-radius:50%; background:rgba(255,255,255,0.1); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.3); color:#fff; font-size:1.4rem; z-index:10; transition: all 0.3s ease;"><i class="ri-arrow-left-line"></i></a>
+      
+      <div class="rt-vibe-hero-content rt-vibe-reveal">
+        <div class="rt-vibe-breadcrumbs">
+          <a href="/">Home</a> <i class="ri-arrow-right-s-line" style="color:rgba(255,255,255,0.5);"></i>
+          <a href="/services">Services</a> <i class="ri-arrow-right-s-line" style="color:rgba(255,255,255,0.5);"></i>
+          <span style="color:#ffffff;"><%= typeof service !== 'undefined' && service ? service.title : 'Details' %></span>
         </div>
-        <p><%= seg.description || 'Comfortable rides with courteous chauffeurs and clean cars.' %></p>
+        <h1 class="rt-vibe-title"><%= service ? service.title : 'Service Details' %></h1>
+        <% if (D.intro) { %>
+          <p class="rt-vibe-intro"><%= D.intro %></p>
+        <% } %>
+      </div>
 
-        <% if (seg.cars && seg.cars.length > 0) { %>
-          <div class="segment-car-info">
-            <% seg.cars.slice(0,3).forEach(car => { %>
-              <div class="segment-car-line">
-                <span><i class="ri-car-line"></i> <%= car.name %></span>
-                <span class="seater"><i class="ri-user-3-line"></i> <%= car.seating || '4 seater' %></span>
+      <a href="#rt-vibe-seg-list" class="rt-vibe-scroll-down rt-vibe-reveal" style="transition-delay: 0.3s;">
+        <span class="rt-vibe-scroll-text">Scroll down to explore</span>
+        <div class="rt-vibe-scroll-circle">
+          <i class="ri-arrow-down-line"></i>
+        </div>
+      </a>
+    </header>
+
+    <div class="rt-vibe-container">
+      
+      <% if (Array.isArray(D.routes) && D.routes.length) { %>
+        <div class="rt-vibe-section rt-vibe-reveal">
+          <div class="rt-vibe-section-head">
+            <span class="rt-vibe-eyebrow"><i class="ri-map-pin-range-fill"></i> Famous Routes</span>
+          </div>
+          
+          <div class="rt-vibe-routes-wrap">
+            <% D.routes.forEach(function(r){ %>
+              <div class="rt-vibe-route-card">
+                <div class="rt-vibe-route-icon"><i class="ri-map-pin-user-fill"></i></div>
+                <div class="rt-vibe-route-info">
+                  <p class="rt-vibe-route-path"><%= r.from %> <span style="color:#94a3b8; font-weight:400; margin:0 4px;">&rarr;</span> <%= r.to %></p>
+                  <div class="rt-vibe-route-stats">
+                    <% if (r.km) { %><span><%= r.km %> km</span><% } %>
+                    <% if (r.km && r.time) { %><span style="color:#CBD5E1;">|</span><% } %>
+                    <% if (r.time) { %><span><%= r.time %></span><% } %>
+                  </div>
+                </div>
               </div>
             <% }) %>
           </div>
-        <% } %>
-
-        <p class="note-text">
-          <strong>Includes:</strong> Driver, fuel, AC, standard waiting time.<br/>
-          <strong>Excludes:</strong> Tolls, parking, interstate taxes.
-        </p>
-      <% } else { %>
-        <p>Includes fuel, driver & AC. Excludes tolls, parking, and state taxes.</p>
+        </div>
       <% } %>
-    </div>
 
-  </div>
-</section>
+      <div class="rt-vibe-section rt-vibe-reveal">
+        
+        <div class="rt-vibe-section-head" id="rt-vibe-fleet-anchor">
+          <span class="rt-vibe-eyebrow"><i class="ri-steering-2-fill"></i> Premium Fleet</span>
+          <h2 class="rt-vibe-section-title">Vehicle & Pricing Options</h2>
+        </div>
 
-          <!-- Actions -->
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-            <a href="#" role="button" class="btn primary open-booking"><i class="ri-24-hours-line"></i> Book now</a>
-            <button class="btn outline btn-wa"
-                    data-phone="+918332958915"
-                    data-service="<%= service.title %>"
-                    data-segment="<%= seg.label %>"
-                    data-examples="<%= seg.cars.map(c=>c.name).join(', ') %>">
-              <i class="ri-whatsapp-line"></i> Get Quote on WhatsApp
-            </button>
+        <div class="rt-vibe-filter-wrap" id="rt-vibe-filter-nav">
+          <div class="rt-vibe-filter-track">
+            <button class="rt-vibe-filter-btn active" data-filter="all">All Vehicles</button>
+            <% segments.forEach(seg => { %>
+              <button class="rt-vibe-filter-btn" data-filter="seg-<%= seg.id %>"><%= seg.label %></button>
+            <% }) %>
           </div>
+        </div>
 
-        </article>
-      <% }) %>
+        <div id="rt-vibe-seg-list" class="rt-vibe-seg-list">
+          <% segments.forEach(seg => { %>
+            <div class="rt-vibe-seg-card" data-seg="seg-<%= seg.id %>">
+              
+              <div class="rt-vibe-seg-head">
+                <h3><%= seg.label %></h3>
+                <span class="rt-vibe-seg-badge"><%= seg.cars ? seg.cars.length : 0 %> Options</span>
+              </div>
+
+              <div class="rt-vibe-seg-body">
+                
+                <div>
+                  <div class="rt-vibe-cars-grid">
+                    <% if(seg.cars && seg.cars.length) { %>
+                      <% seg.cars.forEach(car => { 
+                          let imgName = car.img || '';
+                          const imgSrc = imgName.startsWith('/') ? imgName : '/images/cars/' + imgName;
+                      %>
+                        <div class="rt-vibe-car-box">
+                          <img src="<%= imgSrc %>" alt="<%= car.name %>" loading="lazy">
+                          <h4><%= car.name %></h4>
+                          <p><%= car.features || 'AC • 4 Seater' %></p>
+                        </div>
+                      <% }) %>
+                    <% } %>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="rt-vibe-ledger">
+                    <% if (isLocal && seg.pricing && seg.pricing.local) { %>
+                      <div class="rt-vibe-ledger-row">
+                        <span class="rt-vibe-ledger-label">Base Package (8hr/80km)</span>
+                        <span class="rt-vibe-ledger-val highlight">₹<%= seg.pricing.local.base ? seg.pricing.local.base.toLocaleString('en-IN') : '0' %></span>
+                      </div>
+                      <div class="rt-vibe-ledger-row">
+                        <span class="rt-vibe-ledger-label">Extra Per Km</span>
+                        <span class="rt-vibe-ledger-val">₹<%= seg.pricing.local.extra_km %></span>
+                      </div>
+                      <div class="rt-vibe-ledger-row">
+                        <span class="rt-vibe-ledger-label">Extra Per Hour</span>
+                        <span class="rt-vibe-ledger-val">₹<%= seg.pricing.local.extra_hr %></span>
+                      </div>
+                    <% } %>
+
+                    <% if (isOut && seg.pricing && seg.pricing.outstation) { %>
+                      <div class="rt-vibe-ledger-row">
+                        <span class="rt-vibe-ledger-label">Rate Per Km</span>
+                        <span class="rt-vibe-ledger-val highlight">₹<%= seg.pricing.outstation.per_km %></span>
+                      </div>
+                      <div class="rt-vibe-ledger-row">
+                        <span class="rt-vibe-ledger-label">Min. Distance / Day</span>
+                        <span class="rt-vibe-ledger-val"><%= seg.pricing.outstation.min_km_day %> km</span>
+                      </div>
+                      <div class="rt-vibe-ledger-row">
+                        <span class="rt-vibe-ledger-label">Driver Batta (Day)</span>
+                        <span class="rt-vibe-ledger-val">₹<%= seg.pricing.outstation.driver %></span>
+                      </div>
+                    <% } %>
+
+                    <% if (isAirport && seg.pricing && seg.pricing.airport) { %>
+                      <div class="rt-vibe-ledger-row">
+                        <span class="rt-vibe-ledger-label">Airport Drop</span>
+                        <span class="rt-vibe-ledger-val highlight">₹<%= seg.pricing.airport.drop %></span>
+                      </div>
+                      <div class="rt-vibe-ledger-row">
+                        <span class="rt-vibe-ledger-label">Airport Pickup</span>
+                        <span class="rt-vibe-ledger-val highlight">₹<%= seg.pricing.airport.pickup %></span>
+                      </div>
+                    <% } %>
+                  </div>
+
+                  <div class="rt-vibe-terms">
+                    <% if (D.terms && D.terms.included) { %>
+                      <p><i class="ri-checkbox-circle-fill inc"></i> <strong>Included:</strong> <%= D.terms.included.join(', ') %></p>
+                    <% } else { %>
+                      <p><i class="ri-checkbox-circle-fill inc"></i> <strong>Included:</strong> Fuel, Driver, AC</p>
+                    <% } %>
+                    <% if (D.terms && D.terms.excluded) { %>
+                      <p><i class="ri-close-circle-fill exc"></i> <strong>Excluded:</strong> <%= D.terms.excluded.join(', ') %></p>
+                    <% } else { %>
+                      <p><i class="ri-close-circle-fill exc"></i> <strong>Excluded:</strong> Tolls, Parking, State Permits</p>
+                    <% } %>
+                  </div>
+
+                  <div class="rt-vibe-actions">
+                    <button class="rt-vibe-desk-btn rt-vibe-desk-btn-wa btn-wa" 
+                            data-phone="+918332958915"
+                            data-service="<%= service ? service.title : '' %>"
+                            data-segment="<%= seg.label %>">
+                      <i class="ri-whatsapp-line" style="font-size: 1.1rem;"></i> Quote
+                    </button>
+                    <button class="rt-vibe-desk-btn rt-vibe-desk-btn-book open-booking">
+                      <i class="ri-calendar-check-fill" style="font-size: 1.1rem;"></i> Book Now
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <% if (Array.isArray(D.faqs) && D.faqs.length) { %>
+        <div class="rt-vibe-section rt-vibe-reveal">
+          <div class="rt-vibe-section-head">
+            <span class="rt-vibe-eyebrow"><i class="ri-question-answer-fill"></i> Support</span>
+            <h2 class="rt-vibe-section-title">Frequently Asked Questions</h2>
+          </div>
+          <div class="rt-vibe-faq-wrap">
+            <% D.faqs.forEach(function(faq){ %>
+              <div class="rt-vibe-faq-item">
+                <details>
+                  <summary><%= faq.question %> <i class="ri-arrow-down-s-line"></i></summary>
+                  <div class="rt-vibe-faq-content"><%= faq.answer %></div>
+                </details>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
 
     </div>
   </main>
 
   <%- include('../partials/footer') %>
-  <%- include('../partials/social-dock') %>
 
   <script>
-    /* measure header and trigger hero animations */
-    (function(){
-      function initHero(){
-        const header = document.querySelector('header') || document.querySelector('.site-header');
-        const hero = document.getElementById('svcHeroBg');
-        const brief = document.getElementById('svcBriefCard');
-        const title = document.querySelector('.svc-title-standalone');
-        const sub = document.querySelector('.svc-sub-standalone');
-
-        let headerH = 0;
-        if (header) headerH = Math.round(header.getBoundingClientRect().height || 0);
-        document.documentElement.style.setProperty('--site-header-h', headerH + 'px');
-
-        if (hero) {
-          hero.style.marginTop = '-' + (headerH + 0) + 'px';
-          hero.classList.add('svc-hero-enter');
+    // 1. Scroll Reveals
+    const revealElements = () => {
+      const reveals = document.querySelectorAll('.rt-vibe-reveal');
+      const windowHeight = window.innerHeight;
+      reveals.forEach(el => {
+        if (el.getBoundingClientRect().top < windowHeight - 50) {
+          el.classList.add('active');
         }
-        setTimeout(()=> { if (title) title.classList.add('enter'); if (sub) sub.classList.add('enter'); }, 220);
-        setTimeout(()=> { if (brief) brief.classList.add('enter'); }, 320);
-      }
+      });
+    };
+    window.addEventListener('scroll', revealElements, { passive: true });
+    window.addEventListener('load', () => setTimeout(revealElements, 100));
 
-      window.addEventListener('load', initHero);
-      window.addEventListener('resize', function(){ clearTimeout(window.__svcH); window.__svcH = setTimeout(initHero, 120); });
-    })();
+    // 2. Filter Logic (With robust scroll fix)
+    const filterBtns = document.querySelectorAll('.rt-vibe-filter-btn');
+    const segCards = document.querySelectorAll('.rt-vibe-seg-card');
+    const filterNav = document.getElementById('rt-vibe-filter-nav');
 
-    /* Sticky tabs: filter & smooth scroll */
-    (function(){
-      const tabs  = document.querySelectorAll('#segTabs button');
-      const cards = document.querySelectorAll('.seg-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
 
-      function showAll(){ cards.forEach(c => c.style.display = ''); }
-      function showOnly(id){ cards.forEach(c => { c.style.display = (c.dataset.seg === id) ? '' : 'none'; }); }
-      function clearActive(){ tabs.forEach(b => b.classList.remove('active')); }
+        const filterVal = btn.getAttribute('data-filter');
 
-      tabs.forEach(btn => {
-        btn.addEventListener('click', () => {
-          clearActive(); btn.classList.add('active');
-          const target = btn.dataset.target;
-          if (target === 'all') {
-            showAll();
-            window.scrollTo({ top: document.querySelector('.seg-tabs').offsetTop - 90, behavior: 'smooth' });
+        segCards.forEach(card => {
+          if (filterVal === 'all') {
+            card.style.display = 'block';
           } else {
-            const id = target.replace('seg-','');
-            showOnly(id);
-            const el = document.getElementById(target);
-            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (card.getAttribute('data-seg') === filterVal) {
+              card.style.display = 'block';
+            } else {
+              card.style.display = 'none';
+            }
           }
         });
+        
+        // Robust mobile scroll - calculates exact document position
+        if(window.innerWidth < 768 && filterNav) {
+           const yOffset = filterNav.getBoundingClientRect().top + window.pageYOffset - 10;
+           window.scrollTo({ top: yOffset, behavior: 'smooth' });
+        }
       });
-    })();
+    });
 
- /* WhatsApp Quote */
+    // 3. WhatsApp Routing
+    document.querySelectorAll('.btn-wa').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const phone   = (btn.dataset.phone || '').replace(/[^\d]/g,'');
+        const service = btn.dataset.service || '';
+        const segment = btn.dataset.segment || '';
 
-document.querySelectorAll('.btn-wa').forEach(btn => {
+        const msg = [
+          "Hello Radha Travels 👋",
+          "I am interested in booking:",
+          "📌 Service: " + service,
+          segment ? "🚗 Segment: " + segment : "",
+          "",
+          "Please share availability and exact pricing. Thank you!"
+        ].filter(Boolean).join('\n');
 
-  btn.addEventListener('click', () => {
-
-    const phone   = (btn.dataset.phone || '').replace(/[^\d]/g,'');
-    const service = btn.dataset.service || '';
-    const segment = btn.dataset.segment || '';
-    const cars    = btn.dataset.examples || '';
-
-    const msg = [
-      "Hello Radha Travels 👋",
-      "",
-      "I'm interested in getting a cab quote.",
-      "",
-      "📌 Service Type:",
-      service,
-      "",
-      "🚗 Vehicle Segment:",
-      segment,
-      "",
-      cars ? "Available cars in this segment:" : "",
-      cars || "",
-      "",
-      "Please share:",
-      "• Price details",
-      "• Vehicle availability",
-      "• Pickup timing",
-      "",
-      "Thank you."
-    ].filter(Boolean).join('\n');
-
-    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
-
-  });
-
-});
-    // for entry of serivce hero 
-(function(){
-  function initHero(){
-    const header = document.querySelector('header') || document.querySelector('.site-header') || null;
-    const hero  = document.getElementById('svcHeroBg');
-    const back  = document.getElementById('svcHeroBack');
-    const overlay = document.getElementById('svcHeroOverlay');
-    const title = document.getElementById('svcHeroTitle');
-    const blurb = document.getElementById('svcHeroBlurb');
-
-    // measure header height and set CSS var
-    let headerH = 0;
-    if (header) headerH = Math.round(header.getBoundingClientRect().height || 0);
-    document.documentElement.style.setProperty('--site-header-h', headerH + 'px');
-
-    // remove any previous enter states
-    [hero, back, overlay, title, blurb].forEach(el => { if (el) el.classList.remove('svc-hero-enter','enter'); });
-
-    // pull hero up under header (no gap)
-    if (hero) hero.style.marginTop = '-' + (headerH + 0) + 'px';
-
-    // start hero bg enter
-    if (hero) {
-      // minor delay to allow paint
-      setTimeout(()=> hero.classList.add('svc-hero-enter'), 40);
-    }
-
-    // staggered reveals
-    setTimeout(()=> { if (back) back.classList.add('enter'); }, 140);
-    setTimeout(()=> { if (overlay) overlay.classList.add('enter'); }, 260);
-    setTimeout(()=> { if (title) title.classList.add('enter'); }, 360);
-    setTimeout(()=> { if (blurb) blurb.classList.add('enter'); }, 460);
-
-    // fallback: ensure overlay/title visible after 900ms if JS glitches
-    if (overlay && !overlay.classList.contains('enter')) {
-      clearTimeout(window.__svcHeroFallback);
-      window.__svcHeroFallback = setTimeout(()=> { overlay.classList.add('enter'); if (title) title.classList.add('enter'); if (blurb) blurb.classList.add('enter'); }, 900);
-    }
-  }
-
-  window.addEventListener('load', initHero);
-  window.addEventListener('resize', function(){ clearTimeout(window.__svcHeroTimer); window.__svcHeroTimer = setTimeout(initHero, 120); });
-})();
-</script>
+        window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+      });
+    });
+  </script>
 
 </body>
 </html>
