@@ -381,7 +381,7 @@
   <%- include('partials/header') %>
   <%- include('partials/ticker') %>
 <main>
-  
+  <!-- Hero Section -->
 <section class="hero-bleed post-splash" id="heroRoot">
   <div class="hero-bg" id="heroBg" data-hero>
     <% if (heroSlides && heroSlides.length) { %>
@@ -425,7 +425,7 @@
     <% } %>
   </div>
 </section>
-
+<!-- quick estimate -->
 <div class="qe-backdrop" data-qe-backdrop hidden>
   <div class="qe-modal" role="dialog" aria-modal="true" aria-labelledby="qe-title">
     <header class="qe-head">
@@ -713,37 +713,41 @@
 
 </section>
 <!-- Home Gallery -->
-<section class="home-gallery cyber-emerald-mode reveal-group">
-  <div class="cyber-ambient-glow"></div>
-  <div class="container home-gallery-container" style="position: relative; z-index: 2;">
-    <div class="hg-header reveal-item reveal-slide-left">
-      <div class="hg-text-block">
-        <!-- <span class="hg-eyebrow">/// FEATURED ARCHIVE</span> -->
-        <h2>Moments from Our Journeys</h2>
-        <p>Real travel experiences with Radha Travels</p>
-      </div>
-      <a href="/gallery" class="btn outline cyber-btn">
-        <span class="cyber-btn-glow"></span>
-        [ VIEW GALLERY ]
-      </a>
+<section class="home-gallery editorial-gallery-section reveal-group">
+  <div class="container home-gallery-container">
+    
+    <div class="eg-header reveal-item reveal-slide-up">
+      <h2>Moments from Our Journeys</h2>
+      <div class="eg-divider"></div>
+      <p>A curated collection of our finest travel experiences</p>
     </div>
+
     <% if (featuredGallery && featuredGallery.length) { %>
-      <div class="hg-grid">
+      <div class="eg-grid">
         <% featuredGallery.slice(0,5).forEach((item, index) => { %>
-          <a href="/gallery" class="hg-card <%= index === 0 ? 'hg-large' : '' %> reveal-item reveal-luxury-mask">
-            <div class="hg-img-wrap">
-              <img src="<%= item.filepath %>" alt="<%= item.title || 'Radha Travels' %>" loading="lazy">
-              <div class="cyber-scanline"></div>
+          <a href="/gallery" class="eg-card <%= index === 0 ? 'eg-large' : 'eg-small' %> reveal-item reveal-fade-scale">
+            
+            <div class="eg-img-wrapper">
+              <img src="<%= item.filepath %>" alt="<%= item.title || 'Radha Travels Experience' %>" loading="lazy">
             </div>
-            <div class="hg-overlay">
-              <div class="hg-overlay-bg"></div>
-              <span><%= item.title || "SYS.LOC // UNKNOWN" %></span>
+            
+            <div class="eg-overlay">
+              <div class="eg-text-content">
+                <span class="eg-meta">Featured</span>
+                <h3><%= item.title || "Radha Travels" %></h3>
+                <div class="eg-line"></div>
+              </div>
             </div>
-            <div class="cyber-card-border"></div>
+
           </a>
         <% }) %>
       </div>
     <% } %>
+
+    <div class="eg-footer reveal-item reveal-slide-up">
+      <a href="/gallery" class="eg-btn">Explore Full Gallery<i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+
   </div>
 </section>
 

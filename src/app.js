@@ -359,7 +359,7 @@ app.get('/', async (req, res) => {
       todayVisitors,
       latestPosts: blogPosts
         .sort((a, b) => new Date(b.date) - new Date(a.date))
-        .slice(0, 3)
+        .slice(0, 4)
         .map((post) => ({
           ...post,
           readTime: Math.ceil(post.content.split(' ').length / 200),
