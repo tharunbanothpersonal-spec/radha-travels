@@ -212,67 +212,125 @@ a{color:inherit;text-decoration:none}
 /* --- 3. Animate Tooltip on Hover --- */
 .rt-admin-nav-btn:hover::before {  opacity: 1 !important;  visibility: visible !important;  transform: translateX(-50%) translateY(0); /* Snaps up sharply */}
 
-/* --- 1. The Refined Base Button --- */
+/* =========================================================
+   ADVANCED TECH: CYBER-EDGE TRACER + PHYSICAL PULSE RING
+========================================================= */
+
+/* Enables smooth animation of the gradient angle */
+@property --spin-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .btn-header {
-  position: relative; /* Required for the pulse ring */
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.7rem 1.8rem;
-  border-radius: 100px;
+  padding: 14px 24px;
   font-family: 'Inter', system-ui, sans-serif;
-  font-weight: 700; /* Bolder text for better readability */
-  font-size: 0.95rem;
-  letter-spacing: 0.5px;
-  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff; 
   text-decoration: none;
-  border: none;
-  z-index: 1; /* Keeps the button above the pulse ring */
   
-  /* Smoother, premium Coral/Sunset gradient */
-  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  /* PERFECT PILL SHAPE */
+  border-radius: 50px;
   
-  /* Colored glow instead of a muddy black shadow */
-  box-shadow: 0 6px 16px rgba(255, 107, 107, 0.35);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  /* CRITICAL: Allows the pulse ring to expand outward */
+  overflow: visible; 
+  
+  /* Sets the thickness of the spinning laser border */
+  border: 2px solid transparent;
+  
+  /* The Magic: 
+    Layer 1 (padding-box) creates the dark core.
+    Layer 2 (border-box) creates the spinning laser border.
+  */
+ background: 
+    linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+    conic-gradient(
+      from var(--spin-angle), 
+      transparent 0%, 
+      transparent 50%, 
+      #ea580c 70%, /* Deep Burnt Orange tail */
+      #f97316 85%, /* Vibrant Solar Orange mid-beam */
+      #fed7aa 100% /* Blinding White/Peach tip */
+    ) border-box;
+  
+  /* Spins the border continuously */
+  animation: borderSpin 3s linear infinite;
+  
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, text-shadow 0.3s ease;
 }
 
-/* --- 2. The Continuous Pulse Ring --- */
+/* --- THE PHYSICAL PULSE RING --- */
 .btn-header::before {
-  content: "";
+  content: '';
   position: absolute;
-  inset: 0; /* Fits the ring exactly to the button's size */
-  border-radius: 100px;
+  /* Aligns perfectly with the outer edge of the 2px border */
+  inset: -2px; 
+  border-radius: 50px;
   
-  /* Matches the button's color */
-  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-  z-index: -1; /* Tucks the ring behind the main button */
+  /* Creates the crisp, hollow line */
+  border: 1.5px solid #021c15; /* Emerald with some transparency */
+  z-index: -1;
+  pointer-events: none;
   
-  /* Runs the pulse animation infinitely */
-  animation: bookingPulse .80s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  /* The expanding outward animation */
+  animation: ringPulseOutward 1s cubic-bezier(0.16, 1, 0.3, 1) infinite;
 }
 
-/* --- 3. Crisp Hover & Click States --- */
+/* --- HOVER & CLICK PHYSICS --- */
 .btn-header:hover {
-  transform: translateY(-2px); /* Gentle lift */
-  box-shadow: 0 10px 24px rgba(255, 107, 107, 0.5); /* Enhanced glow */
-  filter: brightness(1.05); /* Slight highlight */
+  transform: translateY(-2px);
+  
+  /* Casts an emerald glow from the button itself */
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+  
+  /* Text lights up holographically */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px #10b981;
+  
+  /* Core brightens slightly and border spin hits Hyper-Drive */
+  background-image: 
+    linear-gradient(#033626, #033626),
+    conic-gradient(from var(--spin-angle), transparent 0%, transparent 40%, #06b6d4 70%, #10b981 100%);
+  
+  animation: borderSpin 0.8s linear infinite;
+}
+
+/* Fades the pulse ring out when hovered so focus stays on the button */
+.btn-header:hover::before {
+  opacity: 0;
+  animation: none;
 }
 
 .btn-header:active {
-  transform: translateY(1px); /* Satisfying physical click down */
-  box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+  text-shadow: none;
 }
 
-/* --- 4. Pulse Animation Keyframes --- */
-@keyframes bookingPulse {
+/* --- ANIMATION KEYFRAMES --- */
+
+/* Spins the border angle from 0 to 360 degrees */
+@keyframes borderSpin {
+  100% { --spin-angle: 360deg; }
+}
+
+/* Expands the ring and elegantly fades it away */
+@keyframes ringPulseOutward {
   0% {
     transform: scale(1);
-    opacity: 0.7;
+    opacity: 0.8;
   }
   100% {
-    transform: scale(1.3); /* Expands the ring outward 30% */
-    opacity: 0; /* Smoothly fades out as it expands */
+    transform: scale(1.2); /* Pushes the ring 35% outward */
+    opacity: 0;
   }
 }
 /* Burger / mobile nav */

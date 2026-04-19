@@ -523,7 +523,7 @@ export const blogPosts = [
     slug: 'hyderabad-local-cab-service-cost',
     title: 'Hyderabad Local Cab Service Cost (Hourly & Full-Day Packages 2026)',
     excerpt: 'Looking for Hyderabad local cab service? Check hourly rates, full-day packages, vehicle options and booking tips for city travel.',
-    image: '/images/blog/local.jpg',
+    image: '/images/blog/cab-service-in-hyderabad.webp',
     date: '2026-02-25',
     content: `
       <p>Hyderabad is a massive, sprawling metropolis. From the historic bylanes of Charminar in the Old City to the towering glass skyscrapers of the IT corridor in HITEC City, navigating Hyderabad traffic can be daunting. Whether you have a day packed with corporate meetings, a heavy wedding shopping itinerary, or a family sightseeing tour, a <strong>dedicated local cab package</strong> is infinitely better than booking multiple point-to-point rides.</p>
@@ -743,7 +743,7 @@ export const blogPosts = [
     slug: 'best-time-to-visit-tirupati',
     title: 'Best Time to Visit Tirupati (Complete 2026 Seasonal Guide)',
     excerpt: 'Planning Tirupati Darshan? Discover the best time to visit Tirupati based on weather, crowd levels and festival seasons.',
-    image: '/images/blog/tirupati-season.jpg',
+    image: '/images/tirupati/tirupati-4.jpg',
     date: '2026-02-25',
     content: `
       <p>Tirupati is the spiritual capital of Andhra Pradesh, welcoming over 60,000 to 80,000 devotees every single day. Because the Lord Venkateswara temple sits atop the Tirumala hills, the weather and seasonal crowds play a massive role in how comfortable your Darshan experience will be. Choosing the <strong>best time to visit Tirupati</strong> requires balancing pleasant weather against peak festival crowds.</p>
@@ -816,7 +816,7 @@ export const blogPosts = [
     slug: 'srisailam-distance-travel-time',
     title: 'Hyderabad to Srisailam Distance & Travel Time (Route Guide 2026)',
     excerpt: 'Know exact Hyderabad to Srisailam distance, route options, travel duration and road conditions before planning your temple trip.',
-    image: '/images/blog/srisailam-route.jpg',
+    image: '/images/srisailam/srisailam-main.jpg',
     date: '2026-02-25',
     content: `
       <p>A road trip from Hyderabad to the sacred hills of Srisailam is a rite of passage for many in Telangana and Andhra Pradesh. Leaving behind the concrete jungle of the city and driving into the dense, green embrace of the Nallamala Forest is incredibly refreshing. However, because half of this journey runs through a protected tiger reserve, knowing the exact <strong>Hyderabad to Srisailam distance and route conditions</strong> is vital for safe planning.</p>
@@ -886,7 +886,7 @@ export const blogPosts = [
     slug: 'shirdi-darshan-timings-guide',
     title: 'Shirdi Darshan Timings Guide (Aarti Schedule & Travel Tips 2026)',
     excerpt: 'Complete guide to Shirdi Sai Baba temple darshan timings, aarti schedule and best travel planning tips.',
-    image: '/images/blog/shirdi-darshan.jpg',
+    image: '/images/shiridi/shirdi-main.jpg',
     date: '2026-02-25',
     content: `
       <p>A visit to the Shri Saibaba Sansthan Temple in Shirdi is a deeply moving experience. The temple operates with incredible efficiency, but dealing with crowds of up to 100,000 devotees on peak days requires careful planning. Understanding the exact <strong>Shirdi Darshan and Aarti timings</strong> is the key to a fulfilling and peaceful visit.</p>
@@ -958,7 +958,7 @@ export const blogPosts = [
     slug: 'girivalam-guide-arunachalam',
     title: 'Girivalam Guide for Arunachalam (Route, Distance & Travel Tips 2026)',
     excerpt: 'Complete guide to Arunachalam Girivalam including distance, best time, temple route and travel planning tips.',
-    image: '/images/blog/girivalam.jpg',
+    image: '/images/arunachalam/arunachalam-3.jpg',
     date: '2026-02-25',
     content: `
       <p>The practice of Girivalam (Giri meaning hill, and Valam meaning circumambulation) at Arunachalam is an ancient, deeply spiritual tradition. Devotees walk barefoot around the majestic Arunachala Hill, which is considered a physical manifestation of Lord Shiva himself. This complete guide will help you prepare for the physical and spiritual demands of the Girivalam.</p>
@@ -1013,7 +1013,7 @@ export const blogPosts = [
     slug: 'top-temples-to-visit-near-tirupati',
     title: 'Top Temples to Visit Near Tirupati (2026 Local Sightseeing Guide)',
     excerpt: 'Plan your Tirupati local sightseeing with our complete guide to Sri Kalahasthi, Padmavathi Temple, Kapila Theertham, and Silathoranam.',
-    image: '/images/blog/tirupati-sightseeing.jpg',
+    image: '/images/tirupati/kalahasti.jpg',
     date: '2026-03-29',
     content: `
       <p>A pilgrimage to Tirumala to seek the blessings of Lord Venkateswara is often the primary goal for millions of devotees. However, your spiritual journey is truly complete only when you visit the incredibly powerful and historic holy sites nestled in and around the foothills of Tirupati. If you have an extra day in your itinerary, booking a local cab package to explore these sacred destinations is highly recommended.</p>
@@ -1063,7 +1063,7 @@ export const blogPosts = [
     slug: 'places-to-visit-in-srisailam-besides-temple',
     title: '5 Must-Visit Places in Srisailam Besides the Mallikarjuna Temple (2026 Guide)',
     excerpt: 'Planning a 2-day trip? Discover the top places to visit in Srisailam including Patalaganga, Akkamahadevi Caves, and the Srisailam Dam.',
-    image: '/images/blog/srisailam-sightseeing.jpg',
+    image: '/images/srisailam/pathala-ganga.jpg',
     date: '2026-03-29',
     content: `
       <p>While the divine Mallikarjuna Jyotirlinga and Bhramaramba Devi temple are the focal points of any Srisailam pilgrimage, the surrounding Nallamala Forest holds incredible natural and historical wonders. If you are booking a 2-day outstation cab package from Hyderabad, dedicating your second day to exploring these local sights transforms a simple temple visit into a complete weekend retreat.</p>
@@ -1118,7 +1118,7 @@ export const blogPosts = [
     slug: 'top-weekend-getaways-from-hyderabad',
     title: 'Top 5 Weekend Getaways from Hyderabad for a Perfect Road Trip (2026 Guide)',
     excerpt: 'Escape the city hustle! Discover the best weekend road trips from Hyderabad, featuring Srisailam, Hampi, Bidar, and Kuntala Waterfalls.',
-    image: '/images/blog/weekend-getaway.jpg',
+    image: '/images/hyderabad-local/Birla-Mandir-Hyderabad-Darshan.webp',
     date: '2026-03-29',
     content: `
       <p>After a long week of navigating Hyderabad's bustling IT corridors and heavy city traffic, there is nothing quite like the freedom of the open highway. Fortunately, Hyderabad's central location in the Deccan Plateau makes it the ultimate starting point for incredible road trips. Whether you are craving a spiritual retreat, historical ruins, or cascading waterfalls, booking a comfortable outstation cab is the best way to start your weekend getaway.</p>
@@ -1179,7 +1179,7 @@ export const blogPosts = [
     slug: 'innova-crysta-rental-hyderabad-outstation',
     title: 'Innova Crysta Rental in Hyderabad: The Ultimate SUV for Outstation Trips (2026)',
     excerpt: 'Planning a family road trip? Find out why booking an Innova Crysta rental in Hyderabad is the safest and most comfortable choice for long journeys.',
-    image: '/images/blog/innova-crysta-hyderabad.jpg',
+    image: '/images/IMG_8582.webp',
     date: '2026-03-29',
     content: `
       <p>When planning a long-distance road trip from Hyderabad to sacred destinations like Tirupati, Shirdi, or Arunachalam, the vehicle you choose dictates the entire tone of your journey. While sedans are economical, nothing beats the undisputed king of Indian highways: the Toyota Innova Crysta. Booking a premium <strong>Innova Crysta rental in Hyderabad</strong> is an investment in your family's comfort, safety, and peace of mind.</p>
@@ -1254,7 +1254,7 @@ export const blogPosts = [
     slug: 'tempo-traveller-rent-hyderabad',
     title: 'Renting a Tempo Traveller in Hyderabad: 12-Seater Cost & Booking Guide (2026)',
     excerpt: 'Planning a group trip? Check the latest 12-seater Tempo Traveller rental prices in Hyderabad, including per KM rates and outstation booking tips.',
-    image: '/images/blog/tempo-traveller-hyderabad.jpg',
+    image: '/images/hero-aboutus.webp',
     date: '2026-03-29',
     content: `
       <p>Organizing a family pilgrimage, a corporate team outing, or a destination wedding requires massive logistical planning. When you have a group of 8 to 14 people, booking multiple sedans or SUVs becomes expensive, difficult to coordinate, and splits the group up. The ultimate solution for group travel is booking a <strong>Tempo Traveller for rent in Hyderabad</strong>. It keeps everyone together, ensures maximum comfort, and is highly cost-effective.</p>
@@ -1329,7 +1329,7 @@ export const blogPosts = [
     slug: 'hyderabad-to-srisailam-2-day-package',
     title: 'Hyderabad to Srisailam 2-Day Tour Package (2026 Itinerary & Cost)',
     excerpt: 'Book the perfect 2-day Srisailam tour package from Hyderabad. Get a detailed itinerary, cab pricing, and travel tips for a hassle-free pilgrimage.',
-    image: '/images/blog/srisailam-package.jpg',
+    image: '/images/srisailam/sakshi-ganapati.jpg',
     date: '2026-03-29',
     content: `
       <p>Embarking on a pilgrimage to the Mallikarjuna Jyotirlinga is a spiritually uplifting experience. While some travelers attempt a grueling same-day return trip from Hyderabad, booking a dedicated <strong>Hyderabad to Srisailam 2-Day Tour Package</strong> is the smartest way to travel. A two-day itinerary allows you to comfortably complete your Darshan, explore the breathtaking Nallamala Forest, and navigate the strict forest entry timings without any stress.</p>
