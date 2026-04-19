@@ -388,7 +388,45 @@ a{color:inherit;text-decoration:none}
 }
 
   .burger{display:flex}
-  .btn-header{display:none}
+  /* =========================================================
+   MOBILE VIEW: FLOATING "BOOK NOW" PILL (Max 768px)
+========================================================= */
+  .btn-header {
+    position: fixed;
+    top: 80vh; 
+    left: 10px;
+    transform: translateX(0) translateY(0); /* Default visible state */
+    z-index: 9999;
+    padding: 12px 14px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+    
+    /* Smooth transitions for appearing/disappearing */
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.4s ease, 
+                visibility 0.4s;
+  }
+
+  /* --- The Hidden State (Triggered by JavaScript) --- */
+  .btn-header.mobile-hidden {
+    opacity: 0;
+    visibility: hidden;
+    /* Slides it down off the bottom of the screen */
+    transform: translateX(-50%) translateY(100px); 
+    pointer-events: none; /* Prevents invisible taps */
+  }
+
+  .btn-header:hover {
+    transform: translateX(-50%) translateY(-2px);
+    box-shadow: 0 15px 30px rgba(249, 115, 22, 0.5); /* Update to your chosen color */
+  }
+
+  .btn-header:active {
+    transform: translateX(-50%) translateY(2px);
+  }
+
+
   .nav{
     position:fixed; top:70px; left:0; right:0; display:none; flex-direction:column;
     background:linear-gradient(135deg,var(--emerald-900),var(--emerald-500));

@@ -933,9 +933,52 @@ document.addEventListener("DOMContentLoaded", function() {
   if(section) observer.observe(section);
 
 });
+</script>
+<!-- mobile floating button logic -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // 1. Target your Hero section (Update '.hero-section' to match your actual hero)
+  const heroSection = document.querySelector('.hero-bleed'); 
+  
+  // 2. Target the header button
+  const floatingBtn = document.querySelector('.btn-header');
 
+  if (!heroSection || !floatingBtn) return;
 
+  // 3. The Precision Observer Configuration
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    // Creates trigger points at exactly 0% and 25% visibility
+    threshold: [0, 0.75] 
+  };
 
+  const heroObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(entry => {
+      const isMobile = window.innerWidth <= 900;
+
+      if (isMobile) {
+        // entry.intersectionRatio tells us exactly how much of the Hero is visible.
+        // If more than 25% of the Hero is on screen -> Hide the button
+        if (entry.intersectionRatio > 0.75) {
+          floatingBtn.classList.add('mobile-hidden');
+        } 
+        // If 25% or less of the Hero is on screen -> Slide the button up
+        else {
+          floatingBtn.classList.remove('mobile-hidden');
+        }
+      }
+    });
+  }, observerOptions);
+
+  // 4. Start watching the Hero section
+  heroObserver.observe(heroSection);
+  
+  // 5. Ensure the button is hidden on initial load if starting at the very top
+  if (window.innerWidth <= 900 && window.scrollY < 100) {
+      floatingBtn.classList.add('mobile-hidden');
+  }
+});
 </script>
 <script src="/js/main.js" defer></script>
 <script src="/js/admin-login.js" defer></script>
