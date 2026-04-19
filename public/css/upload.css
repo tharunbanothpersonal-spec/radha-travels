@@ -1,220 +1,391 @@
-/* ========================
-   UPLINK SECTION (MOBILE FIRST 440px)
-======================== */
-.rt-uplink-section {
+/* =========================================================
+   CINEMATIC BLUR ANIMATION ENGINE
+========================================================= */
+
+/* The hidden, pre-animation state */
+.reveal-group .pu-glass-panel {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-group .reveal-item {
+  opacity: 0;
+  transform: translateY(30px) scale(0.98);
+  filter: blur(10px); /* The premium blur effect */
+  /* Uses the --stagger variable from HTML to perfectly time the cascade */
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--stagger) * 0.1s);
+  will-change: opacity, transform, filter;
+}
+
+/* The active, fully revealed state */
+.reveal-group.active .pu-glass-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-group.active .reveal-item {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
+}
+
+/* =========================================================
+   PREMIUM UPLOAD PORTAL (COMPACT MOBILE FIRST)
+========================================================= */
+
+.premium-upload-section {
   position: relative;
   min-height: 100vh;
   display: flex;
-  /* align-items: ; */
   justify-content: center;
-  padding: 100px 15px 40px; 
-  background-color: var(--emerald-bg);
+  align-items: flex-start;
+  padding: 10px 12px 40px 12px; 
+  background: #03150e; 
   z-index: 2;
+  overflow: hidden;
 }
 
-.rt-uplink-container {
+.pu-ambient-glow {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 150vw; height: 800px;
+  background: radial-gradient(ellipse at top, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.pu-container {
   width: 100%;
-  max-width: 500px; /* Caps out for tablets/desktops */
+  max-width: 640px; 
   position: relative;
   z-index: 1;
 }
 
-/* Glassmorphic Panel */
-.rt-cyber-panel {
-  background: rgba(2, 44, 34, 0.45);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
-  padding: 30px 20px; /* Snug on 440px */
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 20px rgba(16,185,129,0.05);
+/* --- The Obsidian Glass Panel --- */
+.pu-glass-panel {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 24px 16px; 
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.rt-panel-header {
+/* --- Architectural Header --- */
+.pu-header {
   text-align: center;
-  margin-bottom: 25px;
-  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
-  padding-bottom: 20px;
+  margin-bottom: 24px; 
 }
 
-.rt-panel-header h2 {
-  font-size: 24px;
+.pu-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 50px;
+  color: #10b981;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.pu-title {
+  font-size: clamp(24px, 6vw, 32px); 
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 4px 0;
+  letter-spacing: -1px;
+}
+
+.pu-title em {
+  font-style: italic;
   font-weight: 300;
-  color: #fff;
-  margin: 8px 0;
-  text-shadow: 0 0 10px rgba(16,185,129,0.4);
+  background: linear-gradient(to right, #ffffff, #94a3b8, #e2e8f0, #ffffff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: titleShimmer 5s linear infinite;
 }
 
-.rt-panel-header p {
+@keyframes titleShimmer {
+  to { background-position: 200% center; }
+}
+
+.pu-header p {
+  color: #94a3b8;
   font-size: 12px;
-  color: #a7f3d0;
   margin: 0;
 }
 
-/* High-Tech Success Message */
-.rt-sys-notify {
+/* --- Elegant Success Toast --- */
+.pu-success-toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   background: rgba(16, 185, 129, 0.15);
-  border: 1px solid var(--emerald-primary);
-  color: #fff;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 25px;
-  font-family: monospace;
-  font-size: 11px;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
-  animation: pulseNotify 2s infinite alternate;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  color: #a7f3d0;
+  font-size: 13px;
+  font-weight: 500;
 }
 
-.rt-notify-icon {
-  color: var(--emerald-primary);
-  font-weight: bold;
-  margin-right: 5px;
+.pu-toast-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px; height: 24px;
+  background: #10b981;
+  color: #000;
+  border-radius: 50%;
+  font-size: 12px;
 }
 
-@keyframes pulseNotify {
-  from { box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
-  to { box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
-}
-
-/* ========================
-   CYBER FORM ELEMENTS
-======================== */
-.rt-cyber-form {
+/* --- Form Fields --- */
+.pu-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px; 
 }
 
-.rt-input-group {
+/* --- Dropdown Row --- */
+.pu-input-row {
+  display: flex;
+  flex-direction: row; 
+  gap: 12px; 
+}
+
+.pu-input-row .pu-input-group {
+  flex: 1;
+  min-width: 0; 
+}
+
+.pu-input-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.rt-cyber-label {
-  font-size: 9px;
-  font-family: monospace;
-  color: var(--emerald-light);
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.pu-label {
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
-/* Universal Input Styling (Text, Select, Textarea) */
-.rt-cyber-input {
+.pu-optional {
+  color: #64748b;
+  font-weight: 400;
+  font-size: 10px;
+}
+
+.pu-input {
   width: 100%;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-bottom: 2px solid rgba(16, 185, 129, 0.5);
-  color: #fff;
-  padding: 12px 14px;
-  font-size: 13px; /* Good legibility for 440px */
-  border-radius: 6px;
-  outline: none;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  padding: 12px 14px; 
+  font-size: 13px;
+  border-radius: 10px;
+  font-family: inherit;
   transition: all 0.3s ease;
   box-sizing: border-box;
 }
 
-.rt-cyber-input:focus {
-  border-color: var(--emerald-primary);
-  background: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+.pu-input:focus {
+  outline: none;
+  background: rgba(0, 0, 0, 0.4);
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
 }
 
-.rt-cyber-input::placeholder { color: rgba(167, 243, 208, 0.4); }
+.pu-input::placeholder { color: #64748b; }
 
-/* Specific fixes for Textarea and Select */
-.rt-textarea {
+.pu-textarea {
   resize: vertical;
-  min-height: 80px;
-  font-family: inherit;
+  min-height: 80px; 
 }
 
-.rt-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 16px;
-  cursor: pointer;
-}
-.rt-select option { background: var(--emerald-bg); color: #fff; }
+/* Custom Select Dropdown */
+.pu-select-wrapper { position: relative; }
 
-/* Drag & Drop Zone */
-.rt-drop-zone {
+.pu-select { 
+  appearance: none; 
+  cursor: pointer; 
+  padding-right: 30px; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.pu-select option { background: #0f172a; color: #fff; padding: 10px; }
+
+.pu-select-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+  font-size: 11px;
+}
+
+/* --- The Tactile Drop Zone --- */
+.pu-drop-zone {
   position: relative;
   width: 100%;
-  height: 120px; /* Slightly shorter to save vertical space on mobile */
-  border: 2px dashed rgba(16, 185, 129, 0.4);
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px 16px; 
   cursor: pointer;
   transition: all 0.3s ease;
   overflow: hidden;
 }
 
-.rt-drop-content { text-align: center; color: var(--emerald-light); transition: opacity 0.3s; pointer-events: none; }
-.rt-drop-icon { margin-bottom: 6px; color: var(--emerald-primary); }
-.rt-drop-text { display: block; font-size: 10px; font-family: monospace; font-weight: bold; letter-spacing: 1px; }
-
-.rt-hidden-input { display: none; }
-
-.rt-preview-container { position: absolute; inset: 0; z-index: 5; background: #000; }
-.rt-preview-container img { width: 100%; height: 100%; object-fit: contain; opacity: 0.8; }
-.rt-clear-btn {
-  position: absolute; top: 8px; right: 8px;
-  background: rgba(0,0,0,0.7); border: 1px solid var(--emerald-primary);
-  color: var(--emerald-light); width: 26px; height: 26px; border-radius: 50%;
-  font-size: 16px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.3s;
+.pu-drop-zone:hover {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.05);
 }
 
-/* Action Buttons Grid */
-.rt-action-group {
-  display: flex;
-  flex-direction: column; /* Stack vertically on 440px */
-  gap: 12px;
-  margin-top: 10px;
-}
-
-.rt-submit-btn {
-  padding: 14px;
-  font-size: 12px;
-}
-
-.rt-cyber-btn-outline {
+.pu-drop-content {
   text-align: center;
-  padding: 12px;
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  color: #a7f3d0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.pu-drop-icon {
+  font-size: 24px; 
+  color: #10b981;
+  margin-bottom: 8px;
+}
+
+.pu-drop-text {
+  display: block;
+  color: #cbd5e1;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.pu-drop-text strong { color: #10b981; }
+
+.pu-drop-hint {
+  display: block;
+  color: #64748b;
   font-size: 10px;
-  font-family: monospace;
-  text-decoration: none;
-  letter-spacing: 1px;
-  border-radius: 4px;
+}
+
+.pu-hidden-input { display: none; }
+
+.pu-preview-container {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: #03150e;
+  border-radius: 12px;
+}
+
+.pu-preview-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pu-clear-btn {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
   transition: all 0.3s;
 }
 
-.rt-cyber-btn-outline:hover {
-  border-color: var(--emerald-primary);
-  color: var(--emerald-primary);
-  background: rgba(16, 185, 129, 0.05);
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+.pu-clear-btn:hover {
+  background: #ef4444; 
+  border-color: #ef4444;
+  transform: scale(1.1);
 }
 
-/* ========================
-   DESKTOP SCALE-UP (768px+)
-======================== */
+/* --- Action Buttons --- */
+.pu-actions {
+  display: flex;
+  flex-direction: column-reverse; 
+  gap: 12px;
+  margin-top: 8px; 
+}
+
+.pu-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px; 
+  background: linear-gradient(180deg, #10b981 0%, #047857 100%);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border: 1px solid rgba(16, 185, 129, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 6px 15px -4px rgba(16, 185, 129, 0.4), inset 0 2px 2px rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.pu-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px -4px rgba(16, 185, 129, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.3);
+}
+
+.pu-btn-primary:active { transform: translateY(1px); }
+
+.pu-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: color 0.3s ease;
+}
+
+.pu-btn-secondary:hover { color: #ffffff; }
+
+/* =========================================================
+   DESKTOP SCALING (RESTORES LUXURY SPACING)
+========================================================= */
 @media (min-width: 768px) {
-  .rt-cyber-panel { padding: 40px 50px; border-radius: 20px; }
-  .rt-panel-header h2 { font-size: 32px; }
-  .rt-cyber-input { font-size: 15px; padding: 14px 16px; }
-  .rt-drop-zone { height: 160px; }
-  .rt-action-group { flex-direction: row; } /* Buttons side-by-side on desktop */
-  .rt-submit-btn { flex: 2; }
-  .rt-cyber-btn-outline { flex: 1; display: flex; align-items: center; justify-content: center; }
+  .premium-upload-section { padding: 10px 20px 80px 20px; }
+  .pu-glass-panel { padding: 48px; border-radius: 24px; }
+  .pu-header { margin-bottom: 36px; }
+  .pu-form { gap: 24px; }
+  .pu-input-row { gap: 24px; } 
+  .pu-input { padding: 14px 16px; font-size: 14px; }
+  .pu-drop-zone { padding: 40px 20px; }
+  .pu-drop-icon { font-size: 32px; }
+  .pu-actions { flex-direction: row; justify-content: flex-end; align-items: center; margin-top: 16px; }
+  .pu-btn-primary { width: auto; padding: 16px 32px; font-size: 14px; }
+  .pu-btn-secondary { padding: 16px; font-size: 14px; }
 }

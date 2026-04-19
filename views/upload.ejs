@@ -11,85 +11,91 @@
 <%- include('./partials/header') %>
 <%- include('./partials/ticker') %>
 
-<section class="rt-uplink-section">
-  <div class="rt-gallery-ambient-glow"></div>
+<section class="premium-upload-section reveal-group">
+  <div class="pu-ambient-glow"></div>
 
-  <div class="rt-uplink-container">
+  <div class="container pu-container">
     
-    <div class="rt-cyber-panel">
-      <div class="rt-panel-header">
-        <span class="rt-cyber-subtitle">/// DATA UPLINK PORTAL</span>
-        <h2>Share Your Journey</h2>
-        <p>Transmit new images or videos to the Emerald Archive.</p>
+    <div class="pu-glass-panel">
+      
+      <div class="pu-header reveal-item" style="--stagger: 1;">
+        <div class="pu-badge">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>Secure Gateway</span>
+        </div>
+        <h2 class="pu-title">Archive <em>Upload</em></h2>
+        <p>Curate and transmit new memories to the collection.</p>
       </div>
 
       <% if (typeof query !== 'undefined' && query.success) { %>
-        <div class="rt-sys-notify">
-          <span class="rt-notify-icon">✓</span> 
-          SYS.MSG // Upload successful. Data appended to archive.
+        <div class="pu-success-toast reveal-item" style="--stagger: 2;">
+          <div class="pu-toast-icon"><i class="fa-solid fa-check"></i></div> 
+          <span>Media successfully securely archived.</span>
         </div>
       <% } %>
 
-      <form action="/gallery/upload" method="POST" enctype="multipart/form-data" class="rt-cyber-form">
+      <form action="/gallery/upload" method="POST" enctype="multipart/form-data" class="pu-form">
         
-        <div class="rt-input-group">
-          <label class="rt-cyber-label">AUTH_LEVEL // Upload As</label>
-          <select name="uploaded_by" class="rt-cyber-input rt-select" required>
-            <option value="admin">Admin</option>
-            <option value="customer">Customer</option>
-          </select>
-        </div>
-
-        <div class="rt-input-group">
-          <label class="rt-cyber-label">MEDIA_DATA // Select File</label>
-          <div class="rt-drop-zone" id="drop-zone">
-            <div class="rt-drop-content">
-              <div class="rt-drop-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                  <polyline points="17 8 12 3 7 8"></polyline>
-                  <line x1="12" y1="3" x2="12" y2="15"></line>
-                </svg>
-              </div>
-              <span class="rt-drop-text">TAP OR DRAG FILE HERE</span>
+        <div class="pu-input-row reveal-item" style="--stagger: 3;">
+          <div class="pu-input-group">
+            <label class="pu-label">Uploaded By</label>
+            <div class="pu-select-wrapper">
+              <select name="uploaded_by" class="pu-input pu-select" required>
+                <option value="admin">Administrator</option>
+                <option value="customer">Customer</option>
+              </select>
+              <i class="fa-solid fa-chevron-down pu-select-icon"></i>
             </div>
-            <input type="file" name="file" id="file-input" required accept="image/*,video/mp4,video/mov" class="rt-hidden-input">
-            
-            <div class="rt-preview-container" id="preview-container" style="display: none;">
-              <img id="image-preview" src="" alt="Preview">
-              <button type="button" id="clear-preview" class="rt-clear-btn">&times;</button>
+          </div>
+
+          <div class="pu-input-group">
+            <label class="pu-label">Category</label>
+            <div class="pu-select-wrapper">
+              <select name="category" class="pu-input pu-select" required>
+                <option value="Cars">Premium Fleet</option>
+                <option value="Tours">Journeys</option>
+                <option value="Events">Special Events</option>
+              </select>
+              <i class="fa-solid fa-chevron-down pu-select-icon"></i>
             </div>
           </div>
         </div>
 
-        <div class="rt-input-group">
-          <label class="rt-cyber-label">FILE_TITLE // Title (Optional)</label>
-          <input type="text" name="title" class="rt-cyber-input" placeholder="e.g., Sunset in Maldives">
+        <div class="pu-input-group reveal-item" style="--stagger: 4;">
+          <label class="pu-label">Media File</label>
+          <div class="pu-drop-zone" id="drop-zone">
+            <div class="pu-drop-content">
+              <div class="pu-drop-icon">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+              </div>
+              <span class="pu-drop-text">Drag & Drop or <strong>Browse Files</strong></span>
+              <span class="pu-drop-hint">Supports High-Res JPG, PNG, MP4</span>
+            </div>
+            <input type="file" name="file" id="file-input" required accept="image/*,video/mp4,video/mov" class="pu-hidden-input">
+            
+            <div class="pu-preview-container" id="preview-container" style="display: none;">
+              <img id="image-preview" src="" alt="Media Preview">
+              <button type="button" id="clear-preview" class="pu-clear-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+          </div>
         </div>
 
-        <div class="rt-input-group">
-          <label class="rt-cyber-label">META_DESC // Description (Optional)</label>
-          <textarea name="description" class="rt-cyber-input rt-textarea" rows="3" placeholder="Enter journey details..."></textarea>
+        <div class="pu-input-group reveal-item" style="--stagger: 5;">
+          <label class="pu-label">Media Title <span class="pu-optional">(Optional)</span></label>
+          <input type="text" name="title" class="pu-input" placeholder="e.g., Sunset arrival at the resort...">
         </div>
 
-        <div class="rt-input-group">
-          <label class="rt-cyber-label">DATA_TAG // Category</label>
-          <select name="category" class="rt-cyber-input rt-select" required>
-            <option value="Cars">Cars</option>
-            <option value="Tours">Tours</option>
-            <option value="Events">Events</option>
-          </select>
+        <div class="pu-input-group reveal-item" style="--stagger: 6;">
+          <label class="pu-label">Details & Context <span class="pu-optional">(Optional)</span></label>
+          <textarea name="description" class="pu-input pu-textarea" rows="3" placeholder="Provide background information for this archive entry..."></textarea>
         </div>
 
-        <div class="rt-action-group">
-          <button type="submit" class="rt-cyber-btn rt-submit-btn">
-            <span class="rt-btn-glow"></span>
-            <span class="rt-btn-text">[ INIT UPLOAD ]</span>
+        <div class="pu-actions reveal-item" style="--stagger: 7;">
+          <a href="/gallery" class="pu-btn-secondary">Cancel</a>
+          <button type="submit" class="pu-btn-primary rt-submit-btn">
+            <span>Commit to Archive</span>
+            <i class="fa-solid fa-arrow-right"></i>
           </button>
-          
-          <a href="/gallery" class="rt-cyber-btn-outline">
-            ABORT // BACK
-          </a>
         </div>
 
       </form>
@@ -99,16 +105,37 @@
 
 <%- include('./partials/footer') %>
 
+
 <script>
+  // --- 1. Top-Tier Animation Observer ---
+  document.addEventListener("DOMContentLoaded", function() {
+    const revealGroup = document.querySelector('.reveal-group');
+    if (!revealGroup) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active'); // Triggers the cascade
+          observer.unobserve(entry.target); // Only animates once
+        }
+      });
+    }, { root: null, rootMargin: "0px", threshold: 0.1 });
+
+    observer.observe(revealGroup);
+  });
+
+  // --- 2. Existing Drag and Drop Logic ---
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file-input');
   const previewContainer = document.getElementById('preview-container');
   const imagePreview = document.getElementById('image-preview');
   const clearBtn = document.getElementById('clear-preview');
-  const dropContent = document.querySelector('.rt-drop-content');
+  const dropContent = document.querySelector('.pu-drop-content');
 
   dropZone.addEventListener('click', (e) => {
-    if (e.target !== clearBtn) fileInput.click();
+    if (e.target !== clearBtn && e.target.closest('.pu-clear-btn') === null) {
+      fileInput.click();
+    }
   });
 
   ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -116,11 +143,17 @@
   });
 
   ['dragenter', 'dragover'].forEach(eventName => {
-    dropZone.addEventListener(eventName, () => dropZone.style.borderColor = '#10b981', false);
+    dropZone.addEventListener(eventName, () => {
+      dropZone.style.borderColor = '#10b981';
+      dropZone.style.background = 'rgba(16, 185, 129, 0.05)';
+    }, false);
   });
 
   ['dragleave', 'drop'].forEach(eventName => {
-    dropZone.addEventListener(eventName, () => dropZone.style.borderColor = 'rgba(16, 185, 129, 0.4)', false);
+    dropZone.addEventListener(eventName, () => {
+      dropZone.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+      dropZone.style.background = 'rgba(255, 255, 255, 0.02)';
+    }, false);
   });
 
   dropZone.addEventListener('drop', (e) => {
@@ -131,42 +164,27 @@
   fileInput.addEventListener('change', function() { handleFiles(this.files); });
 
   function handleFiles(files) {
-
-  if (!files.length) return;
-
-  const file = files[0];
-
-  if (file.type.startsWith('image/')) {
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      imagePreview.src = e.target.result;
-      previewContainer.style.display = 'block';
-      dropContent.style.opacity = '0';
-    };
-
-    reader.readAsDataURL(file);
-
-  } else {
-
-    // Hide preview for videos
-    previewContainer.style.display = 'none';
-    dropContent.style.opacity = '1';
-
+    if (!files.length) return;
+    const file = files[0];
+    if (file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        imagePreview.src = e.target.result;
+        previewContainer.style.display = 'block';
+        dropContent.style.opacity = '0';
+      };
+      reader.readAsDataURL(file);
+    } else {
+      previewContainer.style.display = 'none';
+      dropContent.style.opacity = '1';
+    }
   }
 
-}
-
-document.querySelector(".rt-cyber-form").addEventListener("submit", () => {
-
-  const btn = document.querySelector(".rt-submit-btn");
-
-  btn.disabled = true;
-
-  btn.innerHTML = "[ UPLOADING... ]";
-
-});
+  document.querySelector(".pu-form").addEventListener("submit", () => {
+    const btn = document.querySelector(".rt-submit-btn");
+    btn.disabled = true;
+    btn.innerHTML = '<span>[ UPLOADING... ]</span><i class="fa-solid fa-spinner fa-spin"></i>';
+  });
 
   clearBtn.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -176,6 +194,5 @@ document.querySelector(".rt-cyber-form").addEventListener("submit", () => {
     dropContent.style.opacity = '1';
   });
 </script>
-
 </body>
 </html>
