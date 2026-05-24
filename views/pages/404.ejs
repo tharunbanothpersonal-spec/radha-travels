@@ -1,21 +1,355 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head', { title }) %>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Radha Travels</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================
+       DESKTOP-FIRST Layout - Centered Title + Split
+       Theme: Emerald Green 
+    ========================================= */
+    :root {
+      --primary: #059669;       
+      --primary-hover: #047857; 
+      --primary-light: #d1fae5;
+      --text-dark: #0f172a;     
+      --text-muted: #475569;    
+      --bg-color: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 1. BASE STYLES (Desktop Default)
+      Spacious, side-by-side, natural height scrolling allowed.
+    */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+      background-size: 24px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 2rem 1.5rem;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-wrapper {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .top-header {
+      text-align: center;
+      margin-bottom: 1rem; /* Desktop breathing room */
+      animation: fadeDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .eyebrow-text {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: -0.5rem;
+      display: block;
+    }
+
+    .main-error-title {
+      font-size: clamp(4.5rem, 15vw, 8rem);
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      letter-spacing: -3px;
+      text-shadow: 0 10px 25px rgba(5, 150, 105, 0.1);
+      margin: 0;
+    }
+
+    /* Desktop: Side-by-side layout */
+    .split-container {
+      width: 100%;
+      display: flex;
+      flex-direction: row; 
+      align-items: center;
+      gap: 6rem;
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: 0.1s;
+      opacity: 0;
+    }
+
+    /* Desktop: Text left-aligned */
+    .content-side {
+      flex: 1;
+      text-align: left;
+      width: 100%;
+      max-width: 500px; 
+    }
+
+    .subtitle {
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle span {
+      color: var(--primary);
+    }
+
+    .description {
+      font-size: clamp(1rem, 2.5vw, 1.1rem);
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    /* Desktop: Buttons side-by-side */
+    .btn-group {
+      display: flex;
+      flex-direction: row; 
+      justify-content: flex-start;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-outline {
+      background-color: white;
+      color: var(--text-dark);
+      border: 2px solid #e2e8f0;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Desktop: Visuals natural size */
+    .visual-side {
+      flex: 1;
+      width: 100%;
+      max-width: 450px; 
+      position: relative;
+    }
+
+    .gif-frame {
+      position: relative;
+      background: white;
+      border-radius: 24px;
+      padding: 1rem;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08);
+      z-index: 2;
+    }
+
+    .gif-image {
+      width: 100%;
+      height: auto;
+      border-radius: 18px;
+      display: block;
+      mix-blend-mode: multiply; 
+    }
+
+    .visual-side::before {
+      content: '';
+      position: absolute;
+      top: -10%;
+      right: -10%;
+      width: 120%;
+      height: 120%;
+      background: var(--primary-light);
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      z-index: 1;
+      opacity: 0.7;
+      animation: morph 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes morph {
+      0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: rotate(0deg); }
+      100% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: rotate(5deg); }
+    }
+
+
+    /* 2. MOBILE ADJUSTMENTS 
+      Applies ONLY when screen is smaller than 992px.
+      Locks height to 100vh, compresses GIF, stacks layout.
+    */
+    @media (max-width: 991px) {
+      
+      body {
+        height: 100vh;
+        height: 100dvh; 
+        overflow: hidden; /* Strict scrolling disable */
+        padding: 1rem 1.5rem;
+      }
+
+      .page-wrapper {
+        height: 100%;
+        justify-content: center;
+      }
+
+      .top-header {
+        margin-bottom: 1rem; /* Tighter */
+      }
+
+      .eyebrow-text {
+        font-size: clamp(0.9rem, 3vw, 1.25rem);
+        margin-bottom: -0.25rem; 
+      }
+
+      .main-error-title {
+        /* Prevents breaking on very short phones */
+        font-size: clamp(3.5rem, 12vh, 6rem); 
+      }
+
+      /* Stack layout, image on top */
+      .split-container {
+        flex-direction: column-reverse;
+        gap: 1rem; 
+      }
+
+      /* Center text */
+      .content-side {
+        text-align: center;
+      }
+
+      .subtitle {
+        font-size: clamp(1.5rem, 4vh, 2.5rem);
+        margin-bottom: 0.5rem;
+      }
+
+      .description {
+        font-size: clamp(0.9rem, 2vh, 1.1rem);
+        margin-bottom: 1.25rem;
+      }
+
+      /* Stack buttons */
+      .btn-group {
+        flex-direction: row; 
+        /* max-width: 320px; */
+        margin: 0 auto;
+        gap: 0.75rem;
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+      }
+
+      /* Widen image container, squash height */
+      .visual-side {
+        max-width: 90%; 
+        flex: 0 0 auto;
+      }
+
+      .gif-frame {
+        padding: 0.5rem;
+        height: 60vh;
+        min-height: 120px;
+        max-height: 200px;
+        overflow: clip; /* Ensures it doesn't overflow the frame on short screens */
+      }
+
+      .gif-image {
+        height: auto;
+        object-fit: cover; /* Acts like a wide banner */
+        object-position: center;  
+        margin-top: -36px;
+
+      }
+
+      .visual-side::before {
+        top: -3%;
+        right: -3%;
+        width: 106%;
+        height: 106%;
+      }
+    }
+  </style>
 </head>
 <body>
-  <%- include('../partials/header') %>
 
-  <main class="section">
-    <div class="container" style="text-align:center; padding:40px 0;">
-      <h1>Page not found</h1>
-      <p class="muted">The page you requested doesn’t exist or has moved.</p>
-      <a class="btn primary" href="/">Back to Home</a>
-      <a class="btn outline" href="/services" style="margin-left:.5rem;">Browse Services</a>
+  <div class="page-wrapper">
+    
+    <header class="top-header">
+      <span class="eyebrow-text">Error</span>
+      <h1 class="main-error-title">404</h1>
+    </header>
+
+    <div class="split-container">
+      
+      <div class="content-side">
+        <h2 class="subtitle">Looks like you're <span>lost.</span></h2>
+        <p class="description">We can't seem to find the page you're looking for.</p>
+        
+        <div class="btn-group">
+          <a href="/" class="btn btn-primary">Back to Home</a>
+          <a href="/services" class="btn btn-outline">Browse Services</a>
+        </div>
+      </div>
+
+      <div class="visual-side">
+        <div class="gif-frame">
+          <img src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif" alt="Lost Animation" class="gif-image">
+        </div>
+      </div>
+
     </div>
-  </main>
 
-  <%- include('../partials/footer') %>
-  <%- include('../partials/social-dock') %>
+  </div>
+
 </body>
 </html>
