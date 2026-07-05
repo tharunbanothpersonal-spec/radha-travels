@@ -92,7 +92,7 @@ a{color:inherit;text-decoration:none}
 }
 .header-wrap{height:70px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
-.brand-logo{height:48px;width:auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
+.brand-logo{height:65px;width:auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
 .brand-name{font-weight:700;font-size:1.25rem;color:#ecfdf5;letter-spacing:.3px;text-shadow:0 2px 4px rgba(0,0,0,.25)}
 /* 1. The Physical Dark Plate */
 .premium-plate {
