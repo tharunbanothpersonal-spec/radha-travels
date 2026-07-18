@@ -14,6 +14,7 @@ import rateLimit from 'express-rate-limit'; // 🚀 FIX: Imported rate limiter f
 import blogPosts from "../data/blogData.js";
 import tourData from "../data/tourData.js";
 
+
 import dotenv from "dotenv";
 dotenv.config();
 import cloudinary from "./cloudinary.js";
@@ -28,10 +29,12 @@ import galleryRoutes from './routes/galleryRoutes.js';
 import fleetRoutes from './routes/fleet.routes.js';
 import testimonialsRoutes from './routes/testimonials.routes.js';
 
+
 // Admin (NEW SYSTEM)
 import adminAuth from './admin/admin.auth.js';
 import adminRoutes from './admin/admin.routes.js';
 import { requireAdmin } from './admin/admin.middleware.js';
+
 
 // Data
 import { SERVICES, SEGMENTS } from '../data/services.js';
@@ -561,6 +564,7 @@ app.post('/track-booking', async (req, res) => {
 app.use('/gallery', galleryRoutes);
 app.use('/fleet', fleetRoutes);
 app.use(testimonialsRoutes);
+
 
 // ABOUT US PAGE
 app.get("/about", (req, res) => {
