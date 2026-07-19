@@ -480,7 +480,7 @@ export const tourData = {
     galleryImage4: '/images/hampi/hampi-lotus-mahal.webp',
     galleryImage5: '/images/hampi/hampi-elephant-stables.webp',
     nearbyAttractions: [
-      { name: 'Tungabhadra Dam', desc: 'A massive dam offering beautiful sunset views and a musical fountain.', img: '/images/hampi/tb-dam.webptb-dam.webp' },
+      { name: 'Tungabhadra Dam', desc: 'A massive dam offering beautiful sunset views and a musical fountain.', img: '/images/hampi/tb-dam.webp' },
       { name: 'Matanga Hill', desc: 'The highest point in Hampi, offering spectacular panoramic sunrise and sunset views of the ruins.', img: '/images/hampi/matanga-hill.webp' },
       { name: 'Anjaneya Hill (Kishkindha)', desc: 'Believed to be the birthplace of Lord Hanuman, reachable by climbing 570 steps.', img: '/images/hampi/anjaneya-hill.webp' }
     ],
