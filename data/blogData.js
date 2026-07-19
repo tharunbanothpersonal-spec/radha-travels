@@ -97,7 +97,7 @@ export const blogPosts = [
     slug: 'srisailam-ghat-road-timings-night-driving',
     title: 'Srisailam Ghat Road Timings & Night Driving Safety (2026 Update)',
     excerpt: 'Planning a trip to Mallikarjuna Swamy? Learn about the strict Nallamala forest check-post timings, ghat road safety, and why night driving is banned.',
-    image: '/images/blog/Srisailam_Ghat.webp',
+    image: '/images/blog/Srisailam_Ghat.WEBP',
     date: '2026-04-01',
     quickFacts: {
       distance: '60 km Forest Ghat',
@@ -1263,7 +1263,7 @@ export const blogPosts = [
     slug: 'innova-crysta-rental-hyderabad-outstation',
     title: 'Innova Crysta Rental in Hyderabad: The Ultimate SUV for Outstation Trips (2026)',
     excerpt: 'Planning a family road trip? Find out why booking an Innova Crysta rental in Hyderabad is the safest and most comfortable choice for long journeys.',
-    image: '/images/blog/Innova_blog.webp',
+    image: '/images/blog/Innova_blog.WEBP',
     date: '2026-03-29',
     quickFacts: {
       distance: '300 km Min / Day Requirement',
