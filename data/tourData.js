@@ -460,7 +460,7 @@ export const tourData = {
 
   hampi: {
     name: 'Hampi',
-    heroImage: '/images/hampi/hampi-main.webp',
+    heroImage: '/images/hampi/Hampi-main.webp',
     intro: 'Step back in time and explore the magnificent ruins of the Vijayanagara Empire. Let Radha Travels handle the drive while you prepare for a historic weekend getaway.',
     introTitle: 'Hyderabad to Hampi Route & Distance',
     distanceInfo: 'The road distance from Hyderabad to Hampi is approximately 380 km. The journey typically takes around 7.5 to 8.5 hours depending on traffic and rest stops.',

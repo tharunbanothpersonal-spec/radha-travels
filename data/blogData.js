@@ -1805,7 +1805,7 @@ export const blogPosts = [
     slug: 'corporate-travel-logistics-fleet-management-hyderabad',
     title: 'Seamless Corporate Travel: Managing Monthly Transport Billing and Fleet Bookings',
     excerpt: 'Streamline employee transit and team-building offsites with our sanitized fleets, monthly invoicing, and priority corporate booking systems.',
-    image: '/images/blog/corporate_blog.webp',
+    image: '/images/blog/Corporate_blog.webp',
     date: '2026-07-25',
     quickFacts: {
       distance: 'B2B Customized Layout',
