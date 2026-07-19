@@ -553,20 +553,38 @@
 
     <article class="ui-card cms-content reveal-on-scroll" id="mainArticleBody">
       
-      <div class="quick-facts">
-        <div class="fact-item">
-          <div class="fact-label"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg> Distance</div>
-          <div class="fact-value">Approx. 450 km</div>
-        </div>
-        <div class="fact-item">
-          <div class="fact-label"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Time</div>
-          <div class="fact-value">8-9 Hours</div>
-        </div>
-        <div class="fact-item">
-          <div class="fact-label"><svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08-.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Starting Fare</div>
-          <div class="fact-value">₹12/km (SUV)</div>
-        </div>
+      <!-- views/blog-show.ejs -->
+
+<% if (post.quickFacts) { %>
+  <div class="quick-facts">
+    <div class="fact-item">
+      <div class="fact-label">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        </svg> Distance
       </div>
+      <div class="fact-value"><%= post.quickFacts.distance %></div>
+    </div>
+    
+    <div class="fact-item">
+      <div class="fact-label">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg> Time
+      </div>
+      <div class="fact-value"><%= post.quickFacts.time %></div>
+    </div>
+    
+    <div class="fact-item">
+      <div class="fact-label">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08-.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg> Starting Fare
+      </div>
+      <div class="fact-value"><%= post.quickFacts.fare %></div>
+    </div>
+  </div>
+<% } %>
 
       <%- post.content.replace(/<table/g, '<div class="table-wrapper"><table').replace(/<\/table>/g, '</table></div>') %>
 <!-- FAQ Section -->
