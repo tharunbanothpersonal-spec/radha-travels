@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta property="og:url" content="https://www.radhatravels.co.in/blog/<%= post.slug %>" />
+  <link rel="canonical" href="https://www.radhatravels.co.in/blog/<%= post.slug %>" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="<%= post.title %>" />
 <meta property="og:description" content="<%= post.excerpt %>" />
@@ -16,8 +17,10 @@
  "description": "<%= post.excerpt %>",
  "image": "https://www.radhatravels.co.in<%= post.image %>",
  "author": {
-   "@type": "Organization",
-   "name": "Radha Travels"
+   "@type": "Person",
+   "name": "Banoth Radha",
+   "jobTitle": "Owner & Travel Logistics Expert",
+   "url": "https://www.radhatravels.co.in"
  },
  "publisher": {
    "@type": "Organization",
@@ -554,34 +557,33 @@
     <article class="ui-card cms-content reveal-on-scroll" id="mainArticleBody">
       
       <!-- views/blog-show.ejs -->
-
 <% if (post.quickFacts) { %>
   <div class="quick-facts">
     <div class="fact-item">
       <div class="fact-label">
         <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg> Distance
+        </svg> <%= post.quickFacts.label1 || 'Distance' %>
       </div>
-      <div class="fact-value"><%= post.quickFacts.distance %></div>
+      <div class="fact-value"><%= post.quickFacts.value1 || post.quickFacts.distance %></div>
     </div>
     
     <div class="fact-item">
       <div class="fact-label">
         <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg> Time
+        </svg> <%= post.quickFacts.label2 || 'Time' %>
       </div>
-      <div class="fact-value"><%= post.quickFacts.time %></div>
+      <div class="fact-value"><%= post.quickFacts.value2 || post.quickFacts.time %></div>
     </div>
     
     <div class="fact-item">
       <div class="fact-label">
         <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08-.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg> Starting Fare
+        </svg> <%= post.quickFacts.label3 || 'Starting Fare' %>
       </div>
-      <div class="fact-value"><%= post.quickFacts.fare %></div>
+      <div class="fact-value"><%= post.quickFacts.value3 || post.quickFacts.fare %></div>
     </div>
   </div>
 <% } %>
@@ -611,6 +613,23 @@
         </div>
       </div>
       <% } %>
+
+<!-- Helpful Feedback Box -->
+<div class="feedback-box" style="background: var(--bg-body); padding: 20px; border-radius: 12px; border: 1px solid var(--border-line); text-align: center; margin: 30px 0;">
+  <p style="font-weight: 700; color: var(--text-hero); margin-bottom: 12px;">Did you find this travel guide helpful?</p>
+  <div style="display: flex; justify-content: center; gap: 12px;" id="feedbackButtons">
+    <button onclick="handleFeedback(true)" style="padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border-line); background: #fff; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #16a34a;">
+      👍 Yes
+    </button>
+    <button onclick="handleFeedback(false)" style="padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border-line); background: #fff; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; color: #dc2626;">
+      👎 Needs Improvement
+    </button>
+  </div>
+  <p id="feedbackResponse" style="font-size: 13px; font-weight: 600; color: var(--brand-primary); margin-top: 10px; display: none;">Thank you for your feedback! 🙏</p>
+</div>
+
+
+
       <div class="article-footer">
         <div class="tags-container">
           <span class="tag">#TravelGuide</span>
@@ -702,8 +721,9 @@
       if (headings.length > 0) {
         tocWidget.style.display = 'block'; 
         
-        headings.forEach((heading, index) => {
-          const id = 'section-' + index;
+        headings.forEach((heading) => {
+          // Creates an SEO-friendly slug from the actual heading text
+          const id = heading.innerText.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
           heading.id = id;
           
           const li = document.createElement('li');
@@ -811,7 +831,12 @@
   "headline": post.title,
   "description": post.excerpt,
   "image": post.image ? ["https://radhatravels.co.in" + post.image] : undefined,
-  "author": { "@type": "Organization", "name": "Radha Travels" },
+  "author": {
+   "@type": "Person",
+   "name": "Banoth Radha",
+   "jobTitle": "Owner & Travel Logistics Expert",
+   "url": "https://www.radhatravels.co.in"
+ },
   "publisher": {
     "@type": "Organization",
     "name": "Radha Travels",
@@ -823,6 +848,14 @@
   "articleSection": "Travel Guide",
   "inLanguage": "en-IN"
 }, null, 2) %>
+</script>
+<script>
+  function handleFeedback(isHelpful) {
+    document.getElementById('feedbackButtons').style.display = 'none';
+    const resp = document.getElementById('feedbackResponse');
+    resp.innerText = isHelpful ? 'Thank you for your feedback! Glad we could help. 🙏' : 'Thanks for letting us know! We will keep updating this guide.';
+    resp.style.display = 'block';
+  }
 </script>
 
 </body>

@@ -1928,6 +1928,187 @@ export const blogPosts = [
       <p>By booking our premium fleet setups, your family is guaranteed an expert chauffeur who understands regional traffic diversions, alternative emergency tracks, and the safest parking drop zones close to the Tier-1 ghats. Check out our <a href="/blog/best-outstation-cab-service-in-hyderabad">Best Outstation Cab Pricing Matrix</a> to start planning your 2027 devotional itinerary today.</p>
     `,
   },
+  {
+    slug: 'ultimate-pilgrimage-packing-checklist-south-india',
+    title: 'The Ultimate Pilgrimage Packing Checklist for South Indian Temples (2026)',
+    excerpt: 'Don’t let a forgotten item ruin your Darshan. Discover exactly what to pack for a South Indian temple trip, including dress codes, medical kits, and electronics rules.',
+    image: '/images/blog/packing-guide.webp',
+    date: '2026-07-22',
+    quickFacts: {
+      label1: 'Post Type',
+      value1: 'Preparation Guide',
+      label2: 'Target Audience',
+      value2: 'Families & Seniors',
+      label3: 'Focus',
+      value3: 'Temple Compliance'
+    },
+    content: `
+      <p>Embarking on a sacred pilgrimage to powerful destinations like Tirupati, Srisailam, or Arunachalam requires more than just devotion—it requires meticulous preparation. Unlike a casual weekend resort getaway, temple trips involve specific dress codes, long walking distances, and strict security protocols regarding what you can and cannot carry.</p>
+
+      <h2>1. The Strict Temple Dress Code</h2>
+      <p>South Indian temples enforce rigorous traditional dress codes to maintain the sanctity of the premises. If you arrive in non-compliant clothing, you will be denied entry or forced to buy temporary dhotis at inflated prices outside the gates.</p>
+      <ul>
+        <li><strong>For Men:</strong> Pack traditional Dhotis (Pancha) or Pyjamas with upper cloth. Formal shirts and formal trousers are allowed in most places, but strictly avoid jeans, shorts, and sleeveless t-shirts.</li>
+        <li><strong>For Women:</strong> Sarees, half-sarees, or Chudidars with a dupatta are mandatory. Western wear, leggings without kurtas, and short dresses are strictly prohibited.</li>
+      </ul>
+
+      <h2>2. Footwear & The "Barefoot" Challenge</h2>
+      <p>You will spend 70% of your pilgrimage walking barefoot. Whether you are doing the 14km Girivalam in Arunachalam or waiting in the queue complexes of Tirumala, foot care is critical.</p>
+      <ul>
+        <li><strong>Slip-on Shoes:</strong> Avoid lace-up boots. You will take your shoes off frequently. Wear sturdy slip-on shoes or high-quality sandals for the journey.</li>
+        <li><strong>Thick Cotton Socks:</strong> While shoes are banned inside the temple, many temples (like Tirupati and Shirdi) allow you to wear thick socks. This protects your feet from the scorching hot stone floors during summer afternoons.</li>
+      </ul>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>The Electronics Ban</strong>
+          <p>Almost all major temples (Tirupati, Srisailam, Shirdi) strictly ban mobile phones, smartwatches, and cameras inside the main complexes. Leave a small, sturdy lockbox in your travel bag so you can securely leave these items inside your locked cab before joining the queue.</p>
+        </div>
+      </div>
+
+      <h2>3. The On-the-Road Medical Kit</h2>
+      <p>Highway food and winding ghat roads can easily upset stomachs. Always pack a dedicated pouch containing:</p>
+      <ul>
+        <li>Anti-nausea medication (crucial for the Srisailam and Tirumala ghat roads).</li>
+        <li>Pain relief sprays for knees and calves after long Darshan queues.</li>
+        <li>Electrolyte powders (ORS) to prevent dehydration during summer trips.</li>
+      </ul>
+
+      <blockquote>
+        "A peaceful mind is the best offering you can bring to a temple. Packing correctly ensures you spend your time praying, not panicking over a missing phone locker or the wrong trousers."
+      </blockquote>
+
+      <h2>Let Us Handle the Heavy Lifting</h2>
+      <p>When you book an outstation trip with Radha Travels, you don't have to worry about cramming everything into a tiny boot. Our premium SUVs offer massive luggage capacity. More importantly, our trusted chauffeurs act as your personal secure lockers, guarding your phones and valuables in the car while you peacefully complete your Darshan. Check out our <a href="/fleet">spacious fleet options</a> today.</p>
+    `,
+  },
+  {
+    slug: 'sedan-vs-suv-outstation-cab-booking-guide',
+    title: 'Sedan vs. Innova Crysta: Which Cab Should You Book for Long Road Trips?',
+    excerpt: 'Struggling to choose between a budget sedan and a premium SUV for your next family trip? We break down the costs, comfort levels, and best use cases for both.',
+    image: '/images/blog/outstation.jpg',
+    date: '2026-07-24',
+    quickFacts: {
+      label1: 'Comparison',
+      value1: 'Comfort vs. Cost',
+      label2: 'Vehicle Types',
+      value2: 'Dzire vs. Innova',
+      label3: 'Reading Time',
+      value3: '5 Mins'
+    },
+    content: `
+      <p>The vehicle you choose for a 12-hour road trip is just as important as the hotel you book. When planning a journey from Hyderabad to destinations like Shirdi, Hampi, or Tirupati, the most common dilemma travelers face is: <em>"Should we save money by booking a Sedan, or upgrade to a premium SUV like the Innova Crysta?"</em></p>
+
+      <h2>The Case for the Sedan (Dzire / Etios)</h2>
+      <p>Sedans are the workhorses of the Indian highway. They are incredibly reliable, highly fuel-efficient, and budget-friendly.</p>
+      <ul>
+        <li><strong>Cost Savings:</strong> With billing rates generally hovering around ₹11.50/km, a sedan is up to 40% cheaper than a premium SUV.</li>
+        <li><strong>Best For:</strong> Couples, solo business travelers, or small families (2 adults and 1 child).</li>
+        <li><strong>The Drawback:</strong> Limited luggage space (especially if the vehicle has a CNG tank), and the lower seating position means you feel the bumps of bad roads much more intensely than in an SUV.</li>
+      </ul>
+
+      <h2>The Case for the Premium SUV (Innova Crysta)</h2>
+      <p>The Toyota Innova Crysta is universally recognized as the undisputed king of Indian outstation travel. It is categorized as a premium lounge on wheels.</p>
+      <ul>
+        <li><strong>Unmatched Comfort:</strong> Featuring middle-row captain seats that recline fully with dedicated armrests, it eliminates back pain and fatigue.</li>
+        <li><strong>Superior Suspension:</strong> The heavy ladder-frame chassis absorbs highway potholes and handles the sharp curves of ghat roads (like Srisailam) with zero body-roll, drastically reducing motion sickness.</li>
+        <li><strong>Best For:</strong> Groups of 4 to 6 people, trips exceeding 6 hours, and families traveling with senior citizens.</li>
+      </ul>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>The "Ertiga" Middle Ground</strong>
+          <p>If a Sedan is too small but a Crysta stretches your budget, the standard SUV segment (like the Maruti Ertiga or Kia Carens) is the perfect compromise. Priced around ₹14.50/km, it offers 6 seats and decent AC cooling, making it the most popular choice for mid-sized middle-class families.</p>
+        </div>
+      </div>
+
+      <h2>Which Route Demands Which Car?</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Destination Route</th>
+            <th>Recommended Vehicle</th>
+            <th>Why?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Hyderabad to Bidar (3 Hrs)</td>
+            <td>Sedan</td>
+            <td>Short distance, smooth 4-lane highways. No need to overspend.</td>
+          </tr>
+          <tr>
+            <td>Hyderabad to Srisailam (5 Hrs)</td>
+            <td>Standard SUV / Premium SUV</td>
+            <td>The winding forest ghats require a higher vehicle stance to prevent nausea.</td>
+          </tr>
+          <tr>
+            <td>Hyderabad to Shirdi (12 Hrs)</td>
+            <td>Innova Crysta</td>
+            <td>12 hours of driving requires captain seats to sleep comfortably through the night.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        "Never compromise on space when traveling with the elderly. The extra ₹3,000 spent on a premium SUV pays for itself when your parents arrive at the temple without back pain."
+      </blockquote>
+
+      <p>Still unsure which car fits your family and luggage? View our complete <a href="/fleet">fleet gallery and pricing</a>, or call the Radha Travels desk to get a personalized recommendation based on your exact itinerary!</p>
+    `,
+  },
+  {
+    slug: 'srisailam-ropeway-boat-ride-guide-patalaganga',
+    title: 'Patalaganga Ropeway & Boat Ride in Srisailam: Timings & Ticket Guide (2026)',
+    excerpt: 'Complete your Srisailam pilgrimage with a thrilling ride. Here are the 2026 timings, ticket prices, and tips for the AP Tourism ropeway and Krishna River boat rides.',
+    image: '/images/srisailam/pathala-ganga.jpg',
+    date: '2026-07-26',
+    quickFacts: {
+      label1: 'Activity',
+      value1: 'Ropeway & Boating',
+      label2: 'Operational Timings',
+      value2: '6:00 AM - 5:30 PM',
+      label3: 'Best Time',
+      value3: 'Early Morning'
+    },
+    content: `
+      <p>While the Mallikarjuna Jyotirlinga is the spiritual heart of Srisailam, the majestic Krishna River—flowing fiercely through the Nallamala gorge—is its lifeblood. The sacred spot where devotees take a holy dip is known as <strong>Patalaganga</strong>. Reaching these waters has become an adventure in itself, thanks to the spectacular ropeway and boating services operated by the tourism department.</p>
+
+      <h2>The Srisailam Ropeway Experience</h2>
+      <p>Historically, devotees had to walk down over 500 steep, exhausting stone steps to reach the riverbed. Today, the APTDC (Andhra Pradesh Tourism Development Corporation) operates a thrilling aerial ropeway (cable car) that makes the descent effortless and visually stunning.</p>
+      
+      <ul>
+        <li><strong>The View:</strong> As the glass cabin glides down the steep mountain face, you get an uninterrupted, panoramic view of the lush green Nallamala forests and the sparkling waters of the Krishna River.</li>
+        <li><strong>Timings:</strong> Operations usually begin at <strong>6:00 AM</strong> and strictly close at <strong>5:30 PM</strong>. (Operations are temporarily halted during heavy winds or severe thunderstorms).</li>
+        <li><strong>Ticket Pricing (2026):</strong> Tickets are incredibly affordable, generally costing around ₹70 to ₹100 for a two-way (round) trip for adults.</li>
+      </ul>
+
+      <h2>Boating on the Krishna River</h2>
+      <p>Once you reach the Patalaganga riverbed, you have the opportunity to take a motorboat ride on the deep waters of the Krishna River, right near the shadow of the massive Srisailam Dam.</p>
+      
+      <ul>
+        <li><strong>Joy Rides:</strong> Short 20-minute circular joy rides are available continuously throughout the day. It is a fantastic experience for children and offers great photo opportunities.</li>
+        <li><strong>The Akkamahadevi Cave Trip:</strong> For the adventurous, a special 1-hour boat journey takes you deep into the gorge to the ancient, naturally formed Akkamahadevi Caves. This specific boat usually departs only when a minimum quota of passengers is met, often around 10:30 AM.</li>
+      </ul>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Beat the Afternoon Rush</strong>
+          <p>The queue for the ropeway can easily exceed 2 hours during weekends and public holidays. To avoid standing in the blazing afternoon sun, head to Patalaganga directly at 6:30 AM right after your morning coffee. The mist over the river at this hour is magical.</p>
+        </div>
+      </div>
+
+      <blockquote>
+        "Taking the ropeway down to Patalaganga transforms a traditional pilgrimage into a breathtaking nature retreat. It bridges the gap between ancient devotion and modern engineering."
+      </blockquote>
+
+      <h2>Seamless Local Sightseeing</h2>
+      <p>When you book a 2-day outstation package with Radha Travels, your vehicle stays with you for all local transport. Our drivers will drop you right at the ropeway ticketing counter entrance and wait securely in the parking lot while you enjoy your boat ride. Explore our <a href="/blog/hyderabad-to-srisailam-2-day-package">Srisailam 2-Day Package Guide</a> to plan your perfect itinerary.</p>
+    `,
+  },
 ];
 
 export function generateFAQ(slug, title) {
@@ -2153,6 +2334,48 @@ export function generateFAQ(slug, title) {
     ];
   }
 
+  // 🔥 Packing & Prep Cluster
+  if (s.includes('packing') || s.includes('checklist')) {
+    return [
+      {
+        question: "What is the dress code for South Indian temples?",
+        answer: "Most major South Indian temples strictly require traditional wear. Men should wear dhotis or formal pants with shirts (no shorts or jeans). Women must wear sarees, half-sarees, or chudidars with a dupatta."
+      },
+      {
+        question: "Can I carry my mobile phone inside Tirupati or Srisailam?",
+        answer: "No. Mobile phones, smartwatches, and cameras are strictly prohibited inside the main temple complexes of Tirupati, Srisailam, and Shirdi. You must leave them in secure lockers or safely locked inside your booked cab."
+      }
+    ];
+  }
+
+  // 🔥 Vehicle Comparison Cluster
+  if (s.includes('sedan-vs-suv') || s.includes('vehicle')) {
+    return [
+      {
+        question: "Is an Innova Crysta better than a sedan for outstation trips?",
+        answer: "Yes, for trips exceeding 5 hours, an Innova Crysta offers superior comfort with reclining captain seats, better suspension for rough roads, and dual AC, making it ideal for families and senior citizens."
+      },
+      {
+        question: "What is the cheapest outstation cab from Hyderabad?",
+        answer: "A standard 4-seater Sedan (like a Swift Dzire or Toyota Etios) is the most economical option, typically starting around ₹11.50 per kilometer."
+      }
+    ];
+  }
+
+  // 🔥 Ropeway & Boat Cluster
+  if (s.includes('ropeway') || s.includes('patalaganga')) {
+    return [
+      {
+        question: "What are the timings for the Srisailam ropeway?",
+        answer: "The AP Tourism ropeway at Srisailam Patalaganga generally operates from 6:00 AM to 5:30 PM, subject to weather and wind conditions."
+      },
+      {
+        question: "How do I reach Akkamahadevi Caves in Srisailam?",
+        answer: "The Akkamahadevi Caves can only be reached by taking a dedicated 1-hour motorboat ride operated by the tourism department from the Patalaganga riverbed."
+      }
+    ];
+  }
+
   // 🔥 Default fallback for general travel blogs
   return [
     {
@@ -2166,8 +2389,15 @@ export function generateFAQ(slug, title) {
   ];
 }
 
+// Calculate dynamic reading time (Average reading speed = 200 words/min)
 blogPosts.forEach(post => {
   post.faq = generateFAQ(post.slug, post.title);
+  
+  // Clean HTML tags and count words
+  const text = post.content.replace(/<[^>]*>/g, '');
+  const wordCount = text.trim().split(/\s+/).length;
+  const minutes = Math.ceil(wordCount / 200);
+  post.readTime = `${minutes} min read`;
 });
 
 export default blogPosts;
