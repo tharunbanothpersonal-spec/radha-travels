@@ -1987,7 +1987,7 @@ export const blogPosts = [
     slug: 'sedan-vs-suv-outstation-cab-booking-guide',
     title: 'Sedan vs. Innova Crysta: Which Cab Should You Book for Long Road Trips?',
     excerpt: 'Struggling to choose between a budget sedan and a premium SUV for your next family trip? We break down the costs, comfort levels, and best use cases for both.',
-    image: '/images/blog/outstation.jpg',
+    image: '/images/blog/Innova-vs-Dzire.webp',
     date: '2026-07-24',
     quickFacts: {
       label1: 'Comparison',
