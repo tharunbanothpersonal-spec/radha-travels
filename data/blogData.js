@@ -22,7 +22,7 @@ export const blogPosts = [
         <li><strong>Leg 3 (Kadapa to Chittoor):</strong> Approx 170 KM. The road narrows to a 2-lane highway here. Traffic gets heavier, so expect your average speed to drop.</li>
         <li><strong>Leg 4 (Chittoor via Vellore to Arunachalam):</strong> Approx 75 KM. You will cross the Tamil Nadu border. The roads are good, but local village traffic is dense.</li>
       </ul>
-
+      [BOOKING_BANNER] <!--for booking banner -->
       <h2>Estimated Toll Charges (FASTag)</h2>
       <p>Toll plazas are frequent on this route, especially on the NH44 stretch. Ensure your FASTag has a sufficient balance before leaving Hyderabad.</p>
 
@@ -2882,6 +2882,218 @@ export const blogPosts = [
       <p>Because of the 9-hour drive, a minimum 3-day trip is necessary. Enjoy the luxury of reclining in an Innova Crysta while our expert drivers navigate the challenging ghat roads safely. Explore our <a href="/fleet">premium SUV packages</a> and plan your Maredumilli escape today.</p>
     `,
   },
+  {
+    slug: 'hyderabad-to-kaleshwaram-temple-project-road-trip',
+    title: 'Hyderabad to Kaleshwaram: 2026 Temple & Lift Irrigation Project Road Trip',
+    excerpt: 'Witness the meeting point of three rivers and the world’s largest multi-stage lift irrigation project. A complete road trip guide from Hyderabad to Kaleshwaram.',
+    image: 'https://images.unsplash.com/photo-1588724559591-628d3618bf5d?auto=format&fit=crop&q=80',
+    date: '2026-08-20',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '260 KM',
+      label2: 'Travel Time',
+      value2: '5 Hours',
+      label3: 'Highlight',
+      value3: 'Triveni Sangamam'
+    },
+    content: `
+      <p>Situated in the Jayashankar Bhupalpally district, <strong>Kaleshwaram</strong> has recently transformed from a quiet, ancient temple town into a symbol of modern engineering marvels. Today, a road trip from Hyderabad to Kaleshwaram offers a rare, fascinating blend of deep spirituality and breathtaking civic infrastructure.</p>
+
+      <h2>The Route and Highway Conditions</h2>
+      <p>The journey from Hyderabad spans roughly 260 kilometers. Because of the heavy government focus on this region, the roads are spectacularly maintained.</p>
+      
+      <ul>
+        <li><strong>The Highway Route:</strong> The most direct and comfortable route is taking the Rajiv Rahadari (State Highway 1) from Hyderabad towards Siddipet, continuing through Karimnagar and Manthani, before reaching Kaleshwaram.</li>
+        <li><strong>Driving Experience:</strong> The 4-lane stretch up to Karimnagar allows for rapid, smooth driving. The final stretch from Manthani transitions into lush, green two-lane roads cutting through the Godavari river basin.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=1200&q=80" alt="Smooth highway surrounded by green farmlands" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The Rajiv Rahadari highway offers an exceptionally smooth drive towards Karimnagar.</p>
+
+      <h2>Stop 1: Sri Kaleshwara Mukteswara Swamy Temple</h2>
+      <p>This ancient temple holds immense significance in Shaivism. It is famously recognized as the "Triveni Sangamam" of the South, marking the confluence of three rivers: the Godavari, the Pranahita, and the invisible Saraswati.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Temple Features</th>
+              <th>Spiritual Significance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Two Shiva Lingams</strong></td>
+              <td>It is the only temple in the world where two Shiva Lingams rest on a single pedestal—one representing Lord Shiva (Mukteswara) and the other Lord Yama (Kaleshwara).</td>
+            </tr>
+            <tr>
+              <td><strong>The Holy Dip</strong></td>
+              <td>Devotees traditionally take a holy bath at the Sangamam (confluence) before entering the temple, believing it washes away past sins.</td>
+            </tr>
+            <tr>
+              <td><strong>Matsya Gundam</strong></td>
+              <td>A sacred pool near the temple where devotees feed thousands of fish, a practice believed to bring good fortune.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80" alt="Ancient Indian temple architecture" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <h2>Stop 2: The Kaleshwaram Lift Irrigation Project (KLIP)</h2>
+      <p>Just a short drive from the temple is the world’s largest multi-stage lift irrigation project. This massive engineering feat is a must-visit for curious travelers.</p>
+      
+      <p>Tourists are allowed to view the <strong>Lakshmi Barrage (Medigadda)</strong>, where massive concrete piers hold back the roaring Godavari River. When the crest gates are lifted during the monsoon, the sheer volume of water cascading through is a phenomenal, thunderous sight. <em>Note: Access to the underground pump houses requires prior government permission.</em></p>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Outstation Cab Advantage</strong>
+          <p>Navigating between the temple, the various barrages, and the boating points requires local knowledge. Booking a full-day outstation SUV ensures you have a dedicated vehicle to explore both the ancient ruins and the massive modern dams without haggling for local transport.</p>
+        </div>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1506462945848-ac8ea879c933?auto=format&fit=crop&w=1200&q=80" alt="Vast river waters near a massive concrete barrage" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <h2>Plan Your Kaleshwaram Journey</h2>
+      <p>A 5-hour drive each way means this is best experienced as an overnight weekend trip. Let our expert chauffeurs navigate the Godavari basin while you relax. Check our <a href="/fleet">premium outstation fleet</a> to book your ride.</p>
+    `,
+  },
+  {
+    slug: 'hyderabad-to-somasila-weekend-camping-boating-guide',
+    title: 'Hyderabad to Somasila: 2026 Weekend Guide to River Camping & Boating',
+    excerpt: 'Escape to the serene backwaters of the Krishna River! Discover eco-tourism camping, coracle boat rides, and the rescued temples of Somasila.',
+    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&q=80',
+    date: '2026-08-22',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '180 KM',
+      label2: 'Travel Time',
+      value2: '3.5 - 4 Hours',
+      label3: 'Vibe',
+      value3: 'Eco-Tourism & Camping'
+    },
+    content: `
+      <p>If you are searching for a peaceful, uncrowded alternative to Srisailam, look no further than <strong>Somasila</strong>. Located in the Nagarkurnool district, this scenic village sits on the backwaters of the Krishna River, enveloped by the lush Nallamala Hills. Over the last two years, it has quietly become Telangana's premier eco-tourism and riverfront camping destination.</p>
+
+      <h2>The Route: A Drive into Nature</h2>
+      <p>The journey from Hyderabad is approximately 180 kilometers and takes under 4 hours, making it highly accessible for a quick weekend escape.</p>
+      
+      <ul>
+        <li><strong>The Highway Path:</strong> Depart Hyderabad via the NH765 (the Srisailam highway) towards Kalwakurthy. At Kalwakurthy, you take a diversion towards Kollapur, driving straight into Somasila.</li>
+        <li><strong>The Landscape:</strong> As you cross Kollapur, the landscape transforms dramatically. The flat plains give way to dense greenery, rocky hillocks, and sudden, sweeping views of the vast Krishna River backwaters.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1506462945848-ac8ea879c933?auto=format&fit=crop&w=1200&q=80" alt="Lush green hills meeting vast, calm river waters" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The breathtaking backwaters of the Krishna River at Somasila.</p>
+
+      <h2>Somasila Eco-Tourism: Camping & Boating</h2>
+      <p>Telangana Tourism has heavily invested in developing Somasila into an eco-retreat without ruining its raw natural beauty.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Activities</th>
+              <th>The Experience</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Riverside Cottages</strong></td>
+              <td>AP Tourism operates beautiful, eco-friendly wooden cottages right on the banks of the river, offering spectacular sunrise views straight from your balcony.</td>
+            </tr>
+            <tr>
+              <td><strong>Coracle Rides</strong></td>
+              <td>Experience a traditional round-boat (coracle) ride on the calm backwaters. It is incredibly peaceful and perfect for bird-watching.</td>
+            </tr>
+            <tr>
+              <td><strong>Riverfront Camping</strong></td>
+              <td>During the winter months (November-January), several private operators set up Swiss tents and bonfires on the sandy riverbanks for night camping under the stars.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=1200&q=80" alt="A glowing camping tent pitched near a quiet lake at night" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <h2>The Rescued Temples of Somasila</h2>
+      <p>Somasila is deeply historic. When the Srisailam Dam was constructed, many ancient temples along the riverbed were threatened by submergence. The Archaeological Survey of India painstakingly dismantled 15 of these ancient temples block-by-block and reconstructed them safely on higher ground in Somasila.</p>
+      
+      <p>The primary shrine is the <strong>Sri Lalitha Someswara Swamy Temple</strong>, surrounded by several smaller, beautifully reconstructed shrines that date back to the 7th century. Walking through this temple complex feels like walking through an open-air museum.</p>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Food and Cash Warning</strong>
+          <p>Somasila is a quiet village, not a bustling tourist trap. While the Tourism Haritha resort has a restaurant, standalone high-quality dining options are limited. Carry your own snacks, and ensure you have enough physical cash, as UPI networks can be patchy near the hills.</p>
+        </div>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1590396443006-21873138b7e2?auto=format&fit=crop&w=1200&q=80" alt="Ancient stone temples surrounded by nature" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <h2>Plan Your Somasila Retreat</h2>
+      <p>Ready for a digital detox by the river? Book a comfortable Sedan or a spacious SUV from Radha Travels. Let our chauffeurs handle the rural driving while you prepare to unwind. Check our <a href="/fleet">rental fleet</a> for your weekend pricing.</p>
+    `,
+  },
+  {
+    slug: 'hyderabad-to-basara-saraswati-temple-travel-guide',
+    title: 'Hyderabad to Basara Temple: 2026 Travel & Aksharabhyasam Guide',
+    excerpt: 'Plan your family trip to the Gnana Saraswati Temple in Basara. Everything you need to know about Darshan timings, the Aksharabhyasam ritual, and cab fares.',
+    image: 'https://images.unsplash.com/photo-1600080838153-61fcba184918?auto=format&fit=crop&q=80',
+    date: '2026-08-25',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '210 KM',
+      label2: 'Travel Time',
+      value2: '4 - 4.5 Hours',
+      label3: 'Focus',
+      value3: 'Aksharabhyasam Ritual'
+    },
+    content: `
+      <p>Located on the serene banks of the Godavari River in the Nirmal district, the <strong>Jnana Saraswati Temple in Basara</strong> is one of the only two major temples dedicated to the Goddess of Knowledge in India. For families across Telangana and Andhra Pradesh, driving from Hyderabad to Basara is a mandatory pilgrimage to initiate their children into the world of education.</p>
+
+      <h2>The Route from Hyderabad</h2>
+      <p>The journey spans roughly 210 kilometers and is a highly comfortable drive, taking just about 4 to 4.5 hours.</p>
+      
+      <ul>
+        <li><strong>The Highway:</strong> The most direct route is taking the NH44 (the Medchal highway) towards Kamareddy and Nizamabad. From Nizamabad, take the state highway diversion towards Basara.</li>
+        <li><strong>Road Conditions:</strong> The NH44 is a world-class, 4-lane expressway allowing for very smooth cruising. The state highway post-Nizamabad is a standard two-lane road but is well-maintained and highly scenic.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=1200&q=80" alt="A smooth, wide highway leading into the distance" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The NH44 towards Nizamabad offers an effortless highway driving experience.</p>
+
+      <h2>The Aksharabhyasam Ritual</h2>
+      <p>The primary reason families visit Basara is to perform <strong>Aksharabhyasam</strong> (initiation of education) for their young children. It is believed that Sage Vyasa himself brought sand from the Godavari river and sculpted the idols of Goddess Saraswati, Lakshmi, and Kali here.</p>
+
+      <ul>
+        <li><strong>The Process:</strong> The ritual involves the child writing their first letters (usually "Om" or "Sri") on a plate of rice or slate, guided by the temple priests.</li>
+        <li><strong>Timings:</strong> The Aksharabhyasam ceremonies are conducted daily from 7:30 AM to 12:30 PM, and again from 2:00 PM to 6:00 PM.</li>
+        <li><strong>Vasant Panchami Rush:</strong> While the ritual happens daily, Vasant Panchami (the birthday of Goddess Saraswati) sees a massive surge of tens of thousands of devotees. If traveling during this festival, pre-booking travel is absolutely mandatory.</li>
+      </ul>
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>The Godavari River Dip</strong>
+          <p>Before proceeding to the temple for Darshan or rituals, it is a strict tradition to take a holy dip (or at least sprinkle water on your head) in the Godavari River, which flows just a few hundred meters from the temple complex. The riverbanks have designated changing rooms for families.</p>
+        </div>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80" alt="Traditional Indian temple courtyard" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <h2>Why Book a Premium Outstation Cab?</h2>
+      <p>Trips to Basara usually involve traveling with toddlers, young children, and grandparents. Navigating train schedules or driving yourself for 4 hours before sitting through long temple rituals can be exhausting for the family.</p>
+      
+      <p>Booking a spacious Innova Crysta or a comfortable Sedan ensures your child can sleep comfortably in the back seat during the early morning drive. Our chauffeurs handle the tolls, the route, and the parking near the busy temple grounds.</p>
+
+      <img src="https://images.unsplash.com/photo-1590396443006-21873138b7e2?auto=format&fit=crop&w=1200&q=80" alt="Beautiful temple architecture glowing in the sun" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <h2>Plan Your Child's Auspicious Start</h2>
+      <p>Provide your family with the comfort they deserve on this special day. Check our <a href="/fleet">outstation cab packages</a> and lock in your Basara travel itinerary with Radha Travels.</p>
+    `,
+  },
 ];
 
 export function generateFAQ(slug, title) {
@@ -3338,6 +3550,59 @@ export function generateFAQ(slug, title) {
       {
         question: "Is there mobile network coverage in Maredumilli?",
         answer: "No, mobile network connectivity is virtually non-existent inside the Maredumilli eco-tourism forest limits. Travelers are strongly advised to download offline maps before entering the zone."
+      }
+    ];
+  }
+  // 🔥 Kaleshwaram Cluster
+  if (s.includes('kaleshwaram')) {
+    return [
+      {
+        question: "How far is Kaleshwaram from Hyderabad?",
+        answer: "Kaleshwaram is located approximately 260 kilometers from Hyderabad. Driving via the Rajiv Rahadari (Karimnagar highway) typically takes about 5 hours."
+      },
+      {
+        question: "What is special about the Kaleshwaram Temple?",
+        answer: "The Sri Kaleshwara Mukteswara Swamy Temple is uniquely famous for housing two Shiva Lingams on a single pedestal, and for being the 'Triveni Sangamam' where the Godavari, Pranahita, and Saraswati rivers meet."
+      },
+      {
+        question: "Can tourists visit the Kaleshwaram Lift Irrigation Project?",
+        answer: "Tourists are generally permitted to view the massive Lakshmi Barrage (Medigadda) from the top, which offers spectacular views of the Godavari River. However, access to the underground pump houses requires prior official permission."
+      }
+    ];
+  }
+
+  // 🔥 Somasila Cluster
+  if (s.includes('somasila')) {
+    return [
+      {
+        question: "What is the travel distance from Hyderabad to Somasila?",
+        answer: "Somasila in the Nagarkurnool district is about 180 kilometers from Hyderabad. The drive via Kalwakurthy and Kollapur usually takes 3.5 to 4 hours."
+      },
+      {
+        question: "What activities are available at Somasila backwaters?",
+        answer: "Somasila is a rapidly growing eco-tourism hub offering traditional coracle boat rides on the Krishna River, riverfront camping, and access to the 15 ancient rescued temples of the Someswara Swamy complex."
+      },
+      {
+        question: "Are there stay options in Somasila?",
+        answer: "Yes, Telangana Tourism (Haritha) operates eco-friendly cottages right on the riverbank. During winter, many private operators also provide night camping tents by the water."
+      }
+    ];
+  }
+
+  // 🔥 Basara Cluster
+  if (s.includes('basara')) {
+    return [
+      {
+        question: "How much time does it take to drive from Hyderabad to Basara?",
+        answer: "The drive from Hyderabad to Basara covers roughly 210 kilometers. Using the NH44 via Nizamabad, it takes approximately 4 to 4.5 hours by cab."
+      },
+      {
+        question: "What are the timings for Aksharabhyasam in Basara?",
+        answer: "The Aksharabhyasam ritual at the Gnana Saraswati Temple is conducted daily in two primary slots: 7:30 AM to 12:30 PM, and 2:00 PM to 6:00 PM."
+      },
+      {
+        question: "Is there a river near the Basara Temple?",
+        answer: "Yes, the sacred Godavari River flows just a few hundred meters from the temple. It is a strict tradition for devotees to take a holy dip or sprinkle the river water on themselves before Darshan."
       }
     ];
   }

@@ -151,10 +151,40 @@
       background-size: cover; background-position: center; padding: 120px 0px 100px; color: #ffffff;margin-top: 100px;
     }
     .hero-container { max-width: 1140px; margin: 0 auto auto 15px; position: relative; z-index: 10; }
-    
-    .breadcrumbs { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: #94a3b8; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .breadcrumbs a:hover { color: #ffffff; }
-    .breadcrumbs span { color: #cbd5e1; }
+
+    /* --- STYLED BACK BUTTON --- */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.12);
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  margin-bottom: 20px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none !important;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  color: #ffffff !important;
+  transform: translateX(-4px); /* Smooth left-slide interaction */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .back-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+}
     
     .article-title { font-size: clamp(24px, 5vw, 44px); font-weight: 800; line-height: 1.25; letter-spacing: -0.5px; max-width: 850px; margin-bottom: 20px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); word-break: break-word; }
     
@@ -351,7 +381,7 @@
       .cms-content { font-size: 15px; line-height: 1.6; }
       .cms-content > p:first-of-type { font-size: 15px; margin-bottom: 20px; }
       .cms-content h2 { font-size: 20px; margin: 28px 0 12px; scroll-margin-top: 70px; }
-      .cms-content h3 { font-size: 17px; margin: 20px 0 10px; }
+      .cms-content h3 { font-size: 17px; margin: 10px 0 10px; }
       .cms-content ul, .cms-content ol { padding: 12px 12px 12px 32px; border-radius: 8px; margin-bottom: 20px; }
       .cms-content li { margin-bottom: 8px; font-size: 14.5px; }
       .cms-content img { border-radius: 8px; margin: 20px 0; }
@@ -498,6 +528,167 @@
     .faq-item.active .faq-icon {
       transform: rotate(180deg);
     }
+/* --- VIBRANT SCROLL-STOPPER BANNER --- */
+.vibrant-booking-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  
+  /* The Colorful, Animated Gradient Background */
+  background: linear-gradient(135deg, #1e40af, #6366f1, #ea580c);
+  background-size: 200% 200%;
+  animation: smoothGradient 6s ease infinite;
+  
+  border-radius: 20px;
+  padding: 14px 40px;
+  margin-bottom: 8px;
+  box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.4);
+  position: relative;
+  overflow: hidden;
+  color: #ffffff;
+}
+
+/* Subtle overlay pattern to make it look "tech/sleek" */
+.vibrant-booking-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.1) 1px, transparent 0);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+/* Smooth shifting animation for the background */
+@keyframes smoothGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.vbc-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+/* Frosted Glass Badge */
+.vbc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #fbbf24; /* Bright amber */
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fbbf24;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }
+  70% { box-shadow: 0 0 0 6px rgba(251, 191, 36, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+}
+
+.vbc-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #ffffff !important;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+}
+
+.vbc-desc {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9) !important;
+  margin: 0 !important;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+.vbc-action {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Bright, High-Contrast Button */
+.vbc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #1e40af !important; /* Deep blue text to match gradient */
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.vbc-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  color: #ea580c !important; /* Shifts to orange on hover */
+}
+
+.vbc-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.vbc-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+      .vibrant-booking-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 14px;
+        gap: 8px;
+        margin: 11px 0;
+    }
+    .vbc-badge {
+      padding: 4px 10px;
+      margin-bottom: 0px;
+    }
+  .vbc-title {
+    font-size: 22px;
+  }
+  .vbc-desc {
+    font-size: 14px;
+  }
+  .vbc-btn {
+    gap: 10px;
+    padding: 8px 32px;
+    border-radius: 100px;
+    font-size: 15px;
+  }
+  .vbc-action, .vbc-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
   </style>
 </head>
 
@@ -511,11 +702,13 @@
 <header class="portal-hero">
   <div class="hero-container">
     
-    <nav class="breadcrumbs fade-up-initial">
-      <a href="/">Home</a> <span>/</span>
-      <a href="/blog">Travel Guides</a> <span>/</span>
-      <span style="color: #fff;"><%= post.title.substring(0, 20) %>...</span>
-    </nav>
+    <!-- ✅ STYLED BACK BUTTON (REPLACES BREADCRUMBS) -->
+    <a href="/blog" class="back-btn fade-up-initial">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Back to Travel Guides
+    </a>
 
     <h1 class="article-title fade-up-initial delay-1"><%= post.title %></h1>
     
@@ -588,7 +781,52 @@
   </div>
 <% } %>
 
-      <%- post.content.replace(/<table/g, '<div class="table-wrapper"><table').replace(/<\/table>/g, '</table></div>') %>
+      <!-- START SMART BOOKING BANNER INJECTOR -->
+<% 
+  // 1. Guess the destination name for the banner based on the title
+  let destName = 'this destination';
+  if (post.title.includes('to ')) {
+    destName = post.title.split('to ')[1].split(':')[0].split('&')[0].trim();
+  }
+
+  // 2. Pre-process the content to keep your existing table-wrapper logic intact!
+  let processedContent = post.content.replace(/<table/g, '<div class="table-wrapper"><table').replace(/<\/table>/g, '</table></div>');
+
+  let contentParts = [];
+  
+  // 3. Check if you manually placed the [BOOKING_BANNER] marker
+  if (processedContent.includes('[BOOKING_BANNER]')) {
+    contentParts = processedContent.split('[BOOKING_BANNER]');
+  } 
+  // 4. Otherwise, automatically split after the 2nd paragraph!
+  else {
+    let firstP = processedContent.indexOf('</p>');
+    let secondP = processedContent.indexOf('</p>', firstP + 4); 
+    
+    if (secondP !== -1) {
+      secondP += 4; // Include the actual </p> tag in the first half
+      contentParts[0] = processedContent.substring(0, secondP);
+      contentParts[1] = processedContent.substring(secondP);
+    } else {
+      // Fallback just in case the blog is super short
+      contentParts[0] = processedContent;
+    }
+  }
+%>
+
+<!-- Render the First Half -->
+<%- contentParts[0] %>
+
+<!-- Render the Banner (if there is a second half) -->
+<% if (contentParts.length > 1) { %>
+  <%- include('../partials/inline-booking', { destination: destName }) %>
+  
+  <!-- Render the Second Half -->
+  <%- contentParts[1] %>
+<% } %>
+<!-- END SMART BOOKING BANNER INJECTOR -->
+
+
 <!-- FAQ Section -->
  <% if (post.faq && post.faq.length > 0) { %>
       <div class="faq-section">
