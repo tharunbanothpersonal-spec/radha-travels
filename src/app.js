@@ -271,11 +271,17 @@ app.get('/blog/:slug', (req, res) => {
     .filter((p) => p.slug !== post.slug)
     .slice(0, 3);
 
+    // ✅ NEW: Run the blog content through our SEO Auto-Linker before rendering
+  const seoLinkedPost = {
+    ...post,
+    content: autoLinkKeywords(post.content)
+  };
+
   res.render('blog/blog-show', {
     title: `${post.title} | Radha Travels`,
     metaDescription: `Read our comprehensive guide: ${post.title}. Discover the best travel tips, temple timings, and cab booking options from Hyderabad.`, // 🚀 FIX: Dynamic SEO Description
     currentPath: req.path, // 🚀 FIX: Added currentPath for Canonical Tag
-    post,
+    post: seoLinkedPost, // 👈 Pass the upgraded SEO post here instead of the raw post!
     relatedPosts,
     faqs: extractFaqs(post.content),
   });
@@ -670,4 +676,42 @@ function extractFaqs(htmlContent) {
     });
   }
   return faqs;
+}
+
+// =======================================================
+//  SEO: AUTOMATED INTERNAL KEYWORD LINKER
+// =======================================================
+function autoLinkKeywords(htmlContent) {
+  if (!htmlContent) return '';
+
+  // 1. Define your money keywords and where they should route to
+  const keywordMap = [
+    { term: 'Innova Crysta', url: '/fleet' },
+    { term: 'Tempo Traveller', url: '/fleet' },
+    { term: 'SUV rental', url: '/fleet' },
+    { term: 'outstation cab', url: '/services/outstation' },
+    { term: 'outstation cab packages', url: '/services/outstation' },
+    { term: 'airport transfer', url: '/services/airport-transfer' },
+    { term: 'local sightseeing', url: '/services/local-tour' },
+    { term: 'Srisailam outstation cab', url: '/tours/srisailam' },
+    { term: 'Tirupati package', url: '/tours/tirupati' }
+  ];
+
+  let processedHtml = htmlContent;
+
+  keywordMap.forEach(({ term, url }) => {
+    // Escape any special regex characters in the keyword
+    const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+    // 2. Smart Regex Protection:
+    // \b(${escapedTerm})\b -> Matches exact word boundaries only
+    // (?![^<]*>) -> Prevents matching inside HTML attributes (like <img alt="Innova Crysta">)
+    // (?![^<]*<\/a>) -> Prevents matching if the word is ALREADY inside an <a> anchor tag!
+    const regex = new RegExp(`\\b(${escapedTerm})\\b(?![^<]*>|[^<]*<\\/a>)`, 'i');
+
+    // 3. Replace ONLY the first occurrence per blog post to avoid spammy SEO over-optimization
+    processedHtml = processedHtml.replace(regex, `<a href="${url}" class="seo-auto-link" title="Book $1 in Hyderabad">$1</a>`);
+  });
+
+  return processedHtml;
 }

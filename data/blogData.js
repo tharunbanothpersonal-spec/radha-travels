@@ -3094,10 +3094,832 @@ export const blogPosts = [
       <p>Provide your family with the comfort they deserve on this special day. Check our <a href="/fleet">outstation cab packages</a> and lock in your Basara travel itinerary with Radha Travels.</p>
     `,
   },
+  {
+    slug: 'hyderabad-to-ananthagiri-hills-vikarabad-weekend-guide',
+    title: 'Hyderabad to Ananthagiri Hills: 2026 Monsoon Road Trip & Kayaking Guide',
+    category: 'nature-eco',
+    excerpt: 'Escape to the dense forests of Vikarabad! Discover viewpoint trekking trails, Kotpally Reservoir kayaking, and the best driving route from Hyderabad.',
+    image: 'https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&q=80',
+    date: '2026-08-28',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '80 KM',
+      label2: 'Travel Time',
+      value2: '2 Hours',
+      label3: 'Highlight',
+      value3: 'Kotpally Kayaking'
+    },
+    content: `
+      <p>Located just 80 kilometers west of Hyderabad in Vikarabad district, <strong>Ananthagiri Hills</strong> is the city’s favorite quick escape. Known as the birthplace of the Musi River, this dense reserve forest transforms into a misty, emerald wonderland during the monsoon and winter months of 2026.</p>
+
+      <h2>The Route: The Scenic Chevella Corridor</h2>
+      <p>The drive to Ananthagiri is half the adventure. You can reach the hills in under two hours without ever paying toll fees.</p>
+      
+      <ul>
+        <li><strong>The Highway Path:</strong> Leave Hyderabad via TSPA Junction (Appa Junction) onto the 2-lane Chevella highway (SH4). Drive through Moinabad and Chevella, continue through Manneguda, and climb straight into Vikarabad town.</li>
+        <li><strong>Driving Experience:</strong> The road between Chevella and Manneguda is lined with massive, century-old banyan trees creating a natural green tunnel. The final 6-kilometer climb from Vikarabad town into the forest features sweeping curves and fresh, cool hill breezes.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=1200&q=80" alt="Scenic green road lined with dense trees" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The tree-canopied stretch near Chevella is one of Telangana's most refreshing drives.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>Top Experiences in Ananthagiri</h2>
+      <p>Whether you are an adventure seeker looking for water sports or a family wanting a peaceful picnic under the forest canopy, the Vikarabad circuit offers three distinct attractions.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Attraction</th>
+              <th>What to Expect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sri Anantha Padmanabha Swamy Temple</strong></td>
+              <td>An ancient cave temple dedicated to Lord Vishnu, built by the Nizam of Hyderabad as a symbol of religious harmony. The forest trekking trails begin right behind the main shrine.</td>
+            </tr>
+            <tr>
+              <td><strong>Kotpally Reservoir Kayaking</strong></td>
+              <td>Located 15 km past the main hill viewpoint, this crystal-clear lake offers professional kayaking, pedal boating, and riverside food stalls serving hot Maggi and roasted corn.</td>
+            </tr>
+            <tr>
+              <td><strong>The Viewpoint & Coffee Trails</strong></td>
+              <td>The official Telangana Tourism viewpoint offers panoramic vistas of the valley below. Several open-air cafes now line the forest edge, serving fresh filter coffee and breakfast.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1200&q=80" alt="Kayaks floating on a calm green lake surrounded by hills" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Weekend Parking & Traffic Tip</strong>
+          <p>On Sunday mornings, the 2-lane road near the temple and viewpoint gets heavily congested with weekend bikers and tourists. Booking an outstation cab with a skilled driver means you can get dropped right at the trekking trailhead or kayaking deck while your chauffeur handles the tight hillside parking.</p>
+        </div>
+      </div>
+
+      <h2>Plan Your Vikarabad Day-Trip</h2>
+      <p>Ananthagiri Hills is the ultimate single-day round trip from Hyderabad. Gather your friends or family, book a sanitized Sedan or Innova Crysta, and let us handle the driving while you enjoy the forest views. Check our <a href="/fleet">local rental fleet</a> for transparent day-trip packages.</p>
+    `,
+  },
+  {
+    slug: 'hyderabad-to-srisailam-jyotirlinga-ghat-road-trip',
+    title: 'Hyderabad to Srisailam: 2026 Jyotirlinga Darshan & Tiger Reserve Road Trip',
+    category: 'spiritual',
+    excerpt: 'Navigate the Nallamala Ghat roads with confidence! Complete guide to Srisailam temple timings, forest checkpoint rules, Pathala Ganga boating, and cab rentals.',
+    image: 'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?auto=format&fit=crop&q=80',
+    date: '2026-09-02',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '215 KM',
+      label2: 'Travel Time',
+      value2: '5 Hours',
+      label3: 'Focus',
+      value3: 'Jyotirlinga & Ghat Drive'
+    },
+    content: `
+      <p>Home to one of the 12 revered Jyotirlingas and one of the 18 Maha Shakti Peethas, the <strong>Sri Mallikarjuna Swamy Temple in Srisailam</strong> is one of the most sacred pilgrimage sites in India. Set atop the Nallamala Hills on the banks of the River Krishna, a road trip from Hyderabad to Srisailam is a thrilling journey through dense tiger sanctuaries and winding mountain ghats.</p>
+
+      <h2>The Srisailam Highway & Ghat Road Rules</h2>
+      <p>The journey covers roughly 215 kilometers. While the plains are easy cruising, the forest ghat section requires careful planning and experienced driving.</p>
+      
+      <ul>
+        <li><strong>The Highway Route:</strong> Exit Hyderabad via the Srisailam Highway (NH565) through Shamshabad, Kadhal, and Dindi Reservoir, arriving at the Mannanur forest checkpost.</li>
+        <li><strong>Strict Forest Timings (Amrabad Tiger Reserve):</strong> The forest gates at Mannanur (entry into the hills) open strictly from <strong>6:00 AM to 9:00 PM</strong>. No private vehicles or cabs are permitted to enter the tiger reserve between 9:00 PM and 6:00 AM to protect wildlife. Plan your Hyderabad departure accordingly!</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80" alt="Winding mountain road cutting through dense green forest" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The Srisailam ghat roads offer breathtaking views of the Nallamala hills and the Krishna River valley.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>Srisailam Must-Visit Experiences</h2>
+      <p>Beyond the main temple Darshan, Srisailam offers remarkable natural and engineering wonders that shouldn't be missed.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Significance & Experience</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Mallikarjuna & Bhramaramba Shrine</strong></td>
+              <td>The primary temple complex. Devotees can book Sparsha Darshan (touching the Shiva Lingam) online via the official AP Endowments portal well in advance of their trip.</td>
+            </tr>
+            <tr>
+              <td><strong>Pathala Ganga & Ropeway</strong></td>
+              <td>Take the cable car down the steep cliffside to the Krishna River backwaters. From here, you can hire motorboats to see the massive Srisailam Dam from the water.</td>
+            </tr>
+            <tr>
+              <td><strong>Akka Mahadevi Caves</strong></td>
+              <td>A 1-hour boat journey from Pathala Ganga takes you to these deep, naturally formed limestone caves housing a naturally formed Shiva Lingam in pitch darkness.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80" alt="Ancient Indian temple gopuram with golden glow" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Why Choose a Chauffeur for Ghat Roads?</strong>
+          <p>The Srisailam ghat road features hairpin bends, steep ascents, and heavy bus traffic. Driving for 5 hours through mountains before standing in long queue lines for Darshan can exhaust any driver. Booking a spacious Innova Crysta or SUV ensures maximum legroom, while our professional hill-certified chauffeurs handle the braking and hairpin curves safely.</p>
+        </div>
+      </div>
+
+      <h2>Book Your Divine Srisailam Pilgrimage</h2>
+      <p>Ensure your family’s pilgrimage is peaceful, safe, and punctual. Check our <a href="/services/outstation">Srisailam outstation cab packages</a> and lock in your vehicle with Radha Travels today.</p>
+    `,
+  },
+  {
+    slug: 'hyderabad-to-laknavaram-ramappa-temple-unesco-tour',
+    title: 'Hyderabad to Laknavaram & Ramappa: 2026 UNESCO Heritage & Lake Camping Guide',
+    category: 'heritage',
+    excerpt: 'Explore the floating bricks of the UNESCO Ramappa Temple and walk the yellow suspension bridge at Laknavaram Lake. The perfect 2-day heritage road trip from Hyderabad.',
+    image: 'https://images.unsplash.com/photo-1506462945848-ac8ea879c933?auto=format&fit=crop&q=80',
+    date: '2026-09-06',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '220 KM',
+      label2: 'Travel Time',
+      value2: '4.5 Hours',
+      label3: 'Highlight',
+      value3: 'UNESCO Architecture & Suspension Bridge'
+    },
+    content: `
+      <p>If you want to combine 13th-century architectural marvels with pristine lakefront nature, the <strong>Ramappa Temple and Laknavaram Lake circuit</strong> in the Mulugu district is Telangana’s finest 2-day road trip. Recognized officially as a UNESCO World Heritage site, this region has seen massive infrastructure improvements, making it an effortless weekend drive from Hyderabad in 2026.</p>
+
+      <h2>The Highway Route via Warangal</h2>
+      <p>The drive covers approximately 220 kilometers, taking you through the heart of the historic Kakatiya dynasty kingdom.</p>
+      
+      <ul>
+        <li><strong>The Highway:</strong> Take the NH163 from Hyderabad (Uppal / Ghatkesar corridor) straight through Bhongir and Jangaon into Warangal city. From Warangal, a smooth 70-kilometer state highway leads directly to Palampet (Ramappa Temple) and onwards to Laknavaram.</li>
+        <li><strong>Road Conditions:</strong> The 4-lane expressway up to Warangal allows for high-speed cruising. The final stretch into Mulugu is surrounded by dense paddy fields and rocky Deccan hillocks, offering a magnificent rural backdrop.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=1200&q=80" alt="Smooth highway passing through green agricultural fields" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The NH163 route towards Warangal provides a fast, comfortable cruising experience.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>The 2-Day Kakatiya Heritage Circuit</h2>
+      <p>To experience this region without rushing, we recommend an overnight itinerary, dedicating Day 1 to history and Day 2 to eco-tourism and boating.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Stop</th>
+              <th>What Makes It Special</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ramappa Temple (Palampet)</strong></td>
+              <td>India’s 39th UNESCO World Heritage Site, built in 1213 AD. It is famously constructed using lightweight "floating bricks" that do not sink in water, and features intricate black basalt sandstone carvings that look like polished metal.</td>
+            </tr>
+            <tr>
+              <td><strong>Laknavaram Lake & Suspension Bridge</strong></td>
+              <td>A massive, sprawling lake surrounded by 13 islands. A bright yellow pedestrian suspension bridge connects the mainland to the primary island resort. Hire a speedboat or enjoy a quiet sunset coracle ride across the calm waters.</td>
+            </tr>
+            <tr>
+              <td><strong>Warangal Fort & Thousand Pillar Temple</strong></td>
+              <td>On your return journey to Hyderabad, stop in Hanamkonda to witness the famous stone gateways (Kakatiya Kala Thoranam) and the star-shaped architecture of the Thousand Pillar Temple.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80" alt="Suspension bridge stretching over a vast blue lake with islands" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Island Cottage Booking Tip</strong>
+          <p>If you want to stay overnight in the wooden cottages on Laknavaram island, book via the official Telangana Tourism (Haritha) portal at least 3 weeks in advance, as weekend slots sell out rapidly. If cottages are full, staying in a comfortable hotel in Warangal city and making day trips with your cab is a seamless alternative.</p>
+        </div>
+      </div>
+
+      <h2>Explore Telangana's Heritage in Comfort</h2>
+      <p>A multi-stop heritage tour requires a dependable vehicle with ample boot space for luggage and photography gear. Browse our <a href="/fleet">premium SUV and Tempo Traveller rentals</a> and let Radha Travels craft your perfect weekend getaway.</p>
+    `,
+  },
+
+  {
+    slug: 'hyderabad-to-goa-road-trip-amboli-chorla-ghat-guide',
+    title: 'Hyderabad to Goa: 2026 Road Trip Guide via Amboli & Chorla Ghats',
+    category: 'nature-eco',
+    excerpt: 'Plan the ultimate coastal road trip from Hyderabad to Goa! Choose between the scenic Amboli Ghat waterfall route and the dense Chorla Ghat jungle corridor.',
+    image: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&q=80',
+    date: '2026-09-10',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '650 KM',
+      label2: 'Travel Time',
+      value2: '12 - 13 Hours',
+      label3: 'Highlight',
+      value3: 'Amboli Ghat Waterfalls'
+    },
+    content: `
+      <p>A road trip from Hyderabad to the golden beaches of <strong>Goa</strong> is a rite of passage for travel enthusiasts. Traversing the Deccan Plateau before plunging down the misty cliffs of the Western Ghats offers one of the most dramatic landscape transitions in Southern India. In 2026, newly expanded highway corridors have made this 650-kilometer journey smoother and faster than ever.</p>
+
+      <h2>Choosing Your Route: Amboli Ghat vs. Chorla Ghat</h2>
+      <p>Depending on whether you are heading to North Goa or South Goa, your route will split after reaching Belagavi (Belgaum) in Karnataka.</p>
+      
+      <ul>
+        <li><strong>The North Goa Corridor (via Amboli Ghat):</strong> Drive from Hyderabad via NH65 through Mahabubnagar, Raichur, Bagalkot, and Belagavi, then descend through Maharashtra's Amboli Ghat into Sawantwadi and Arambol/Baga. Amboli Ghat is famous for its cascading roadside waterfalls and misty valley viewpoints.</li>
+        <li><strong>The South Goa Corridor (via Chorla Ghat):</strong> From Belagavi, take the SH31 through the dense Mhadei Wildlife Sanctuary via Chorla Ghat directly into Sanquelim and Panaji/Palolem. This route cuts through virgin tropical rainforests and features smooth, high-banking hairpin curves.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80" alt="Winding mountain road descending through lush green ghats" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The descent through the Western Ghats is the scenic highlight of the Hyderabad-to-Goa drive.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>Pit Stops & Scenic Highlights</h2>
+      <p>Because this is a 12-to-13 hour journey, planning comfortable rest stops is essential for a relaxing trip.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Stop / Milestone</th>
+              <th>Why You Should Stop Here</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Belagavi (Belgaum)</strong></td>
+              <td>Located at the 500-kilometer mark, this is the perfect refueling and meal stop before entering the ghats. Don't miss sampling the famous Belgaum Kunda (a traditional milk-based sweet).</td>
+            </tr>
+            <tr>
+              <td><strong>Amboli Waterfalls</strong></td>
+              <td>If traveling via North Goa, pull over at the main waterfall step in Amboli. Local vendors serve hot spiced Maggi, onion pakodas, and roasted corn right beside the mist of the falls.</td>
+            </tr>
+            <tr>
+              <td><strong>Anjunem Dam Viewpoint</strong></td>
+              <td>If taking the Chorla Ghat route, this picturesque reservoir located right on the Goa-Karnataka border offers stunning reflections of the surrounding Nallamala and Sahyadri peaks.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Tropical sandy beach with calm ocean waves at sunset in Goa" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>The Multi-Day Outstation Advantage</strong>
+          <p>Driving 650 kilometers across two state borders requires handling regional road taxes, checkpost permits, and exhausting nighttime driving. Booking an outstation Innova Crysta or Tempo Traveller allows your entire group to sleep comfortably during the overnight highway stretch, arriving in Goa fresh and ready for the beach without vehicle fatigue.</p>
+        </div>
+      </div>
+
+      <h2>Start Your Coastal Adventure</h2>
+      <p>Whether you are planning a bachelor trip, a corporate retreat, or a family beach holiday, ensure your long-distance travel is safe and luxurious. Explore our <a href="/fleet">premium SUV and Tempo Traveller fleet</a> to book your Goa road trip today.</p>
+    `,
+  },
+  {
+    slug: 'hyderabad-to-chikmagalur-coorg-western-ghats-road-trip',
+    title: 'Hyderabad to Chikmagalur & Coorg: 2026 Western Ghats Coffee Circuit Guide',
+    category: 'nature-eco',
+    excerpt: 'Breathe in the aroma of fresh coffee! Navigate the cloud-capped peak of Mullayanagiri, explore Coorg spice plantations, and plan your 4-day Western Ghats itinerary.',
+    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80',
+    date: '2026-09-14',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '600 KM',
+      label2: 'Travel Time',
+      value2: '10 - 11 Hours',
+      label3: 'Focus',
+      value3: 'Coffee Estates & Trekking'
+    },
+    content: `
+      <p>For travelers seeking cool hill station breezes, misty mountain treks, and sprawling heritage plantations, combining <strong>Chikmagalur and Coorg (Kodagu)</strong> into a single Western Ghats road trip is an unmatched experience. Known as the coffee capitals of India, these twin destinations offer a serene contrast to the fast-paced city life of Hyderabad.</p>
+
+      <h2>The Highway Route via Anantapur & Arsikere</h2>
+      <p>The roughly 600-kilometer drive south from Hyderabad utilizes some of South India's best highway infrastructure before transitioning into winding plantation roads.</p>
+      
+      <ul>
+        <li><strong>The Highway Stretch:</strong> Cruise down the NH44 (Bengaluru Highway) through Kurnool and Anantapur. At Anantapur, take the diversion towards Ballari, continuing through Chitradurga and Arsikere directly into Chikmagalur town.</li>
+        <li><strong>Connecting Chikmagalur to Coorg:</strong> After exploring Chikmagalur, a scenic 4-hour drive (150 kilometers) south through Belur, Hassan, and Kushalnagar brings you directly into the heart of Coorg.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=1200&q=80" alt="Misty green mountains covered in lush coffee plantations" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The Western Ghats wrap around Chikmagalur in a blanket of perpetual mist and greenery.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>The 4-Day Coffee Plantation Itinerary</h2>
+      <p>To fully appreciate both hill stations without spending your entire vacation inside a vehicle, structure your trip with two nights in Chikmagalur and two nights in Coorg.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Destination</th>
+              <th>Must-Visit Attractions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chikmagalur (Days 1 & 2)</strong></td>
+              <td>Drive up to <strong>Mullayanagiri</strong> (the highest peak in Karnataka) for panoramic sunrise views. Visit the cascading <strong>Jhari Waterfalls</strong> (accessible via thrilling jeep rides) and explore historic coffee curing works.</td>
+            </tr>
+            <tr>
+              <td><strong>Belur & Halebidu (Transit)</strong></td>
+              <td>En route from Chikmagalur to Coorg, stop at the 12th-century Hoysala temples of Belur and Halebidu, globally celebrated for their soapstone sculptures and UNESCO World Heritage status.</td>
+            </tr>
+            <tr>
+              <td><strong>Coorg (Days 3 & 4)</strong></td>
+              <td>Interact with rescued elephants at the <strong>Dubare Elephant Camp</strong> on the banks of the River Kaveri. Visit the thunderous <strong>Abbey Falls</strong>, and watch the sunset over the mist-filled valleys at <strong>Raja's Seat</strong> in Madikeri.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80" alt="Elephants bathing in a calm river surrounded by forest" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Navigating Narrow Estate Roads</strong>
+          <p>Many luxury homestays and resorts in Chikmagalur and Coorg are located deep inside private coffee estates accessed by steep, unpaved dirt trails. Attempting these inclines in low-clearance hatchbacks or sedans can damage your undercarriage. Booking a sturdy, high-clearance SUV like an Innova Crysta or Mahindra Scorpio ensures effortless access to remote hill resorts.</p>
+        </div>
+      </div>
+
+      <h2>Book Your Western Ghats Escape</h2>
+      <p>Experience the cool hill climate and aromatic plantation trails with complete peace of mind. Check our <a href="/services/outstation">outstation cab packages</a> and let our experienced hill chauffeurs guide you through the Western Ghats.</p>
+    `,
+  },
+  {
+    slug: 'hyderabad-to-gokarna-dandeli-adventure-road-trip-guide',
+    title: 'Hyderabad to Gokarna & Dandeli: 2026 Beach & Jungle Adventure Guide',
+    category: 'nature-eco',
+    excerpt: 'Combine white-water rafting on the Kali River with beach trekking along Om Beach! The ultimate adventure road trip from Hyderabad to Dandeli and Gokarna.',
+    image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80',
+    date: '2026-09-18',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '630 KM',
+      label2: 'Travel Time',
+      value2: '11 - 12 Hours',
+      label3: 'Highlight',
+      value3: 'River Rafting & Om Beach Trek'
+    },
+    content: `
+      <p>If you are looking for an action-packed alternative to Goa that pairs adrenaline-pumping jungle water sports with laid-back, hippie-chic beaches, the <strong>Dandeli and Gokarna circuit</strong> is the ultimate 2026 road trip from Hyderabad. Situated along the Uttara Kannada coastline and dense Western Ghats reserves, this route is a favorite for young groups and nature photographers.</p>
+
+      <h2>The Route via Hubballi & Yellapur</h2>
+      <p>The drive covers roughly 630 kilometers, transitioning from wide Deccan highways into dense teak and bamboo jungles.</p>
+      
+      <ul>
+        <li><strong>Driving to Dandeli:</strong> Depart Hyderabad via NH44 through Mahabubnagar and Kurnool. Take the highway split toward Ballari, continuing through Hosapete (Hampi) and Hubballi. From Hubballi, a scenic 1.5-hour drive through Dharwad leads straight into the jungle camps of Dandeli.</li>
+        <li><strong>Down to the Coast (Gokarna):</strong> After your jungle stay, drive 140 kilometers southwest via Yellapur and Ankola. This route descends down the Arbail Ghat, bringing you out directly onto the Arabian Sea coastline at Gokarna.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80" alt="White water rafts navigating rapids on a fast river" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The Kali River in Dandeli offers some of the most accessible white-water rafting in South India.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>Jungle Adrenaline meets Coastal Chill</h2>
+      <p>This dual-destination itinerary gives you two completely different vacation vibes in a single extended weekend trip.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Experience</th>
+              <th>Location & Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Kali River Rafting</strong></td>
+              <td>Dandeli is famous for Class 3+ white-water rafting on the roaring Kali River. You can also experience natural jacuzzi baths in the rapids, river crossing, and kayaking.</td>
+            </tr>
+            <tr>
+              <td><strong>Syntheri Rocks & Jungle Safari</strong></td>
+              <td>Explore the 300-foot monolithic granite cliffs at Syntheri Rocks inside the Anshi National Park, or book an early morning jungle safari to spot black panthers and hornbills.</td>
+            </tr>
+            <tr>
+              <td><strong>The Gokarna Beach Trek</strong></td>
+              <td>Once on the coast, hike along the scenic cliff trails connecting <strong>Kudle Beach, Om Beach, Half Moon Beach, and Paradise Beach</strong>. Watch the sunset from the cliffside cafes at Om Beach while enjoying fresh seafood.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80" alt="Aerial view of Om Beach with its distinctive double crescent shape" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Luggage Security for Beach Hopping</strong>
+          <p>Many of Gokarna's best beaches (like Half Moon and Paradise) are only accessible by foot along rocky cliff trails or by hiring local boats. Instead of lugging heavy backpacks across sand and cliffs, traveling in a private cab allows you to securely lock your primary luggage and valuables in the vehicle's boot while you explore the coast with a light daypack.</p>
+        </div>
+      </div>
+
+      <h2>Plan Your Adventure Getaway</h2>
+      <p>Ready to raft the rapids and trek the coastal cliffs? Gather your group, reserve a spacious 12-seater Tempo Traveller or a rugged SUV from Radha Travels, and hit the road to Karnataka. View our <a href="/fleet">rental fleet pricing</a> today.</p>
+    `,
+  },
+
+  {
+    slug: 'hyderabad-to-mahabaleshwar-panchgani-road-trip-guide',
+    title: 'Hyderabad to Mahabaleshwar & Panchgani: 2026 Western Ghats Strawberry Guide',
+    category: 'nature-eco',
+    excerpt: 'Explore the Sahyadri mountains! A complete road trip guide from Hyderabad to Mahabaleshwar and Panchgani, featuring strawberry farms, historic forts, and valley viewpoints.',
+    image: 'https://images.unsplash.com/photo-1600675585832-7235071192e4?auto=format&fit=crop&q=80',
+    date: '2026-09-22',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '580 KM',
+      label2: 'Travel Time',
+      value2: '10 - 11 Hours',
+      label3: 'Highlight',
+      value3: 'Strawberry Picking & Viewpoints'
+    },
+    content: `
+      <p>Perched high in the Sahyadri range of the Western Ghats, <strong>Mahabaleshwar and Panchgani</strong> are the crown jewels of Maharashtra’s hill stations. Famous for their cool, mist-shrouded plateaus, British-era architecture, and sprawling strawberry farms, this twin-city circuit is one of the most refreshing long-weekend road trips you can take from Hyderabad in 2026.</p>
+
+      <h2>The Route via Solapur & Satara</h2>
+      <p>The 580-kilometer drive northwest takes you across the Deccan Plateau before an exhilarating climb up the Pasarni Ghat.</p>
+      
+      <ul>
+        <li><strong>The Highway Route:</strong> Leave Hyderabad via NH65 (the Mumbai-Pune highway corridor) passing through Zaheerabad, Humnabad, and Solapur. From Solapur, take the state highway across to Mohol and Pandharpur, joining the NH48 (Bengaluru-Mumbai highway) at Satara. From Satara, a thrilling 50-kilometer mountain climb leads straight into Panchgani and onwards to Mahabubeshwar.</li>
+        <li><strong>Road Conditions:</strong> The NH65 up to Solapur is a fast, 4-lane divided highway. The final stretch up the Pasarni Ghat features sharp hairpin bends and steep inclines, surrounded by dramatic views of the Krishna River valley below.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1506462945848-ac8ea879c933?auto=format&fit=crop&w=1200&q=80" alt="Dramatic mountain valley in the Western Ghats with green tablelands" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The volcanic tablelands of Panchgani offer panoramic 360-degree views of the Sahyadri mountains.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>The Sahyadri Experience: What to See & Do</h2>
+      <p>This region offers a delightful blend of culinary agritourism, breathtaking cliffside viewpoints, and Maratha Empire history.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Attraction</th>
+              <th>The Experience</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Mapro Garden & Strawberry Farms</strong></td>
+              <td>Between November and April, Mahabaleshwar produces over 85% of India’s strawberries. Visit Mapro Garden in Panchgani to tour live strawberry patches, sample fresh fruit, and indulge in iconic strawberry cream desserts.</td>
+            </tr>
+            <tr>
+              <td><strong>Table Land & Arthur's Seat</strong></td>
+              <td>Table Land in Panchgani is Asia’s second-largest mountain plateau, perfect for sunset horse riding. In Mahabaleshwar, drive to Arthur's Seat for a dizzying look down into the dense Savitri River canyon.</td>
+            </tr>
+            <tr>
+              <td><strong>Pratapgad Fort</strong></td>
+              <td>Located 24 kilometers west of Mahabaleshwar, this 17th-century hill fort built by Chhatrapati Shivaji Maharaj marks the site of the legendary Battle of Pratapgad. The climb offers unmatched views across the Konkan coast.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80" alt="Fresh red strawberries growing in a mountain garden" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Conquering Weekend Hill Traffic</strong>
+          <p>During holiday weekends and the peak strawberry season, the narrow two-lane roads connecting Panchgani to Mahabaleshwar experience heavy bumper-to-bumper traffic and tight parking bottlenecks near viewpoints. Hiring a chauffeur-driven Innova Crysta lets you step right out at the scenic lookouts and farm entrances while your driver manages the stress of mountain parking.</p>
+        </div>
+      </div>
+
+      <h2>Plan Your Sahyadri Road Trip</h2>
+      <p>Ready to trade city heat for mountain mist and fresh strawberries? Gather your family, book a sanitized, long-distance SUV or Tempo Traveller from Radha Travels, and enjoy the ride to Maharashtra. Explore our <a href="/fleet">outstation cab packages</a> today.</p>
+    `,
+  },
+  {
+    slug: 'hyderabad-to-agumbe-kudremukh-rainforest-road-trip',
+    title: 'Hyderabad to Agumbe & Kudremukh: 2026 Rainforest Road Trip Guide',
+    category: 'nature-eco',
+    excerpt: 'Drive into the Cherrapunji of the South! Complete guide to Agumbe Ghat hairpin bends, Kudremukh trekking, Sirimane Waterfalls, and ancient Sringeri temples.',
+    image: 'https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&q=80',
+    date: '2026-09-25',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '650 KM',
+      label2: 'Travel Time',
+      value2: '11 - 12 Hours',
+      label3: 'Focus',
+      value3: 'Tropical Rainforest & Waterfalls'
+    },
+    content: `
+      <p>If you crave raw, untouched wilderness, the rainforest corridor connecting <strong>Agumbe, Sringeri, and Kudremukh</strong> in the heart of the Karnataka Western Ghats is an absolute revelation. Famously known as the "Cherrapunji of the South" due to its torrential monsoons, this UNESCO World Heritage biodiversity hotspot is home to cascading waterfalls, misty peak treks, and the legendary King Cobra.</p>
+
+      <h2>The Route via Hubballi & Shivamogga</h2>
+      <p>The 650-kilometer journey transports you from the dry Deccan scrublands into one of the densest tropical canopy forests in Asia.</p>
+      
+      <ul>
+        <li><strong>The Highway Stretch:</strong> Head south from Hyderabad on NH44 through Kurnool, branching off at Anantapur toward Ballari and Hosapete. Continue west through Hubballi to Shivamogga (Shimoga). From Shivamogga, a mesmerizing 90-kilometer drive through Thirthahalli brings you directly into the rainforests of Agumbe.</li>
+        <li><strong>The Famous Agumbe Ghat:</strong> Descending from Agumbe toward the coast involves navigating exactly <strong>14 tight, steep hairpin bends</strong> cut into a vertical cliffside. It is one of the most thrilling driving roads in India, offering sweeping views of the Arabian Sea coastline on clear days.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80" alt="Winding road cutting through a dense tropical rainforest" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The lush canopy of the Agumbe rainforest remains emerald green year-round.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>The Rainforest Circuit: Top Attractions</h2>
+      <p>This region pairs intense wildlife and trekking adventures with profound spiritual heritage along the banks of the River Tunga.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>What Makes It Unique</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Agumbe Sunset Point & Rainforest</strong></td>
+              <td>Located on one of the highest peaks of the Western Ghats, this viewpoint offers a legendary sunset over the Arabian Sea. Walk through the village where the classic TV series <em>Malgudi Days</em> was filmed.</td>
+            </tr>
+            <tr>
+              <td><strong>Sringeri Sharada Peetham</strong></td>
+              <td>Just 25 kilometers from Agumbe lies this 8th-century temple complex founded by Adi Shankaracharya. Located on the banks of the Tunga River, visitors can feed thousands of sacred river fish from the temple steps.</td>
+            </tr>
+            <tr>
+              <td><strong>Kudremukh National Park & Sirimane Falls</strong></td>
+              <td>Drive through the rolling, grass-covered "Horse Face" peaks of Kudremukh. Just outside Sringeri, take a dip in the crystal-clear waters of Sirimane Waterfalls, hidden deep inside the forest.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80" alt="A powerful waterfall cascading over rocks in a green jungle" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Why Vehicle Maintenance Matters in Agumbe</strong>
+          <p>Agumbe receives over 7,000 mm of rainfall annually. The ghat roads are frequently wet, covered in slippery moss, and shrouded in dense, sudden fog banks. Driving here requires vehicles with immaculate tire tread depth, powerful fog lamps, and responsive braking systems. Every SUV and Tempo Traveller in the Radha Travels fleet undergoes a strict safety audit before dispatching on Western Ghats routes.</p>
+        </div>
+      </div>
+
+      <h2>Book Your Rainforest Expedition</h2>
+      <p>Experience the enchanting waterfalls and wildlife of Karnataka without the fatigue of long-distance driving. Check our <a href="/services/outstation">outstation cab packages</a> and let our experienced hill drivers take you into the wild.</p>
+    `,
+  },
+  {
+    slug: 'hyderabad-to-wayanad-bandipur-wildlife-road-trip',
+    title: 'Hyderabad to Wayanad & Bandipur: 2026 Wildlife & Western Ghats Guide',
+    category: 'nature-eco',
+    excerpt: 'Drive through tiger territory! Complete guide to the Bandipur forest highway, Thamarassery Churam hairpin bends, Wayanad treehouses, and Edakkal Caves.',
+    image: 'https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&q=80',
+    date: '2026-09-28',
+    quickFacts: {
+      label1: 'Distance',
+      value1: '750 KM',
+      label2: 'Travel Time',
+      value2: '13 - 14 Hours',
+      label3: 'Highlight',
+      value3: 'Bandipur Highway Safari & Treehouses'
+    },
+    content: `
+      <p>For the ultimate Southern India road trip, nothing rivals the journey from Hyderabad to the deep Western Ghats of <strong>Wayanad in Kerala, passing straight through the Bandipur Tiger Reserve</strong>. This 750-kilometer expedition takes you through the Nilgiri Biosphere Reserve—the largest protected forest area in India—offering a thrilling mix of roadside wildlife sightings, spice plantations, and cloud-capped mountain peaks.</p>
+
+      <h2>The Route via Bengaluru & Mysuru</h2>
+      <p>This route uses world-class expressways before transitioning into strict forest preservation corridors.</p>
+      
+      <ul>
+        <li><strong>The Highway Corridor:</strong> Cruise south from Hyderabad on NH44 all the way to Bengaluru. Bypass the city via the NICE Road expressway onto the newly expanded Bengaluru-Mysuru Expressway (NH275), which gets you to Mysuru in under two hours. From Mysuru, head south through Gundlupet directly into the Bandipur forest.</li>
+        <li><strong>Strict Forest Checkpost Rules:</strong> The highway through Bandipur Tiger Reserve and Mudumalai National Park is completely closed to all vehicular traffic from <strong>9:00 PM to 6:00 AM</strong> every night to protect wildlife. You must time your departure from Hyderabad or stay overnight in Mysuru to ensure you cross the forest gate during daytime hours!</li>
+        <li><strong>The Thamarassery Churam:</strong> Entering Wayanad from the valley requires climbing the famous mountain pass known as the Churam, featuring 9 sharp hairpin bends offering dizzying views across the Malabar coastline.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=80" alt="Wild elephant grazing peacefully by the edge of a forest highway" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">Driving through Bandipur offers frequent roadside sightings of wild elephants, deer, and Indian bison.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>Wayanad & Bandipur: Must-Experience Highlights</h2>
+      <p>From stone-age mountain caves to India’s largest earth dam, Wayanad is packed with diverse attractions.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Attraction</th>
+              <th>The Experience</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Bandipur Jungle Safari</strong></td>
+              <td>Before crossing into Kerala, book a government-operated Jeep or Bus safari at the Bandipur reception center for a chance to spot Bengal tigers, leopards, and sloth bears in their natural habitat.</td>
+            </tr>
+            <tr>
+              <td><strong>Edakkal Caves</strong></td>
+              <td>Trek up Ambukuthi Mountain in Wayanad to enter these natural rock clefts featuring authentic Stone Age pictorial carvings dating back over 8,000 years (to 6000 BCE).</td>
+            </tr>
+            <tr>
+              <td><strong>Banasura Sagar Dam & Treehouses</strong></td>
+              <td>Visit the largest earth dam in India and the second largest in Asia, surrounded by the rolling hills of Banasura. Wayanad is also famous for eco-resorts offering luxurious wooden treehouse stays high in the jungle canopy.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <img src="https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1200&q=80" alt="A rustic wooden treehouse built high in a tropical forest canopy" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>The 5-to-6 Day Group Vacation Advantage</strong>
+          <p>Because Wayanad is a 750-kilometer drive spanning three states (Telangana, Karnataka, and Kerala), it is best experienced as an extended 5-day or 6-day holiday. Booking a 12-seater or 16-seater Tempo Traveller for your extended family or corporate group keeps everyone together, splits the per-person travel cost significantly, and ensures you have a dedicated, comfortable vehicle for all your sightseeing across the expansive hills.</p>
+        </div>
+      </div>
+
+      <h2>Plan Your Deep Western Ghats Expedition</h2>
+      <p>Embark on the ultimate wildlife and hill station road trip with complete comfort and safety. Browse our <a href="/fleet">spacious SUVs and Tempo Travellers</a> to lock in your Wayanad and Bandipur itinerary today.</p>
+    `,
+  },
 ];
 
 export function generateFAQ(slug, title) {
   const s = slug.toLowerCase();
+
+  // 🔥 Mahabaleshwar & Panchgani Cluster
+  if (s.includes('mahabaleshwar') || s.includes('panchgani')) {
+    return [
+      {
+        question: "How far is Mahabaleshwar from Hyderabad by road?",
+        answer: "Mahabaleshwar in Maharashtra is approximately 580 kilometers from Hyderabad. The drive via NH65 through Solapur and Satara typically takes between 10 and 11 hours."
+      },
+      {
+        question: "When is the strawberry picking season in Mahabaleshwar?",
+        answer: "The strawberry harvesting season runs from November through April, peaking between December and February. Visitors can tour live strawberry patches and sample fresh produce at places like Mapro Garden in Panchgani."
+      },
+      {
+        question: "What is the road condition like on the Pasarni Ghat?",
+        answer: "The highway from Hyderabad to Satara is a smooth 4-lane divided expressway. The final 50-kilometer mountain ascent up Pasarni Ghat into Panchgani features sharp hairpin bends and steep inclines, requiring careful hill driving."
+      }
+    ];
+  }
+
+  // 🔥 Agumbe & Kudremukh Cluster
+  if (s.includes('agumbe') || s.includes('kudremukh')) {
+    return [
+      {
+        question: "Why is Agumbe called the Cherrapunji of the South?",
+        answer: "Agumbe receives an average annual rainfall of over 7,000 mm, making it one of the wettest places in India and home to dense, evergreen tropical rainforests and cascading waterfalls."
+      },
+      {
+        question: "How many hairpin bends are there on Agumbe Ghat?",
+        answer: "The Agumbe Ghat road descending from the mountain plateau toward the coastal plains features exactly 14 sharp, steep hairpin bends cut into the cliffside."
+      },
+      {
+        question: "What is the distance from Hyderabad to Agumbe and Sringeri?",
+        answer: "Agumbe is located roughly 650 kilometers southwest of Hyderabad. Driving via Hubballi and Shivamogga (Shimoga) takes approximately 11 to 12 hours by car."
+      }
+    ];
+  }
+
+  // 🔥 Wayanad & Bandipur Cluster
+  if (s.includes('wayanad') || s.includes('bandipur')) {
+    return [
+      {
+        question: "What are the night traffic rules for driving through Bandipur Tiger Reserve?",
+        answer: "The highway passing through Bandipur Tiger Reserve and Mudumalai National Park is strictly closed to all vehicular traffic from 9:00 PM to 6:00 AM every night to prevent wildlife disturbance and accidents."
+      },
+      {
+        question: "How long does a road trip from Hyderabad to Wayanad take?",
+        answer: "The 750-kilometer journey from Hyderabad to Wayanad via Bengaluru and Mysuru takes approximately 13 to 14 hours by cab. We recommend starting early morning or breaking the journey in Mysuru."
+      },
+      {
+        question: "What is special about the Edakkal Caves in Wayanad?",
+        answer: "The Edakkal Caves feature authentic Neolithic (Stone Age) pictorial rock carvings and petroglyphs dating back over 8,000 years (to 6000 BCE), making it a rare archaeological treasure in South India."
+      }
+    ];
+  }
+
+// 🔥 Goa Cluster
+  if (s.includes('goa')) {
+    return [
+      {
+        question: "How long is the road trip from Hyderabad to Goa?",
+        answer: "The distance from Hyderabad to Goa is approximately 650 kilometers. Driving via the highway through Mahabubnagar, Belagavi, and the Western Ghats takes roughly 12 to 13 hours."
+      },
+      {
+        question: "Which ghat road is better for driving from Hyderabad to Goa?",
+        answer: "If you are traveling to North Goa (Baga, Anjuna, Arambol), descending via Amboli Ghat in Maharashtra is recommended. If heading to South Goa or Panaji, the Chorla Ghat route through the tropical rainforests is faster and smoother."
+      },
+      {
+        question: "Is it safe to drive through the Goa ghats at night?",
+        answer: "While highways up to Belagavi are well-lit 4-lane roads, driving through Amboli or Chorla Ghat during late night hours is not recommended due to heavy fog, wildlife movement, and lack of streetlights. Plan your departure to cross the ghats during daylight."
+      }
+    ];
+  }
+
+  // 🔥 Chikmagalur & Coorg Cluster
+  if (s.includes('chikmagalur') || s.includes('coorg')) {
+    return [
+      {
+        question: "What is the driving distance from Hyderabad to Chikmagalur and Coorg?",
+        answer: "Chikmagalur is roughly 600 kilometers from Hyderabad (10 hours via NH44 and Arsikere). Coorg is located an additional 150 kilometers (3.5 to 4 hours) south of Chikmagalur."
+      },
+      {
+        question: "Why do we need an SUV for visiting coffee estates in Coorg and Chikmagalur?",
+        answer: "Many plantation homestays, private resorts, and trailheads (like Mullayanagiri or Jhari Falls) are situated on steep, unpaved dirt roads inside private estates. High-clearance SUVs ensure safe access without undercarriage damage."
+      },
+      {
+        question: "How many days are recommended for a Chikmagalur and Coorg road trip?",
+        answer: "A minimum 4-day to 5-day itinerary is ideal. We recommend spending 2 nights in Chikmagalur to explore the peaks and waterfalls, followed by 2 nights in Coorg for elephant camps and spice plantations."
+      }
+    ];
+  }
+
+  // 🔥 Gokarna & Dandeli Cluster
+  if (s.includes('gokarna') || s.includes('dandeli')) {
+    return [
+      {
+        question: "How far is Dandeli and Gokarna from Hyderabad?",
+        answer: "Dandeli is roughly 570 kilometers from Hyderabad (10 hours via Hubballi). Gokarna is located on the coast about 140 kilometers southwest of Dandeli, making them an ideal 3-day or 4-day combo trip."
+      },
+      {
+        question: "What water sports are available in Dandeli?",
+        answer: "Dandeli is Karnataka's premier water adventure hub, offering Class 3+ white-water rafting on the Kali River, natural jacuzzi baths, river kayaking, and coracle rides."
+      },
+      {
+        question: "Can we reach Om Beach in Gokarna directly by cab?",
+        answer: "Yes, paved roads lead directly to the parking areas of Kudle Beach and Om Beach. However, remote beaches like Half Moon and Paradise Beach must be accessed via short cliff treks or local boats from Om Beach."
+      }
+    ];
+  }
+
+  // 🔥 Ananthagiri Hills / Vikarabad Cluster
+  if (s.includes('ananthagiri') || s.includes('vikarabad')) {
+    return [
+      {
+        question: "How far are Ananthagiri Hills from Hyderabad?",
+        answer: "Ananthagiri Hills in Vikarabad district is located about 80 kilometers from Hyderabad. The drive via the Chevella highway typically takes around 1.5 to 2 hours."
+      },
+      {
+        question: "What is the best time to visit Ananthagiri Hills?",
+        answer: "The monsoon and winter months (July to February) are ideal. During this time, the forest is lush green, waterfalls are active, and the weather is cool and misty."
+      },
+      {
+        question: "Is kayaking available near Ananthagiri Hills?",
+        answer: "Yes, professional kayaking and boating are available at Kotpally Reservoir, located approximately 15 kilometers past the main Ananthagiri forest viewpoint."
+      }
+    ];
+  }
+
+  // 🔥 Srisailam Cluster
+  if (s.includes('srisailam')) {
+    return [
+      {
+        question: "What are the forest gate timings for the Srisailam ghat road?",
+        answer: "The Amrabad Tiger Reserve forest checkposts (such as Mannanur) open strictly from 6:00 AM to 9:00 PM. Vehicles are not permitted to travel through the forest reserve at night."
+      },
+      {
+        question: "How much time does a road trip from Hyderabad to Srisailam take?",
+        answer: "The 215-kilometer journey from Hyderabad to Srisailam takes approximately 5 hours by cab, depending on ghat road traffic and checkpoint clearances."
+      },
+      {
+        question: "What are the major attractions in Srisailam besides the temple?",
+        answer: "Top attractions include the Pathala Ganga ropeway and boating, the Akka Mahadevi Caves (accessible by riverboat), the Srisailam Dam viewpoint, and Paladhara Panchadhara."
+      }
+    ];
+  }
+
+  // 🔥 Laknavaram & Ramappa Cluster
+  if (s.includes('laknavaram') || s.includes('ramappa')) {
+    return [
+      {
+        question: "Why is Ramappa Temple famous?",
+        answer: "Ramappa Temple is India's 39th UNESCO World Heritage Site. It is globally renowned for its lightweight 'floating bricks' that do not sink in water and its intricate 13th-century Kakatiya sandstone carvings."
+      },
+      {
+        question: "What is the distance from Hyderabad to Laknavaram Lake?",
+        answer: "Laknavaram Lake in Mulugu district is approximately 220 kilometers from Hyderabad. Driving via the NH163 Warangal highway takes roughly 4 to 4.5 hours."
+      },
+      {
+        question: "Can we stay overnight at Laknavaram Lake?",
+        answer: "Yes, Telangana Tourism (Haritha) operates island cottages and restaurant facilities connected by a pedestrian yellow suspension bridge. Pre-booking online is highly recommended."
+      }
+    ];
+  }
 
   // 🔥 Srisailam Cluster
   if (s.includes('srisailam')) {
