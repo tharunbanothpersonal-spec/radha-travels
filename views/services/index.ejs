@@ -4,6 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title><%= title %></title>
+  <%- include('../partials/schema-service', { 
+    serviceName: 'Car Rental & Outstation Cab Services Hyderabad', 
+    basePrice: '13.00',
+    metaDescription: 'Explore Radha Travels cab services in Hyderabad: outstation packages, local city rentals, airport transfers, and luxury fleet options like Innova Crysta and Force Urbania.'
+  }) %>
   <%- include('../partials/head', { title }) %>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -418,6 +423,469 @@
         </div>
       </section>
     <% } %>
+
+<!-- ==========================================================================
+     EXECUTIVE VIP FLEET SPOTLIGHT BANNER (FORCE URBANIA & INNOVA CRYSTA)
+     ========================================================================== -->
+<section class="rt-vip-spotlight reveal-on-scroll">
+  <div class="vip-container">
+    
+    <!-- Background Gradient Overlay & Ambient Light -->
+    <div class="vip-ambient-glow"></div>
+    <div class="vip-grid-pattern"></div>
+
+    <!-- Left Content Column -->
+    <div class="vip-content">
+      <div class="vip-header-badge">
+        <span class="crown-icon"><i class="fa-solid fa-crown"></i></span>
+        <span>Premium VIP & Group Fleet</span>
+      </div>
+
+      <h2 class="vip-title">
+        Upgrade to <span class="text-highlight">First-Class</span> Group Travel
+      </h2>
+
+      <p class="vip-subtitle">
+        Say goodbye to noisy, cramped vans. Transport your guests in total luxury with our executive <strong>Force Urbania</strong> & <strong>Innova Crysta</strong> fleet.
+      </p>
+
+      <!-- Key Vehicle Highlights Grid -->
+      <div class="vip-features-grid">
+        <div class="vip-feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-couch"></i></div>
+          <div class="feature-text">
+            <strong>Captain Seats</strong>
+            <span>Leather Recliners</span>
+          </div>
+        </div>
+
+        <div class="vip-feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-volume-xmark"></i></div>
+          <div class="feature-text">
+            <strong>Quiet Cabin</strong>
+            <span>Airplane NVH Sound</span>
+          </div>
+        </div>
+
+        <div class="vip-feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-suitcase-rolling"></i></div>
+          <div class="feature-text">
+            <strong>Huge Boot</strong>
+            <span>12–15 Full Suitcases</span>
+          </div>
+        </div>
+
+        <div class="vip-feature-item">
+          <div class="feature-icon"><i class="fa-solid fa-user-shield"></i></div>
+          <div class="feature-text">
+            <strong>Pro Chauffeur</strong>
+            <span>7+ Yrs Hill Certified</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons (2-Column Grid on Mobile) -->
+      <div class="vip-actions">
+        <a href="/fleet" class="vip-btn-primary">
+          <i class="fa-solid fa-car-rear"></i> Luxury Fleet
+        </a>
+        <a href="/blog/force-urbania-luxury-van-rental-hyderabad-guide" class="vip-btn-secondary">
+          <i class="fa-solid fa-book-open"></i> Urbania Guide
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Feature Visual Card -->
+    <div class="vip-visual-card">
+      <div class="card-image-wrap">
+        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80" alt="Force Urbania Luxury Van" loading="lazy">
+        <div class="visual-glass-overlay">
+          <div class="seating-tag">
+            <i class="fa-solid fa-users"></i> 10, 13 & 17 Seaters
+          </div>
+          <div class="rating-tag">
+            <i class="fa-solid fa-star" style="color: #fbbf24;"></i> 4.9/5 Rating
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ==========================================================================
+     EXECUTIVE VIP SPOTLIGHT STYLES
+     ========================================================================== */
+  .rt-vip-spotlight {
+    max-width: 1250px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+
+  .vip-container {
+    position: relative;
+    background: #0f172a;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.4);
+    padding: clamp(2rem, 4vw, 3.5rem);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    overflow: hidden;
+  }
+
+  @media (min-width: 992px) {
+    .vip-container {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: center;
+    }
+  }
+
+  /* Ambient Glow & Background Layering */
+  .vip-ambient-glow {
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(15, 23, 42, 0) 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .vip-grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Left Content Column */
+  .vip-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .vip-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    color: #34d399;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 1.25rem;
+    backdrop-filter: blur(8px);
+  }
+
+  .vip-header-badge .crown-icon {
+    color: #fbbf24;
+    font-size: 0.9rem;
+  }
+
+  .vip-title {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem 0;
+  }
+
+  .vip-title .text-highlight {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .vip-subtitle {
+    color: #94a3b8;
+    font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+    line-height: 1.6;
+    margin: 0 0 2rem 0;
+  }
+
+  .vip-subtitle strong {
+    color: #f8fafc;
+  }
+
+  /* Desktop Features Grid */
+  .vip-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .vip-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px 16px;
+    border-radius: 14px;
+    backdrop-filter: blur(4px);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .vip-feature-item:hover {
+    transform: translateY(-3px);
+    border-color: rgba(16, 185, 129, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .feature-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .feature-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .feature-text strong {
+    color: #f1f5f9;
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .feature-text span {
+    color: #64748b;
+    font-size: 0.72rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Desktop Actions */
+  .vip-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .vip-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff !important;
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none !important;
+    box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .vip-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.6);
+  }
+
+  .vip-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #cbd5e1 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 14px 24px;
+    border-radius: 14px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none !important;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+
+  .vip-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-3px);
+  }
+
+  /* Right Visual Card */
+  .vip-visual-card {
+    position: relative;
+    z-index: 2;
+  }
+
+  .card-image-wrap {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    aspect-ratio: 4/3;
+  }
+
+  .card-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .card-image-wrap:hover img {
+    transform: scale(1.06);
+  }
+
+  .visual-glass-overlay {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .seating-tag, .rating-tag {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 8px 14px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .seating-tag i {
+    color: #34d399;
+  }
+
+  /* ==========================================================================
+     STRICT MOBILE OPTIMIZATIONS (2-COLUMN GRID & COMPACT FONTS)
+     ========================================================================== */
+  @media (max-width: 768px) {
+    .rt-vip-spotlight {
+      margin: 1.5rem auto;
+      padding: 0 0.5rem;
+    }
+
+    .vip-container {
+      padding: 1.25rem 1rem;
+      border-radius: 18px;
+      gap: 1.5rem;
+    }
+
+    .vip-header-badge {
+      font-size: 0.65rem;
+      padding: 4px 12px;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+
+    .vip-title {
+      font-size: 1.45rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .vip-subtitle {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+
+    /* 🔥 2-COLUMN FEATURES GRID ON MOBILE */
+    .vip-features-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 1.25rem;
+    }
+
+    .vip-feature-item {
+      padding: 8px 10px;
+      border-radius: 10px;
+      gap: 8px;
+    }
+
+    .feature-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+    }
+
+    .feature-text strong {
+      font-size: 0.73rem;
+    }
+
+    .feature-text span {
+      font-size: 0.62rem;
+    }
+
+    /* 🔥 2-COLUMN BUTTONS ON MOBILE */
+    .vip-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .vip-btn-primary, .vip-btn-secondary {
+      width: 100%;
+      padding: 11px 8px;
+      font-size: 0.72rem;
+      border-radius: 10px;
+      justify-content: center;
+      gap: 6px;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .vip-btn-primary i, .vip-btn-secondary i {
+      font-size: 0.75rem;
+    }
+
+    /* Compact Visual Card Overlay */
+    .visual-glass-overlay {
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      gap: 6px;
+    }
+
+    .seating-tag, .rating-tag {
+      font-size: 0.65rem;
+      padding: 6px 10px;
+    }
+  }
+</style>
 
     <section class="services-regular-section">
       <div class="section-header-rich reveal-on-scroll">

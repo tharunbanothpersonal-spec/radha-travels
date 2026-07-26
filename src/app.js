@@ -59,7 +59,7 @@ const PORT = process.env.PORT || 3000;
 app.get('/sitemap.xml', (req, res) => {
   res.header('Content-Type', 'application/xml');
 
-  const baseUrl = 'https://radhatravels.co.in';
+  const baseUrl = 'https://www.radhatravels.co.in';
   const today = new Date().toISOString().split('T')[0];
 
   // 1. Core Static Pages
@@ -116,7 +116,8 @@ app.get('/sitemap.xml', (req, res) => {
       xml += `  <url>\n`;
       xml += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
       // Use the blog post's actual date if it exists, otherwise use today's date
-      const postDate = post.date ? new Date(post.date).toISOString().split('T')[0] : today;
+      // Safely grab YYYY-MM-DD if valid, otherwise fallback to today without crashing
+      const postDate = (post.date && !isNaN(new Date(post.date))) ? new Date(post.date).toISOString().split('T')[0]: today;
       xml += `    <lastmod>${postDate}</lastmod>\n`;
       xml += `    <changefreq>monthly</changefreq>\n`;
       xml += `    <priority>0.7</priority>\n`;
@@ -134,7 +135,7 @@ app.get('/robots.txt', (req, res) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
   res.status(200).send(
-    `User-agent: *\nAllow: /\n\nSitemap: https://radhatravels.co.in/sitemap.xml`
+    `User-agent: *\nAllow: /\n\nSitemap: https://www.radhatravels.co.in/sitemap.xml`
   );
 });
 

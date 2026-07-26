@@ -1,5 +1,103 @@
 export const blogPosts = [
   {
+    slug: 'force-urbania-luxury-van-rental-hyderabad-guide',
+    title: 'Force Urbania Rental in Hyderabad: The Ultimate 2026 Luxury Group Travel Guide',
+    category: 'fleet-guide',
+    excerpt: 'Upgrade your group travel with the Force Urbania! Discover why this European-style luxury van is beating traditional Tempo Travellers with airplane-style seating, silent cabins, and advanced safety.',
+    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80',
+    date: '2026-07-28',
+    quickFacts: {
+      label1: 'Seating Options',
+      value1: '10, 13 & 17 Seater',
+      label2: 'Best Suited For',
+      value2: 'VIP & Corporate Groups',
+      label3: 'Starting Tariff',
+      value3: '₹30 - ₹35 / KM'
+    },
+    content: `
+      <p>For decades, large group travel in India meant compromising on luxury. If you had more than seven passengers, your only choices were standard utility minibuses or conventional Tempo Travellers. That era is officially over. Enter the <strong>Force Urbania</strong>—a world-class, European-designed luxury van that has completely transformed group highway travel across Hyderabad and South India in 2026.</p>
+
+      <h2>What Makes the Force Urbania a Game-Changer?</h2>
+      <p>Designed with an aerodynamic, futuristic "bull-inspired" front fascia, projector lamps, and LED daytime running lights, the Urbania looks less like a commercial bus and more like a private executive jet on wheels. Built from the ground up on a modular monocoque platform, it engineered out the typical vibrations and rattles of traditional vans.</p>
+      
+      <ul>
+        <li><strong>Airplane-Grade NVH Isolation:</strong> NVH stands for Noise, Vibration, and Harshness. The Urbania features advanced acoustic insulation and sealed panoramic windows, ensuring the cabin remains whisper-quiet even at cruising speeds of 100 km/h on the Outer Ring Road or NH44.</li>
+        <li><strong>Independent Front Suspension:</strong> Unlike standard vans that use stiff rear leaf springs designed for heavy cargo, the Urbania uses transverse parabolic springs and independent front suspension. This means it absorbs Deccan plateau potholes and Western Ghats speedbreakers effortlessly without throwing passengers around.</li>
+        <li><strong>First-in-Segment Safety:</strong> It is one of the first commercial passenger vehicles in India to offer crash and rollover compliance, dual airbags for driver and co-driver, all-wheel disc brakes, and ESP (Electronic Stability Program) with ABS and EBD.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80" alt="Luxury interior of a premium passenger van with leather reclining seats" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The Force Urbania features plush executive recliners with individual aircraft-style reading lights and AC vents.</p>
+
+      [BOOKING_BANNER]
+
+      <h2>Force Urbania vs. Traditional Tempo Traveller</h2>
+      <p>When booking a vehicle for an outstation road trip or family wedding in Hyderabad, many customers ask: <em>"Is the Urbania really worth the slight price premium over a standard Tempo Traveller?"</em> Look at the direct comparison below to see why luxury travelers are never going back.</p>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature / Metric</th>
+              <th>Traditional Tempo Traveller</th>
+              <th>Force Urbania (Luxury)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Seating Comfort</strong></td>
+              <td>Standard push-back fabric seats with shared armrests.</td>
+              <td><strong>Captain-style plush leather recliners</strong> with extra thigh support and wide individual armrests.</td>
+            </tr>
+            <tr>
+              <td><strong>Air Conditioning</strong></td>
+              <td>Central roof vents with shared airflow zones.</td>
+              <td><strong>Individual aircraft-style AC vents</strong> and personal LED reading lights for every passenger.</td>
+            </tr>
+            <tr>
+              <td><strong>Cabin Entry & Exit</strong></td>
+              <td>Manual swinging door with high step-up height.</td>
+              <td><strong>Wide sliding executive door</strong> with a low entry step and sturdy grab handles for elderly passengers.</td>
+            </tr>
+            <tr>
+              <td><strong>Luggage Capacity</strong></td>
+              <td>Roof carrier required for large group luggage (exposed to weather).</td>
+              <td><strong>Massive built-in rear boot space</strong> that securely stores 12–15 large suitcases inside the sealed vehicle.</td>
+            </tr>
+            <tr>
+              <td><strong>Window Experience</strong></td>
+              <td>Sliding glass windows that rattle and let in highway dust.</td>
+              <td><strong>Large panoramic sealed glass windows</strong> offering 360-degree scenic views without dust or wind noise.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Ideal Use Cases for Urbania Rentals in Hyderabad</h2>
+      <p>Because of its versatile seating configurations—available in <strong>10-seater (Super Luxury VIP), 13-seater, and 17-seater</strong> variants—the Force Urbania is dominating four major travel segments:</p>
+
+      <ul>
+        <li><strong>Big Fat Indian Weddings:</strong> Transporting VIP guests, NRIs, and bridal parties between luxury resorts, airports, and wedding venues in Jubilee Hills, Shamshabad, or Moinabad with complete elegance.</li>
+        <li><strong>Corporate & Delegation Transit:</strong> IT companies in Hitec City and Gachibowli prefer the Urbania for team offsites, board member airport transfers, and industrial visits because teams can conduct meetings on laptops using onboard USB charging ports without cabin noise.</li>
+        <li><strong>Long-Distance Pilgrimages:</strong> A 10-hour drive to Tirupati, Srisailam, or Shirdi can leave elderly family members exhausted with back pain. The Urbania’s ergonomic recliners and smooth suspension allow seniors to sleep peacefully through overnight journeys.</li>
+        <li><strong>Hill Station Road Trips:</strong> Whether navigating the 14 hairpin bends of Agumbe or cruising up to Coorg and Ooty, the Urbania’s powerful 115 HP Mercedes-derived CRDI engine climbs steep mountain inclines effortlessly while keeping passengers cool and comfortable.</li>
+      </ul>
+
+      <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80" alt="Modern white passenger van cruising smoothly on a wide divided highway" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+
+      <div class="expert-note">
+        <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div>
+          <strong>Why Chauffeur Skill Matters for the Urbania</strong>
+          <p>The Force Urbania features a wider stance and longer wheelbase than standard city vans. Navigating tight hotel gates in Hyderabad or narrow ghat roads in the Western Ghats requires drivers with specialized training in spatial awareness and defensive driving. At Radha Travels, only our senior-most, hill-certified chauffeurs with a minimum of 7 years of accident-free driving are assigned to captain our Force Urbania luxury fleet.</p>
+        </div>
+      </div>
+
+      <h2>Book Your Force Urbania in Hyderabad Today</h2>
+      <p>Don't let tight legroom and noisy cabins compromise your next group vacation or corporate event. Experience the future of Indian road travel with a spotless, chauffeur-driven Force Urbania from Radha Travels. Check our <a href="/fleet">luxury fleet availability</a> or contact us via our <a href="/services/outstation">outstation package portal</a> for custom quotes.</p>
+    `,
+  },
+  {
     slug: 'hyderabad-to-arunachalam-toll-charges-route-guide',
     title: '2026 Toll Charges & Route Guide: Hyderabad to Arunachalam',
     excerpt: 'Plan your road trip perfectly with exact 2026 toll charges, highway route conditions, and best food stops from Hyderabad to Tiruvannamalai.',
@@ -3759,6 +3857,27 @@ export const blogPosts = [
 export function generateFAQ(slug, title) {
   const s = slug.toLowerCase();
 
+  // 🔥 Force Urbania Luxury Van Cluster
+  if (s.includes('urbania') || s.includes('force-urbania')) {
+    return [
+      {
+        question: "What seating capacities are available for Force Urbania rental in Hyderabad?",
+        answer: "The Force Urbania is typically available in three primary configurations: a 10-seater VIP Executive layout (with ultra-wide captain seats), a 13-seater medium group layout, and a 17-seater configuration for larger families and corporate teams."
+      },
+      {
+        question: "How much does it cost to rent a Force Urbania for outstation trips from Hyderabad?",
+        answer: "Outstation rental rates for the Force Urbania generally start around ₹30 to ₹35 per kilometer depending on the seating capacity (10, 13, or 17 seater), plus standard driver allowance, interstate checkpost taxes, and toll fees."
+      },
+      {
+        question: "Why is the Force Urbania considered better than a Tempo Traveller?",
+        answer: "The Force Urbania offers superior European aerodynamic styling, independent front suspension for a bump-free ride, sealed panoramic glass windows for ultra-low cabin noise (NVH), individual aircraft-style AC vents, and advanced safety features like dual airbags and all-wheel disc brakes."
+      },
+      {
+        question: "Does the Force Urbania have enough boot space for luggage?",
+        answer: "Yes, unlike traditional Tempo Travellers that require stacking luggage on an exposed roof carrier, the Force Urbania features a massive, dedicated internal rear luggage boot capable of securely storing 12 to 15 large suitcases inside the locked cabin."
+      }
+    ];
+  }
   // 🔥 Mahabaleshwar & Panchgani Cluster
   if (s.includes('mahabaleshwar') || s.includes('panchgani')) {
     return [

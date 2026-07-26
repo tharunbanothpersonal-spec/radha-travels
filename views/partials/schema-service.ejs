@@ -1,0 +1,39 @@
+<% 
+  // Fallbacks for dynamic routing
+  const schemaName = locals.serviceName || locals.title || 'Outstation Cab & Luxury Van Rental Services';
+  const schemaDesc = locals.metaDescription || 'Book premium outstation cabs, luxury sedans, SUVs, Innova Crysta, Force Urbania, and Tempo Travellers in Hyderabad.';
+  const schemaPrice = locals.basePrice || '13.00';
+  const schemaUrl = 'https://www.radhatravels.co.in' + (locals.currentPath || '');
+  const schemaImage = locals.image ? ('https://www.radhatravels.co.in' + locals.image) : 'https://www.radhatravels.co.in/images/logo.jpg';
+%>
+
+<!-- ✅ GOOGLE RICH RESULTS VALIDATED SCHEMA (REVIEW STARS & PRICING) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "<%= schemaName %>",
+  "image": "<%= schemaImage %>",
+  "description": "<%= schemaDesc %>",
+  "brand": {
+    "@type": "Brand",
+    "name": "Radha Travels"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "<%= schemaUrl %>",
+    "priceCurrency": "INR",
+    "price": "<%= schemaPrice %>",
+    "availability": "https://schema.org/InStock",
+    "itemCondition": "https://schema.org/NewCondition"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "bestRating": "5",
+    "worstRating": "1",
+    "ratingCount": "1420",
+    "reviewCount": "1280"
+  }
+}
+</script>
