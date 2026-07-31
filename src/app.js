@@ -498,6 +498,12 @@ app.get('/services/:slug', async (req, res) => {
   }
 });
 
+app.get('/insta-feed', (req, res) => {
+  res.render('insta-feed', { 
+    title: 'Instagram Feed | Radha Travels'
+  });
+});
+
 // =======================================================
 //  BOOKINGS API (SECURITY UPGRADED)
 // =======================================================

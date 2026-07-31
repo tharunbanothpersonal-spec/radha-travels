@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head', { title: title }) %>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  
+  <style>
+    /* ==========================================================================
+       DYNAMIC MARQUEE HERO & INSTA FEED 
+       ========================================================================== */
+    
+    /* 1. Cinematic Background Setup */
+    .insta-hero-wrapper {
+      background-color: #022c22; 
+      background-image: 
+        radial-gradient(circle at top right, #065f46 0%, transparent 60%),
+        radial-gradient(circle at bottom left, #0f172a 0%, transparent 70%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 8rem; /* Space for the header */
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* 2. Centered Text Content (Top Half) */
+    .hero-content-layer {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 0 1.5rem;
+      max-width: 800px;
+      margin: 0 auto 3rem auto;
+    }
+
+    .hero-content-layer h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 900;
+      color: #ffffff; 
+      margin-bottom: 1rem;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-content-layer h1 span {
+      background: linear-gradient(90deg, #fcaf45, #fd1d1d, #e1306c, #c13584, #833ab4, #405de6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 15px rgba(225, 48, 108, 0.4)); 
+    }
+
+    .hero-content-layer p {
+      color: #94a3b8; 
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .insta-hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+      background-size: 200% auto;
+      color: white !important;
+      padding: 14px 32px;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 8px 25px rgba(225, 48, 108, 0.3);
+    }
+
+    .insta-hero-btn:hover {
+      background-position: right center; 
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 12px 35px rgba(225, 48, 108, 0.5);
+    }
+
+    /* 3. The Infinite Animated Marquee (Bottom Half) */
+    .marquee-container {
+      position: absolute;
+      top: 50%;
+      left: -10%;
+      width: 120%;
+      transform: rotate(-5deg); /* Dynamic Tilted Effect */
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      pointer-events: none; /* Let clicks pass through empty space */
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 1.5rem;
+      width: max-content;
+      pointer-events: auto; /* Re-enable interactions on the photos */
+    }
+
+    /* Track 1 moves Left, Track 2 moves Right */
+    .track-left { animation: scroll-left 40s linear infinite; }
+    .track-right { animation: scroll-right 40s linear infinite; }
+
+    /* Pause animation on hover */
+    .marquee-track:hover { animation-play-state: paused; }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    @keyframes scroll-right {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* Highly Interactive Photo Cards */
+    .marquee-item {
+      width: 200px;
+      height: 260px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      opacity: 0.7; /* Slightly faded until hovered */
+    }
+
+    .marquee-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    /* Interaction Effect */
+    .marquee-item:hover {
+      opacity: 1;
+      transform: scale(1.1) translateY(-10px);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 30px rgba(225, 48, 108, 0.3);
+      z-index: 10;
+    }
+
+    .marquee-item:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Scroll Down Indicator */
+    .scroll-down-indicator {
+      position: absolute;
+      bottom: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 700;
+      z-index: 15;
+      animation: bounce 2s infinite;
+      pointer-events: none;
+    }
+
+    .scroll-down-indicator i {
+      margin-top: 8px;
+      font-size: 1.2rem;
+      color: #38bdf8;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); }
+      40% { transform: translate(-50%, -10px); }
+      60% { transform: translate(-50%, -5px); }
+    }
+
+    /* 4. Glassmorphism Overlapping Feed */
+    .insta-page-wrapper {
+      background: #f8fafc;
+      padding: 0 1rem 6rem 1rem;
+      position: relative;
+      z-index: 20;
+      margin-top: -80px; 
+    }
+
+    .feed-glass-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.8);
+      border-left: 1px solid rgba(255, 255, 255, 0.5);
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3), 0 -10px 30px rgba(0,0,0,0.05);
+      padding: 2rem 1rem;
+    }
+
+    /* Responsive Adjustments */
+    @media (min-width: 600px) {
+      .marquee-container { top: 45%; }
+      .marquee-item { width: 250px; height: 320px; }
+      .feed-glass-container { padding: 4rem 3rem; }
+    }
+    
+    @media (min-width: 900px) {
+      .marquee-container { top: 35%; }
+      .marquee-item { width: 300px; height: 380px; }
+      .insta-page-wrapper { margin-top: -120px; }
+    }
+  </style>
+</head>
+<body>
+  
+  <%- include('partials/header') %>
+
+  <main>
+    
+    <!-- DYNAMIC MARQUEE HERO -->
+    <section class="insta-hero-wrapper">
+      
+      <!-- Text Layer -->
+      <div class="hero-content-layer">
+        <h1>Moments on<br><span>Instagram</span></h1>
+        <p>Explore beautiful destinations, happy travelers, and memories captured from our premium journeys across India.</p>
+        
+        <a href="https://instagram.com/radhatravelshyd" class="insta-hero-btn" target="_blank">
+          <i class="fa-brands fa-instagram"></i> Follow @radhatravelshyd
+        </a>
+      </div>
+
+      <!-- Marquee Animation Layer -->
+      <div class="marquee-container">
+        
+        <!-- Top Track (Moves Left) -->
+        <div class="marquee-track track-left">
+          <!-- Duplicated set of images for seamless infinite scroll -->
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1506461883276-5946852eeb59?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          
+          <!-- Repeat for loop -->
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1506461883276-5946852eeb59?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+        </div>
+
+        <!-- Bottom Track (Moves Right) -->
+        <div class="marquee-track track-right">
+          <!-- Duplicated set of images for seamless infinite scroll -->
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          
+          <!-- Repeat for loop -->
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+          <div class="marquee-item"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" alt="Travel"></div>
+        </div>
+
+      </div>
+
+      <div class="scroll-down-indicator">
+        <span>Scroll to Feed</span>
+        <i class="fa-solid fa-chevron-down"></i>
+      </div>
+    </section>
+
+    <!-- GLASSMORPHISM OVERLAPPING FEED SECTION -->
+    <section class="insta-page-wrapper">
+      <div class="feed-glass-container">
+        
+        <!-- Curator.io Widget -->
+        <div id="curator-feed-default-feed-layout">
+          <a href="https://curator.io" target="_blank" class="crt-logo crt-tag">Powered by Curator.io</a>
+        </div>
+
+      </div>
+    </section>
+    
+  </main>
+
+  <%- include('partials/footer') %>
+  
+  <script type="text/javascript">
+    /* curator-feed-default-feed-layout */
+    (function(){
+    var i,e,d=document,s="script";i=d.createElement("script");i.async=1;i.charset="UTF-8";
+    i.src="https://cdn.curator.io/published/43ec9e6a-1bf2-4b20-800d-5c91c2193f7e.js";
+    e=d.getElementsByTagName(s)[0];e.parentNode.insertBefore(i, e);
+    })();
+  </script>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

@@ -627,6 +627,331 @@
 
   </div>
 </section>
+<!-- ============================================ -->
+<!-- PREMIUM INSTAGRAM FEED SECTION               -->
+<!-- ============================================ -->
+<style>
+/* 1. Section and Elevated Container */
+.home-instagram-section {
+  padding: 4rem 1rem;
+  background: linear-gradient(180deg, #f4fdf8 0%, #ffffff 100%);
+}
+
+.insta-container {
+  max-width: auto;
+  margin: 0 3rem;
+}
+
+/* --- Section Title Styling (Compact for Mobile) --- */
+.insta-section-header {
+  text-align: center;
+  margin-bottom: 1.5rem; /* Tight margin to save space */
+}
+
+.insta-section-header h2 {
+  font-size: 1.75rem; /* Smaller font for mobile */
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.insta-section-header h2 span {
+  color: #059669; /* Brand Green */
+}
+
+.insta-section-header p {
+  color: #4b5563;
+  font-size: 0.9rem; /* Smaller paragraph text for mobile */
+  margin: 0;
+}
+
+.insta-card-wrapper {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 20px 40px -10px rgba(5, 150, 105, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(5, 150, 105, 0.15);
+  padding: 0; 
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+
+.insta-card-wrapper:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 50px -12px rgba(5, 150, 105, 0.2);
+}
+
+/* 2. Premium Custom Header (Mobile Optimized) */
+.custom-insta-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  padding: 2rem 1.5rem;
+  border-bottom: none; 
+  position: relative;
+}
+
+/* 3. Top Accent Line */
+.custom-insta-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg, #405de6, #833ab4, #c13584, #e1306c, #fd1d1d, #fcaf45);
+}
+
+.cih-profile-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  gap: 1rem;
+}
+
+/* --- Animated Story Ring (Resized for Mobile) --- */
+.cih-avatar-wrap {
+  position: relative;
+  width: 65px; 
+  height: 65px; 
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 15px rgba(225, 48, 108, 0.2);
+  z-index: 1;
+}
+
+/* The spinning gradient layer */
+.cih-avatar-wrap::before {
+  content: '';
+  position: absolute;
+  top: -3px; left: -3px; right: -3px; bottom: -3px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888, #f09433);
+  background-size: 200% 200%;
+  z-index: -1;
+  animation: spin-gradient 4s linear infinite;
+}
+
+@keyframes spin-gradient {
+  0% { background-position: 0% 50%; transform: rotate(0deg); }
+  100% { background-position: 200% 50%; transform: rotate(360deg); }
+}
+
+.cih-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid #ffffff; 
+  object-fit: cover;
+  background-color: #ffffff;
+}
+
+/* Typography (Resized) */
+.cih-text-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.cih-name { 
+  font-size: 1.15rem; 
+  font-weight: 800; 
+  color: #111827; 
+  margin: 0; 
+  letter-spacing: -0.01em; 
+  white-space: nowrap; 
+}
+.cih-handle { 
+  font-size: 0.95rem; 
+  color: #059669; 
+  font-weight: 600;
+  margin: 0; 
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cih-verified { 
+  color: #38bdf8; 
+  font-size: 0.9rem; 
+  filter: drop-shadow(0 0 4px rgba(56, 189, 248, 0.4));
+}
+
+/* 4. Stats and Button Row */
+.cih-action-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem; 
+  width: 100%;
+}
+
+.cih-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.cih-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: default;
+  transition: transform 0.2s ease;
+}
+
+.cih-stat-item:hover { transform: scale(1.08); }
+.cih-stat-item:hover .cih-stat-val { color: #059669; }
+
+.cih-stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+}
+
+.cih-stat-val { 
+  font-weight: 800; 
+  color: #111827; 
+  font-size: 1.2rem; 
+  line-height: 1.1;
+  transition: color 0.2s ease;
+}
+.cih-stat-label { font-size: 0.75rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;}
+
+/* The Premium Follow Button */
+.cih-follow-btn {
+  background: linear-gradient(45deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+  background-size: 200% auto;
+  color: white !important;
+  text-decoration: none;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 6px 15px rgba(225, 48, 108, 0.25);
+}
+
+.cih-follow-btn:hover { 
+  background-position: right center; 
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(225, 48, 108, 0.4);
+}
+.cih-follow-btn i { font-size: 1.15rem; }
+
+/* 5. Your Custom Divider */
+.insta-brand-divider {
+  width: 75%;
+  height: 3px;
+  background: linear-gradient(90deg, #405de6, #833ab4, #c13584, #e1306c, #fd1d1d, #fcaf45);
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 6. Desktop Scaling */
+@media (min-width: 600px) {
+  /* Title scales slightly larger on desktop */
+  .insta-section-header { margin-bottom: 2rem; }
+  .insta-section-header h2 { font-size: 2.25rem; }
+  .insta-section-header p { font-size: 1rem; }
+
+  .custom-insta-header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1.5rem 3.5rem; 
+  }
+  .cih-profile-group {
+    flex-direction: row;
+    margin-bottom: 0;
+    gap: 1.25rem;
+    text-align: left;
+  }
+  .cih-avatar-wrap { 
+    margin-bottom: 0; 
+    width: 75px; 
+    height: 75px; 
+  }
+  .cih-name { font-size: 1.25rem; }
+  .cih-text-wrap { align-items: flex-start; }
+  .cih-action-row {
+    width: auto;
+    gap: 3rem;
+  }
+}
+</style>
+
+<!-- THE SECTION WRAPPER -->
+<section class="home-instagram-section reveal-group">
+  <div class="insta-container">
+
+    <!-- COMPACT SECTION HEADER -->
+    <div class="insta-section-header reveal-item reveal-slide-up">
+      <h2><span>Moments On</span> Instagram</h2>
+      <p>Follow our latest travel updates and stories</p>
+    </div>
+    
+    <div class="insta-card-wrapper reveal-item reveal-slide-up">
+      
+      <!-- PREMIUM CUSTOM HEADER -->
+      <div class="custom-insta-header">
+        
+        <div class="cih-profile-group">
+          <!-- Story Ring Avatar -->
+          <div class="cih-avatar-wrap">
+            <img src="/images/logo.png" alt="Radha Travels" class="cih-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Radha+Travels&background=059669&color=fff'">
+          </div>
+          
+          <div class="cih-text-wrap">
+            <h3 class="cih-name">RADHA TRAVELS</h3>
+            <p class="cih-handle">
+              @radhatravelshyd 
+              <i class="fa-solid fa-circle-check cih-verified" title="Verified Travel Partner"></i>
+            </p>
+          </div>
+        </div>
+
+        <div class="cih-action-row">
+          <div class="cih-stats">
+            <div class="cih-stat-item"><span class="cih-stat-val">94</span><span class="cih-stat-label">Posts</span></div>
+            <div class="cih-stat-item"><span class="cih-stat-val">13.3K</span><span class="cih-stat-label">Followers</span></div>
+            <div class="cih-stat-item"><span class="cih-stat-val">101</span><span class="cih-stat-label">Following</span></div>
+          </div>
+          
+          <!-- Animated Gradient Button -->
+          <a href="https://instagram.com/radhatravelshyd" class="cih-follow-btn" target="_blank">
+            <i class="fa-brands fa-instagram"></i> Follow
+          </a>
+        </div>
+
+      </div>
+
+      <!-- YOUR CUSTOM DIVIDER -->
+      <div class="insta-brand-divider"></div>
+
+      <!-- Elfsight Instagram Feed -->
+      <script src="https://elfsightcdn.com/platform.js" async></script>
+      <div class="elfsight-app-59ae0c56-e11f-439d-b322-110bc310d7c7" data-elfsight-app-lazy></div>
+
+    </div>
+  </div>
+</section>
 
 <!-- Testimonial / Happy customer -->
 <section class="home-review-preview reveal-group">
