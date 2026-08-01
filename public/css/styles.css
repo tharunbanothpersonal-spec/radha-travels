@@ -56,7 +56,7 @@ body{
 }
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-.container{/*width:min(var(--content),92%);*/margin-inline:auto; margin: auto 2rem auto 1rem; }
+.container{/*width:min(var(--content),92%);*/margin-inline:auto; margin: auto 0.5rem auto 0.5rem; }
 .section{padding:28px 0}
 .muted{color:var(--muted)}
 
@@ -90,7 +90,7 @@ a{color:inherit;text-decoration:none}
   box-shadow:0 10px 24px rgba(0,0,0,.15);
   backdrop-filter: blur(10px) saturate(180%);
 }
-.header-wrap{height:70px;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.header-wrap{height:70px;display:flex;align-items:center;justify-content:space-between;gap:0.8rem}
 .brand{display:flex;align-items:center;gap:.6rem;text-decoration:none}
 .brand-logo{height:65px;width:auto;filter:drop-shadow(0 2px 3px rgba(0,0,0,.2))}
 .brand-name{font-weight:700;font-size:1.25rem;color:#ecfdf5;letter-spacing:.3px;text-shadow:0 2px 4px rgba(0,0,0,.25)}
@@ -137,7 +137,7 @@ a{color:inherit;text-decoration:none}
   letter-spacing: 2.5px; /* Wide spacing implies luxury */
 }
 .brand-mobile{ display: none;}
-.nav{display:flex;align-items:center;gap:0.5rem}
+.nav{display:flex;align-items:center;gap:0.3rem}
 /* 1. Set up the base shape */
 .nav a {
   color: #ecfdf5; 
