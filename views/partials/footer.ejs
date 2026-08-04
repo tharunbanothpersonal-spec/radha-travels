@@ -1,93 +1,120 @@
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+
   :root {
-    --emerald-900: #064e3b;
-    --emerald-800: #065f46;
+    --emerald-900: #02241b; 
+    --emerald-800: #064e3b;
     --emerald-600: #059669;
-    --emerald-500: #10b981;
-    --emerald-400: #34d399;
+    --gold-premium: #d4af37;
+    --gold-light: #fbeea0;
     --text-muted: #a7f3d0;
+    --text-light: #f1f5f9;
   }
 
   .rt-robust-footer {
-    /* Rich gradient for a substantial, non-"lite" feel */
-    background: linear-gradient(180deg, var(--emerald-900) 0%, #022c22 100%);
+    /* 
+     * HIGH-VISIBILITY FLUID GRADIENT
+     * Bounces between a very dark green and a rich, brighter emerald.
+     * The angled (-45deg) and oversized background (300%) makes the movement smooth.
+     */
+    background: linear-gradient(-45deg, #02241b, #065f46, #02241b, #04402e);
+    background-size: 300% 300%;
+    animation: fluidShift 12s ease infinite;
+
     color: #ffffff;
-    font-family:
-      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    padding: 50px 15px 20px 15px;
-    margin-top: 0; /* Removes any white patches above it */
-    border-top: 4px solid var(--emerald-500);
-    box-shadow: inset 0 10px 30px rgba(0, 0, 0, 0.2); /* Adds inner depth */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    
+    /* Your exact requested mobile padding */
+    padding: 18px 20px 20px 20px;
+    margin-top: 0; 
+    border-top: 4px solid var(--gold-premium);
+    box-shadow: 0 -4px 20px rgba(212, 175, 55, 0.15), inset 0 10px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* The Animation Keyframes */
+  @keyframes fluidShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   .rt-footer-wrapper {
     max-width: 1200px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1; 
   }
 
   /* --- MAIN MOBILE GRID --- */
   .rt-footer-main-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 35px; /* Tight gap for compactness */
-    margin-bottom: 30px;
+    gap: 45px; 
+    margin-bottom: 10px;
   }
 
   /* --- BRAND SECTION --- */
   .rt-brand-block h3 {
-    font-size: 24px;
-    font-weight: 800;
-    margin: 0 0 12px 0;
-    color: #ffffff;
-    letter-spacing: -0.5px;
+    font-family: 'Playfair Display', serif; 
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    color: var(--gold-premium);
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
   }
 
   .rt-brand-block p {
-    color: var(--text-muted);
-    font-size: 14px;
-    line-height: 1.6;
-    margin: 0 0 18px 0;
-    max-width: 320px;
+    color: var(--text-light);
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 24px 0;
+    max-width: 340px;
   }
 
   .rt-social-icons {
     display: flex;
-    gap: 12px;
+    gap: 16px;
   }
 
   .rt-social-icons a {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 38px;
-    height: 38px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: #ffffff;
-    transition: all 0.3s ease;
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(212, 175, 55, 0.4); 
+    border-radius: 50%;
+    color: var(--gold-premium);
+    backdrop-filter: blur(4px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   .rt-social-icons a:hover {
-    background: var(--emerald-500);
-    border-color: var(--emerald-500);
-    transform: translateY(-3px);
+    background: var(--gold-premium);
+    color: var(--emerald-900);
+    border-color: var(--gold-premium);
+    transform: translateY(-5px) scale(1.08);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
   }
 
   /* --- THE MOBILE 2-COLUMN LINKS GRID --- */
   .rt-links-mobile-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Side-by-side columns on mobile! */
-    gap: 15px;
+    grid-template-columns: 1fr 1fr; 
+    gap: 25px;
   }
 
   .rt-link-col h4 {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0 0 15px 0;
-    color: var(--emerald-400);
+    letter-spacing: 2px;
+    margin: 0 0 20px 0;
+    color: var(--gold-premium);
   }
 
   .rt-link-col ul {
@@ -96,50 +123,73 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
   }
 
   .rt-link-col a {
-    color: var(--text-muted);
+    color: var(--text-light);
     text-decoration: none;
     font-size: 14px;
-    transition: color 0.2s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  /* Premium animated gold underline */
+  .rt-link-col a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--gold-premium);
+    transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
 
   .rt-link-col a:hover {
-    color: #ffffff;
+    color: var(--gold-light);
   }
 
-  /* --- CONTACT SECTION --- */
+  .rt-link-col a:hover::after {
+    width: 100%;
+  }
+
+  /* --- CONTACT SECTION (Premium Glassmorphism) --- */
   .rt-contact-block {
-    background: rgba(
-      0,
-      0,
-      0,
-      0.15
-    ); /* Gives contact block its own dark card feel */
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid rgba(212, 175, 55, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 
   .rt-contact-block h4 {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0 0 15px 0;
-    color: var(--emerald-400);
+    letter-spacing: 2px;
+    margin: 0 0 20px 0;
+    color: var(--gold-premium);
   }
 
   .rt-contact-row {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    color: var(--text-muted);
+    gap: 16px;
+    color: var(--text-light);
     font-size: 14px;
-    margin-bottom: 15px;
-    line-height: 1.4;
+    margin-bottom: 22px;
+    line-height: 1.5;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+
+  .rt-contact-row:hover {
+    transform: translateX(6px);
+    color: #ffffff;
   }
 
   .rt-contact-row:last-child {
@@ -147,11 +197,11 @@
   }
 
   .rt-contact-row svg {
-    width: 18px;
-    height: 18px;
-    color: var(--emerald-500);
+    width: 20px;
+    height: 20px;
+    color: var(--gold-premium);
     flex-shrink: 0;
-    margin-top: 1px;
+    margin-top: 2px;
   }
 
   /* --- BOTTOM BAR --- */
@@ -160,64 +210,40 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    padding-top: 25px;
+    padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
   }
 
   .rt-footer-bottom-bar p {
     margin: 0;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 13px;
-  }
-
-  .rt-admin-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
     color: rgba(255, 255, 255, 0.6);
-    font-size: 12px;
-    text-decoration: none;
-    padding: 6px 12px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    transition: all 0.3s ease;
-  }
-
-  .rt-admin-pill:hover {
-    color: #ffffff;
-    background: var(--emerald-600);
-  }
-
-  .visitor-popularity {
-    margin-top: 20px;
-  }
-
-  .visitor-popularity h4 {
     font-size: 14px;
-    margin-bottom: 10px;
-    opacity: 0.9;
   }
 
-  #stateChart {
-    max-height: 160px;
+  .rt-trust-badge {
+    color: var(--gold-premium);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: rgba(212, 175, 55, 0.1);
+    padding: 8px 18px;
+    border-radius: 30px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   }
 
   /* --- DESKTOP SCALING --- */
   @media (min-width: 768px) {
     .rt-robust-footer {
-      padding: 70px 30px 25px 30px;
+      /* Your exact requested desktop padding */
+      padding: 26px 40px 20px 24px;
     }
     .rt-footer-main-grid {
-      /* 1.5x width for brand, 2x for links grid, 1.5x for contact */
-      grid-template-columns: 1.5fr 2fr 1.5fr;
-      gap: 50px;
-      margin-bottom: 50px;
-    }
-    .rt-contact-block {
-      background: transparent;
-      padding: 0;
-      border: none;
+      grid-template-columns: 1.5fr 2fr 1.2fr;
+      gap: 60px;
+      margin-bottom: 20px;
     }
     .rt-footer-bottom-bar {
       flex-direction: row;
@@ -233,13 +259,13 @@
       <div class="rt-brand-block">
         <h3>Radha Travels</h3>
         <p>
-          Premium fleet services ensuring safe, comfortable, and timely
-          pilgrimages across South India's most sacred destinations.
+          Premium fleet services ensuring safe, comfortable, and timely pilgrimages across South India's most sacred destinations.
         </p>
-        <!-- <div class="rt-social-icons">
+        <div class="rt-social-icons">
           <a href="#" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a>
           <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-        </div> -->
+          <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></a>
+        </div>
       </div>
 
       <div class="rt-links-mobile-grid">
@@ -255,7 +281,7 @@
         </div>
 
         <div class="rt-link-col">
-          <h4>Special tour packages</h4>
+          <h4>Special Packages</h4>
           <ul>
             <li><a href="/tours/srisailam">Srisailam</a></li>
             <li><a href="/tours/arunachalam">Arunachalam</a></li>
@@ -268,39 +294,20 @@
       <div class="rt-contact-block">
         <h4>Contact Desk</h4>
         <div class="rt-contact-row">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
-            ></path>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
           </svg>
           <span>+91 83329 58915</span>
         </div>
         <div class="rt-contact-row">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-            ></path>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <polyline points="22,6 12,13 2,6"></polyline>
           </svg>
           <span>bookings@radhatravels.com</span>
         </div>
         <div class="rt-contact-row">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-          >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
@@ -311,6 +318,7 @@
 
     <div class="rt-footer-bottom-bar">
       <p>© <span id="yr"></span> Radha Travels. All rights reserved.</p>
+      <span class="rt-trust-badge">✦ Premium 24/7 Concierge ✦</span>
     </div>
   </div>
   <%- include('booking-modal') %>
