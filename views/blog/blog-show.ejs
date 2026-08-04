@@ -143,11 +143,11 @@
       position: relative; width: 100%;
       background-image: linear-gradient(
   65deg, 
-  rgba(21, 25, 138, 0.5) 0%,    /* Starts Dark Blue */
-  rgba(21, 25, 138, 0) 40%,     /* Fades to transparent EXACTLY at 20% */
-  rgba(18, 49, 39, 0) 60%,      /* Stays completely transparent UNTIL 60% */
-  rgba(25, 109, 83, 0.6) 100%    /* Fades to Dark Green at 100% */
-), url('<%= post.image || "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80" %>');
+  rgba(21, 25, 138, 0.5) 0%,    
+  rgba(21, 25, 138, 0) 40%,     
+  rgba(18, 49, 39, 0) 60%,      
+  rgba(25, 109, 83, 0.6) 100%    
+), url('<%- optimizeImg(post.image || "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80") %>');
       background-size: cover; background-position: center; padding: 120px 0px 100px; color: #ffffff;margin-top: 100px;
     }
     .hero-container { max-width: 1140px; margin: 0 auto auto 15px; position: relative; z-index: 10; }
@@ -689,6 +689,8 @@
     justify-content: center;
   }
 }
+/* for special hampi post */
+
   </style>
 </head>
 
@@ -903,6 +905,17 @@
       <button onclick="window.location.href='/fleet'" class="btn-action">Check Cab Fares</button>
     </div>
 
+    <!-- Add this right below the booking-widget in the sidebar -->
+    <div class="booking-widget reveal-on-scroll" style="padding: 24px; margin-top: 20px; border-color: #25D366;">
+      <h4 style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 12px;">Planning a Trip?</h4>
+      <p style="font-size: 13px; margin-bottom: 16px;">Forward this guide to your family or friends group chat.</p>
+      <a href="https://api.whatsapp.com/send?text=Check out this travel guide from Radha Travels: https://www.radhatravels.co.in/blog/<%= post.slug %>" 
+         target="_blank" 
+         style="display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; background: #25D366; color: #fff; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 800; text-decoration: none;">
+         <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Share via WhatsApp
+      </a>
+    </div>
+
     <nav class="toc-widget reveal-on-scroll" id="tocWidget" style="display: none;" aria-label="Table of Contents">
       <h4><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"></path></svg> Guide Contents</h4>
       <ul class="toc-list" id="tocList"></ul>
@@ -922,7 +935,7 @@
           <div class="card-badge">Top Guide</div>
           
           <a href="/blog/<%= item.slug %>" class="card-image" aria-label="Read <%= item.title %>">
-            <img src="<%= item.image %>" alt="<%= item.title %> cover image" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80'">
+            <img src="<%= optimizeImg(item.image) %>" alt="<%= item.title %> cover image" loading="lazy" onerror="this.src='<%- optimizeImg("https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&q=80") %>'">
           </a>
           <div class="card-body">
             <h3 class="card-title"><a href="/blog/<%= item.slug %>"><%= item.title %></a></h3>
@@ -1061,31 +1074,6 @@
       answer.style.maxHeight = answer.scrollHeight + "px";
     }
   }
-</script>
-<script type="application/ld+json">
-<%- JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": post.title,
-  "description": post.excerpt,
-  "image": post.image ? ["https://radhatravels.co.in" + post.image] : undefined,
-  "author": {
-   "@type": "Person",
-   "name": "Banoth Radha",
-   "jobTitle": "Owner & Travel Logistics Expert",
-   "url": "https://www.radhatravels.co.in"
- },
-  "publisher": {
-    "@type": "Organization",
-    "name": "Radha Travels",
-    "logo": { "@type": "ImageObject", "url": "https://radhatravels.co.in/images/logo.jpg" }
-  },
-  "datePublished": post.date,
-  "dateModified": post.date,
-  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://radhatravels.co.in/blog/" + post.slug },
-  "articleSection": "Travel Guide",
-  "inLanguage": "en-IN"
-}, null, 2) %>
 </script>
 <script>
   function handleFeedback(isHelpful) {

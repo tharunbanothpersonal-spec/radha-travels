@@ -41,12 +41,19 @@ import { SERVICES, SEGMENTS } from '../data/services.js';
 
 //IP visiter counter
 import trackVisitor from './middleware/visitorTracker.js';
+import NodeCache from 'node-cache'; // 🚀 NEW: Import caching
+
+import compression from 'compression';
+
+// Initialize cache with a 15-minute Time-To-Live (900 seconds)
+const dbCache = new NodeCache({ stdTTL: 900 });
 
 // -------------------------------------------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(compression());
 app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 
@@ -175,6 +182,28 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.locals.metaDescription =
     'Book reliable Hyderabad cab service with Radha Travels. Airport transfers, outstation trips and temple tours available 24/7.';
+  next();
+});
+
+// =======================================================
+//  GLOBAL IMAGE OPTIMIZER (Cloudinary & Unsplash)
+// =======================================================
+app.use((req, res, next) => {
+  res.locals.optimizeImg = (url) => {
+    if (!url) return '';
+    
+    // Cloudinary: Inject automatic format and quality compression
+    if (url.includes('cloudinary.com') && !url.includes('f_auto')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto/');
+    }
+    
+    // Unsplash: Append webp formatting and 80% quality
+    if (url.includes('unsplash.com') && !url.includes('fm=webp')) {
+      return url.includes('?') ? `${url}&fm=webp&q=80` : `${url}?fm=webp&q=80`;
+    }
+    
+    return url;
+  };
   next();
 });
 
@@ -326,45 +355,60 @@ app.get('/api/state-visitors', async (req, res) => {
 // =======================================================
 
 app.get('/', async (req, res) => {
-  // 🚀 FIX: Wrapped entire DB block in try/catch to prevent server crash if Turso goes down
   try {
-    const galleryRes = await db.execute(`SELECT * FROM gallery ORDER BY created_at DESC LIMIT 6`);
-    const featuredGallery = galleryRes.rows;
-    
-    const fleetRes = await db.execute('SELECT * FROM fleet WHERE is_active = 1 ORDER BY id DESC LIMIT 4');
-    const featuredFleet = fleetRes.rows;
-    
-    const randomTestRes = await db.execute(`SELECT * FROM testimonials WHERE status='approved' ORDER BY RANDOM() LIMIT 4`);
-    const randomTestimonials = randomTestRes.rows;
-    
-    const testimonialsRes = await db.execute(`SELECT * FROM testimonials WHERE status='approved'`);
-    const testimonials = testimonialsRes.rows;
+    // 1. Check if the heavy data is already stored in the RAM cache
+    let homepageData = dbCache.get("homepageData");
 
-    const avgRating = testimonials.length ? (testimonials.reduce((a, b) => a + b.rating, 0) / testimonials.length).toFixed(1) : 0;
-    const totalReviews = testimonials.length;
+    // 2. If no cache exists, query the Turso database
+    if (!homepageData) {
+      console.log("⚡ Fetching homepage data from Turso DB (Cache Miss)...");
+      const galleryRes = await db.execute(`SELECT * FROM gallery ORDER BY created_at DESC LIMIT 6`);
+      const fleetRes = await db.execute('SELECT * FROM fleet WHERE is_active = 1 ORDER BY id DESC LIMIT 4');
+      const randomTestRes = await db.execute(`SELECT * FROM testimonials WHERE status='approved' ORDER BY RANDOM() LIMIT 4`);
+      const testimonialsRes = await db.execute(`SELECT * FROM testimonials WHERE status='approved'`);
+      
+      const testimonials = testimonialsRes.rows;
+      const avgRating = testimonials.length ? (testimonials.reduce((a, b) => a + b.rating, 0) / testimonials.length).toFixed(1) : 0;
+      
+      const ratingPercentages = {};
+      for (let i = 1; i <= 5; i++) {
+        const count = testimonials.filter((t) => t.rating === i).length;
+        ratingPercentages[i] = testimonials.length ? (count / testimonials.length) * 100 : 0;
+      }
 
-    const ratingPercentages = {};
-    for (let i = 1; i <= 5; i++) {
-      const count = testimonials.filter((t) => t.rating === i).length;
-      ratingPercentages[i] = testimonials.length ? (count / testimonials.length) * 100 : 0;
+      // Package the heavy data
+      homepageData = {
+        featuredGallery: galleryRes.rows,
+        featuredFleet: fleetRes.rows,
+        randomTestimonials: randomTestRes.rows,
+        testimonials: testimonials,
+        avgRating: avgRating,
+        totalReviews: testimonials.length,
+        ratingPercentages: ratingPercentages
+      };
+
+      // 3. Save the packaged data to the cache for the next 15 minutes
+      dbCache.set("homepageData", homepageData);
     }
 
+    // 4. Always fetch today's visitors live (do not cache this specific metric)
     const today = new Date().toISOString().split('T')[0];
     const todayVisRes = await db.execute({ sql: `SELECT COUNT(DISTINCT ip) as total FROM visitors WHERE visit_date = ?`, args: [today] });
     const todayVisitors = todayVisRes.rows[0].total;
 
+    // 5. Render the page
     res.render('index', {
       title: 'Hyderabad Cab Service | Outstation, Airport & Tempo Traveller | Radha Travels',
       currentPath: req.path,
-      heroSlides: cachedHeroSlides, // 🚀 FIX: Using the cached array here for blazing fast load times
+      heroSlides: cachedHeroSlides, 
       tours: tourData,
-      featuredGallery,
-      featuredFleet,
-      testimonials,
-      avgRating,
-      totalReviews,
-      ratingPercentages,
-      randomTestimonials,
+      featuredGallery: homepageData.featuredGallery,
+      featuredFleet: homepageData.featuredFleet,
+      testimonials: homepageData.testimonials,
+      avgRating: homepageData.avgRating,
+      totalReviews: homepageData.totalReviews,
+      ratingPercentages: homepageData.ratingPercentages,
+      randomTestimonials: homepageData.randomTestimonials,
       totalVisitors: res.locals.totalVisitors,
       todayVisitors,
       latestPosts: blogPosts
@@ -378,7 +422,6 @@ app.get('/', async (req, res) => {
 
   } catch (err) {
     console.error('Home page database error:', err.message);
-    // Render the homepage even if DB fails, providing empty arrays so it doesn't crash
     res.render('index', {
       title: 'Hyderabad Cab Service | Radha Travels',
       currentPath: req.path,

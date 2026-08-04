@@ -5,17 +5,24 @@
 <meta name="description" content="<%= metaDescription || 'Book reliable Hyderabad cab service with Radha Travels. Airport transfers, outstation trips and temple tours available 24/7.' %>">
 <link rel="canonical" href="https://radhatravels.co.in<%= locals.currentPath || '/' %>" />
 
-<meta property="og:title" content="<%= title %>" />
-<meta property="og:description" content="<%= metaDescription || 'Premium Cab Service in Hyderabad. Safe, sanitized, and on-time.' %>" />
-<meta property="og:image" content="<%= locals.ogImage || 'https://radhatravels.co.in/images/logo_new.png' %>" />
+<!-- Dynamic Open Graph Meta Tags for Social Previews & WhatsApp -->
+<meta property="og:type" content="<%= typeof post !== 'undefined' ? 'article' : 'website' %>" />
+<meta property="og:site_name" content="Radha Travels" />
+<meta property="og:title" content="<%= typeof title !== 'undefined' ? title : 'Hyderabad Cab Service | Radha Travels' %>" />
+<meta property="og:description" content="<%= typeof post !== 'undefined' && post.excerpt ? post.excerpt : (locals.metaDescription || 'Premium Cab Service in Hyderabad. Safe, sanitized, and on-time.') %>" />
+<meta property="og:image" content="<%= typeof post !== 'undefined' && post.image ? post.image : (locals.ogImage || 'https://radhatravels.co.in/images/logo_new.png') %>" />
 <meta property="og:url" content="https://radhatravels.co.in<%= locals.currentPath || '/' %>" />
-<meta property="og:type" content="website" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
+<!-- Preload primary font -->
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" as="style">
+
+<!-- Preload the critical Hero Image for mobile -->
+<link rel="preload" as="image" href="/images/hero/2radha.webp">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NW2VNYG671">
 </script>
