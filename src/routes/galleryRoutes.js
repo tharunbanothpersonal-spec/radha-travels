@@ -8,6 +8,7 @@ import streamifier from "streamifier";
 import db from "../db.js";
 import { requireAdmin } from "../admin/admin.middleware.js";
 import cloudinary from "../cloudinary.js";
+import { sendAdminAlert } from "../mailer.js";
 
 const router = express.Router();
 
@@ -194,6 +195,12 @@ router.post("/upload", upload.single("file"), async (req, res) => {
         "pending"
       ],
     });
+
+    // 👇 ADD THIS NEW BLOCK RIGHT HERE 👇
+    sendAdminAlert(
+      "New Gallery Upload",
+      `A new media file (${req.file.originalname}) was just uploaded to the gallery by a ${role}. It is currently pending approval.`
+    );
 
     res.redirect("/gallery/upload?success=1");
 

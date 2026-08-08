@@ -64,7 +64,6 @@ const sendEmail = async ({ to, subject, html, text }) => {
 
     console.log("📨 Mail sent:", subject, "→", to);
     return { ok: true, res: response.data };
-    console.log("MAIL_FROM:", process.env.MAIL_FROM);
 
   } catch (err) {
     console.error(
@@ -231,4 +230,38 @@ export async function sendDriverAllotmentEmail(booking, driver, vehicle) {
   }
 }
 
-export default { sendBookingConfirmation, sendDriverAllotmentEmail };
+// ==========================================
+//  ADMIN EMAIL ALERT NOTIFICATION
+// ==========================================
+export async function sendAdminAlert(subject, message) {
+  try {
+    if (!ADMIN_EMAIL) {
+      console.warn("⚠️ Cannot send admin alert: ADMIN_EMAIL is not defined in .env");
+      return { ok: false, reason: "no-admin-email" };
+    }
+
+    const html = `
+      <div style="font-family: -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #f8fafc;">
+        <h2 style="color: #064e3b; margin-top: 0;">New Approval Request</h2>
+        <p style="color: #334155; font-size: 16px;">${message}</p>
+        <div style="text-align: center; margin: 35px 0;">
+          <a href="${SITE_URL}/admin" style="background: #ea580c; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 15px; display: inline-block;">Go to Admin Dashboard</a>
+        </div>
+      </div>
+    `;
+
+    const result = await sendEmail({
+      to: ADMIN_EMAIL,
+      subject: `Admin Alert: ${subject}`,
+      html,
+      text: message,
+    });
+
+    return result;
+  } catch (err) {
+    console.error("sendAdminAlert error:", err);
+    return { ok: false, error: err.message || String(err) };
+  }
+}
+
+export default { sendBookingConfirmation, sendDriverAllotmentEmail, sendAdminAlert };

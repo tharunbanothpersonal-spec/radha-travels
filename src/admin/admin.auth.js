@@ -1,9 +1,20 @@
 import express from "express";
 import crypto from "crypto";
+import bcrypt from "bcrypt"; // 🚀 NEW: Add bcrypt here
 import db from "../db.js"; 
 import { sendAdminResetEmail } from "../mailer.js";
+import rateLimit from 'express-rate-limit';
 
 const router = express.Router();
+
+// --- BRUTE FORCE PROTECTION ---
+const adminLoginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 login requests per window
+  message: "Too many login attempts from this IP, please try again after 15 minutes.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 
 /* LOGIN PAGE */
 router.get("/login", (req, res) => {
@@ -14,21 +25,26 @@ router.get("/login", (req, res) => {
 });
 
 /* LOGIN SUBMIT */
-router.post("/login", async (req, res) => { // <-- ADDED ASYNC
+router.post("/login", adminLoginLimiter, async (req, res) => {
   const { username, password } = req.body;
 
   try {
-    // Query Turso Cloud DB for the user
+    // 1. Only query by username first (do NOT check password in SQL)
     const result = await db.execute({
-      sql: 'SELECT * FROM admins WHERE username = ? AND password = ?',
-      args: [username, password]
+      sql: 'SELECT * FROM admins WHERE username = ?',
+      args: [username]
     });
     
     const admin = result.rows[0];
 
     if (admin) {
-      req.session.admin = { username: admin.username };
-      return res.redirect("/admin");
+      // 2. Use bcrypt to compare the typed password against the encrypted hash in DB
+      const match = await bcrypt.compare(password, admin.password);
+      
+      if (match) {
+        req.session.admin = { username: admin.username };
+        return res.redirect("/admin");
+      }
     }
 
     res.render("admin/login", {
@@ -37,10 +53,7 @@ router.post("/login", async (req, res) => { // <-- ADDED ASYNC
     });
   } catch (err) {
     console.error("Login database error:", err);
-    res.render("admin/login", {
-      title: "Admin Login | Radha Travels",
-      error: "A network error occurred. Please try again."
-    });
+    res.render("admin/login", { error: "A network error occurred." });
   }
 });
 
@@ -181,11 +194,13 @@ router.post("/reset/:token", async (req, res) => { // <-- ADDED ASYNC
       });
     }
 
-    // Update the password in Turso and clear the tokens
-    // NOTE: We are saving plain text right now. We will hash this in the next step!
+    // 🚀 NEW: Encrypt the password! (10 is the salt rounds factor)
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Update the password in Turso with the encrypted version
     await db.execute({
       sql: `UPDATE admins SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?`,
-      args: [password, admin.id]
+      args: [hashedPassword, admin.id]
     });
 
     // Send them back to login

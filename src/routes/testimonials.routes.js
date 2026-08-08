@@ -5,6 +5,7 @@ import { requireAdmin } from "../admin/admin.middleware.js";
 
 import { v2 as cloudinary } from "cloudinary";
 import streamifier from "streamifier";
+import { sendAdminAlert } from "../mailer.js";
 
 const router = express.Router();
 
@@ -85,6 +86,12 @@ await db.execute({
     imageUrl
   ]
 });
+
+// 👇 ADD THIS NEW BLOCK RIGHT HERE 👇
+    sendAdminAlert(
+      "New Customer Review Pending",
+      `<strong>${name}</strong> just left a ${rating}-star review for your ${service} service. Please log in to approve or reject it.`
+    );
 
 res.json({ success: true });
 
@@ -210,15 +217,5 @@ res.redirect("/admin/testimonials");
 
 });
 
-router.post("/admin/testimonials/delete/:id", requireAdmin, async (req, res) => {
-
-await db.execute({
-sql: `DELETE FROM testimonials WHERE id=?`,
-args: [req.params.id]
-});
-
-res.redirect("/admin/testimonials");
-
-});
 
 export default router;

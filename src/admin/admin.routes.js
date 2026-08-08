@@ -36,6 +36,14 @@ const testimonialStorage = new CloudinaryStorage({
 });
 const uploadTestimonial = multer({ storage: testimonialStorage });
 
+// --- HELPER: Extract Cloudinary Public ID ---
+const extractPublicId = (url) => {
+  if (!url) return null;
+  // Slices out the folder path and filename, ignoring the domain, /upload/, and file extension
+  const match = url.match(/\/upload\/(?:v\d+\/)?(.+?)\.[a-z]+$/i);
+  return match ? match[1] : null;
+};
+
 
 // 🔹 DEFAULT ADMIN ROOT
 router.get('/', requireAdmin, (req, res) => {
@@ -44,53 +52,44 @@ router.get('/', requireAdmin, (req, res) => {
 
 router.get('/dashboard', requireAdmin, async (req, res) => {
   try {
-    const bookingsRes = await db.execute('SELECT * FROM bookings ORDER BY id DESC');
-    const bookings = bookingsRes.rows;
-
-    const galleryRes = await db.execute('SELECT * FROM gallery ORDER BY id DESC');
-    const gallery = galleryRes.rows;
-
-    const fleetRes = await db.execute('SELECT * FROM fleet ORDER BY id DESC');
-    const fleet = fleetRes.rows;
-
-    // REVIEW ANALYTICS
-    const totalReviewsRes = await db.execute('SELECT COUNT(*) as c FROM testimonials');
-    const totalReviews = totalReviewsRes.rows[0].c;
-
-    const approvedReviewsRes = await db.execute("SELECT COUNT(*) as c FROM testimonials WHERE status='approved'");
-    const approvedReviews = approvedReviewsRes.rows[0].c;
-
-    const pendingReviewsRes = await db.execute("SELECT COUNT(*) as c FROM testimonials WHERE status='pending'");
-    const pendingReviews = pendingReviewsRes.rows[0].c;
-
-    const avgRatingRes = await db.execute("SELECT ROUND(AVG(rating),1) as avg FROM testimonials WHERE status='approved'");
-    const avgRating = avgRatingRes.rows[0].avg || 0;
-
     const today = new Date().toISOString().split('T')[0];
 
-    const totalVisitorsRes = await db.execute('SELECT COUNT(DISTINCT ip) as total FROM visitors');
-    const totalVisitors = totalVisitorsRes.rows[0].total;
-
-    const todayVisitorsRes = await db.execute({
-      sql: 'SELECT COUNT(DISTINCT ip) as total FROM visitors WHERE visit_date = ?',
-      args: [today]
-    });
-    const todayVisitors = todayVisitorsRes.rows[0].total;
-
-    const stateVisitorsRes = await db.execute('SELECT state, COUNT(*) as total FROM visitors GROUP BY state ORDER BY total DESC LIMIT 10');
-    const stateVisitors = stateVisitorsRes.rows;
+    // 🚀 UPGRADE: Execute all 10 database queries in parallel
+    const [
+      bookingsRes,
+      galleryRes,
+      fleetRes,
+      totalReviewsRes,
+      approvedReviewsRes,
+      pendingReviewsRes,
+      avgRatingRes,
+      totalVisitorsRes,
+      todayVisitorsRes,
+      stateVisitorsRes
+    ] = await Promise.all([
+      db.execute('SELECT * FROM bookings ORDER BY id DESC'),
+      db.execute('SELECT * FROM gallery ORDER BY id DESC'),
+      db.execute('SELECT * FROM fleet ORDER BY id DESC'),
+      db.execute('SELECT COUNT(*) as c FROM testimonials'),
+      db.execute("SELECT COUNT(*) as c FROM testimonials WHERE status='approved'"),
+      db.execute("SELECT COUNT(*) as c FROM testimonials WHERE status='pending'"),
+      db.execute("SELECT ROUND(AVG(rating),1) as avg FROM testimonials WHERE status='approved'"),
+      db.execute('SELECT COUNT(DISTINCT ip) as total FROM visitors'),
+      db.execute({ sql: 'SELECT COUNT(DISTINCT ip) as total FROM visitors WHERE visit_date = ?', args: [today] }),
+      db.execute('SELECT state, COUNT(*) as total FROM visitors GROUP BY state ORDER BY total DESC LIMIT 10')
+    ]);
 
     res.render('admin/dashboard', {
-      bookings,
-      gallery,
-      fleet,
-      totalReviews,
-      approvedReviews,
-      pendingReviews,
-      avgRating,
-      totalVisitors,
-      stateVisitors,
-      todayVisitors,
+      bookings: bookingsRes.rows,
+      gallery: galleryRes.rows,
+      fleet: fleetRes.rows,
+      totalReviews: totalReviewsRes.rows[0].c,
+      approvedReviews: approvedReviewsRes.rows[0].c,
+      pendingReviews: pendingReviewsRes.rows[0].c,
+      avgRating: avgRatingRes.rows[0].avg || 0,
+      totalVisitors: totalVisitorsRes.rows[0].total,
+      todayVisitors: todayVisitorsRes.rows[0].total,
+      stateVisitors: stateVisitorsRes.rows,
       title: 'Dashboard | Admin',
       active: 'dashboard',
     });
@@ -325,9 +324,29 @@ router.get('/fleet', requireAdmin, async (req, res) => {
   }
 });
 
+// delete vehicle in fleet
 router.post('/fleet/delete/:id', requireAdmin, async (req, res) => {
   try {
-    await db.execute({ sql: 'DELETE FROM fleet WHERE id = ?', args: [req.params.id] });
+    // 1. Fetch the image URL from Turso before deleting the row
+    const itemRes = await db.execute({ 
+      sql: 'SELECT image FROM fleet WHERE id = ?', 
+      args: [req.params.id] 
+    });
+    const vehicle = itemRes.rows[0];
+
+    // 2. Destroy the image in Cloudinary if it exists
+    if (vehicle && vehicle.image) {
+      const publicId = extractPublicId(vehicle.image);
+      if (publicId) {
+        await cloudinary.uploader.destroy(publicId);
+      }
+    }
+
+    // 3. Delete the row from the database
+    await db.execute({ 
+      sql: 'DELETE FROM fleet WHERE id = ?', 
+      args: [req.params.id] 
+    });
   } catch (err) {
     console.error('Delete fleet error:', err);
   }
@@ -505,9 +524,29 @@ router.post('/testimonials/reject/:id', requireAdmin, async (req, res) => {
   res.redirect('/admin/testimonials');
 });
 
+// delete testimonial
 router.post('/testimonials/delete/:id', requireAdmin, async (req, res) => {
   try {
-    await db.execute({ sql: "DELETE FROM testimonials WHERE id=?", args: [req.params.id] });
+    // 1. Fetch the image URL from Turso before deleting the row
+    const itemRes = await db.execute({ 
+      sql: "SELECT image FROM testimonials WHERE id=?", 
+      args: [req.params.id] 
+    });
+    const testimonial = itemRes.rows[0];
+
+    // 2. Destroy the image in Cloudinary if it exists
+    if (testimonial && testimonial.image) {
+      const publicId = extractPublicId(testimonial.image);
+      if (publicId) {
+        await cloudinary.uploader.destroy(publicId);
+      }
+    }
+
+    // 3. Delete the row from the database
+    await db.execute({ 
+      sql: "DELETE FROM testimonials WHERE id=?", 
+      args: [req.params.id] 
+    });
   } catch (err) {
     console.error('Delete testimonial error:', err);
   }

@@ -6,6 +6,7 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 import net from 'net';
+import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import { fileURLToPath } from 'url';
@@ -56,6 +57,11 @@ const app = express();
 app.use(compression());
 app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
+
+// Protects the app from known web vulnerabilities by setting HTTP headers
+app.use(helmet({
+  contentSecurityPolicy: false, // We disable this specific one so it doesn't block your inline scripts/styles or Cloudinary images
+}));
 
 // =======================================================
 //  MIDDLEWARE

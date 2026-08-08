@@ -146,32 +146,40 @@ const form = document.getElementById("reviewForm");
 const modal = document.getElementById("reviewSuccessModal");
 
 if(form){
-
 form.addEventListener("submit", async function(e){
+  e.preventDefault();
+  
+  if (submitBtn.disabled) return false;
+  
+  // Lock the button
+  submitBtn.disabled = true;
+  submitBtn.innerText = "Submitting...";
 
-e.preventDefault();
+  try {
+    const formData = new FormData(form);
+    const res = await fetch("/review", {
+      method: "POST",
+      body: formData
+    });
 
-const formData = new FormData(form);
-
-const res = await fetch("/review",{
-method:"POST",
-body:formData
+    if(res.ok){
+      modal.classList.add("active");
+      setTimeout(() => {
+        window.location = "/happy-customers";
+      }, 2500);
+    } else {
+      // Handle server-side errors (e.g. 500 or 400 status)
+      alert("Something went wrong while submitting your review. Please try again.");
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Submit Review";
+    }
+  } catch (error) {
+    // Handle network drops
+    alert("Network error. Please check your connection and try again.");
+    submitBtn.disabled = false;
+    submitBtn.innerText = "Submit Review";
+  }
 });
-
-if(res.ok){
-
-modal.classList.add("active");
-
-setTimeout(()=>{
-
-window.location="/happy-customers";
-
-},2500);
-
-}
-
-});
-
 }
 
 //submit to submitting
