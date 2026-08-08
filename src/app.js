@@ -58,6 +58,18 @@ app.use(compression());
 app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 
+// =======================================================
+//  SEO: FORCE NON-WWW DOMAIN (301 Redirect)
+// =======================================================
+app.use((req, res, next) => {
+  if (req.headers.host && req.headers.host.match(/^www\./i)) {
+    // Strips the "www." and permanently redirects to the clean domain
+    const cleanHost = req.headers.host.replace(/^www\./i, '');
+    return res.redirect(301, 'https://' + cleanHost + req.url);
+  }
+  next();
+});
+
 // Protects the app from known web vulnerabilities by setting HTTP headers
 app.use(helmet({
   contentSecurityPolicy: false, // We disable this specific one so it doesn't block your inline scripts/styles or Cloudinary images
@@ -72,7 +84,7 @@ app.use(helmet({
 app.get('/sitemap.xml', (req, res) => {
   res.header('Content-Type', 'application/xml');
 
-  const baseUrl = 'https://www.radhatravels.co.in';
+  const baseUrl = 'https://radhatravels.co.in';
   const today = new Date().toISOString().split('T')[0];
 
   // 1. Core Static Pages
@@ -148,11 +160,15 @@ app.get('/robots.txt', (req, res) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
   res.status(200).send(
-    `User-agent: *\nAllow: /\n\nSitemap: https://www.radhatravels.co.in/sitemap.xml`
+    `User-agent: *\nAllow: /\n\nSitemap: https://radhatravels.co.in/sitemap.xml`
   );
 });
 
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// Caches static assets (CSS, JS, images) in the user's browser for 1 year
+app.use(express.static(path.join(__dirname, '..', 'public'), {
+  maxAge: '1y',
+  etag: false
+}));
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
