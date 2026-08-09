@@ -4,7 +4,7 @@ export const blogPosts = [
     title: 'Hyderabad to Chitradurga Fort: The 2026 Photography Road Trip Guide',
     category: 'heritage',
     excerpt: 'Discover the impregnable seven-walled stone fortress of Chitradurga. A complete photographer\'s guide to the NH44 highway route, viewpoints, and the best pit stops.',
-    image: 'https://images.unsplash.com/photo-1590059288118-874ce528bf8e?auto=format&fit=crop&q=80',
+    image: '/images/blog/chitradurga_fort_hero.WEBP',
     date: '2026-08-10',
     quickFacts: {
       label1: 'Distance',
@@ -26,7 +26,7 @@ export const blogPosts = [
         <li><strong>Travel Time:</strong> With a comfortable premium SUV, the journey takes about 7.5 to 8.5 hours.</li>
       </ul>
 
-      <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?auto=format&fit=crop&w=1200&q=80" alt="A wide, flawless multi-lane highway stretching into the horizon" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/Chitradurga_nh48.WEBP" alt="A wide, flawless multi-lane highway stretching into the horizon" style="width: 100%; border-radius: 12px; margin: 32px 0;">
       <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The NH44 corridor allows for effortless high-speed cruising all the way past Anantapur.</p>
 
       <h2>The Ultimate Pit Stop: Paakashala @ Chitradurga</h2>
@@ -61,7 +61,7 @@ export const blogPosts = [
         </table>
       </div>
 
-      <img src="https://images.unsplash.com/photo-1590059288118-874ce528bf8e?auto=format&fit=crop&w=1200&q=80" alt="Massive ancient stone walls winding through rocky hills" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/Chitradurga_fort.WEBP" alt="Massive ancient stone walls winding through rocky hills" style="width: 100%; border-radius: 12px; margin: 32px 0;">
 
       [BOOKING_BANNER]
 
@@ -76,7 +76,7 @@ export const blogPosts = [
       <h2>Why Book a Premium SUV?</h2>
       <p>Covering 470 kilometers with heavy photography equipment requires cabin space and absolute comfort. A premium <strong>Innova Crysta</strong> offers dedicated AC vents, massive boot space for your tripods and gear bags, and captain seats that ensure you arrive at Chitradurga fresh and ready to shoot.</p>
 
-      <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80" alt="Spacious leather interior of a premium outstation SUV" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/Chitradurga_fort_SUV.WEBP" alt="Spacious leather interior of a premium outstation SUV" style="width: 100%; border-radius: 12px; margin: 32px 0;">
 
       <h2>Plan Your Photographic Expedition</h2>
       <p>Don't let the fatigue of driving ruin your creative eye. Book a professional, chauffeur-driven cab with Radha Travels and focus entirely on framing the perfect shot. Check our <a href="/fleet">outstation packages</a> to lock in your heritage road trip today.</p>
@@ -109,7 +109,7 @@ export const blogPosts = [
         <li><strong>The Parking Lot Trap:</strong> If you drove your own cars, getting out of the VIP or general parking lots can take upwards of 90 minutes of bumper-to-bumper frustration.</li>
       </ul>
 
-      <img src="https://images.unsplash.com/photo-1540039155732-d69292e42429?auto=format&fit=crop&w=1200&q=80" alt="Massive crowd at a live music concert with lights and lasers" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/Hyderabad_laser_show.WEBP" alt="Massive crowd at a live music concert with lights and lasers" style="width: 100%; border-radius: 12px; margin: 32px 0;">
       <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">Walking out of a sold-out arena with 20,000 other fans makes finding a ride home nearly impossible.</p>
 
       <h2>The Ultimate Hack: Group Concert Transport</h2>
@@ -142,7 +142,7 @@ export const blogPosts = [
 
       [BOOKING_BANNER]
 
-      <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80" alt="Luxurious leather seats inside a premium passenger van" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/Hyderabad_concert_van.WEBP" alt="Luxurious leather seats inside a premium passenger van" style="width: 100%; border-radius: 12px; margin: 32px 0;">
 
       <div class="expert-note">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -163,7 +163,7 @@ export const blogPosts = [
     title: 'Discovering Telangana’s Rural Roots: A 2026 Eco-Heritage Village Tour',
     category: 'local-tour',
     excerpt: 'Swap the city traffic for traditional handlooms, brass crafts, and fresh Neera. Explore the ultimate eco-heritage village day trip from Hyderabad.',
-    image: 'https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&q=80',
+    image: '/images/blog/Telangana_rural_Heritage.WEBP',
     date: '2026-08-20',
     quickFacts: {
       label1: 'Distance',
@@ -183,7 +183,7 @@ export const blogPosts = [
       <p>Start your day early and head towards the outskirts of the city. Before diving into the artisan villages, experience a true Telangana morning by stopping to enjoy fresh <strong>Neera</strong>. This unfermented, highly nutritious sweet palm nectar is tapped before sunrise.</p>
       <p><em>Traveler Tip:</em> With the Telangana government’s recent initiatives promoting safe and hygienic traditional drinks, you can safely enjoy chilled Neera at certified rural tapping spots or at the official Neera Cafes (like the flagship outlet at Necklace Road) before hitting the highway.</p>
 
-      <img src="https://images.unsplash.com/photo-1590396443006-21873138b7e2?auto=format&fit=crop&w=1200&q=80" alt="Beautiful rural landscape in India with palm trees" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/Telangana_rural_landscape.WEBP" alt="Beautiful rural landscape in India with palm trees" style="width: 100%; border-radius: 12px; margin: 32px 0;">
       <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">Escape the city and experience the quiet, palm-lined roads of rural Telangana.</p>
 
       <h3>Stop 2: Bhoodan Pochampally (The Silk Village)</h3>
@@ -230,7 +230,7 @@ export const blogPosts = [
 
       [BOOKING_BANNER]
 
-      <img src="https://images.unsplash.com/photo-1605813853110-349f43c3d52c?auto=format&fit=crop&w=1200&q=80" alt="Close up of traditional Indian handloom weaving colorful threads" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/Telangana_rural_handloom.WEBP" alt="Close up of traditional Indian handloom weaving colorful threads" style="width: 100%; border-radius: 12px; margin: 32px 0;">
 
       <div class="expert-note">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -358,7 +358,7 @@ export const blogPosts = [
     title: 'Force Urbania Rental in Hyderabad: The Ultimate 2026 Luxury Group Travel Guide',
     category: 'fleet-guide',
     excerpt: 'Upgrade your group travel with the Force Urbania! Discover why this European-style luxury van is beating traditional Tempo Travellers with airplane-style seating, silent cabins, and advanced safety.',
-    image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80',
+    image: '/images/blog/urbania/Urbania_hero.WEBP',
     date: '2026-07-28',
     quickFacts: {
       label1: 'Seating Options',
@@ -380,7 +380,7 @@ export const blogPosts = [
         <li><strong>First-in-Segment Safety:</strong> It is one of the first commercial passenger vehicles in India to offer crash and rollover compliance, dual airbags for driver and co-driver, all-wheel disc brakes, and ESP (Electronic Stability Program) with ABS and EBD.</li>
       </ul>
 
-      <img src="https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80" alt="Luxury interior of a premium passenger van with leather reclining seats" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/urbania/Urbania_interior.PNG" alt="Luxury interior of a premium passenger van with leather reclining seats" style="width: 100%; border-radius: 12px; margin: 32px 0;">
       <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The Force Urbania features plush executive recliners with individual aircraft-style reading lights and AC vents.</p>
 
       [BOOKING_BANNER]
@@ -437,7 +437,7 @@ export const blogPosts = [
         <li><strong>Hill Station Road Trips:</strong> Whether navigating the 14 hairpin bends of Agumbe or cruising up to Coorg and Ooty, the Urbania’s powerful 115 HP Mercedes-derived CRDI engine climbs steep mountain inclines effortlessly while keeping passengers cool and comfortable.</li>
       </ul>
 
-      <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80" alt="Modern white passenger van cruising smoothly on a wide divided highway" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/urbania/Urbania_radha.WEBP" alt="Modern white passenger van cruising smoothly on a wide divided highway" style="width: 100%; border-radius: 12px; margin: 32px 0;">
 
       <div class="expert-note">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -3147,7 +3147,7 @@ export const blogPosts = [
         <li><strong>The Ghat Ascent:</strong> The 115-kilometer drive from Vizag up to Araku Valley is legendary. You will navigate 40+ hairpin bends cutting through dense forests, ascending to an altitude of 3,200 feet.</li>
       </ul>
 
-      <img src="/images/blog/ghat_road.webp" alt="A winding mountain road enveloped in thick green forest and fog" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/ghat_road.WEBP" alt="A winding mountain road enveloped in thick green forest and fog" style="width: 100%; border-radius: 12px; margin: 32px 0;">
       <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">The winding ghat roads from Vizag to Araku Valley offer spectacular valley views.</p>
 
       <h2>Stop 1: The Prehistoric Borra Caves</h2>
@@ -3157,7 +3157,7 @@ export const blogPosts = [
       <h2>Stop 2: Coffee Plantations & Araku Tribal Museum</h2>
       <p>Araku is synonymous with world-class, organic Arabica coffee. Stopping by the APFDC Coffee House allows you to sample freshly brewed local roasts and buy organic coffee and pepper directly from the tribal farmers. Right next door is the Araku Tribal Museum, a fascinating deep-dive into the indigenous Eastern Ghats tribes, their art, and the famous Dhimsa dance.</p>
 
-      <img src="/images/blog/coffee_plantation.webp" alt="Fresh green coffee beans growing on a lush plantation" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/coffee_plantation.WEBP" alt="Fresh green coffee beans growing on a lush plantation" style="width: 100%; border-radius: 12px; margin: 32px 0;">
       <p style="text-align: center; font-size: 13px; color: var(--text-muted); margin-top: -20px; margin-bottom: 30px;">Araku Valley is globally renowned for its organic, shade-grown Arabica coffee.</p>
 
       <h2>Stop 3: Lambasingi (The Kashmir of Andhra)</h2>
@@ -3188,7 +3188,7 @@ export const blogPosts = [
         </table>
       </div>
 
-      <img src="/images/blog/lambasingi_misty_morning.webp" alt="A beautiful misty morning over a vast mountain valley" style="width: 100%; border-radius: 12px; margin: 32px 0;">
+      <img src="/images/blog/lambasingi_misty_morning.WEBP" alt="A beautiful misty morning over a vast mountain valley" style="width: 100%; border-radius: 12px; margin: 32px 0;">
 
       <div class="expert-note">
         <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
