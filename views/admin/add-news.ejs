@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* Clean Admin Styling */
+    body { font-family: 'Poppins', sans-serif; background: #f1f5f9; color: #334155; margin: 0; padding: 40px; }
+    .admin-container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    h1 { margin-top: 0; color: #0f172a; }
+    .form-group { margin-bottom: 25px; }
+    label { display: block; font-weight: 600; margin-bottom: 8px; color: #0f172a; }
+    input[type="text"], select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 1rem; box-sizing: border-box; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.1); }
+    .btn-submit { background: #10b981; color: white; border: none; padding: 15px 30px; font-size: 1.1rem; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; }
+    .btn-submit:hover { background: #059669; }
+    .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; }
+    .back-link { color: #64748b; text-decoration: none; font-weight: 600; }
+    .back-link:hover { color: #10b981; }
+  </style>
+</head>
+<body>
+
+<div class="admin-container">
+  <div class="header-bar">
+    <h1><i class="fa-solid fa-pen-nib"></i> Publish New Update</h1>
+    <a href="/admin/dashboard" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <form action="/admin/news/add" method="POST">
+    
+    <div class="form-group">
+      <label>Headline / Title</label>
+      <input type="text" name="title" placeholder="e.g., Heavy Rain Alert: Srisailam Ghat Road" required>
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <select name="category">
+        <option value="Transit Alert">Transit Alert</option>
+        <option value="Pilgrimage Update">Pilgrimage Update</option>
+        <option value="Tourism Guide">Tourism Guide</option>
+        <option value="Company News">Company News</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Featured Image URL (Cloudinary or Unsplash)</label>
+      <input type="text" name="image_url" placeholder="https://images.unsplash.com/..." required>
+    </div>
+
+    <div class="form-group">
+      <label>Short Excerpt (Shows on the main feed)</label>
+      <textarea name="excerpt" rows="3" placeholder="A quick one-sentence summary of the update..." required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Full Article Content (HTML supported)</label>
+      <textarea name="content" rows="12" placeholder="Write your full article here... You can use <p>, <h3>, and <ul> tags for formatting." required></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit"><i class="fa-solid fa-paper-plane"></i> Publish Article</button>
+    
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { title: 'Travel News & Updates | Radha Travels' }) %>
+  <link rel="stylesheet" href="/css/news.css?v=final-masthead">
+</head>
+<body>
+
+<%- include('../partials/header') %>
+<%- include('../partials/ticker') %>
+
+<!-- Isolated News Wrapper -->
+<main class="rt-news-wrapper">
+
+  <!-- NEW: Site Section Hero -->
+  <!-- CONNECTED & CONTEXTUAL HERO -->
+  <header class="rt-dispatch-hero">
+    
+    <!-- Left: Title and Context -->
+    <div class="rt-dh-content">
+      <div class="rt-dh-kicker">
+        <span class="rt-dh-dot"></span> NEWS & UPDATES
+      </div>
+      <h1 class="rt-dh-title">RADHA TRAVEL'S</h1>
+      <p class="rt-dh-subtitle">Stay informed before you travel. Read our latest briefings on highway conditions, fleet availability, and essential travel advisories below.</p>
+    </div>
+
+    <!-- Right: Visual Connection to the News Categories -->
+    <div class="rt-dh-topics">
+      
+      <div class="rt-dh-card">
+        <i class="fa-solid fa-map-location-dot"></i>
+        <span>Route Alerts</span>
+      </div>
+      
+      <div class="rt-dh-card">
+        <i class="fa-solid fa-car-side"></i>
+        <span>Fleet News</span>
+      </div>
+      
+      <div class="rt-dh-card">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Guides</span>
+      </div>
+
+    </div>
+
+  </header>
+
+  <!-- SEO Links / TOI Ticker -->
+  <nav class="rt-news-ticker">
+    <strong>Trending:</strong>
+    <a href="/fleet">Premium Fleet Options</a>
+    <a href="/#booking-widget">Airport Transfers</a>
+    <a href="/#booking-widget">Outstation Cabs</a>
+    <a href="/contact">24/7 Dispatch</a>
+  </nav>
+
+  <% if (newsList && newsList.length > 0) { %>
+    
+    <!-- FEATURED ARTICLE HERO -->
+    <% const featured = newsList[0]; %>
+    <a href="/news/<%= featured.slug %>" class="rt-beautiful-hero">
+      <img class="rt-hero-bg-img" src="<%= optimizeImg(featured.image_url) %>" alt="<%= featured.title %>">
+      <div class="rt-hero-overlay">
+        <span class="rt-cat-tag"><%= featured.category %></span>
+        <h1><%= featured.title %></h1>
+        <p><%= featured.excerpt %></p>
+      </div>
+    </a>
+
+    <!-- MAIN LAYOUT (Bulletproof Flexbox Grid) -->
+    <div class="rt-news-layout">
+      
+      <!-- LEFT: Sub News Grid -->
+      <div class="rt-news-main">
+        <div class="rt-section-header">
+          <h2>More Travel News</h2>
+        </div>
+
+        <div class="rt-sub-grid">
+          <% if (newsList.length > 1) { %>
+            <% newsList.slice(1, 7).forEach(item => { %>
+              <article class="rt-sub-card">
+                <a href="/news/<%= item.slug %>">
+                  <img class="rt-sub-img" src="<%= optimizeImg(item.image_url) %>" alt="<%= item.title %>">
+                </a>
+                <span class="rt-cat-tag"><%= item.category %></span>
+                <a href="/news/<%= item.slug %>">
+                  <h3><%= item.title %></h3>
+                </a>
+                <p><%= item.excerpt %></p>
+              </article>
+            <% }) %>
+          <% } else { %>
+            <p style="color: #666; width: 100%;">More updates coming soon.</p>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- RIGHT: Fixed Width Sidebar -->
+      <aside class="rt-news-sidebar">
+        
+        <div class="rt-section-header">
+          <h2>Latest Briefings</h2>
+        </div>
+        
+        <div>
+          <% const feedItems = newsList.length > 7 ? newsList.slice(7) : newsList.slice(1, 5); %>
+          <% feedItems.forEach(item => { %>
+            <article class="rt-feed-item">
+              <a href="/news/<%= item.slug %>">
+                <img class="rt-feed-img" src="<%= optimizeImg(item.image_url) %>" alt="<%= item.title %>">
+              </a>
+              <div>
+                <a href="/news/<%= item.slug %>"><h4><%= item.title %></h4></a>
+                <div class="rt-date"><%= new Date(item.created_at).toLocaleDateString('en-IN') %></div>
+              </div>
+            </article>
+          <% }) %>
+        </div>
+
+        <!-- Customer Conversion Ad -->
+        <div class="rt-ad-widget">
+          <span>Advertisement</span>
+          <h3>Secure Your Ride</h3>
+          <p>Book a sanitized outstation cab with a highly experienced driver.</p>
+          <a href="/#booking-widget" class="rt-btn">Book Cab Now</a>
+          <div style="margin-top: 15px; font-weight: 700; font-size: 15px;">Call: +91 83329 58915</div>
+        </div>
+
+      </aside>
+
+    </div>
+  <% } else { %>
+    <p style="text-align: center; padding: 50px 0; color: #666;">No news updates published yet.</p>
+  <% } %>
+
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

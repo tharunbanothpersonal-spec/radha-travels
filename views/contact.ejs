@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'Contact Us | Radha Travels' }) %>
+  <link rel="stylesheet" href="/css/contact.css?v=fresh-idea">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<%- include('partials/header') %>
+
+<main class="rt-contact-wrapper">
+
+  <!-- The Unified Floating Panel -->
+  <div class="rt-contact-panel">
+    
+    <!-- LEFT: Gorgeous Brand Identity Side -->
+    <div class="rt-panel-info">
+      <div class="rt-info-header">
+        <h2>Get in touch.</h2>
+        <p>Whether you need an outstation cab or a corporate fleet, our dispatch team is ready to assist you.</p>
+      </div>
+
+      <div class="rt-contact-items">
+        
+        <div class="rt-contact-item">
+          <i class="fa-solid fa-phone"></i>
+          <div class="rt-contact-text">
+            <h4>24/7 Dispatch Desk</h4>
+            <a href="tel:+918332958915">+91 83329 58915</a>
+          </div>
+        </div>
+
+        <div class="rt-contact-item">
+          <i class="fa-solid fa-envelope"></i>
+          <div class="rt-contact-text">
+            <h4>Reservations & Support</h4>
+            <a href="mailto:booking@radhatravels.co.in">booking@radhatravels.co.in</a>
+          </div>
+        </div>
+
+        <div class="rt-contact-item">
+          <i class="fa-solid fa-headset"></i>
+          <div class="rt-contact-text">
+            <h4>Corporate Inquiries</h4>
+            <!-- Replace with actual alternate number -->
+            <a href="tel:+919000000000">+91 90000 00000</a>
+          </div>
+        </div>
+
+        <div class="rt-contact-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <div class="rt-contact-text">
+            <h4>Headquarters</h4>
+            <p>Radha Travels Operations<br>Hyderabad, Telangana</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT: Minimalist Interactive Form -->
+    <div class="rt-panel-form">
+      <h3>Send a message</h3>
+      
+      <form action="/contact" method="POST">
+        
+        <div class="rt-input-group">
+          <!-- The placeholder=" " is required for the CSS float animation to work -->
+          <input type="text" id="name" name="name" placeholder=" " required>
+          <label for="name">Your Name</label>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+          <div class="rt-input-group">
+            <input type="tel" id="phone" name="phone" placeholder=" " required>
+            <label for="phone">Phone Number</label>
+          </div>
+          <div class="rt-input-group">
+            <input type="email" id="email" name="email" placeholder=" ">
+            <label for="email">Email (Optional)</label>
+          </div>
+        </div>
+
+        <div class="rt-input-group">
+          <textarea id="message" name="message" placeholder=" " required></textarea>
+          <label for="message">How can we help you?</label>
+        </div>
+
+        <button type="submit" class="rt-send-btn">
+          Send Message <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+
+</main>
+
+<%- include('partials/footer') %>
+</body>
+</html>

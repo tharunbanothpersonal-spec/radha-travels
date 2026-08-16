@@ -638,11 +638,84 @@ app.post('/track-booking', async (req, res) => {
   }
 });
 
+// CONTACT US PAGE
+app.get("/contact", (req, res) => {
+  res.render("contact", {
+    title: "Contact Us & Meet the Team | Radha Travels Hyderabad",
+    currentPath: req.path
+  });
+});
+
 // OTHER PUBLIC ROUTES
 app.use('/gallery', galleryRoutes);
 app.use('/fleet', fleetRoutes);
 app.use(testimonialsRoutes);
 
+
+// =======================================================
+//  TRAVEL NEWS & UPDATES ENGINE
+// =======================================================
+
+// 1. The Main News Feed
+app.get('/news', async (req, res) => {
+  try {
+    // Fetch all published news, ordered by newest first
+    const newsRes = await db.execute(`
+      SELECT id, title, slug, excerpt, image_url, category, views, created_at 
+      FROM news_updates 
+      WHERE is_published = 1 
+      ORDER BY created_at DESC
+    `);
+    
+    res.render('news/index', {
+      title: 'Latest Travel News & Updates | Radha Travels',
+      currentPath: req.path,
+      newsList: newsRes.rows
+    });
+  } catch (err) {
+    console.error('Error fetching news feed:', err);
+    res.render('news/index', {
+      title: 'Travel News | Radha Travels',
+      currentPath: req.path,
+      newsList: [] // Falls back to our placeholder design if DB fails
+    });
+  }
+});
+
+// 2. The Individual Article Page
+app.get('/news/:slug', async (req, res) => {
+  try {
+    const slug = req.params.slug;
+    
+    // Fetch the specific article
+    const articleRes = await db.execute({
+      sql: 'SELECT * FROM news_updates WHERE slug = ? AND is_published = 1',
+      args: [slug]
+    });
+    
+    const article = articleRes.rows[0];
+
+    if (!article) {
+      return res.status(404).render('pages/404', { title: 'Article Not Found' });
+    }
+
+    // Increment the view counter in the background
+    db.execute({
+      sql: 'UPDATE news_updates SET views = views + 1 WHERE id = ?',
+      args: [article.id]
+    }).catch(err => console.error("Failed to update views:", err));
+
+    res.render('news/show', {
+      title: `${article.title} | Radha Travels News`,
+      metaDescription: article.excerpt, // Excellent for SEO
+      currentPath: req.path,
+      article: article
+    });
+  } catch (err) {
+    console.error('Error fetching article:', err);
+    res.status(500).send('Server Error');
+  }
+});
 
 // ABOUT US PAGE
 app.get("/about", (req, res) => {

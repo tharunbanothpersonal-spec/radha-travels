@@ -79,6 +79,10 @@ router.get('/dashboard', requireAdmin, async (req, res) => {
       db.execute('SELECT state, COUNT(*) as total FROM visitors GROUP BY state ORDER BY total DESC LIMIT 10')
     ]);
 
+    // 1. ADD THIS: Count the total number of news articles
+    const newsCountRes = await db.execute('SELECT COUNT(*) as count FROM news_updates');
+    const totalNews = newsCountRes.rows[0].count;
+
     res.render('admin/dashboard', {
       bookings: bookingsRes.rows,
       gallery: galleryRes.rows,
@@ -92,6 +96,7 @@ router.get('/dashboard', requireAdmin, async (req, res) => {
       stateVisitors: stateVisitorsRes.rows,
       title: 'Dashboard | Admin',
       active: 'dashboard',
+      totalNews: totalNews,
     });
   } catch (err) {
     console.error('Dashboard error:', err);
@@ -604,6 +609,75 @@ router.post('/pricing/update/:id', requireAdmin, async (req, res) => {
     console.error('Pricing update error:', err);
   }
   res.redirect('/admin/pricing');
+});
+
+
+// =======================================================
+//  NEWS PUBLISHING DASHBOARD
+// =======================================================
+
+// 1. Show the "Add News" Form
+router.get('/news/add', requireAdmin, (req, res) => {
+  res.render('admin/add-news', {
+    title: 'Publish News Update | Admin Dashboard'
+  });
+});
+
+// 2. Process the Form Submission and Save to Turso
+router.post('/news/add', requireAdmin, async (req, res) => {
+  try {
+    const { title, category, image_url, excerpt, content } = req.body;
+    
+    // Automatically create a URL-friendly slug (e.g., "Heavy Rains" -> "heavy-rains")
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
+    // Insert into Turso Database
+    await db.execute({
+      sql: `INSERT INTO news_updates (title, slug, excerpt, content, image_url, category, is_published) 
+            VALUES (?, ?, ?, ?, ?, ?, 1)`,
+      args: [title, slug, excerpt, content, image_url, category]
+    });
+
+    // Redirect straight to the live public news feed so you can see it instantly
+    res.redirect('/news');
+    
+  } catch (err) {
+    console.error('Error publishing news:', err);
+    res.status(500).send('Failed to publish article. The title might already exist.');
+  }
+});
+
+// 3. Manage News List (Shows all articles)
+router.get('/news', requireAdmin, async (req, res) => {
+  try {
+    const newsRes = await db.execute(`
+      SELECT id, title, category, created_at 
+      FROM news_updates 
+      ORDER BY created_at DESC
+    `);
+    
+    res.render('admin/news-list', {
+      title: 'Manage Travel News | Admin Dashboard',
+      news: newsRes.rows
+    });
+  } catch (err) {
+    console.error('Error fetching news for admin:', err);
+    res.status(500).send('Database Error');
+  }
+});
+
+// 4. Delete a News Article
+router.post('/news/delete/:id', requireAdmin, async (req, res) => {
+  try {
+    await db.execute({
+      sql: 'DELETE FROM news_updates WHERE id = ?',
+      args: [req.params.id]
+    });
+    res.redirect('/admin/news');
+  } catch (err) {
+    console.error('Error deleting news:', err);
+    res.status(500).send('Failed to delete article.');
+  }
 });
 
 export default router;

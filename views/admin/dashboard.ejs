@@ -69,17 +69,17 @@
     }
 
     .state-visitors{
-list-style:none;
-padding:0;
-margin-top:10px;
-}
+      list-style:none;
+      padding:0;
+      margin-top:10px;
+    }
 
-.state-visitors li{
-display:flex;
-justify-content:space-between;
-padding:6px 0;
-border-bottom:1px solid rgba(255,255,255,0.05);
-}
+    .state-visitors li{
+      display:flex;
+      justify-content:space-between;
+      padding:6px 0;
+      border-bottom:1px solid rgba(255,255,255,0.05);
+    }
 
     /* DESKTOP */
 
@@ -89,7 +89,8 @@ border-bottom:1px solid rgba(255,255,255,0.05);
       }
 
       .quick-actions {
-        grid-template-columns: repeat(4, 1fr);
+        /* Updated to 5 to accommodate the new News button evenly if desired, or let it wrap naturally */
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); 
       }
 
       .stat-card {
@@ -109,14 +110,20 @@ border-bottom:1px solid rgba(255,255,255,0.05);
   <span class="subtext">Live system analytics & operational metrics</span>
 </section>
 
-<% const bookingList = Array.isArray(locals.bookings) ? locals.bookings : [];
-const galleryList = Array.isArray(locals.gallery) ? locals.gallery : []; const
-fleetList = Array.isArray(locals.fleet) ? locals.fleet : []; const totalFleet =
-fleetList.length; const totalBookings = bookingList.length; const totalGallery =
-galleryList.length; const pendingBookings = bookingList.filter(b => b.status ===
-"pending").length; const reviews = Array.isArray(locals.reviews) ?
-locals.reviews : []; const totalReviews = locals.totalReviews || 0; const
-avgRating = locals.avgRating || 0; %>
+<% 
+const bookingList = Array.isArray(locals.bookings) ? locals.bookings : [];
+const galleryList = Array.isArray(locals.gallery) ? locals.gallery : []; 
+const fleetList = Array.isArray(locals.fleet) ? locals.fleet : []; 
+const totalFleet = fleetList.length; 
+const totalBookings = bookingList.length; 
+const totalGallery = galleryList.length; 
+const pendingBookings = bookingList.filter(b => b.status === "pending").length; 
+const reviews = Array.isArray(locals.reviews) ? locals.reviews : []; 
+const totalReviews = locals.totalReviews || 0; 
+const avgRating = locals.avgRating || 0; 
+// Safely handle the news count if it's passed from the backend
+const totalNews = locals.totalNews || 0; 
+%>
 
 <!-- KPI STATS -->
 
@@ -151,11 +158,19 @@ avgRating = locals.avgRating || 0; %>
     <p>Reviews</p>
   </a>
 
+  <!-- NEW: Travel News Stat Card -->
+  <a href="/admin/news" class="stat-card">
+    <div class="stat-icon">📰</div>
+    <h3 class="stat-number" data-count="<%= totalNews %>">0</h3>
+    <p>News & Alerts</p>
+  </a>
+
   <div class="stat-card">
     <div class="stat-icon">📊</div>
     <h3 class="stat-number" data-count="<%= avgRating %>">0</h3>
     <p>Avg Rating</p>
   </div>
+  
   <div class="stat-card">
     <div class="stat-icon">🌍</div>
     <h3 class="stat-number" data-count="<%= totalVisitors %>">0</h3>
@@ -167,36 +182,33 @@ avgRating = locals.avgRating || 0; %>
     <h3 class="stat-number" data-count="<%= todayVisitors %>">0</h3>
     <p>Visitors Today</p>
   </div>
-  <div class="stat-card">
-
-<h3>Visitors by State</h3>
-
-<ul class="state-visitors">
-
-<% stateVisitors.forEach(s => { %>
-
-<li>
-<span><%= s.state %></span>
-<strong><%= s.total %></strong>
-</li>
-
-<% }) %>
-
-</ul>
-
-</div>
+  
+  <div class="stat-card" style="grid-column: 1 / -1;">
+    <h3>Visitors by State</h3>
+    <ul class="state-visitors">
+      <% if (typeof stateVisitors !== 'undefined' && stateVisitors.length > 0) { %>
+        <% stateVisitors.forEach(s => { %>
+          <li>
+            <span><%= s.state %></span>
+            <strong><%= s.total %></strong>
+          </li>
+        <% }) %>
+      <% } else { %>
+         <li><span>No data available yet</span></li>
+      <% } %>
+    </ul>
+  </div>
 </div>
 
 <!-- QUICK ACTIONS -->
 
 <div class="quick-actions">
   <a href="/admin/bookings" class="action-btn"> 📅 Manage Bookings </a>
-
   <a href="/admin/fleet" class="action-btn"> 🚘 Manage Fleet </a>
-
   <a href="/admin/gallery" class="action-btn"> 🖼 Upload Gallery </a>
-
   <a href="/admin/testimonials" class="action-btn"> ⭐ Manage Reviews </a>
+  <!-- NEW: Travel News Action Button -->
+  <a href="/admin/news" class="action-btn"> 📰 Manage News </a>
 </div>
 
 <script>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head', { title: article.title + ' | Radha Travels' }) %>
+  <link rel="stylesheet" href="/css/news.css?v=final-launch">
+  <!-- 1. FontAwesome for Share Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- 2. Open Graph Meta Tags for WhatsApp/Facebook Previews -->
+  <meta property="og:title" content="<%= article.title %>">
+  <meta property="og:description" content="<%= article.excerpt %>">
+  <meta property="og:image" content="<%= optimizeImg(article.image_url) %>">
+  <meta property="og:type" content="article">
+</head>
+</head>
+<body>
+
+<%- include('../partials/header') %>
+<%- include('../partials/ticker') %>
+
+<!-- Isolated News Wrapper -->
+<main class="rt-news-wrapper">
+  
+  <nav class="rt-breadcrumbs">
+    <a href="/">Home</a> &raquo; <a href="/news">News</a> &raquo; <%= article.category %>
+  </nav>
+
+  <div class="rt-news-layout">
+    
+    <!-- LEFT: Article Content -->
+    <article class="rt-news-main">
+      
+      <span class="rt-cat-tag" style="display:inline-block;"><%= article.category %></span>
+      <h1 class="rt-article-title"><%= article.title %></h1>
+      <p class="rt-article-excerpt"><%= article.excerpt %></p>
+      
+      <div class="rt-author-bar">
+        <div>By <strong>Radha Travels Desk</strong></div>
+        <div>Updated: <%= new Date(article.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) %></div>
+      </div>
+
+      <!-- 3. NEW: Social Share Buttons -->
+      <div class="rt-share-row">
+        <span class="rt-share-label">Share:</span>
+        <a href="https://api.whatsapp.com/send?text=<%= encodeURIComponent('Travel Update: ' + article.title + ' - Read here: https://radhatravels.com/news/' + article.slug) %>" target="_blank" class="rt-share-btn rt-btn-wa" title="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://radhatravels.com/news/<%= article.slug %>" target="_blank" class="rt-share-btn rt-btn-fb" title="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(article.title) %>&url=https://radhatravels.com/news/<%= article.slug %>" target="_blank" class="rt-share-btn rt-btn-x" title="Share on X"><i class="fa-brands fa-x-twitter"></i></a>
+        <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied!');" class="rt-share-btn rt-btn-copy" title="Copy Link"><i class="fa-solid fa-link"></i></button>
+      </div>
+
+      <!-- Refined Multiple Images Gallery Setup -->
+      <figure class="rt-gallery-wrap">
+        <!-- Main Image -->
+        <img class="rt-gallery-hero" src="<%= optimizeImg(article.image_url) %>" alt="<%= article.title %>">
+        
+        <!-- Multiple Images (Scrollable Strip) -->
+        <% if (article.additional_images && article.additional_images.length > 0) { %>
+          <div class="rt-gallery-grid">
+            <% article.additional_images.forEach(img => { %>
+              <img src="<%= optimizeImg(img) %>" alt="Related photo for <%= article.title %>">
+            <% }) %>
+          </div>
+        <% } %>
+        
+        <figcaption class="rt-caption">Live travel intelligence via Radha Travels Dispatch.</figcaption>
+      </figure>
+
+      <!-- SEO Rich Content -->
+      <div class="rt-content-body">
+        <%- article.content %>
+      </div>
+
+      <!-- In-Article Customer Conversion CTA -->
+      <div class="rt-inline-cta">
+        <h4>Travel Without Interruptions</h4>
+        <p>Ensure your schedule remains intact. Book a premium fleet vehicle equipped with real-time tracking and an experienced chauffeur.</p>
+        <a href="/#booking-widget" class="rt-btn">Reserve a Cab</a>
+      </div>
+
+      <!-- SEO Tag Interlinks -->
+      <div style="margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px;">
+        <span style="font-size: 13px; font-weight: 700; margin-right: 15px; color: #666;">TAGS:</span>
+        <a href="/fleet" style="font-size: 12px; font-weight: 700; color: #000; padding: 6px 12px; background: #f4f4f4; border-radius: 4px; margin-right: 10px; text-transform: uppercase;">Fleet Updates</a>
+        <a href="/#booking-widget" style="font-size: 12px; font-weight: 700; color: #000; padding: 6px 12px; background: #f4f4f4; border-radius: 4px; text-transform: uppercase;">Bookings</a>
+      </div>
+
+    </article>
+
+    <!-- RIGHT: Sticky Conversion Sidebar -->
+    <aside class="rt-news-sidebar">
+      
+      <div class="rt-ad-widget">
+        <span>Sponsored</span>
+        <h3>Outstation Travel?</h3>
+        <p>Avoid transit delays. Book a sanitized, premium cab instantly.</p>
+        <a href="/#booking-widget" class="rt-btn">Book Cab Now</a>
+        <div style="margin-top: 15px; font-weight: 700; font-size: 15px;">
+          Dispatch: +91 83329 58915
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>
