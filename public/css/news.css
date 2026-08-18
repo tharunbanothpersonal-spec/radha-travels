@@ -3,7 +3,7 @@
 /* --- 1. Container & Scoping --- */
 .rt-news-wrapper {
   font-family: 'Roboto', Arial, sans-serif;
-  max-width: 1140px;
+  max-width: 1400px;
   margin: 20px auto 60px auto;
   padding: 0 15px;
   color: #000000;
@@ -212,7 +212,7 @@
 .rt-date { font-size: 11px; color: #888; text-transform: uppercase; font-weight: 500; }
 
 /* Conversion Ad Widget */
-.rt-ad-widget { background: #f9f9f9; border: 1px solid #ddd; padding: 25px; text-align: center; position: sticky; top: 20px; border-radius: 8px; margin-bottom: 30px; }
+.rt-ad-widget { background: #f9f9f9; border: 1px solid #ddd; padding: 25px; text-align: center; position: sticky; top: 130px; border-radius: 8px; margin-bottom: 30px; }
 .rt-ad-widget span { font-size: 10px; color: #999; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 10px; }
 .rt-ad-widget h3 { font-size: 20px; font-weight: 900; margin: 0 0 10px; text-transform: uppercase; }
 .rt-ad-widget p { font-size: 14px; color: #555; margin-bottom: 20px; line-height: 1.5; }

@@ -618,7 +618,8 @@ router.post('/pricing/update/:id', requireAdmin, async (req, res) => {
 
 // 1. Show the "Add News" Form
 router.get('/news/add', requireAdmin, (req, res) => {
-  res.render('admin/add-news', {
+  // Matches the new news-add.ejs file we created
+  res.render('admin/news-add', {
     title: 'Publish News Update | Admin Dashboard'
   });
 });
@@ -626,24 +627,34 @@ router.get('/news/add', requireAdmin, (req, res) => {
 // 2. Process the Form Submission and Save to Turso
 router.post('/news/add', requireAdmin, async (req, res) => {
   try {
-    const { title, category, image_url, excerpt, content } = req.body;
+    const { title, category, image_url, additional_images, excerpt, content } = req.body;
+    let { slug } = req.body;
     
-    // Automatically create a URL-friendly slug (e.g., "Heavy Rains" -> "heavy-rains")
-    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+    // Automatically create a URL-friendly slug if not provided
+    if (!slug || slug.trim() === '') {
+      slug = title.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
+    }
 
-    // Insert into Turso Database
+    // Safely parse the additional gallery images into a JSON string
+    let galleryArray = [];
+    if (additional_images && additional_images.trim() !== '') {
+      galleryArray = additional_images.split(',').map(url => url.trim()).filter(url => url.startsWith('http'));
+    }
+
+    // Insert into Turso Database with all new columns
     await db.execute({
-      sql: `INSERT INTO news_updates (title, slug, excerpt, content, image_url, category, is_published) 
-            VALUES (?, ?, ?, ?, ?, ?, 1)`,
-      args: [title, slug, excerpt, content, image_url, category]
+      sql: `INSERT INTO news_updates 
+            (title, slug, excerpt, content, image_url, additional_images, category, is_published, updated_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, 1, datetime('now'))`,
+      args: [title, slug, excerpt, content, image_url, JSON.stringify(galleryArray), category]
     });
 
-    // Redirect straight to the live public news feed so you can see it instantly
-    res.redirect('/news');
+    // Redirect straight to the live public article
+    res.redirect('/news/' + slug);
     
   } catch (err) {
     console.error('Error publishing news:', err);
-    res.status(500).send('Failed to publish article. The title might already exist.');
+    res.status(500).send('Failed to publish article. The title or slug might already exist.');
   }
 });
 

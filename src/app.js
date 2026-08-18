@@ -686,33 +686,50 @@ app.use(testimonialsRoutes);
 //  TRAVEL NEWS & UPDATES ENGINE
 // =======================================================
 
-// 1. The Main News Feed
+// 1. The Main News Feed (With Pagination)
 app.get('/news', async (req, res) => {
   try {
-    // Fetch all published news, ordered by newest first
-    const newsRes = await db.execute(`
-      SELECT id, title, slug, excerpt, image_url, category, views, created_at 
-      FROM news_updates 
-      WHERE is_published = 1 
-      ORDER BY created_at DESC
-    `);
-    
+    const page = parseInt(req.query.page) || 1;
+    const limit = 8;
+    const offset = (page - 1) * limit;
+
+    // Fetch Paginated Articles
+    const newsRes = await db.execute({
+      sql: `
+        SELECT id, title, slug, excerpt, image_url, category, views, created_at 
+        FROM news_updates 
+        WHERE is_published = 1 
+        ORDER BY created_at DESC
+        LIMIT ? OFFSET ?
+      `,
+      args: [limit, offset]
+    });
+
+    // Fetch Total Count for Pagination UI
+    const countRes = await db.execute(`SELECT COUNT(*) as count FROM news_updates WHERE is_published = 1`);
+    const totalArticles = countRes.rows[0]?.count || 0;
+    const totalPages = Math.ceil(totalArticles / limit);
+
     res.render('news/index', {
-      title: 'Latest Travel News & Updates | Radha Travels',
+      title: 'Travel News & Route Advisories | Radha Travels',
       currentPath: req.path,
-      newsList: newsRes.rows
+      newsList: newsRes.rows,
+      currentPage: page,
+      totalPages: totalPages
     });
   } catch (err) {
     console.error('Error fetching news feed:', err);
     res.render('news/index', {
       title: 'Travel News | Radha Travels',
       currentPath: req.path,
-      newsList: [] // Falls back to our placeholder design if DB fails
+      newsList: [], 
+      currentPage: 1,
+      totalPages: 1
     });
   }
 });
 
-// 2. The Individual Article Page
+// 2. The Individual Article Page (With Gallery Parser)
 app.get('/news/:slug', async (req, res) => {
   try {
     const slug = req.params.slug;
@@ -729,6 +746,17 @@ app.get('/news/:slug', async (req, res) => {
       return res.status(404).render('pages/404', { title: 'Article Not Found' });
     }
 
+    // SAFELY PARSE GALLERY IMAGES: Converts DB string back into a usable array for the EJS template
+    let gallery = [];
+    if (article.additional_images) {
+      try {
+        gallery = JSON.parse(article.additional_images);
+      } catch {
+        gallery = [];
+      }
+    }
+    article.additional_images = gallery;
+
     // Increment the view counter in the background
     db.execute({
       sql: 'UPDATE news_updates SET views = views + 1 WHERE id = ?',
@@ -737,7 +765,7 @@ app.get('/news/:slug', async (req, res) => {
 
     res.render('news/show', {
       title: `${article.title} | Radha Travels News`,
-      metaDescription: article.excerpt, // Excellent for SEO
+      metaDescription: article.excerpt, 
       currentPath: req.path,
       article: article
     });

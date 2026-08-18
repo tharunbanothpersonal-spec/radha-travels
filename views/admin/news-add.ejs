@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create News Update | Admin</title>
+  
+  <!-- Inter Font & FontAwesome -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Quill.js WYSIWYG Editor (Clean Snow Theme) -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --brand: #10b981;
+      --brand-hover: #059669;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 30px 20px;
+    }
+
+    .admin-header {
+      max-width: 1200px;
+      margin: 0 auto 25px auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .admin-header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .back-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: var(--text); }
+
+    /* 2-Column Publishing Grid */
+    .publisher-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 25px;
+      align-items: start;
+    }
+
+    .canvas-card, .sidebar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-group:last-child { margin-bottom: 0; }
+    label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .char-count { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+    input[type="text"], select, textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--text);
+      outline: none;
+      background: #fafafa;
+      transition: all 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      background: #ffffff;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+    }
+
+    /* Auto-Slug Bar */
+    .slug-preview {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      padding: 6px 10px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      word-break: break-all;
+    }
+    .slug-preview strong { color: var(--text); margin-left: 4px; }
+
+    /* Quill WYSIWYG Editor Styling */
+    #editor-container {
+      height: 380px;
+      font-size: 16px;
+      font-family: inherit;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 8px;
+    }
+    .ql-toolbar.ql-snow {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      border-color: var(--border);
+      background: #f8fafc;
+    }
+    .ql-container.ql-snow {
+      border-color: var(--border);
+      background: #ffffff;
+    }
+
+    /* Image Preview Box */
+    .img-preview-box {
+      width: 100%;
+      height: 160px;
+      background: #f1f5f9;
+      border: 2px dashed var(--border);
+      border-radius: 8px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .img-preview-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+    .img-preview-placeholder {
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Publishing Button */
+    .btn-publish {
+      width: 100%;
+      background: var(--brand);
+      color: #ffffff;
+      border: none;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-publish:hover {
+      background: var(--brand-hover);
+      box-shadow: 0 4px 12px rgba(16,185,129,0.25);
+    }
+
+    @media (max-width: 900px) {
+      .publisher-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="admin-header">
+    <h1><i class="fa-solid fa-feather-pointed" style="color: var(--brand);"></i> News Publisher</h1>
+    <a href="/admin/dashboard" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Exit to Dashboard</a>
+  </header>
+
+  <form id="newsForm" action="/admin/news/add" method="POST">
+    
+    <div class="publisher-layout">
+      
+      <!-- LEFT COLUMN: Main Editorial Content -->
+      <div class="canvas-card">
+        
+        <!-- Headline -->
+        <div class="form-group">
+          <label for="title">Article Headline <span class="char-count" id="titleCount">0/100</span></label>
+          <input type="text" id="title" name="title" placeholder="e.g., Global Fuel Markets Brace as Strait of Hormuz Tensions Escalate" maxlength="120" required autocomplete="off">
+          
+          <div class="slug-preview">
+            <span>Slug: /news/</span><strong id="slugOutput">article-slug</strong>
+            <input type="hidden" name="slug" id="slugInput">
+          </div>
+        </div>
+
+        <!-- Short Excerpt -->
+        <div class="form-group">
+          <label for="excerpt">Excerpt / Meta Summary <span class="char-count" id="excerptCount">0/180</span></label>
+          <textarea id="excerpt" name="excerpt" rows="3" maxlength="200" placeholder="A concise 1-2 sentence overview for social shares and search engines..." required></textarea>
+        </div>
+
+        <!-- Full Content via Quill Editor -->
+        <div class="form-group">
+          <label>Article Body</label>
+          <div id="editor-container"></div>
+          <!-- Hidden input that will hold the final HTML generated by Quill -->
+          <input type="hidden" name="content" id="hiddenContent">
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Publishing Controls & Media -->
+      <aside class="sidebar-card">
+        
+        <!-- Category Selector -->
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" name="category" required>
+            <option value="Route Alerts">Route Alerts</option>
+            <option value="Travel Intelligence">Travel Intelligence</option>
+            <option value="Fleet Updates">Fleet Updates</option>
+            <option value="Pilgrimage Guides">Pilgrimage Guides</option>
+          </select>
+        </div>
+
+        <!-- Featured Image with Live Preview -->
+        <div class="form-group">
+          <label for="imageUrl">Main Featured Image</label>
+          <input type="text" id="imageUrl" name="image_url" placeholder="Paste Cloudinary / Unsplash URL" required>
+          
+          <div class="img-preview-box">
+            <img id="previewImg" alt="Preview">
+            <div class="img-preview-placeholder" id="previewPlaceholder">
+              <i class="fa-regular fa-image" style="font-size: 24px;"></i>
+              <span>Image preview will appear here</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Gallery Images (Optional) -->
+        <div class="form-group">
+          <label for="additionalImages">Gallery Images (Comma-separated)</label>
+          <input type="text" id="additionalImages" name="additional_images" placeholder="URL 1, URL 2">
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group" style="margin-top: 30px;">
+          <button type="submit" class="btn-publish">
+            <i class="fa-solid fa-paper-plane"></i> Publish Update
+          </button>
+        </div>
+
+      </aside>
+
+    </div>
+
+  </form>
+
+  <!-- Quill.js WYSIWYG Editor Script -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+  <script>
+    // 1. Initialize Rich Text Editor
+    const quill = new Quill('#editor-container', {
+      theme: 'snow',
+      placeholder: 'Write your story here... You can use headings, bold text, links, and lists.',
+      modules: {
+        toolbar: [
+          [{ 'header': [2, 3, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+          ['link', 'clean']
+        ]
+      }
+    });
+
+    // 2. Real-Time Slug & Character Counter
+    const titleInput = document.getElementById('title');
+    const titleCount = document.getElementById('titleCount');
+    const slugOutput = document.getElementById('slugOutput');
+    const slugInput = document.getElementById('slugInput');
+
+    titleInput.addEventListener('input', function() {
+      titleCount.textContent = `${this.value.length}/100`;
+      
+      // Slug formula: lowercase, remove special characters, replace spaces with hyphens
+      const slug = this.value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-');
+
+      slugOutput.textContent = slug || 'article-slug';
+      slugInput.value = slug;
+    });
+
+    // 3. Excerpt Character Counter
+    const excerptInput = document.getElementById('excerpt');
+    const excerptCount = document.getElementById('excerptCount');
+    excerptInput.addEventListener('input', function() {
+      excerptCount.textContent = `${this.value.length}/180`;
+    });
+
+    // 4. Live Image Preview
+    const imgUrlInput = document.getElementById('imageUrl');
+    const previewImg = document.getElementById('previewImg');
+    const previewPlaceholder = document.getElementById('previewPlaceholder');
+
+    imgUrlInput.addEventListener('input', function() {
+      const url = this.value.trim();
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        previewImg.src = url;
+        previewImg.onload = () => {
+          previewImg.style.display = 'block';
+          previewPlaceholder.style.display = 'none';
+        };
+        previewImg.onerror = () => {
+          previewImg.style.display = 'none';
+          previewPlaceholder.style.display = 'flex';
+        };
+      } else {
+        previewImg.style.display = 'none';
+        previewPlaceholder.style.display = 'flex';
+      }
+    });
+
+    // 5. Sync Editor Content to Form on Submit
+    document.getElementById('newsForm').addEventListener('submit', function(e) {
+      const contentHtml = quill.root.innerHTML;
+      
+      // Prevent submitting empty content
+      if (quill.getText().trim().length === 0) {
+        e.preventDefault();
+        alert('Please write some content before publishing.');
+        return;
+      }
+
+      document.getElementById('hiddenContent').value = contentHtml;
+    });
+  </script>
+
+</body>
+</html>

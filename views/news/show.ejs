@@ -12,7 +12,6 @@
   <meta property="og:image" content="<%= optimizeImg(article.image_url) %>">
   <meta property="og:type" content="article">
 </head>
-</head>
 <body>
 
 <%- include('../partials/header') %>
@@ -42,9 +41,9 @@
       <!-- 3. NEW: Social Share Buttons -->
       <div class="rt-share-row">
         <span class="rt-share-label">Share:</span>
-        <a href="https://api.whatsapp.com/send?text=<%= encodeURIComponent('Travel Update: ' + article.title + ' - Read here: https://radhatravels.com/news/' + article.slug) %>" target="_blank" class="rt-share-btn rt-btn-wa" title="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https://radhatravels.com/news/<%= article.slug %>" target="_blank" class="rt-share-btn rt-btn-fb" title="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(article.title) %>&url=https://radhatravels.com/news/<%= article.slug %>" target="_blank" class="rt-share-btn rt-btn-x" title="Share on X"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href="https://api.whatsapp.com/send?text=<%= encodeURIComponent('Travel Update: ' + article.title + ' - Read here: https://radhatravels.co.in/news/' + article.slug) %>" target="_blank" class="rt-share-btn rt-btn-wa" title="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://radhatravels.co.in/news/<%= article.slug %>" target="_blank" class="rt-share-btn rt-btn-fb" title="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://twitter.com/intent/tweet?text=<%= encodeURIComponent(article.title) %>&url=https://radhatravels.co.in/news/<%= article.slug %>" target="_blank" class="rt-share-btn rt-btn-x" title="Share on X"><i class="fa-brands fa-x-twitter"></i></a>
         <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied!');" class="rt-share-btn rt-btn-copy" title="Copy Link"><i class="fa-solid fa-link"></i></button>
       </div>
 

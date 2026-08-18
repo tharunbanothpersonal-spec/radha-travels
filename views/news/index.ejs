@@ -96,6 +96,23 @@
             <p style="color: #666; width: 100%;">More updates coming soon.</p>
           <% } %>
         </div>
+        
+        <!-- NEW: Dynamic Pagination Controls -->
+        <% if (typeof totalPages !== 'undefined' && totalPages > 1) { %>
+          <div class="rt-pagination">
+            <% if (currentPage > 1) { %>
+              <a href="/news?page=<%= currentPage - 1 %>" class="rt-page-link">&laquo; Prev</a>
+            <% } %>
+            
+            <% for (let i = 1; i <= totalPages; i++) { %>
+              <a href="/news?page=<%= i %>" class="rt-page-link <%= currentPage === i ? 'rt-page-active' : '' %>"><%= i %></a>
+            <% } %>
+
+            <% if (currentPage < totalPages) { %>
+              <a href="/news?page=<%= currentPage + 1 %>" class="rt-page-link">Next &raquo;</a>
+            <% } %>
+          </div>
+        <% } %>
       </div>
 
       <!-- RIGHT: Fixed Width Sidebar -->
