@@ -79,23 +79,24 @@ app.use(helmet({
 //  MIDDLEWARE
 // =======================================================
 // =======================================================
-//  DYNAMIC XML SITEMAP (SEO)
+//  DYNAMIC XML SITEMAP (SEO - Fully Integrated)
 // =======================================================
-app.get('/sitemap.xml', (req, res) => {
+app.get('/sitemap.xml', async (req, res) => {
   res.header('Content-Type', 'application/xml');
 
   const baseUrl = 'https://radhatravels.co.in';
-  const today = new Date().toISOString().split('T')[0];
 
-  // 1. Core Static Pages
+  // 1. Core Static Pages (Added /contact & /news)
   const staticPages = [
-    '',
-    '/about',
-    '/services',
-    '/fleet',
-    '/blog',
-    '/gallery',
-    '/track-booking'
+    { url: '', priority: '1.0', changefreq: 'weekly' },
+    { url: '/about', priority: '0.8', changefreq: 'monthly' },
+    { url: '/services', priority: '0.9', changefreq: 'weekly' },
+    { url: '/fleet', priority: '0.9', changefreq: 'weekly' },
+    { url: '/news', priority: '0.9', changefreq: 'daily' },
+    { url: '/contact', priority: '0.8', changefreq: 'monthly' },
+    { url: '/blog', priority: '0.8', changefreq: 'weekly' },
+    { url: '/gallery', priority: '0.7', changefreq: 'monthly' },
+    { url: '/track-booking', priority: '0.6', changefreq: 'monthly' }
   ];
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
@@ -104,20 +105,18 @@ app.get('/sitemap.xml', (req, res) => {
   // Generate URLs for Static Pages
   staticPages.forEach(page => {
     xml += `  <url>\n`;
-    xml += `    <loc>${baseUrl}${page}</loc>\n`;
-    xml += `    <lastmod>${today}</lastmod>\n`;
-    xml += `    <changefreq>weekly</changefreq>\n`;
-    xml += `    <priority>${page === '' ? '1.0' : '0.8'}</priority>\n`;
+    xml += `    <loc>${baseUrl}${page.url}</loc>\n`;
+    xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
+    xml += `    <priority>${page.priority}</priority>\n`;
     xml += `  </url>\n`;
   });
 
   // Generate URLs for Dynamic Services
-  if (typeof SERVICES !== 'undefined') {
+  if (typeof SERVICES !== 'undefined' && Array.isArray(SERVICES)) {
     SERVICES.forEach(service => {
       xml += `  <url>\n`;
       xml += `    <loc>${baseUrl}/services/${service.slug}</loc>\n`;
-      xml += `    <lastmod>${today}</lastmod>\n`;
-      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <changefreq>weekly</changefreq>\n`;
       xml += `    <priority>0.9</priority>\n`;
       xml += `  </url>\n`;
     });
@@ -128,26 +127,57 @@ app.get('/sitemap.xml', (req, res) => {
     Object.keys(tourData).forEach(dest => {
       xml += `  <url>\n`;
       xml += `    <loc>${baseUrl}/tours/${dest}</loc>\n`;
-      xml += `    <lastmod>${today}</lastmod>\n`;
-      xml += `    <changefreq>monthly</changefreq>\n`;
+      xml += `    <changefreq>weekly</changefreq>\n`;
       xml += `    <priority>0.9</priority>\n`;
       xml += `  </url>\n`;
     });
   }
 
   // Generate URLs for Dynamic Blog Posts
-  if (typeof blogPosts !== 'undefined') {
+  if (typeof blogPosts !== 'undefined' && Array.isArray(blogPosts)) {
     blogPosts.forEach(post => {
+      const postDate = (post.date && !isNaN(new Date(post.date))) 
+        ? new Date(post.date).toISOString().split('T')[0] 
+        : null;
+      
       xml += `  <url>\n`;
       xml += `    <loc>${baseUrl}/blog/${post.slug}</loc>\n`;
-      // Use the blog post's actual date if it exists, otherwise use today's date
-      // Safely grab YYYY-MM-DD if valid, otherwise fallback to today without crashing
-      const postDate = (post.date && !isNaN(new Date(post.date))) ? new Date(post.date).toISOString().split('T')[0]: today;
-      xml += `    <lastmod>${postDate}</lastmod>\n`;
+      if (postDate) {
+        xml += `    <lastmod>${postDate}</lastmod>\n`;
+      }
       xml += `    <changefreq>monthly</changefreq>\n`;
       xml += `    <priority>0.7</priority>\n`;
       xml += `  </url>\n`;
     });
+  }
+
+  // Generate URLs for Live News Articles (Fetched from Database)
+  try {
+    const newsRes = await db.execute(`
+      SELECT slug, created_at 
+      FROM news_updates 
+      WHERE is_published = 1 
+      ORDER BY created_at DESC
+    `);
+
+    if (newsRes && newsRes.rows) {
+      newsRes.rows.forEach(article => {
+        const articleDate = (article.created_at && !isNaN(new Date(article.created_at)))
+          ? new Date(article.created_at).toISOString().split('T')[0]
+          : null;
+
+        xml += `  <url>\n`;
+        xml += `    <loc>${baseUrl}/news/${article.slug}</loc>\n`;
+        if (articleDate) {
+          xml += `    <lastmod>${articleDate}</lastmod>\n`;
+        }
+        xml += `    <changefreq>weekly</changefreq>\n`;
+        xml += `    <priority>0.8</priority>\n`;
+        xml += `  </url>\n`;
+      });
+    }
+  } catch (err) {
+    console.error('⚠️ Sitemap News Fetch Error:', err.message);
   }
 
   xml += `</urlset>`;
