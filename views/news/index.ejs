@@ -92,8 +92,12 @@
                 <p><%= item.excerpt %></p>
               </article>
             <% }) %>
-          <% } else { %>
-            <p style="color: #666; width: 100%;">More updates coming soon.</p>
+         <% } else { %>
+            <div style="width: 100%; padding: 40px 20px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; text-align: center;">
+              <i class="fa-solid fa-satellite-dish" style="font-size: 24px; color: #94a3b8; margin-bottom: 10px;"></i>
+              <h3 style="margin: 0 0 5px; font-size: 16px; color: #334155;">Awaiting Dispatches</h3>
+              <p style="color: #64748b; font-size: 14px; margin: 0;">Our route monitoring team is gathering the latest travel intelligence. Check back soon.</p>
+            </div>
           <% } %>
         </div>
         

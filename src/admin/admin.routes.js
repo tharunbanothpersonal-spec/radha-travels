@@ -36,6 +36,16 @@ const testimonialStorage = new CloudinaryStorage({
 });
 const uploadTestimonial = multer({ storage: testimonialStorage });
 
+// Setup Cloudinary Storage for News Updates
+const newsStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'radha_travels/news',
+    allowed_formats: ['jpg', 'jpeg', 'png', 'webp'],
+  },
+});
+const uploadNews = multer({ storage: newsStorage });
+
 // --- HELPER: Extract Cloudinary Public ID ---
 const extractPublicId = (url) => {
   if (!url) return null;
@@ -625,9 +635,9 @@ router.get('/news/add', requireAdmin, (req, res) => {
 });
 
 // 2. Process the Form Submission and Save to Turso
-router.post('/news/add', requireAdmin, async (req, res) => {
+router.post('/news/add', requireAdmin, uploadNews.fields([{ name: 'main_image', maxCount: 1 }, { name: 'gallery_images', maxCount: 10 }]), async (req, res) => {
   try {
-    const { title, category, image_url, additional_images, excerpt, content } = req.body;
+    const { title, category, excerpt, content } = req.body;
     let { slug } = req.body;
     
     // Automatically create a URL-friendly slug if not provided
@@ -635,13 +645,16 @@ router.post('/news/add', requireAdmin, async (req, res) => {
       slug = title.toLowerCase().trim().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-');
     }
 
-    // Safely parse the additional gallery images into a JSON string
+    // 1. Grab the secure Cloudinary URL for the main image
+    const image_url = req.files && req.files['main_image'] ? req.files['main_image'][0].path : '';
+
+    // 2. Loop through and grab the secure Cloudinary URLs for the gallery images
     let galleryArray = [];
-    if (additional_images && additional_images.trim() !== '') {
-      galleryArray = additional_images.split(',').map(url => url.trim()).filter(url => url.startsWith('http'));
+    if (req.files && req.files['gallery_images']) {
+      galleryArray = req.files['gallery_images'].map(file => file.path);
     }
 
-    // Insert into Turso Database with all new columns
+    // Insert into Turso Database
     await db.execute({
       sql: `INSERT INTO news_updates 
             (title, slug, excerpt, content, image_url, additional_images, category, is_published, updated_at) 
@@ -653,8 +666,8 @@ router.post('/news/add', requireAdmin, async (req, res) => {
     res.redirect('/news/' + slug);
     
   } catch (err) {
-    console.error('Error publishing news:', err);
-    res.status(500).send('Failed to publish article. The title or slug might already exist.');
+    console.error('Error publishing news with images:', err);
+    res.status(500).send('Failed to publish article. Please try again.');
   }
 });
 

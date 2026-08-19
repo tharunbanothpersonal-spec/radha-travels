@@ -208,7 +208,7 @@
     <a href="/admin/dashboard" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Exit to Dashboard</a>
   </header>
 
-  <form id="newsForm" action="/admin/news/add" method="POST">
+  <form id="newsForm" action="/admin/news/add" method="POST" enctype="multipart/form-data">
     
     <div class="publisher-layout">
       
@@ -258,8 +258,8 @@
 
         <!-- Featured Image with Live Preview -->
         <div class="form-group">
-          <label for="imageUrl">Main Featured Image</label>
-          <input type="text" id="imageUrl" name="image_url" placeholder="Paste Cloudinary / Unsplash URL" required>
+          <label>Main Featured Image</label>
+          <input type="file" name="main_image" accept="image/*" required style="display: block; margin-bottom: 15px;">
           
           <div class="img-preview-box">
             <img id="previewImg" alt="Preview">
@@ -272,8 +272,8 @@
 
         <!-- Additional Gallery Images (Optional) -->
         <div class="form-group">
-          <label for="additionalImages">Gallery Images (Comma-separated)</label>
-          <input type="text" id="additionalImages" name="additional_images" placeholder="URL 1, URL 2">
+          <label>Gallery Images (Optional - Select multiple files)</label>
+          <input type="file" name="gallery_images" accept="image/*" multiple style="display: block; margin-bottom: 15px;">
         </div>
 
         <!-- Submit Button -->

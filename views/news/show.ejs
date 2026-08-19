@@ -11,6 +11,30 @@
   <meta property="og:description" content="<%= article.excerpt %>">
   <meta property="og:image" content="<%= optimizeImg(article.image_url) %>">
   <meta property="og:type" content="article">
+  <!-- Google NewsArticle Rich Snippet Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": "<%= article.title.replace(/"/g, '\\"') %>",
+    "image": ["<%= optimizeImg(article.image_url) %>"],
+    "datePublished": "<%= new Date(article.created_at).toISOString() %>",
+    "dateModified": "<%= new Date(article.created_at).toISOString() %>",
+    "author": [{
+        "@type": "Organization",
+        "name": "Radha Travels",
+        "url": "https://radhatravels.co.in"
+    }],
+    "publisher": {
+        "@type": "Organization",
+        "name": "Radha Travels",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://radhatravels.co.in/images/logo.png"
+        }
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -33,9 +57,19 @@
       <h1 class="rt-article-title"><%= article.title %></h1>
       <p class="rt-article-excerpt"><%= article.excerpt %></p>
       
+      <% 
+        // Strips HTML tags and calculates word count, assuming 200 words per minute
+        const wordCount = article.content.replace(/<[^>]*>?/gm, '').split(/\s+/).length; 
+        const readTime = Math.max(1, Math.ceil(wordCount / 200)); 
+      %>
       <div class="rt-author-bar">
         <div>By <strong>Radha Travels Desk</strong></div>
-        <div>Updated: <%= new Date(article.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) %></div>
+        <div>
+          <span style="color: #10b981; font-weight: 700; margin-right: 15px;">
+            <i class="fa-regular fa-clock"></i> <%= readTime %> Min Read
+          </span>
+          Updated: <%= new Date(article.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) %>
+        </div>
       </div>
 
       <!-- 3. NEW: Social Share Buttons -->
@@ -47,16 +81,21 @@
         <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied!');" class="rt-share-btn rt-btn-copy" title="Copy Link"><i class="fa-solid fa-link"></i></button>
       </div>
 
-      <!-- Refined Multiple Images Gallery Setup -->
+     <!-- Interactive Image Gallery -->
       <figure class="rt-gallery-wrap">
-        <!-- Main Image -->
-        <img class="rt-gallery-hero" src="<%= optimizeImg(article.image_url) %>" alt="<%= article.title %>">
         
-        <!-- Multiple Images (Scrollable Strip) -->
+        <!-- Main Hero Image -->
+        <img id="mainGalleryImage" class="rt-gallery-hero" src="<%= optimizeImg(article.image_url) %>" alt="<%= article.title %>">
+        
+        <!-- Scrollable Thumbnail Strip -->
         <% if (article.additional_images && article.additional_images.length > 0) { %>
           <div class="rt-gallery-grid">
+            <!-- First thumbnail (Main Image) -->
+            <img src="<%= optimizeImg(article.image_url) %>" class="rt-thumb active-thumb" onclick="changeGalleryImage(this)">
+            
+            <!-- Additional thumbnails -->
             <% article.additional_images.forEach(img => { %>
-              <img src="<%= optimizeImg(img) %>" alt="Related photo for <%= article.title %>">
+              <img src="<%= optimizeImg(img) %>" class="rt-thumb" onclick="changeGalleryImage(this)">
             <% }) %>
           </div>
         <% } %>
@@ -64,6 +103,24 @@
         <figcaption class="rt-caption">Live travel intelligence via Radha Travels Dispatch.</figcaption>
       </figure>
 
+      <!-- JavaScript for Swap -->
+      <script>
+        function changeGalleryImage(thumbnailElement) {
+          const mainImage = document.getElementById('mainGalleryImage');
+          mainImage.style.opacity = 0.6;
+          
+          setTimeout(() => {
+            mainImage.src = thumbnailElement.src;
+            mainImage.style.opacity = 1; 
+          }, 150);
+
+          const allThumbs = document.querySelectorAll('.rt-thumb');
+          allThumbs.forEach(thumb => thumb.classList.remove('active-thumb'));
+          thumbnailElement.classList.add('active-thumb');
+        }
+      </script>
+
+<!-- ========================================== -->
       <!-- SEO Rich Content -->
       <div class="rt-content-body">
         <%- article.content %>
