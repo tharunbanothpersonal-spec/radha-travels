@@ -255,39 +255,57 @@
   transition: opacity 0.3s ease-in-out; 
 }
 
+/* --- Redesigned Editorial Micro-Strip --- */
 .rt-gallery-grid { 
   display: flex; 
-  gap: 12px; 
+  gap: 10px; 
   overflow-x: auto; 
-  padding-bottom: 12px; 
-  scrollbar-width: thin;
+  padding: 10px 5px; 
+  /* Hides the bulky scrollbar for a much cleaner look */
+  scrollbar-width: none; 
+}
+.rt-gallery-grid::-webkit-scrollbar { 
+  display: none; 
 }
 
-.rt-gallery-grid::-webkit-scrollbar { height: 6px; }
-.rt-gallery-grid::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-
 .rt-thumb { 
-  width: 120px; 
-  height: 80px; 
+  width: 60px;  /* 🚀 Drastically reduced from 120px */
+  height: 60px; /* 🚀 Drastically reduced from 80px */
   object-fit: cover; 
-  border-radius: 6px; 
+  border-radius: 8px; 
   cursor: pointer; 
-  opacity: 0.5; 
-  transition: all 0.2s ease; 
+  opacity: 0.4; 
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
   border: 2px solid transparent; 
   flex-shrink: 0; 
   background: #f1f5f9;
+  filter: grayscale(80%); /* Gives it a premium news/editorial feel */
 }
 
 .rt-thumb:hover { 
-  opacity: 0.9; 
+  opacity: 0.8; 
+  filter: grayscale(0%);
   transform: translateY(-2px); 
 }
 
 .rt-thumb.active-thumb { 
   opacity: 1; 
   border-color: #10b981; 
-  transform: none;
+  filter: grayscale(0%);
+  transform: scale(1.05); /* Slight pop-out effect when selected */
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+/* Super compact for Mobile */
+@media (max-width: 768px) {
+  .rt-gallery-hero { 
+    aspect-ratio: 4 / 3; 
+    max-height: 320px; 
+  }
+  .rt-thumb { 
+    width: 45px;  /* 🚀 Very small and neat on mobile */
+    height: 45px; 
+  }
 }
 
 .rt-caption { 
@@ -299,14 +317,6 @@
   font-style: italic;
 }
 
-/* Responsive Rules */
-@media (max-width: 768px) {
-  .rt-gallery-hero { 
-    aspect-ratio: 4 / 3; 
-    max-height: 320px; 
-  }
-  .rt-thumb { width: 90px; height: 60px; }
-}
 /* SEO Body Content & Links */
 .rt-content-body { font-size: 17px; line-height: 1.7; color: #222; }
 .rt-content-body p { margin-bottom: 25px; }
@@ -365,3 +375,11 @@
 .rt-page-link:hover { background: #e5e7eb; }
 .rt-page-active { background: #10b981; color: #fff; }
 .rt-page-active:hover { background: #059669; color: #fff; }
+
+@media (max-width: 600px) {
+.rt-share-row {gap: 12px; margin-bottom: 10px; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; }
+.rt-share-label { font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-right: 5px; letter-spacing: 1px; }
+.rt-share-btn { width: 25px; height: 25px; font-size: 15px; }
+.rt-share-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.15); color: #fff; }
+
+}
